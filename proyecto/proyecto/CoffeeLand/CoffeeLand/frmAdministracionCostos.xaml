@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="CoffeeLand.frmAdministracionCostos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1366"
+             Background="White">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="0 0 0 0">
+        <TabControl >
+            <TabItem  Header="Compras" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0" >
+                    <TabItem x:Name="tabRegistroCompras" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" >
+                        <local:frmCompra/>
+                    </TabItem>
+                    <TabItem x:Name="tabConsultaCompras" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                        <local:frmConsultaCompras/>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Gastos" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0" >
+                    <TabItem x:Name="tabRegistroGastos" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20">
+                        <local:frmGastos/>
+                    </TabItem>
+                    <TabItem x:Name="tabConsultaGastos" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                        <local:frmConsultarGastos/>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem  Header="Cuentas" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0">
+                    <TabItem x:Name="tabConsulta" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                        <local:frmEstadoCuenta/>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem x:Name="tabConfiguracion" Header="Configuración" Controls:ControlsHelper.HeaderFontSize="40">
+                <DockPanel>
+                    <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
+                        <TabControl Margin="0 -10 0 0" >
+                            <TabItem x:Name="tabProveedores" Header="PROVEEDORES" Controls:ControlsHelper.HeaderFontSize="20" >
+                                <local:frmProveedores/>
+                            </TabItem>
+                            <TabItem x:Name="tabInsumos" Header="INSUMOS" Controls:ControlsHelper.HeaderFontSize="20">
+                                <local:frmInsumo/>
+                            </TabItem>
+                            <TabItem x:Name="tabTipoInsumos" Header="TIPO DE INSUMOS" Controls:ControlsHelper.HeaderFontSize="20">
+                                <local:frmTipoInsumos/>
+                            </TabItem>
+                            <TabItem x:Name="tabConceptos" Header="CONCEPTOS" Controls:ControlsHelper.HeaderFontSize="20" >
+                                <local:frmConceptos/>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </DockPanel>
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

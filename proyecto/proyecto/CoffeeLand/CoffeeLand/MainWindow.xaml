@@ -1,0 +1,223 @@
+﻿<Controls:MetroWindow  x:Class="CoffeeLand.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                       xmlns:local="clr-namespace:CoffeeLand"
+                       mc:Ignorable="d"
+                        
+                       WindowState="Maximized"
+                       WindowTitleBrush="CornflowerBlue"
+                       TitlebarHeight="45"
+                      
+                       ResizeMode="CanResizeWithGrip"
+                       Height="450" 
+                       Width="625">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="btnMenu"  VerticalAlignment="Center" Click="btnMenu_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="30" Height="30" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_tiles_nine}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="10 0 0 0" VerticalAlignment="Center" Text="Menú" />
+                </StackPanel>
+            </Button>
+            <TextBlock x:Name="lblTitulo" Margin="10 0 0 0" VerticalAlignment="Center" FontSize="20" Text="CoffeeLand"/>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="btnUsuario"  VerticalAlignment="Center" >
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="30" Height="30" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl x:Name="ControlesFlyouts">
+            <Controls:Flyout x:Name="Menu"
+                             Header="Menu"
+                             Position="Left"
+                             IsPinned="False"
+                             IsOpen="False"
+                             AnimateOnPositionChange="False"
+                             AnimateOpacity="True"
+                             IsModal="False"
+                             Theme="Dark"
+                             ExternalCloseButton="Left"
+                             CloseButtonVisibility="Collapsed"
+                             TitleVisibility="Collapsed"
+                             AreAnimationsEnabled="True"
+                             Width="240"
+                             >
+                <Grid Width="240" Background="#FFD5D5D5">
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="0 -35 0 0"  Height="45" Background="CornflowerBlue">
+
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 20 0 0">
+
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnInicio"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                                    Click="btnInicio_Click">
+                                <Rectangle Width="30" Height="30" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_home}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Inicio" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnGestionTerrenos"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}"
+                                    Click="btnGestionTerrenos_Click">
+                                <Rectangle Width="40" Height="40" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_map_satellite}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Terrenos" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnAdministracionCostos"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                                    Click="btnAdministracionCostos_Click">
+                                <Rectangle Width="40" Height="40" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_billing}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Costos" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnAdministracionVentas"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                                    Click="btnAdministracionVentas_Click">
+                                <Rectangle Width="30" Height="30" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_shopping}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Ventas" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnAdministracionEmpleados"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}"
+                                    Click="btnAdministracionEmpleados_Click">
+                                <Rectangle Width="30" Height="30" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_people}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Empleados" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Grid>
+            </Controls:Flyout>
+
+            <Controls:Flyout x:Name="menuInferior"
+                             Header="Menu"
+                             Position="Bottom"
+                             IsPinned="True"
+                             IsOpen="False"
+                             AnimateOnPositionChange="False"
+                             AnimateOpacity="True"
+                             IsModal="False"
+                             Theme="Dark"
+                             ExternalCloseButton="Left"
+                             CloseButtonVisibility="Collapsed"
+                             TitleVisibility="Collapsed"
+                             AreAnimationsEnabled="True"
+                             Height="70"
+                             >
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+    <StackPanel >
+        <ContentControl x:Name="MainContainer" VerticalAlignment="Top" Margin="0 20 0 0"></ContentControl>
+    </StackPanel>
+</Controls:MetroWindow>

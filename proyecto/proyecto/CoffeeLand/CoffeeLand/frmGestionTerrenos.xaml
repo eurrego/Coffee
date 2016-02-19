@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="CoffeeLand.frmGestionTerrenos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1080">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+        <TabControl>
+            <TabItem  Header="Terrenos" Controls:ControlsHelper.HeaderFontSize="40">
+                <DockPanel>
+                    <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
+                        <TabControl Margin="0 -10 0 0" >
+                            <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" GotFocus="tabRegistroTerrenos_GotFocus" >
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentRegistroTerrenos" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem x:Name="tabConsultaCompras" Header="CONSULTA" Controls:ControlsHelper.HeaderFontSize="20" >
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentConsultaCompras" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Configuración" Controls:ControlsHelper.HeaderFontSize="40">
+                <DockPanel>
+                    <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
+                        <TabControl Margin="0 -10 0 0" >
+                            <TabItem x:Name="tabLotes" Header="LOTES" Controls:ControlsHelper.HeaderFontSize="20" GotFocus="tabLotes_GotFocus" >
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentLotes" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem x:Name="tabLabores" Header="LABORES" Controls:ControlsHelper.HeaderFontSize="20" GotFocus="tabLabores_GotFocus">
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentLabores" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem x:Name="tabArboles" Header="ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" GotFocus="tabArboles_GotFocus"
+                                     >
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentArboles" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem x:Name="tabDetalleArboles" Header="DETALLE ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed" LostFocus="tabDetalleArboles_LostFocus" >
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentDetalleArboles" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem x:Name="tabTipoArboles" Header="TIPO DE ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" GotFocus="tabTipoArboles_GotFocus">
+                                <StackPanel Orientation="Vertical" >
+                                    <ContentControl x:Name="contentTipoArboles" ></ContentControl>
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </DockPanel>
+
+            </TabItem>
+        </TabControl>
+
+    </StackPanel>
+</UserControl>

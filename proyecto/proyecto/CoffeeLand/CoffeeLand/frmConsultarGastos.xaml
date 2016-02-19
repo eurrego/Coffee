@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="CoffeeLand.frmConsultarGastos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:validator="clr-namespace:CoffeeLand.Validator"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="728" d:DesignWidth="1366">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validator:CharToStringConverter x:Key="CharToStringConverter"/>
+            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
+            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
+            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
+
+
+                <Grid x:Name="pnlInicio" Visibility="Collapsed" Margin="20 20 0 0" >
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="lblSuperior" Margin="20 70 0 0" Text="No hay compras " FontSize="50" FontWeight="Light" />
+                        <TextBlock x:Name="lblInferior" Margin="20 0 0 0" Text="registradas." FontSize="50" FontWeight="Regular"  ></TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pnlData" Visibility="Visible"  Margin="20 30 0 25" >
+                    <DataGrid x:Name="tblGastos" 
+                                      HeadersVisibility="All"
+                                      SelectionUnit="FullRow"
+                                      CanUserAddRows="False" 
+                                      CanUserDeleteRows="False"
+                                      AutoGenerateColumns="False"
+                                      ScrollViewer.CanContentScroll="True"
+                                      >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="columnNombreConcepto" Binding="{Binding NombreConcepto,  Converter={StaticResource StringToCapitalsConverter}}"  Header="Concepto" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnDescripcion" Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnValor"  Binding="{Binding Valor,StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                            </Style>
+                        </DataGrid.Style>
+                    </DataGrid>
+                </Grid>
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario" Margin="20 0 0 0">
+
+                <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,20,0">
+
+
+
+                    <GroupBox x:Name="gboxFiltrado" Header="FILTRADO" Margin="0 20 0 0" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <RadioButton x:Name="rbtNinguno" Margin="30 10 0 10" Content="Ninguno" Checked="rbtNinguno_Checked"></RadioButton>
+                            <RadioButton x:Name="rbtFecha" Margin="30 10 0 10" Content="Fecha" Checked="rbtFecha_Checked"></RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox x:Name="gboxFecha" Header="FILTRAR FECHA" Margin="0 20 0 0" Visibility="Collapsed">
+                        <StackPanel Orientation="Vertical">
+
+                            <DatePicker x:Name="dtdFecha" Margin="10 10 10 0" 
+                            	                    Height="42" 
+                            	                    Controls:TextBoxHelper.Watermark="Fecha de Inicial"
+                            	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                    Controls:TextBoxHelper.ClearTextButton="True"
+                                                    SelectedDateFormat="Long" SelectedDateChanged="dtdFecha_SelectedDateChanged"
+                                                    >
+                            </DatePicker>
+
+                            <DatePicker x:Name="dtdFechaFinal" Margin="10 10 10 10" 
+                            	                    Height="42" 
+                            	                    Controls:TextBoxHelper.Watermark="Fecha Final"
+                            	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                    Controls:TextBoxHelper.ClearTextButton="True"
+                                                    SelectedDateFormat="Long" SelectedDateChanged="dtdFechaFinal_SelectedDateChanged"
+                                                    >
+                            </DatePicker>
+
+                        </StackPanel>
+                    </GroupBox>
+
+
+
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel x:Name="pnlTotalPeriodo" Orientation="Vertical" Width="400" Height="130" 
+                                        HorizontalAlignment="Left"
+                                        Background="LightGray"
+                                        Margin="0 30 0 0">
+
+                            <TextBlock x:Name="lblTotal" 
+                                           FontSize="45" Text="$0"
+                                           HorizontalAlignment="Center"
+                                       FontFamily="Arial Rounded MT Bold" 
+                                           Foreground="Crimson"
+                                          Margin="0 20 0 0"
+                                           ></TextBlock>
+
+                            <TextBlock FontSize="15" 
+                                           Margin="0 10 0 0"
+                                           Text="Total Período" 
+                                           Foreground="Gray"
+                                           FontWeight="Light"
+                                           HorizontalAlignment="Center"></TextBlock>
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+
+        </DockPanel>
+    </DockPanel>
+</UserControl>

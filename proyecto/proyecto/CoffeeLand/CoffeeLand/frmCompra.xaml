@@ -1,0 +1,455 @@
+﻿<UserControl x:Class="CoffeeLand.frmCompra"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:validator ="clr-namespace:CoffeeLand.Validator"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             Background="White"
+             
+             d:DesignHeight="728" d:DesignWidth="1366">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validator:CompraValidator x:Key="Validator"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
+
+            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
+
+                <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 20 0 0" >
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Margin="20 70 0 0" Text="Agrege una nueva " FontSize="50" FontWeight="Light" />
+                        <TextBlock Margin="20 0 0 0" Text="Compra" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 30 0 25" >
+                    <DataGrid x:Name="tblDetalleCompra" 
+                      HeadersVisibility="All"
+                      SelectionUnit="FullRow"
+                      CanUserAddRows="False" 
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      ScrollViewer.CanContentScroll="True"
+                      >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="columnNombre" Binding="{Binding Nombre}"  Header="Nombre insumo" Width="130" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnCantidad" Binding="{Binding Cantidad}" Header="Cantidad" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnPrecio" Binding="{Binding Precio}" Header="Valor" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnSubtotal"  Binding="{Binding Subtotal}" Header="Subtotal" Width="142" IsReadOnly="True"/>
+                            <DataGridTemplateColumn Width="70" Header="Editar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnModificar_Click"  BorderThickness="0">
+                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="93" Header="Eliminar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnInhabilitar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnInhabilitar_Click" BorderThickness="0" >
+                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                            </Style>
+                        </DataGrid.Style>
+                    </DataGrid>
+                </Grid>
+
+            </StackPanel>
+
+            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
+
+                <TabControl Margin="50 -20 30 0" >
+
+                    <TabItem x:Name="tabNuevo" Header="" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
+                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,-20,0,0" >
+
+                            <StackPanel  VerticalAlignment="Top" Background="White">
+                                <DockPanel  VerticalAlignment="Top" HorizontalAlignment="Center" Height="80" >
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                        <ToggleButton x:Name="btnPaso1" Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" 
+                                                  IsChecked="True" BorderThickness="0" 
+                                                  IsHitTestVisible="False" IsTabStop="False">
+                                            <Viewbox Width="24" Height="24">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M25.400967,14.518012C22.939907,14.518012,21.012905,16.45899,20.519985,18.497014L30.280972,18.497014C29.78793,16.45899,27.861904,14.518012,25.400967,14.518012z M7.4069996,14.518001C4.9459991,14.518001,3.0189991,16.459,2.5259991,18.496999L12.288,18.496999C11.795,16.459,9.8679991,14.518001,7.4069996,14.518001z M25.399975,7.5480137C24.059984,7.5480137 22.968992,8.6320117 22.968992,9.9650095 22.968992,11.298007 24.059984,12.382005 25.399975,12.382005 26.739965,12.382005 27.830958,11.298007 27.830958,9.9650095 27.830958,8.6320117 26.739965,7.5480137 25.399975,7.5480137z M7.4069395,7.5480137C6.0669479,7.5480137 4.975956,8.6320117 4.975956,9.9650095 4.975956,11.298007 6.0669479,12.382005 7.4069395,12.382006 8.7469301,12.382005 9.8379221,11.298007 9.8379221,9.9650095 9.8379221,8.6320117 8.7469301,7.5480137 7.4069395,7.5480137z M25.399975,5.548017C27.842958,5.548017 29.830945,7.5290136 29.830945,9.9650095 29.830945,11.259132 29.269882,12.424842 28.377603,13.233342L28.228404,13.362199 28.277062,13.38781C30.454832,14.60076,31.999966,16.940878,31.999966,19.497014L31.999966,20.497013 17.999966,20.497013 17.999966,19.497014C17.999966,16.82469,19.689263,14.388469,22.024824,13.22948L22.288704,13.106328 22.268372,13.087004C21.466002,12.287256 20.969005,11.183007 20.969006,9.9650095 20.969005,7.5290136 22.956992,5.548017 25.399975,5.548017z M7.4069395,5.548017C9.8499222,5.548017 11.837909,7.5290136 11.837909,9.9650095 11.837909,11.259132 11.276846,12.424842 10.384567,13.233342L10.232635,13.36456 10.276798,13.387802C12.454886,14.600755,14,16.940875,14,19.496999L14,20.496998 0,20.496998 0,19.496999C0,16.824687,1.6882534,14.388463,4.0236149,13.229471L4.292964,13.103759 4.2753353,13.087004C3.4729662,12.287256 2.9759693,11.183007 2.9759693,9.9650095 2.9759693,7.5290136 4.9639559,5.548017 7.4069395,5.548017z M12.306917,0.00015544891C13.911362,-0.008767128,16.692177,0.36031055,18.775802,2.6853943L18.905521,2.836894 19.079976,1.3330135 20.569975,1.5060129 20.158975,5.0490098 20.158578,5.0489635 20.157784,5.0588331C20.126933,5.2973571 19.981773,5.5167398 19.749891,5.6329937 19.642888,5.6879959 19.526884,5.7129965 19.414881,5.7129965 19.380505,5.7129965 19.346285,5.7106371 19.312464,5.7059941L19.244451,5.6919179 19.244008,5.6940088 15.781961,4.9600077 16.092965,3.4920053 17.805244,3.855032 17.763955,3.8049574C15.262132,0.8640604 11.484644,1.53685 11.302639,1.5718508 10.903627,1.6508541 10.503615,1.3838444 10.425612,0.97782993 10.34761,0.57181549 10.610618,0.17880154 11.01663,0.099799156 11.034349,0.096424103 11.534207,0.0044517517 12.306917,0.00015544891z" 
+                                                      Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" 
+                                                      Stretch="Fill" Width="24" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </ToggleButton>
+                                        <TextBlock Text="Seleccionar" HorizontalAlignment="Center"></TextBlock>
+                                        <TextBlock Text="proveedor" HorizontalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20 0 0 0">
+                                        <ToggleButton x:Name="btnPaso2" Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" BorderThickness="0"
+                                                  IsHitTestVisible="False" IsTabStop="False">
+                                            <Viewbox Width="24" Height="24">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M25.649981,24.884991C24.712985,24.884991 23.949987,25.645994 23.949987,26.581997 23.949987,27.518001 24.712985,28.280004 25.649981,28.280004 26.586979,28.280004 27.349977,27.518001 27.349977,26.581997 27.349977,25.645994 26.586979,24.884991 25.649981,24.884991z M10.934958,24.884991C9.997961,24.884991 9.2349634,25.645994 9.2349634,26.581997 9.2349634,27.518001 9.997961,28.280004 10.934958,28.280004 11.871955,28.280004 12.634952,27.518001 12.634952,26.581997 12.634952,25.645994 11.871955,24.884991 10.934958,24.884991z M8.2406497,8.0029631L10.786421,19.00596 26.71104,19.00596 29.442048,8.0029631z M0,0L6.388998,0 7.7776771,6.0019646 32.000056,6.0019646 28.276044,21.006959 11.249394,21.006959 11.702466,22.965166 11.859825,23.000428 12.00392,23.041327 12.00392,23.007965 24.698562,23.007965 24.725115,23.000428C25.020706,22.924414 25.330607,22.883984 25.649981,22.883984 27.693974,22.883984 29.349969,24.53999 29.349969,26.581997 29.349969,28.625005 27.693974,30.281011 25.649981,30.281011 23.605989,30.281011 21.949994,28.625005 21.949994,26.581997 21.949994,26.071496 22.053493,25.585119 22.240681,25.142711L22.301167,25.008965 14.283773,25.008965 14.344259,25.142711C14.531446,25.585119 14.634946,26.071496 14.634946,26.581997 14.634946,28.625005 12.978951,30.281011 10.934958,30.281011 8.8909645,30.281011 7.2349701,28.625005 7.2349701,26.581997 7.2349701,24.986679 8.2457089,23.626957 9.6625593,23.108417L9.6807964,23.10225 4.7979984,2.0009975 0,2.0009975z" 
+                                                      Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </ToggleButton>
+                                        <TextBlock Text="Seleccionar" HorizontalAlignment="Center"></TextBlock>
+                                        <TextBlock Text="insumo" HorizontalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
+                            </StackPanel>
+
+                            <TabControl Margin="0 20 0 0">
+                                <TabItem x:Name="tabProveedor" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
+
+                                        <ComboBox x:Name="cmbProveedor" 
+                                              DisplayMemberPath="NombreProveedor" 
+                    	                      SelectedValuePath="Nit"
+                                              VerticalAlignment="Top"
+                                              Controls:TextBoxHelper.ClearTextButton="True"
+                                              Controls:TextBoxHelper.ButtonCommand="{Binding ComboBoxButtonCmd }"
+                                              Height="42"
+                                              Visibility="Visible"
+                                              SelectedIndex="0"
+                                              >
+                                            <Controls:TextBoxHelper.ButtonContent>
+                                                <Rectangle Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="20" Height="20">
+                                                    <Rectangle.Resources>
+                                                        <SolidColorBrush x:Key="BlackBrush" Color="Gray" />
+                                                    </Rectangle.Resources>
+                                                    <Rectangle.Fill>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Controls:TextBoxHelper.ButtonContent>
+                                        </ComboBox>
+
+                                        <DockPanel>
+                                            <DatePicker x:Name="dtdFecha" Margin="0 20 0 0" 
+                            	                    VerticalAlignment="Top" 
+                            	                    Height="42" 
+                                                    Width="250"
+                            	                    Controls:TextBoxHelper.Watermark="Fecha de Compra"
+                            	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                    Controls:TextBoxHelper.ClearTextButton="True"
+                                                    SelectedDateFormat="Long"
+                                                     DockPanel.Dock="Left"
+                                                    >
+                                            </DatePicker>
+
+                                            <TextBox x:Name="txtNumeroFactura" Margin="20,20,0,0"
+                        	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                        	                    Controls:TextBoxHelper.Watermark="Numero de factura" 
+                        	                    Height="42" VerticalAlignment="Top" 
+                                                DockPanel.Dock="Right">
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Factura" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+
+                                        </DockPanel>
+
+                                        <Button x:Name="btnSiguiente" Width="100" Height="35" 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Siguiente"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Click="btnSiguiente_Click"
+                                                Margin="0 20 0 0">
+
+                                        </Button>
+                                    </StackPanel>
+                                </TabItem>
+
+                                <TabItem x:Name="tabInsumo" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
+
+                                        <StackPanel Orientation="Vertical">
+
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock x:Name="lblInfo" 
+                                                   Margin="0,0,0,0" 
+                                                   Text="PROVEEDOR" 
+                                                   Height="40"  
+                                                   FontSize="10" 
+                                                   FontWeight="Bold"
+                                                   Foreground="Gray" 
+                                                   />
+
+                                                <TextBlock x:Name="lblInfoF" 
+                                                   Margin="140,0,0,0" 
+                                                   Text="FACTURA" 
+                                                   Height="40"  
+                                                   FontSize="10" 
+                                                   FontWeight="Bold"
+                                                   Foreground="Gray" 
+                                                   />
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0 -30 0 0">
+
+                                                <TextBlock x:Name="lblProveedor" 
+                                                   Margin="-2,0,0,0" 
+                                                   Text="Proveedor" 
+                                                   Height="40" Width="200" 
+                                                   FontSize="25" 
+                                                   FontWeight="Regular"
+                                                   Foreground="CornflowerBlue" 
+                                                   VerticalAlignment="Center"/>
+
+
+                                                <TextBlock x:Name="lblFactura" 
+                                                   Margin="0,0,0,0" 
+                                                   Text="Factura" 
+                                                   Height="40" Width="150" 
+                                                   FontSize="25" 
+                                                   FontWeight="Regular"
+                                                   Foreground="CornflowerBlue" 
+                                                   VerticalAlignment="Center"/>
+
+                                            </StackPanel>
+                                        </StackPanel>
+
+
+
+                                        <ComboBox x:Name="cmbTipoInsumo" 
+                    	                        DisplayMemberPath="NombreTipoInsumo" 
+                    	                        SelectedValuePath="idTipoInsumo"
+                    	                        Margin="0 10 0 0" VerticalAlignment="Top"
+                    	                        IsSynchronizedWithCurrentItem="true" 
+                    	                        Height="42"
+                                                SelectionChanged="cmbTipoInsumo_SelectionChanged"
+                                                  SelectedIndex="0"
+                                                >
+                                        </ComboBox>
+
+                                        <ComboBox x:Name="cmbInsumo" 
+                    	                        DisplayMemberPath="NombreInsumo" 
+                    	                        SelectedValuePath="idInsumo"
+                    	                        Margin="0 20 0 0" VerticalAlignment="Top"
+                    	                        Controls:TextBoxHelper.ClearTextButton="True"
+                                                Controls:TextBoxHelper.ButtonCommand="{Binding ComboBoxButtonCmdInsumo}"
+                    	                        Height="42"
+                                                SelectedIndex="0"
+                    	                        >
+                                            <Controls:TextBoxHelper.ButtonContent>
+                                                <Rectangle Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="20" Height="20">
+                                                    <Rectangle.Resources>
+                                                        <SolidColorBrush x:Key="BlackBrush" Color="Gray" />
+                                                    </Rectangle.Resources>
+                                                    <Rectangle.Fill>
+                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Controls:TextBoxHelper.ButtonContent>
+                                        </ComboBox>
+                                        <DockPanel>
+                                            <TextBox x:Name="txtValor" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Valor" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top" 
+                                                 DockPanel.Dock="Left"
+                                                 Margin="0 20 0 0" Width="200">
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <TextBox x:Name="txtCantidad" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Cantidad" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top"
+                                                 DockPanel.Dock="Right"
+                                                 Margin="20 20 0 0">
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                        </DockPanel>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0" Visibility="Visible">
+
+                                            <Button x:Name="btnAgregar" Width="100" Height="35" 
+                                                 Margin="0 20 0 0"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Agregar"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Click="btnAgregar_Click"
+                                                 />
+                                            
+
+
+                                            <Button x:Name="btnCancelar"  Width="100" Height="35" 
+                                                    Margin="20 20 0 0"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Cancelar"
+                                                Background="Gray"    
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Click="btnCancelar_Click"
+                                                 >
+                                            </Button>
+
+
+                                            <Button x:Name="btnAtras"  Width="100" Height="35" 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Atras"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Background="Crimson"    
+                                                Click="btnAtras_Click"
+                                                Margin="20 20 0 0" >
+
+                                            </Button>
+
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </TabItem>
+                            </TabControl>
+
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+
+        </DockPanel>
+
+        <StackPanel x:Name="pnlEstado" Orientation="Horizontal" Margin="20 0 0 0" 
+                    DockPanel.Dock="Bottom"
+                    VerticalAlignment="Bottom"
+                    Background="White"
+                    Visibility="Collapsed"
+                    Height="80">
+
+            <StackPanel  Width="500">
+                <TextBlock x:Name="lblPosicion" Foreground="Gray"
+                       VerticalAlignment="Center" 
+                       FontSize="10" 
+                       HorizontalAlignment="Left" 
+                       Text="TOTAL"
+                       FontWeight="Regular"
+                       Margin="10 0 0 0 ">
+                </TextBlock>
+
+                <TextBlock x:Name="lblTotal" 
+                           Margin="5 0 0 0"
+                           FontSize="45" 
+                           Text="$0"
+                           FontWeight="Light"
+                           VerticalAlignment="Center" 
+                           Foreground="Green" 
+                           FontFamily="Arial Rounded MT Bold"
+                       >
+                </TextBlock>
+            </StackPanel>
+
+            <Button x:Name="btnGuardar"  
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        Controls:ButtonHelper.PreserveTextCase="True"
+                        Height="42"
+                        Width="100"
+                        Content="Guardar"
+                        Margin="50 0 0 0"
+                        Style="{StaticResource AccentedSquareButtonStyle}"
+                        Click="btnGuardar_Click"
+                        >
+            </Button>
+        </StackPanel>
+
+
+    </DockPanel>
+</UserControl>

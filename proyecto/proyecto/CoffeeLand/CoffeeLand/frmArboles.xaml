@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="CoffeeLand.frmArboles"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1080">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel  VerticalAlignment="Top" Background="White" Margin="0,0,0,0" >
+        <Grid VerticalAlignment="Top" Height="500">
+            <DataGrid x:Name="tblArboles" 
+                      RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display"
+                      HeadersVisibility="All"
+                      SelectionUnit="FullRow"
+                      CanUserAddRows="False" 
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      Margin="20 30 0 25"
+                      >
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn  Header="Tipo Árbol" Binding="{ Binding NombreTipoArbol}" Width="250" IsReadOnly="True"/>
+                    <DataGridTextColumn  Header="Cantidad " Binding="{ Binding Cantidad}" Width="250" IsReadOnly="True" />
+                    <DataGridTextColumn  Header="idArboles" Binding="{ Binding idArboles}" Width="200" IsReadOnly="True" Visibility="Collapsed"/>
+                    <DataGridTextColumn  Header="idTipoArbol " Binding="{ Binding idTipoArbol}" Width="85" IsReadOnly="True" Visibility="Collapsed" />
+
+                    <DataGridTemplateColumn Width="80" Header="Detalle">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="btnDetalle"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnDetalle_Click" >
+                                    <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_clipboard_paper_check}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
+        </Grid>
+        <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+            <TabControl Margin="50 -10 30 0" >
+                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
+                        <ComboBox x:Name="cmbLote" 
+                            	Margin="0,20,0,0" VerticalAlignment="Top"
+                            	Height="42"
+                            	DisplayMemberPath="NombreLote"
+                    	        SelectedValuePath="idLote"
+                                SelectionChanged="cmbLote_SelectionChanged"
+                              />
+
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical" Width="180" Height="130" 
+                                        HorizontalAlignment="Left"
+                                        Background="LightGray"
+                                        Margin="0 30 0 0">
+
+                                <TextBlock x:Name="lblRegistros" 
+                                           Margin="0 25 0 0"
+                                           FontSize="45" Text="0"
+                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                           Foreground="CadetBlue"
+                                           ></TextBlock>
+                                <TextBlock FontSize="20" 
+                                           Margin="0 5 0 0"
+                                           Text="Total Arboles" 
+                                           Foreground="Gray"
+                                           HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+
+                        
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20">
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+
+                        <TextBlock x:Name="lblLote" 
+                                   TextWrapping="Wrap" 
+                                   VerticalAlignment="Center" 
+                                   Height="42"  
+                                   FontSize="30" Foreground="#FF92C6F9"
+                                   Text="Lote"
+                                   FontFamily="Arial Rounded MT Bold"
+                                   />
+
+                        <ComboBox x:Name="cmbTipoArbol" 
+                            	Margin="0,20,0,0" VerticalAlignment="Top"
+                            	Height="42"
+                            	DisplayMemberPath="NombreTipoArbol"
+                            	SelectedValuePath="idTipoArbol"
+                              />
+
+                        <TextBox x:Name="txtCantidad" 
+        		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                 Controls:TextBoxHelper.Watermark="Cantidad" 
+        		                 Controls:TextBoxHelper.ClearTextButton="True" 
+                                 Height="42" 
+                                 VerticalAlignment="Top" 
+                                 Margin="0 20 0 0">
+                          
+                        </TextBox>
+
+                        <DatePicker x:Name="dtdFecha" 
+                                    Margin="0,20,0,0" VerticalAlignment="Top" 
+                                    Controls:TextBoxHelper.Watermark="Fecha Evento "
+                                    Height="42" 
+                                    SelectedDateFormat="Long">
+                        </DatePicker>
+
+                        <TextBox x:Name="txtId"
+            	                 Controls:TextBoxHelper.Watermark="id"
+            	                 TextWrapping="Wrap" Height="38" VerticalAlignment="Top"
+                                 Visibility="Collapsed"/>
+
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                            <Button x:Name="btnGuardar"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Height="35"
+                                    Width="100"
+                                    Content="Guardar"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Click="btnGuardar_Click"
+                                    >
+                            </Button>
+                            <Button x:Name="btnCancelar"  
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   Margin="10 0 0 0" 
+                                   Height="35"
+                                   Width="100"
+                                   Style="{StaticResource AccentedSquareButtonStyle}"
+                                   Background="Gray"
+                                   Content="Cancelar"
+                                   Click="btnCancelar_Click">
+                            </Button>
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</UserControl>

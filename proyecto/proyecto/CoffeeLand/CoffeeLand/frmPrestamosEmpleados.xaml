@@ -1,0 +1,211 @@
+﻿<UserControl x:Class="CoffeeLand.frmPrestamosEmpleados"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1080">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel  VerticalAlignment="Top" Background="White" Margin="0,0,0,0" >
+        <Grid VerticalAlignment="Top" Height="500">
+            <DataGrid x:Name="tblPrestamos" 
+                      RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display"
+                      HeadersVisibility="All"
+                      SelectionUnit="FullRow"
+                      CanUserAddRows="False" 
+                      CanUserDeleteRows="False"
+                      AutoGenerateColumns="False"
+                      Margin="20,28,0,27"
+                      >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Valor, StringFormat={}{0:c}}" Header="Valor" Width="160" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Fecha"  Width="230" IsReadOnly ="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción" Width="250" IsReadOnly="True"/>
+                </DataGrid.Columns>
+                
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
+        </Grid>
+        <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+            <TabControl Margin="50 -10 30 0" >
+                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
+
+                        <ComboBox x:Name="cmbEmpleado"
+                              DisplayMemberPath="NombrePersona" 
+                    	      SelectedValuePath="DocumentoPersona"
+                              Margin="0,20,0,0" VerticalAlignment="Top"
+                              IsSynchronizedWithCurrentItem="true" 
+                              Height="42"
+                              SelectedIndex="0"
+                              LostFocus="cmbEmpleado_LostFocus"
+                              />
+
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Width="265" Height="130" 
+                                        HorizontalAlignment="Left"
+                                        Background="LightGray"
+                                        Margin="0 30 0 0">
+
+                                <TextBlock x:Name="lblTotal" 
+                                           Margin="0 25 0 0"
+                                           FontSize="45" Text="$0"
+                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                           Foreground="DarkRed"
+                                           ></TextBlock>
+                                <TextBlock FontSize="20" 
+                                           Margin="0 5 0 0"
+                                           Text="Total Deuda" 
+                                           Foreground="Gray"
+                                           HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                        <TextBlock x:Name="lblEmpleado" 
+                                   TextWrapping="Wrap" 
+                                   VerticalAlignment="Center" 
+                                   Height="70"  
+                                   FontSize="30" Foreground="#FF92C6F9"
+                                   Text="Julian Santiago Benitez Gonzalez"
+                                   FontFamily="Arial Rounded MT Bold"
+                                   />
+
+                        <TextBox x:Name="txtValor" Margin="0 0 0 0"
+                            	Controls:TextBoxHelper.Watermark="Valor" 
+                            	Controls:TextBoxHelper.ClearTextButton="True" 
+                                Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	Height="42" VerticalAlignment="Top" ></TextBox>
+
+                        <DatePicker x:Name="dtdFecha" Margin="0 20 0 0"
+                            	VerticalAlignment="Top" 
+                            	Height="42" 
+                            	Controls:TextBoxHelper.Watermark="Fecha Prestamo"
+                            	Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                Controls:TextBoxHelper.ClearTextButton="True" 
+                                SelectedDateFormat="Long"
+                                >
+                        </DatePicker>
+                        <TextBox x:Name="txtDescripcion" Margin="0 20 0 0"
+            	                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+            	                 Controls:TextBoxHelper.Watermark="Descripción"
+            	                 Controls:TextBoxHelper.ClearTextButton="True" 
+            	                 TextWrapping="Wrap" 
+                                 Height="62" 
+                                 VerticalAlignment="Top">
+                            <TextBox.Text>
+                                <Binding Path="Descripcion" Source="{StaticResource conceptoValidator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <ExceptionValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                            <Button x:Name="btnGuardar"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Height="35"
+                                    Width="100"
+                                    Content="Guardar"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Click="btnGuardar_Click"
+                                    >
+                            </Button>
+                           
+                        </StackPanel>
+
+                    </StackPanel>
+                </TabItem>
+                <TabItem x:Name="tabAbono" Header="ABONOS" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                        <TextBlock x:Name="lblEmpleadoAbono" 
+                                   TextWrapping="Wrap" 
+                                   VerticalAlignment="Center" 
+                                   Height="70"  
+                                   FontSize="30" Foreground="#FF92C6F9"
+                                   Text="Julian Santiago Benitez Gonzalez"
+                                   FontFamily="Arial Rounded MT Bold"
+                                   />
+                        <TextBox x:Name="txtAbono" 
+        		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                 Controls:TextBoxHelper.Watermark="Valor Abono" 
+        		                 Controls:TextBoxHelper.ClearTextButton="True" 
+                                 Height="42" 
+                                 VerticalAlignment="Top" 
+                                 Margin="0 0 0 0">
+                        </TextBox>
+                        <DatePicker x:Name="dtdFechaAbono" 
+                                    SelectedDate="{x:Static sys:DateTime.Now}" 
+                                    SelectedDateFormat="Long"
+                                    IsEnabled="False"
+                                    Margin="0 20 0 0"
+                                    VerticalAlignment="Top" 
+                                    Height="42"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                            <Button x:Name="btnConfirmarAbono"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Height="35"
+                                    Width="100"
+                                    Content="Guardar"
+                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                    Click="btnConfirmarAbono_Click"
+                                    >
+                            </Button>
+                            <Button x:Name="btnCancelar"  
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   Margin="10 0 0 0" 
+                                   Height="35"
+                                   Width="100"
+                                   Style="{StaticResource AccentedSquareButtonStyle}"
+                                   Background="Gray"
+                                   Content="Cancelar"
+                                    Click="btnCancelar_Click"
+                                 >
+                            </Button>
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </DockPanel>
+
+</UserControl>
