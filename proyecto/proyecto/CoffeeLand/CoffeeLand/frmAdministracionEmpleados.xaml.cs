@@ -20,22 +20,9 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmAdministracionEmpleados : UserControl
     {
-        frmEmpleados misEmpleados = new frmEmpleados();
-        frmPrestamosEmpleados misPrestamos = new frmPrestamosEmpleados();
-
         public frmAdministracionEmpleados()
         {
             InitializeComponent();
-        }
-
-        private void tabEmpleados_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabEmpleados.Content = misEmpleados;
-        }
-
-        private void tabRegistroPrestamos_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabRegistroPrestamos.Content = misPrestamos;
         }
     }
 }

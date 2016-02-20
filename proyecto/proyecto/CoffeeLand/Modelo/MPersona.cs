@@ -62,6 +62,21 @@ namespace Modelo
             }
         }
 
+
+        //este metodo consulta por medio de la cadena de texto ingresada
+        public List<Persona> ConsultarParametroInhabilitado(string parametro)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Persona
+                            where c.EstadoPersona == "I" && c.NombrePersona.Contains(parametro)
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
         public string GestionPersona(string nombre, string genero, string telefono, DateTime fechaNacimiento, int id, int opcion, string TipoDocumento, string TipoContrato)
         {
 

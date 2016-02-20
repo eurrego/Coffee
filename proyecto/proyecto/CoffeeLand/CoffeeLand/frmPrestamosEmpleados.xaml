@@ -8,7 +8,8 @@
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1080">
+             Background="White"
+             d:DesignHeight="720" d:DesignWidth="1366">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -24,72 +25,115 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel  VerticalAlignment="Top" Background="White" Margin="0,0,0,0" >
-        <Grid VerticalAlignment="Top" Height="500">
-            <DataGrid x:Name="tblPrestamos" 
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display"
-                      HeadersVisibility="All"
-                      SelectionUnit="FullRow"
-                      CanUserAddRows="False" 
-                      CanUserDeleteRows="False"
-                      AutoGenerateColumns="False"
-                      Margin="20,28,0,27"
-                      >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Valor, StringFormat={}{0:c}}" Header="Valor" Width="160" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Fecha"  Width="230" IsReadOnly ="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción" Width="250" IsReadOnly="True"/>
-                </DataGrid.Columns>
-                
-                <DataGrid.Style>
-                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                    </Style>
-                </DataGrid.Style>
-            </DataGrid>
-        </Grid>
-        <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
-            <TabControl Margin="50 -10 30 0" >
-                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
 
-                        <ComboBox x:Name="cmbEmpleado"
-                              DisplayMemberPath="NombrePersona" 
-                    	      SelectedValuePath="DocumentoPersona"
-                              Margin="0,20,0,0" VerticalAlignment="Top"
-                              IsSynchronizedWithCurrentItem="true" 
-                              Height="42"
-                              SelectedIndex="0"
-                              LostFocus="cmbEmpleado_LostFocus"
-                              />
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
 
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Vertical" Width="265" Height="130" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="0 30 0 0">
+            <TabControl Margin="0 -40 0 0">
+                <TabItem x:Name="tabEstadoCuenta" Header="">
+                    <DockPanel  DockPanel.Dock="Top">
+                        <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
 
-                                <TextBlock x:Name="lblTotal" 
-                                           Margin="0 25 0 0"
-                                           FontSize="45" Text="$0"
-                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
-                                           Foreground="DarkRed"
-                                           ></TextBlock>
-                                <TextBlock FontSize="20" 
-                                           Margin="0 5 0 0"
-                                           Text="Total Deuda" 
-                                           Foreground="Gray"
-                                           HorizontalAlignment="Center"></TextBlock>
-                            </StackPanel>
+                            <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 20 0 0" >
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lblSuperior" Margin="20 70 0 0" Text="Seleccione un" FontSize="50" FontWeight="Light" />
+                                    <TextBlock x:Name="lblInferior" Margin="20 0 0 0" Text="Empleado" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 0 0 25" >
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="lblProveedor" Text="" FontSize="40" FontWeight="Light" 
+                                               Background="White" Height="50"
+                                               Foreground="CornflowerBlue"
+                                               VerticalAlignment="Center">
+                                        </TextBlock>
+                                        <Button x:Name="btnOcultar" Width="50" Height="50" Style="{DynamicResource MetroCircleButtonStyle}" 
+                                                HorizontalAlignment="Center"
+                                                BorderThickness="0" ToolTip="Volver"
+                                              
+                                                Margin="20 5 0 0">
+                                            <Viewbox Width="30" Height="30" >
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                                          15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                                          Fill="Black" Stretch="Fill" Width="30" Height="30" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <DataGrid x:Name="tblPrestamos" 
+                                              HeadersVisibility="All"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              Margin="0 15 0 0"
+                                              >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding Valor, StringFormat={}{0:c}}" Header="Valor" Width="160" IsReadOnly="True"/>
+                                            <DataGridTemplateColumn Header="Fecha"  Width="230" IsReadOnly ="False">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción" Width="250" IsReadOnly="True"/>
+                                        </DataGrid.Columns>
+
+                                        <DataGrid.Style>
+                                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                            </Style>
+                                        </DataGrid.Style>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Grid>
                         </StackPanel>
-                    </StackPanel>
+                        <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
+                            <TabControl Margin="50 0 30 0" >
+                                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <ComboBox x:Name="cmbEmpleado"
+                                                  DisplayMemberPath="NombrePersona" 
+                    	                          SelectedValuePath="DocumentoPersona"
+                                                  Margin="0,20,0,0" VerticalAlignment="Top"
+                                                  IsSynchronizedWithCurrentItem="true" 
+                                                  Height="42"
+                                                  SelectedIndex="0"
+                                                  SelectionChanged="cmbEmpleado_SelectionChanged"
+                                                  />
+
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical" Width="265" Height="130" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
+
+                                                <TextBlock x:Name="lblTotal" 
+                                                           Margin="0 25 0 0"
+                                                           FontSize="45" Text="$0"
+                                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
+                                                <TextBlock FontSize="20" 
+                                                           Margin="0 5 0 0"
+                                                           Text="Total Deuda" 
+                                                           Foreground="Gray"
+                                                           HorizontalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
+
+
+                    </DockPanel>
                 </TabItem>
                 <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
                     <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
@@ -144,7 +188,7 @@
                                     Click="btnGuardar_Click"
                                     >
                             </Button>
-                           
+
                         </StackPanel>
 
                     </StackPanel>
@@ -203,9 +247,8 @@
 
                     </StackPanel>
                 </TabItem>
-
             </TabControl>
-        </Grid>
-    </DockPanel>
 
+        </DockPanel>
+    </DockPanel>
 </UserControl>

@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CoffeeLand"
-             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
+             xmlns:validator ="clr-namespace:CoffeeLand.Validator"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1080">
+             Background="White"
+             d:DesignHeight="728" d:DesignWidth="1366">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -18,73 +19,96 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+            <validator:EmpleadoValidator x:Key="Validator"/>
+            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
+            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel  VerticalAlignment="Top" Background="White" Margin="0,0,0,0" >
-        <Grid VerticalAlignment="Top" Height="500">
-            <DataGrid x:Name="tblEmpleado" 
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display"
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
+
+            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
+
+                <Grid x:Name="pnlResultados" Visibility="Collapsed" Margin="0 10 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="lblBusqueda" Margin="20 0 0 0" FontWeight="Bold" Text="" FontSize="30" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock x:Name="lblResultados" FontWeight="Light" Margin="10 0 0 0" Text="RESULTADOS" FontSize="30" VerticalAlignment="Center"></TextBlock>
+                        <Button x:Name="btnAtras" Width="50" Height="50" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Volver"
+                                    Click="btnAtras_Click"
+                                    Margin="20 0 0 0">
+                            <Viewbox Width="30" Height="30" >
+                                <Canvas Width="30" Height="30">
+                                    <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                          15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                          Fill="Black" Stretch="Fill" Width="30" Height="30" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pnlHabilitados" Visibility="Visible" Margin="20 30 0 0">
+                    <DataGrid x:Name="tblEmpleado" 
                       HeadersVisibility="All"
                       SelectionUnit="FullRow"
                       CanUserAddRows="False" 
                       CanUserDeleteRows="False"
                       AutoGenerateColumns="False"
-                      Margin="20 30 0 25"
                       >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding DocumentoPersona}" Header="Documento" Width="130" IsReadOnly="True"/>
-                    <DataGridTextColumn   Binding="{Binding NombrePersona}"  Header="Nombre " Width="200" IsReadOnly="True" />
-                    <DataGridTextColumn   Binding="{Binding Telefono}"  Header="Télefono" Width="100" IsReadOnly="True" />
-                    <DataGridTemplateColumn Width="90" Header="Editar">
-                        <DataGridTemplateColumn.CellTemplate>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding DocumentoPersona}" Header="Documento" Width="130" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding NombrePersona,  Converter={StaticResource StringToCapitalsConverter}}"  Header="Nombre " Width="200" IsReadOnly="True" />
+                            <DataGridTextColumn   Binding="{Binding Telefono}"  Header="Télefono" Width="100" IsReadOnly="True" />
+                            <DataGridTemplateColumn Width="90" Header="Editar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                BorderThickness="0" Click="btnModificar_Click"  >
+                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="112" Header="Inhabilitar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnInhabilitar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
+                                                BorderThickness="0" Click="btnInhabilitar_Click"   >
+                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+
+                        <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
-                                <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnModificar_Click"  >
-                                    <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="112" Header="Inhabilitar">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button x:Name="btnInhabilitar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnInhabilitar_Click"   >
-                                    <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
-                                        <Rectangle.OpacityMask>
-                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
-                                        </Rectangle.OpacityMask>
-                                    </Rectangle>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
+                                <Border BorderThickness="0" Background="WhiteSmoke" Padding="10">
+                                    <Grid x:Name="gridTabla" Margin="0,0,0,0" MinWidth="100" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"></ColumnDefinition>
+                                            <ColumnDefinition Width="80"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="50"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
 
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <Border BorderThickness="0" Background="WhiteSmoke" Padding="10">
-                            <Grid x:Name="gridTabla" Margin="0,0,0,0" MinWidth="100" HorizontalAlignment="Left">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="250"></ColumnDefinition>
-                                    <ColumnDefinition Width="80"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="50"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
 
-                                </Grid.RowDefinitions>
-
-                                <TextBox x:Name="txtGenero" Margin="3" 
-                                                 Text="{Binding Genero}"
+                                        <TextBox x:Name="txtGenero" Margin="3" 
+                                                 Text="{Binding Genero,  Converter={StaticResource StringToCapitalsConverter}}"
                                                  Controls:TextBoxHelper.Watermark="Género"
                                                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  Grid.Row="0"
@@ -94,8 +118,8 @@
                                                  IsReadOnly="True"
                                                  Visibility="Visible" />
 
-                                <TextBox x:Name="txtFecha" Margin="3" 
-                                                 Text="{Binding FechaNacimineto}"
+                                        <TextBox x:Name="txtFecha" Margin="3" 
+                                                 Text="{Binding FechaNacimineto, StringFormat={}{0:MM/dd/yyyy}}"
                                                  Controls:TextBoxHelper.Watermark="Fecha de Nacimiento"
                                                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  Grid.Row="1"
@@ -103,167 +127,296 @@
                                                  IsEnabled="False" 
                                                  MaxHeight="130"
                                                  Visibility="Visible"  />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
 
-                                <TextBox x:Name="txtTipoContrato" Margin="3" 
-                                                 Text="{Binding idTipoContratoPersona}"
-                                                 Controls:TextBoxHelper.Watermark="Tipo de Contrato"
-                                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                 Grid.Row="2"
-                                                 Grid.Column="0"
-                                                 IsEnabled="False" 
-                                                 MaxHeight="130"
-                                                 Visibility="Visible"  />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                            </Style>
+                        </DataGrid.Style>
+                    </DataGrid>
 
-                <DataGrid.Style>
-                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
-                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
-                    </Style>
-                </DataGrid.Style>
-            </DataGrid>
-        </Grid>
-        <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
-            <TabControl Margin="50 -10 30 0" >
-                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
-                        <TextBox x:Name="txtBuscarNombre" 
+                </Grid>
+
+                <Grid>
+                    <StackPanel x:Name="pnlSinRegistros" Orientation="Vertical" Visibility="Collapsed" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="20 70 0 0" Text="No tiene " FontSize="50" FontWeight="Light" />
+                            <TextBlock Margin="0 70 0 0" Text="Empleados registrados." FontSize="50" FontWeight="Regular"  ></TextBlock>
+                        </StackPanel>
+                        <TextBlock x:Name="lblSinRegistros" Margin="20 0 0 0" Text="" FontSize="50" FontWeight="Light" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pnlInhabilitados" Visibility="Collapsed" Margin="20 30 0 0">
+                    <DataGrid x:Name="tblEmpleadosInhabilitados" 
+                                  HeadersVisibility="All"
+                                  SelectionUnit="FullRow"
+                                  CanUserAddRows="False" 
+                                  CanUserDeleteRows="False"
+                                  AutoGenerateColumns="False"
+                                   >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding DocumentoPersona}" Header="Documento" Width="130" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding NombrePersona,  Converter={StaticResource StringToCapitalsConverter}}"  Header="Nombre " Width="200" IsReadOnly="True" />
+                            <DataGridTextColumn   Binding="{Binding Telefono}"  Header="Télefono" Width="100" IsReadOnly="True" />
+                            <DataGridTemplateColumn Width="100" Header="Habilitar">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnHabilitar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
+                                            BorderThickness="0" Click="btnHabilitar_Click" >
+                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                <Rectangle.OpacityMask>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_check}"/>
+                                                </Rectangle.OpacityMask>
+                                            </Rectangle>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.Style>
+                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                            </Style>
+                        </DataGrid.Style>
+                    </DataGrid>
+                </Grid>
+
+            </StackPanel>
+            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
+
+                <TabControl Margin="50 -10 30 0" >
+                    <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
+                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
+
+                            <TextBox x:Name="txtBuscarNombre" 
                     	         Controls:TextBoxHelper.UseFloatingWatermark="True"
                     	         Controls:TextBoxHelper.Watermark="Nombre" 
                                  Height="42" VerticalAlignment="Top" 
                                  Style="{DynamicResource SearchMetroTextBox}"
-                                 Controls:TextBoxHelper.ButtonCommand="{Binding}"
-                                 TextChanged="txtBuscarNombre_TextChanged"
+                                 Controls:TextBoxHelper.ButtonCommand="{Binding textBoxButtonCmd}"
                                  Margin="0 20 0 0" >
-                        </TextBox>
+                            </TextBox>
 
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical" Width="150" Height="130" 
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel x:Name="pnlRegistrosHabilitados" Orientation="Vertical" Width="150" Height="130" 
                                         HorizontalAlignment="Left"
                                         Background="LightGray"
                                         Margin="0 30 0 0">
 
-                                <TextBlock x:Name="lblRegistros" 
-                                           Margin="0 25 0 0"
-                                           FontSize="45" Text="1500"
+                                    <Button x:Name="btnHabilitados" Margin="0 2 5 0" Width="35"  Height="25" HorizontalAlignment="Right" 
+                                        BorderThickness="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                        Click="btnHabilitados_Click">
+                                        <Rectangle Width="30" Height="20" Fill="Gray">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_eye}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
+
+                                    <TextBlock x:Name="lblRegistros" 
+                                           FontSize="45" Text="0"
                                            HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
-                                           Foreground="CadetBlue"
+                                           Foreground="Green"
                                            ></TextBlock>
-                                <TextBlock FontSize="20" 
+
+                                    <TextBlock FontSize="15" 
                                            Margin="0 5 0 0"
                                            Text="Registros" 
                                            Foreground="Gray"
+                                           FontWeight="Light"
                                            HorizontalAlignment="Center"></TextBlock>
-                            </StackPanel>
 
-                            <StackPanel Orientation="Vertical" Width="150" Height="130" 
+                                    <TextBlock FontSize="15" 
+                                           Margin="0 0 0 0"
+                                           Text="Habilitados" 
+                                           Foreground="Gray"
+                                           FontWeight="Light"
+                                           HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+
+                                <StackPanel x:Name="pnlRegistrosInhabilitados" Orientation="Vertical" Width="150" Height="130" 
                                         HorizontalAlignment="Left"
                                         Background="LightGray"
                                         Margin="30 30 0 0">
 
-                                <TextBlock x:Name="lblActivos" 
-                                           Margin="0 25 0 0"
-                                           FontSize="45" Text="4350"
-                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
-                                           Foreground="DarkRed"
-                                           ></TextBlock>
-                                <TextBlock FontSize="20" 
-                                           Margin="0 5 0 0"
-                                           Text="Inactivos" 
-                                           Foreground="Gray"
-                                           HorizontalAlignment="Center"></TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </TabItem>
-                <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20">
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                    <Button x:Name="btnInhabilitados" Margin="0 2 5 0" Width="35"  Height="25" HorizontalAlignment="Right"
+                                        BorderThickness="0" Style="{DynamicResource MetroCircleButtonStyle}"
+                                        Click="btnInhabilitados_Click">
+                                        <Rectangle Width="30" Height="20" Fill="Gray">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_eye}"/>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </Button>
 
-                        <TextBox x:Name="txtNombre" 
+                                    <TextBlock x:Name="lblActivos" 
+                                           FontSize="45" Text="0"
+                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                           Foreground="Crimson"
+                                           ></TextBlock>
+
+                                    <TextBlock FontSize="15" 
+                                           Margin="0 5 0 0"
+                                           Text="Registros" 
+                                           Foreground="Gray"
+                                           FontWeight="Light"
+                                           HorizontalAlignment="Center"></TextBlock>
+
+                                    <TextBlock FontSize="15" 
+                                           Margin="0 0 0 0"
+                                           Text="Inhabilitados" 
+                                           Foreground="Gray"
+                                           FontWeight="Light"
+                                           HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20">
+                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+
+                            <TextBox x:Name="txtNombre" 
         		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                 Controls:TextBoxHelper.Watermark="Nombre" 
-        		                 Controls:TextBoxHelper.ClearTextButton="True" 
                                  Height="42" 
                                  VerticalAlignment="Top" 
                                  Margin="0 20 0 0">
-                            <TextBox.Text>
-                                <Binding Path="Nombre" Source="{StaticResource conceptoValidator}" ValidatesOnDataErrors="True" 
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                            </Trigger>
+                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                                <TextBox.Text>
+                                    <Binding Path="Nombre" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
                                          UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <ExceptionValidationRule/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <DockPanel>
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
-                            <ComboBox x:Name="cmbTipoDocumento" VerticalAlignment="Top"
-                              IsSynchronizedWithCurrentItem="true" 
-                              Controls:TextBoxHelper.Watermark="Tipo de Documento"
-                              Margin="0 20 0 0" 
-                              Height="42"
-                              Width="250"
-                              SelectedIndex="0"
-                              >
-                            </ComboBox>
-                            <TextBox x:Name="txtDocumento" 
+                            <DockPanel>
+                                <ComboBox x:Name="cmbTipoDocumento" VerticalAlignment="Top"
+                                          Controls:TextBoxHelper.Watermark="Tipo de Documento"
+                                          Margin="0 20 0 0" 
+                                          Height="42"
+                                          Width="250"
+                                          SelectedIndex="0"
+                                          >
+                                </ComboBox>
+
+
+                                <TextBox x:Name="txtDocumento" 
         		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                 Controls:TextBoxHelper.Watermark="Nro Documento" 
-        		                 Controls:TextBoxHelper.ClearTextButton="True" 
                                  Height="42" 
                                  VerticalAlignment="Top"
                                  DockPanel.Dock="Right"
                                  Margin="20 20 0 0">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                </Trigger>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="Documento" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </DockPanel>
 
-                            </TextBox>
-                        </DockPanel>
-
-
-                            <TextBox x:Name="txtTelefono" 
+                            <DockPanel>
+                                <TextBox x:Name="txtTelefono" 
         		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                 Controls:TextBoxHelper.Watermark="Telefono" 
-        		                 Controls:TextBoxHelper.ClearTextButton="True" 
                                  Height="42" 
+                                 Width="200"
                                  VerticalAlignment="Top"
-                                 DockPanel.Dock="Right"
+                                 DockPanel.Dock="Left"
                                  Margin="0 20 0 0">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                </Trigger>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
-                            </TextBox>
-                     
+                                <ComboBox x:Name="cmbGenero" 
+                                          Margin="20 20 0 0" VerticalAlignment="Top"
+                                          Height="42"
+                                          SelectedIndex="0" 
+                                          Loaded="cmbGenero_Loaded"
+                                          />
+                            </DockPanel>
 
-                        <DatePicker x:Name="dtdFechaNacimiento" 
+
+                            <DatePicker x:Name="dtdFechaNacimiento" 
                                     Margin="0,20,0,0" 
                                     VerticalAlignment="Top" 
                                     Height="42"
                                     Controls:TextBoxHelper.Watermark="Fecha de Nacimiento"
                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                                     />
-                        <DockPanel>
-                            
-                            <ComboBox x:Name="cmbGenero" 
-                              Margin="0 20 0 0" VerticalAlignment="Top"
-                              Width="250" Height="42"
-                              SelectedIndex="0" Loaded="cmbGenero_Loaded"
-                              />
 
-                            <ComboBox x:Name="cmbTipoContrato" HorizontalAlignment="Left"                             
-                              Margin="20 20 0 0" VerticalAlignment="Top"
-                              IsSynchronizedWithCurrentItem="true" 
-                              Height="42"
-                              SelectedIndex="0"
-                              DockPanel.Dock="Right"
-                              />
-                        </DockPanel>
+                            <ComboBox x:Name="cmbTipoContrato"                            
+                                          Margin="0 20 0 0" VerticalAlignment="Top"
+                                          IsSynchronizedWithCurrentItem="true" 
+                                          Height="42"
+                                          SelectedIndex="0"
+                                          DockPanel.Dock="Right"
+                                          />
 
-                        <TextBox x:Name="txtId"
+
+                            <TextBox x:Name="txtId"
             	                 Controls:TextBoxHelper.Watermark="id"
             	                 TextWrapping="Wrap" Height="38" VerticalAlignment="Top"
                                  Visibility="Collapsed"/>
 
-                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                            <Button x:Name="btnGuardar"  
+                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                <Button x:Name="btnGuardar"  
                                     HorizontalAlignment="Left" 
                                     VerticalAlignment="Center"
                                     Height="35"
@@ -272,8 +425,8 @@
                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                     Click="btnGuardar_Click"
                                     >
-                            </Button>
-                            <Button x:Name="btnCancelar"  
+                                </Button>
+                                <Button x:Name="btnCancelar"  
                                    HorizontalAlignment="Left" 
                                    VerticalAlignment="Center"
                                    Margin="10 0 0 0" 
@@ -283,14 +436,64 @@
                                    Background="Gray"
                                    Content="Cancelar"
                                    Click="btnCancelar_Click">
-                            </Button>
+                                </Button>
+
+                            </StackPanel>
 
                         </StackPanel>
+                    </TabItem>
+                </TabControl>
 
-                    </StackPanel>
-                </TabItem>
-            </TabControl>
+            </Grid>
+        </DockPanel>
+        <Grid VerticalAlignment="Bottom" Margin="10 20 50 0">
+            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+
+                <Button x:Name="btnNuevo" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Nuevo"
+                        Click="btnNuevo_Click">
+                    <Viewbox Width="30" Height="30">
+                        <Canvas Width="48" Height="48">
+                            <Path Data="M15,0L17,0 17,15.000008 32,15.000008 32,17.000008 17,
+                                          17.000008 17,32 15,32 15,17.000008 0,17.000008 0,15.000008 15,15.000008z"  
+                                          Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button x:Name="btnBuscar" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Buscar"
+                       Click="btnBuscar_Click">
+                    <Viewbox Width="30" Height="30" RenderTransformOrigin="0.5,0.5">
+                        <Viewbox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Viewbox.RenderTransform>
+                        <Canvas Width="48" Height="48">
+                            <Path Data="M20.363963,2.0000044C15.050976,2.0000043 10.727978,6.2949964 
+                                  10.727978,11.573999 10.727978,16.85404 15.050976,21.147995 20.363963,
+                                  21.147995 25.676981,21.147995 29.999979,16.85404 29.999979,11.573999 
+                                  29.999979,6.2949964 25.676981,2.0000043 20.363963,2.0000044z M20.363963,
+                                  0C26.779978,0 31.999979,5.1919667 31.999979,11.573999 31.999979,17.956031 
+                                  26.779978,23.147998 20.363963,23.147998 17.65722,23.147998 15.163336,22.22394 
+                                  13.184453,20.676304L12.9726,20.506511 1.4100003,32.001993 0,30.583994 11.540372,
+                                  19.110611 11.388429,18.931938C9.7271191,16.930492 8.7279784,14.366138 8.7279784,
+                                  11.573999 8.7279784,5.1919667 13.947979,0 20.363963,0z"  
+                                  Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+            <TextBlock x:Name="lblPosicion" Foreground="CornflowerBlue"
+                       VerticalAlignment="Center" 
+                       FontSize="15" HorizontalAlignment="Left" 
+                       Text="POSICIÓN"
+                       FontWeight="Light"
+                       Margin="10 0 0 0 "
+                       >
+            </TextBlock>
         </Grid>
-    </DockPanel>
 
+    </DockPanel>
 </UserControl>

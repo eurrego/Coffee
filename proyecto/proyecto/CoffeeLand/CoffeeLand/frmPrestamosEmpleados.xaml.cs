@@ -23,19 +23,68 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmPrestamosEmpleados : UserControl
     {
+        #region Singleton
+
+        private static frmPrestamosEmpleados instance;
+
+        public static frmPrestamosEmpleados GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new frmPrestamosEmpleados();
+            }
+
+            return instance;
+        }
+
+        #endregion
+
+
         // variable para controlar que los campos esten llenos
         bool validacion = false;
 
         public frmPrestamosEmpleados()
         {
             InitializeComponent();
-            MostarCmb();
+            instance = this;
+            Mostrar();
+            tamanioPantalla();
+        }
+
+        private void tamanioPantalla()
+        {
+            var width = SystemParameters.WorkArea.Width;
+            var height = SystemParameters.WorkArea.Height;
+
+            Width = width;
+            Height = height - 175;
+
+            var anchoContainer = width / 1.75;
+
+            pnlContainer.Width = anchoContainer;
+
+            tblPrestamos.Height = height - 280;
+            //tblDetalleCompra.Height = height - 280;
+        }
+
+        //mostrar
+        private void Mostrar()
+        {
+            tblPrestamos.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDeudaEmpleado(cmbEmpleado.SelectedValue.ToString());
+            cmbEmpleado.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarEmpleado();
+            deudaTotal();
+        }
+
+      
+        private void mensajeInformacion(string mensaje)
+        {
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
         }
 
         // mensaje de Error
         private void mensajeError(string mensaje)
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Error", mensaje);
         }
 
         // limpiar Controles
@@ -64,19 +113,7 @@ namespace CoffeeLand
             return total;
         }
 
-        //mostrar
-        private void Mostrar()
-        {
-            tblPrestamos.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDeudaEmpleado(cmbEmpleado.SelectedValue.ToString());
-            deudaTotal();
-        }
-
-        private void MostarCmb()
-        {
-            cmbEmpleado.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarEmpleado();
-        }
-
-        private void cmbEmpleado_LostFocus(object sender, RoutedEventArgs e)
+        private void cmbEmpleado_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (cmbEmpleado.SelectedIndex == 0)
             {

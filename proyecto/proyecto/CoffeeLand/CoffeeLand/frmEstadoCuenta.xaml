@@ -65,13 +65,13 @@
 
 
                                     <DataGrid x:Name="tblCompras" 
-                                  HeadersVisibility="All"
-                                  SelectionUnit="FullRow"
-                                  CanUserAddRows="False" 
-                                  CanUserDeleteRows="False"
-                                  AutoGenerateColumns="False"
-                                  Margin="0 15 0 0"
-                                  >
+                                              HeadersVisibility="All"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              Margin="0 15 0 0"
+                                              >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding NumeroFactura}"  Header="Numero Factura" Width="130" IsReadOnly="True"/>
                                             <DataGridTemplateColumn   Header="Fecha"  Width="130" IsReadOnly ="False">
@@ -87,7 +87,7 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Button x:Name="btnDetalleCompra" Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" 
-                                         BorderThickness="0" Click="btnDetalleCompra_Click">
+                                                                BorderThickness="0" Click="btnDetalleCompra_Click">
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
@@ -101,7 +101,7 @@
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Button x:Name="btnAbonar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}"
-                                         BorderThickness="0"  Click="btnAbonar_Click">
+                                                                BorderThickness="0"  Click="btnAbonar_Click">
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}"/>
@@ -126,33 +126,33 @@
                                 <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20">
                                     <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
                                         <ComboBox x:Name="cmbProveedor"
-                              DisplayMemberPath="NombreProveedor" 
-                    	      SelectedValuePath="Nit"
-                              Margin="0,20,0,0" VerticalAlignment="Top"
-                              IsSynchronizedWithCurrentItem="true" 
-                              Height="42"
-                              SelectedIndex="0"
-                              SelectionChanged="cmbProveedor_SelectionChanged" 
-                              />
+                                              DisplayMemberPath="NombreProveedor" 
+                    	                      SelectedValuePath="Nit"
+                                              Margin="0,20,0,0" VerticalAlignment="Top"
+                                              IsSynchronizedWithCurrentItem="true" 
+                                              Height="42"
+                                              SelectedIndex="0"
+                                              SelectionChanged="cmbProveedor_SelectionChanged" 
+                                              />
 
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Vertical" Width="300" Height="130" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="0 30 0 0">
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
 
                                                 <TextBlock x:Name="lblTotal" 
-                                           Margin="0 25 0 0"
-                                           FontSize="45" Text="$0"
-                                           HorizontalAlignment="Center" 
-                                           FontFamily="Arial Rounded MT Bold" 
-                                           Foreground="Crimson"
-                                           ></TextBlock>
+                                                           Margin="0 25 0 0"
+                                                           FontSize="45" Text="$0"
+                                                           HorizontalAlignment="Center" 
+                                                           FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
                                                 <TextBlock FontSize="20" 
-                                           Margin="0 5 0 0"
-                                           Text="Total Deuda" 
-                                           Foreground="Gray"
-                                           HorizontalAlignment="Center"></TextBlock>
+                                                           Margin="0 5 0 0"
+                                                           Text="Total Deuda" 
+                                                           Foreground="Gray"
+                                                           HorizontalAlignment="Center"></TextBlock>
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
@@ -160,43 +160,43 @@
                                 <TabItem x:Name="tabAbono" Header="ABONOS" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
                                     <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
                                         <TextBox x:Name="txtAbono" 
-        		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-        		                 Controls:TextBoxHelper.Watermark="Valor Abono" 
-        		                 Controls:TextBoxHelper.ClearTextButton="True" 
-                                 Height="42" 
-                                 VerticalAlignment="Top" 
-                                 Margin="0 20 0 0">
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Valor Abono" 
+        		                                 Controls:TextBoxHelper.ClearTextButton="True" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top" 
+                                                 Margin="0 20 0 0">
                                         </TextBox>
                                         <DatePicker x:Name="dtdFechaAbono" 
-                                    SelectedDate="{x:Static sys:DateTime.Now}" 
-                                    SelectedDateFormat="Long"
-                                    IsEnabled="False"
-                                    Margin="0 20 0 0"
-                                    VerticalAlignment="Top" 
-                                    Height="42"/>
+                                                    SelectedDate="{x:Static sys:DateTime.Now}" 
+                                                    SelectedDateFormat="Long"
+                                                    IsEnabled="False"
+                                                    Margin="0 20 0 0"
+                                                    VerticalAlignment="Top" 
+                                                    Height="42"/>
 
                                         <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
                                             <Button x:Name="btnGuardar"  
-                                    HorizontalAlignment="Left" 
-                                    VerticalAlignment="Center"
-                                    Height="35"
-                                    Width="100"
-                                    Content="Guardar"
-                                    Style="{StaticResource AccentedSquareButtonStyle}"
-                                    Click="btnGuardar_Click"
-                                    >
+                                                    HorizontalAlignment="Left" 
+                                                    VerticalAlignment="Center"
+                                                    Height="35"
+                                                    Width="100"
+                                                    Content="Guardar"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                                    Click="btnGuardar_Click"
+                                                    >
                                             </Button>
                                             <Button x:Name="btnCancelar"  
-                                   HorizontalAlignment="Left" 
-                                   VerticalAlignment="Center"
-                                   Margin="10 0 0 0" 
-                                   Height="35"
-                                   Width="100"
-                                   Style="{StaticResource AccentedSquareButtonStyle}"
-                                   Background="Gray"
-                                   Content="Cancelar"
-                                   Click="btnCancelar_Click"
-                                 >
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center"
+                                                   Margin="10 0 0 0" 
+                                                   Height="35"
+                                                   Width="100"
+                                                   Style="{StaticResource AccentedSquareButtonStyle}"
+                                                   Background="Gray"
+                                                   Content="Cancelar"
+                                                   Click="btnCancelar_Click"
+                                                 >
                                             </Button>
 
                                         </StackPanel>

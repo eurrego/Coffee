@@ -7,7 +7,8 @@
              xmlns:validator ="clr-namespace:CoffeeLand.Validator"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1080">
+             Background="White"
+             d:DesignHeight="728" d:DesignWidth="1366">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -132,7 +133,7 @@
                             <TextBlock Margin="20 70 0 0" Text="No tiene " FontSize="50" FontWeight="Light" />
                             <TextBlock Margin="0 70 0 0" Text="proveedores" FontSize="50" FontWeight="Regular"  ></TextBlock>
                         </StackPanel>
-                        <TextBlock x:Name="lblSinRegistros" Margin="20 0 0 0" Text="" FontSize="50" FontWeight="Light" />
+                        <TextBlock x:Name="lblSinRegistros" Margin="20 0 0 0" Text="registrados." FontSize="50" FontWeight="Light" />
                     </StackPanel>
                 </Grid>
 

@@ -443,17 +443,22 @@ namespace CoffeeLand
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
+            if (tblInsumo.IsVisible)
+            {
+                tblInsumo.Height = tblInsumo.Height + 61;
+            }
+            else if (tblInsumosIhhabilitados.IsVisible)
+            {
+                tblInsumosIhhabilitados.Height = tblInsumosIhhabilitados.Height + 61;
+            }
+
             limpiarPantalla();
         }
 
         private void limpiarPantalla()
         {
-            tblInsumo.Height = tblInsumo.Height + 61;
-            tblInsumosIhhabilitados.Height = tblInsumosIhhabilitados.Height + 61;
-
             btnHabilitados.IsEnabled = true;
             btnInhabilitados.IsEnabled = true;
-
 
             tabBuscar.Focus();
             pnlResultados.Visibility = Visibility.Collapsed;

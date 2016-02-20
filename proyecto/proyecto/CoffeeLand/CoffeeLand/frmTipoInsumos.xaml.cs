@@ -426,14 +426,20 @@ namespace CoffeeLand
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
+            if (tblTipoInsumo.IsVisible)
+            {
+                tblTipoInsumo.Height = tblTipoInsumo.Height + 61;
+            }
+            else if (tblTiposInsumosIhhabilitados.IsVisible)
+            {
+                tblTiposInsumosIhhabilitados.Height = tblTiposInsumosIhhabilitados.Height + 61;
+            }
+
             limpiarPantalla();
         }
 
         private void limpiarPantalla()
         {
-            tblTipoInsumo.Height = tblTipoInsumo.Height + 61;
-            tblTiposInsumosIhhabilitados.Height = tblTiposInsumosIhhabilitados.Height + 61;
-
             btnHabilitados.IsEnabled = true;
             btnInhabilitados.IsEnabled = true;
 
