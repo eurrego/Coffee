@@ -36,47 +36,11 @@ namespace CoffeeLand
 
         #endregion
 
-
-        frmLotes misLotes = new frmLotes();
-        frmLabores misLabores = new frmLabores();
-        frmTipoArboles miTipoArboles = new frmTipoArboles();
-        frmArboles misArboles = new frmArboles(0);
-        frmTerrenos misTerrenos = new frmTerrenos();
-
         public frmGestionTerrenos()
         {
             InitializeComponent();
             instance = this;
         }
 
-        private void tabLotes_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabLotes.Content = misLotes;
-        }
-
-        private void tabLabores_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabLabores.Content = misLabores;
-        }
-
-        private void tabTipoArboles_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabTipoArboles.Content = miTipoArboles;
-        }
-
-        private void tabArboles_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabArboles.Content = misArboles;
-        }
-
-        private void tabDetalleArboles_LostFocus(object sender, RoutedEventArgs e)
-        {
-            tabDetalleArboles.Visibility = Visibility.Collapsed;
-        }
-
-        private void tabRegistroTerrenos_GotFocus(object sender, RoutedEventArgs e)
-        {
-            tabRegistroTerrenos.Content = misTerrenos;
-        }
     }
 }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CoffeeLand"
-             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
+             xmlns:validator ="clr-namespace:CoffeeLand.Validator"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
@@ -18,9 +18,12 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+            <validator:PrestamosValidator x:Key="Validator"/>
+            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+            <validator:CharToStringConverter x:Key="CharToStringConverter"/>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -30,7 +33,7 @@
         <DockPanel  DockPanel.Dock="Top">
 
             <TabControl Margin="0 -40 0 0">
-                <TabItem x:Name="tabEstadoCuenta" Header="">
+                <TabItem x:Name="tabInicio" Header="">
                     <DockPanel  DockPanel.Dock="Top">
                         <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
 
@@ -41,18 +44,20 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 0 0 25" >
+                            <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 -15 0 25" >
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock x:Name="lblProveedor" Text="" FontSize="40" FontWeight="Light" 
-                                               Background="White" Height="50"
+                                        <TextBlock x:Name="lblTitleEmpleado" Text="" FontSize="40"
+                                               FontWeight="Light" 
+                                               Background="White" Height="55"
                                                Foreground="CornflowerBlue"
-                                               VerticalAlignment="Center">
+                                               VerticalAlignment="Center"
+                                               >
                                         </TextBlock>
                                         <Button x:Name="btnOcultar" Width="50" Height="50" Style="{DynamicResource MetroCircleButtonStyle}" 
                                                 HorizontalAlignment="Center"
                                                 BorderThickness="0" ToolTip="Volver"
-                                              
+                                                Click="btnOcultar_Click"
                                                 Margin="20 5 0 0">
                                             <Viewbox Width="30" Height="30" >
                                                 <Canvas Width="30" Height="30">
@@ -81,7 +86,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridTextColumn Binding="{Binding Descripcion}" Header="Descripción" Width="250" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}" Header="Descripción" Width="250" IsReadOnly="True"/>
                                         </DataGrid.Columns>
 
                                         <DataGrid.Style>
@@ -93,15 +98,17 @@
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
+
+                        <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
                         <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
-                            <TabControl Margin="50 0 30 0" >
+                            <TabControl Margin="25 0 30 0" VerticalAlignment="Top" >
                                 <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20">
                                     <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
                                         <ComboBox x:Name="cmbEmpleado"
                                                   DisplayMemberPath="NombrePersona" 
                     	                          SelectedValuePath="DocumentoPersona"
                                                   Margin="0,20,0,0" VerticalAlignment="Top"
-                                                  IsSynchronizedWithCurrentItem="true" 
                                                   Height="42"
                                                   SelectedIndex="0"
                                                   SelectionChanged="cmbEmpleado_SelectionChanged"
@@ -129,126 +136,421 @@
 
                                     </StackPanel>
                                 </TabItem>
+                                <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <TextBlock x:Name="lblEmpleado" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="30" 
+                                                   FontWeight="SemiBold"
+                                                   Foreground="CornflowerBlue"
+                                                   Margin="0 5 0 0"
+                                                   />
+
+                                        <TextBox x:Name="txtValor" Margin="0 20 0 0"
+                            	                Controls:TextBoxHelper.Watermark="Valor" 
+                                                Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	                Height="42" VerticalAlignment="Top" >
+                                            <TextBox.Style>
+                                                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                        </Trigger>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBox.Style>
+                                            <TextBox.Text>
+                                                <Binding Path="Valor" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                        UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <ExceptionValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+
+                                        </TextBox>
+
+                                        <DatePicker x:Name="dtdFecha" Margin="0 20 0 0"
+                            	                    VerticalAlignment="Top" 
+                            	                    Height="42" 
+                            	                    Controls:TextBoxHelper.Watermark="Fecha Prestamo"
+                            	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                    Controls:TextBoxHelper.ClearTextButton="True" 
+                                                    SelectedDateFormat="Long"
+                                                    >
+                                        </DatePicker>
+
+                                        <TextBox x:Name="txtDescripcion" Margin="0 20 0 0"
+            	                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+            	                                 Controls:TextBoxHelper.Watermark="Descripción"
+            	                                 TextWrapping="Wrap" 
+                                                 Height="62" 
+                                                 VerticalAlignment="Top">
+                                            <TextBox.Style>
+                                                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                        </Trigger>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBox.Style>
+                                            <TextBox.Text>
+                                                <Binding Path="Descripcion" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                        UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <ExceptionValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                            <Button x:Name="btnGuardar"  
+                                                    HorizontalAlignment="Left" 
+                                                    VerticalAlignment="Center"
+                                                    Height="35"
+                                                    Width="100"
+                                                    Content="Guardar"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                                    Click="btnGuardar_Click"
+                                                    >
+                                            </Button>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem x:Name="tabAbono" Header="ABONOS" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <TextBlock x:Name="lblEmpleadoAbono" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="30" 
+                                                   FontWeight="SemiBold"
+                                                   Foreground="CornflowerBlue"
+                                                   Margin="0 5 0 0"
+                                                   />
+                                        <TextBox x:Name="txtAbono" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Valor Abono" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top" 
+                                                 Margin="0 20 0 0"
+                                                 >
+                                            <TextBox.Style>
+                                                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                        </Trigger>
+                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBox.Style>
+                                            <TextBox.Text>
+                                                <Binding Path="ValorAbono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                        UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <ExceptionValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
+                                        <DatePicker x:Name="dtdFechaAbono" 
+                                                    SelectedDate="{x:Static sys:DateTime.Now}" 
+                                                    SelectedDateFormat="Long"
+                                                    IsEnabled="False"
+                                                    Margin="0 20 0 0"
+                                                    VerticalAlignment="Top" 
+                                                    Height="42"/>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                            <Button x:Name="btnConfirmarAbono"  
+                                                    HorizontalAlignment="Left" 
+                                                    VerticalAlignment="Center"
+                                                    Height="35"
+                                                    Width="100"
+                                                    Content="Guardar"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                                    Click="btnConfirmarAbono_Click"
+                                                    >
+                                            </Button>
+                                            <Button x:Name="btnCancelar"  
+                                                   HorizontalAlignment="Left" 
+                                                   VerticalAlignment="Center"
+                                                   Margin="10 0 0 0" 
+                                                   Height="35"
+                                                   Width="100"
+                                                   Style="{StaticResource AccentedSquareButtonStyle}"
+                                                   Background="Gray"
+                                                   Content="Cancelar"
+                                                    Click="btnCancelar_Click"
+                                                 >
+                                            </Button>
+
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Vertical" Margin="0 20 0 0">
+                                            <StackPanel Orientation="Vertical" Width="265" Height="130" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
+
+                                                <TextBlock x:Name="lblTotalAbonos" 
+                                                           Margin="0 25 0 0"
+                                                           FontSize="45" Text="$0"
+                                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
+                                                <TextBlock FontSize="20" 
+                                                           Margin="0 5 0 0"
+                                                           Text="Total Deuda" 
+                                                           Foreground="Gray"
+                                                           HorizontalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+
+
+                                    </StackPanel>
+                                </TabItem>
                             </TabControl>
+                            <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
+                                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                                    <Button x:Name="btnBuscar" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Buscar"
+                                             Click="btnBuscar_Click"   >
+                                        <Viewbox Width="30" Height="30" RenderTransformOrigin="0.5,0.5">
+                                            <Viewbox.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="-90"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Viewbox.RenderTransform>
+                                            <Canvas Width="48" Height="48">
+                                                <Path Data="M20.363963,2.0000044C15.050976,2.0000043 10.727978,6.2949964 
+                                                          10.727978,11.573999 10.727978,16.85404 15.050976,21.147995 20.363963,
+                                                          21.147995 25.676981,21.147995 29.999979,16.85404 29.999979,11.573999 
+                                                          29.999979,6.2949964 25.676981,2.0000043 20.363963,2.0000044z M20.363963,
+                                                          0C26.779978,0 31.999979,5.1919667 31.999979,11.573999 31.999979,17.956031 
+                                                          26.779978,23.147998 20.363963,23.147998 17.65722,23.147998 15.163336,22.22394 
+                                                          13.184453,20.676304L12.9726,20.506511 1.4100003,32.001993 0,30.583994 11.540372,
+                                                          19.110611 11.388429,18.931938C9.7271191,16.930492 8.7279784,14.366138 8.7279784,
+                                                          11.573999 8.7279784,5.1919667 13.947979,0 20.363963,0z"  
+                                                          Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+
+                                    <Button x:Name="btnNuevo" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Nuevo"
+                                             Visibility="Collapsed" Click="btnNuevo_Click" >
+                                        <Viewbox Width="30" Height="30">
+                                            <Canvas Width="48" Height="48">
+                                                <Path Data="M15,0L17,0 17,15.000008 32,15.000008 32,17.000008 17,
+                                          17.000008 17,32 15,32 15,17.000008 0,17.000008 0,15.000008 15,15.000008z"  
+                                          Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+
+                                    <Button x:Name="btnAbono" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Abonar"
+                                                Visibility="Collapsed" Click="btnAbono_Click">
+                                        <Viewbox Width="30" Height="30" >
+                                            <Viewbox.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="0"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Viewbox.RenderTransform>
+                                            <Canvas Width="48" Height="48">
+                                                <Path Data="M1.0000001,20.000002C1.5529785,20.000002,2,20.448061,2.0000002,21.000002L2.0000002,30.000002 30,30.000002 30,21.000002C30,20.448061 30.447021,20.000002 31,20.000002 31.552979,20.000002 32,20.448061 32,21.000002L32,32.000002 0,32.000002 0,21.000002C-5.6843419E-14,20.448061,0.44702148,20.000002,1.0000001,20.000002z M16.040142,0C16.295876,0,16.551613,0.097745895,16.747101,0.2932415L22.706766,6.2550764C23.097744,6.6460657 23.097744,7.2790489 22.706766,7.6690378 22.511776,7.8640327 22.255791,7.9620295 21.999805,7.9620295 21.74382,7.9620295 21.487833,7.8640327 21.292845,7.6690378L17.040014,3.4146557 17.040014,26.000023C17.040014,26.552028 16.593031,27.000032 16.040051,27.000032 15.487069,27.000032 15.040085,26.552028 15.040085,26.000023L15.040085,3.3908176 10.711238,7.7648582C10.323252,8.1568613 9.6882734,8.1618614 9.2972879,7.7718582 8.9043016,7.3838549 8.9003019,6.7498493 9.2892876,6.3578453L15.274077,0.32479095C15.297631,0.30693245,15.321719,0.29010963,15.34628,0.27433586L15.368674,0.26115036 15.409196,0.22451401C15.592604,0.074836731,15.816373,0,16.040142,0z"
+                                                     Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+
+                                    <Button x:Name="btnDetalle" Width="61" Height="61" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Detalle"
+                                             Visibility="Collapsed" Click="btnDetalle_Click">
+                                        <Viewbox Width="30" Height="30">
+                                            <Canvas Width="48" Height="48">
+                                                <Path Data="M14.000006,26.999998L28.000006,26.999998 28.000006,28.999998 14.000006,28.999998z M2,25L2,30 7,30 7,25z M0,23L9,23 9,32 0,32z M14,15L28,15 28,17 14,17z M2,13.5L2,18.5 7,18.5 7,13.5z M0,11.5L9,11.5 9,20.5 0,20.5z M14,3L28,3 28,5 14,5z M2,2L2,7 7,7 7,2z M0,0L9,0 9,9 0,9z"  
+                                                      Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Button>
+
+                                </StackPanel>
+                            </Grid>
                         </Grid>
 
 
                     </DockPanel>
                 </TabItem>
-                <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-                        <TextBlock x:Name="lblEmpleado" 
-                                   TextWrapping="Wrap" 
-                                   VerticalAlignment="Center" 
-                                   Height="70"  
-                                   FontSize="30" Foreground="#FF92C6F9"
-                                   Text="Julian Santiago Benitez Gonzalez"
-                                   FontFamily="Arial Rounded MT Bold"
-                                   />
+                <TabItem x:Name="tabMovimiento" Header="">
+                    <DockPanel  DockPanel.Dock="Top">
+                        <StackPanel x:Name="pnlMovContainer" Orientation="Vertical" DockPanel.Dock="Left">
 
-                        <TextBox x:Name="txtValor" Margin="0 0 0 0"
-                            	Controls:TextBoxHelper.Watermark="Valor" 
-                            	Controls:TextBoxHelper.ClearTextButton="True" 
-                                Controls:TextBoxHelper.UseFloatingWatermark="True"
-                            	Height="42" VerticalAlignment="Top" ></TextBox>
+                            <Grid x:Name="pnlMovInicio" Visibility="Collapsed" Margin="20 20 0 0" >
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lblMovSuperior" Margin="20 70 0 0" Text="Este empleado no tiene" FontSize="50" FontWeight="Light" />
+                                    <TextBlock x:Name="lblMovInferior" Margin="20 0 0 0" Text="Prestamos" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                </StackPanel>
+                            </Grid>
 
-                        <DatePicker x:Name="dtdFecha" Margin="0 20 0 0"
-                            	VerticalAlignment="Top" 
-                            	Height="42" 
-                            	Controls:TextBoxHelper.Watermark="Fecha Prestamo"
-                            	Controls:TextBoxHelper.UseFloatingWatermark="True"
-                                Controls:TextBoxHelper.ClearTextButton="True" 
-                                SelectedDateFormat="Long"
-                                >
-                        </DatePicker>
-                        <TextBox x:Name="txtDescripcion" Margin="0 20 0 0"
-            	                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-            	                 Controls:TextBoxHelper.Watermark="Descripción"
-            	                 Controls:TextBoxHelper.ClearTextButton="True" 
-            	                 TextWrapping="Wrap" 
-                                 Height="62" 
-                                 VerticalAlignment="Top">
-                            <TextBox.Text>
-                                <Binding Path="Descripcion" Source="{StaticResource conceptoValidator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                         UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <ExceptionValidationRule/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                            <Button x:Name="btnGuardar"  
-                                    HorizontalAlignment="Left" 
-                                    VerticalAlignment="Center"
-                                    Height="35"
-                                    Width="100"
-                                    Content="Guardar"
-                                    Style="{StaticResource AccentedSquareButtonStyle}"
-                                    Click="btnGuardar_Click"
-                                    >
-                            </Button>
+                            <Grid x:Name="pnlMovData" Visibility="Visible"  Margin="20 -5 0 25">
+                                <StackPanel Orientation="Horizontal">
 
+                                    <StackPanel>
+                                        <TextBlock  Text="PRESTAMOS" FontSize="30"
+                                               FontWeight="Light" 
+                                               Background="White" 
+                                               Foreground="CornflowerBlue"
+                                               VerticalAlignment="Center"
+                                               >
+                                        </TextBlock>
+
+                                        <DataGrid x:Name="tblMovDeudas" 
+                                              HeadersVisibility="All"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              Margin="0 10 0 0"
+                                              >
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding idDeudaPersona}" Header="Id" Width="50" IsReadOnly="True"/>
+                                                <DataGridTextColumn Binding="{Binding Valor, StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
+                                                <DataGridTemplateColumn Header="Fecha"  Width="120" IsReadOnly ="False">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}" Header="Descripción" Width="150" IsReadOnly="True"/>
+                                                <DataGridTextColumn Binding="{Binding EstadoCuenta, Converter={StaticResource CharToStringConverter}}" Header="Estado" Width="70" IsReadOnly="True"/>
+                                            </DataGrid.Columns>
+
+                                            <DataGrid.Style>
+                                                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                                </Style>
+                                            </DataGrid.Style>
+                                        </DataGrid>
+                                    </StackPanel>
+
+                                    <StackPanel>
+                                        <TextBlock  Text="ABONOS" FontSize="30"
+                                               FontWeight="Light" 
+                                               Background="White" 
+                                               Foreground="CornflowerBlue"
+                                               VerticalAlignment="Center"
+                                                    Margin="15 0 0 0"
+                                               >
+                                        </TextBlock>
+                                        
+                                        <DataGrid x:Name="tblMovAbonos" 
+                                              HeadersVisibility="All"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              Margin="15 10 0 0"
+                                              >
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding idDeudaPersona}" Header="id" Width="50" IsReadOnly="True"/>
+                                                <DataGridTextColumn Binding="{Binding Valor, StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
+                                                <DataGridTemplateColumn Header="Fecha"  Width="200" IsReadOnly ="False">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+
+                                            <DataGrid.Style>
+                                                <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                    <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                                </Style>
+                                            </DataGrid.Style>
+                                        </DataGrid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
                         </StackPanel>
+                        <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
 
-                    </StackPanel>
-                </TabItem>
-                <TabItem x:Name="tabAbono" Header="ABONOS" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-                        <TextBlock x:Name="lblEmpleadoAbono" 
-                                   TextWrapping="Wrap" 
-                                   VerticalAlignment="Center" 
-                                   Height="70"  
-                                   FontSize="30" Foreground="#FF92C6F9"
-                                   Text="Julian Santiago Benitez Gonzalez"
-                                   FontFamily="Arial Rounded MT Bold"
-                                   />
-                        <TextBox x:Name="txtAbono" 
-        		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-        		                 Controls:TextBoxHelper.Watermark="Valor Abono" 
-        		                 Controls:TextBoxHelper.ClearTextButton="True" 
-                                 Height="42" 
-                                 VerticalAlignment="Top" 
-                                 Margin="0 0 0 0">
-                        </TextBox>
-                        <DatePicker x:Name="dtdFechaAbono" 
-                                    SelectedDate="{x:Static sys:DateTime.Now}" 
-                                    SelectedDateFormat="Long"
-                                    IsEnabled="False"
-                                    Margin="0 20 0 0"
-                                    VerticalAlignment="Top" 
-                                    Height="42"/>
+                        <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                            <TabControl Margin="25 -10 30 0" >
+                                <TabItem x:Name="tabDetalle"  Header="DETALLE" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Visible" >
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
 
-                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                            <Button x:Name="btnConfirmarAbono"  
-                                    HorizontalAlignment="Left" 
-                                    VerticalAlignment="Center"
-                                    Height="35"
-                                    Width="100"
-                                    Content="Guardar"
-                                    Style="{StaticResource AccentedSquareButtonStyle}"
-                                    Click="btnConfirmarAbono_Click"
-                                    >
-                            </Button>
-                            <Button x:Name="btnCancelar"  
-                                   HorizontalAlignment="Left" 
-                                   VerticalAlignment="Center"
-                                   Margin="10 0 0 0" 
-                                   Height="35"
-                                   Width="100"
-                                   Style="{StaticResource AccentedSquareButtonStyle}"
-                                   Background="Gray"
-                                   Content="Cancelar"
-                                    Click="btnCancelar_Click"
-                                 >
-                            </Button>
+                                        <TextBlock x:Name="lblMovEmpleado" 
+                                                   Margin="0,20,0,0"  
+                                                   VerticalAlignment="Top" 
+                                                   FontSize="40" 
+                                                   FontWeight="Light"
+                                                   Foreground="CornflowerBlue"
+                                                   Text="Andres Felipe"
+                                                   />
 
-                        </StackPanel>
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical" Width="350" Height="130" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
 
-                    </StackPanel>
+                                                <TextBlock x:Name="lblTotalDeuda" 
+                                                           Margin="0 25 0 0"
+                                                           FontSize="45" Text="$0"
+                                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
+                                                <TextBlock FontSize="20" 
+                                                           Margin="0 5 0 0"
+                                                           Text="Total Deuda" 
+                                                           Foreground="Gray"
+                                                           HorizontalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <Button x:Name="btnAtras"  Width="100" Height="35" 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Atras"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Background="Crimson"    
+                                                Click="btnAtras_Click"
+                                                Margin="0 20 0 0" >
+
+                                        </Button>
+
+                                    </StackPanel>
+                                </TabItem>
+
+                            </TabControl>
+                        </Grid>
+
+                    </DockPanel>
                 </TabItem>
             </TabControl>
 
         </DockPanel>
     </DockPanel>
+
 </UserControl>

@@ -32,7 +32,7 @@ namespace CoffeeLand
         {
             if (instance == null)
             {
-                instance = new frmArboles(0);
+                instance = new frmArboles();
             }
 
             return instance;
@@ -43,17 +43,16 @@ namespace CoffeeLand
         bool validacion = false;
         int lote = 0;
 
-        public frmArboles(int lote)
+        public frmArboles()
         {
             InitializeComponent();
-            this.lote = lote;
+            //this.lote = lote;
 
             cmbTipoArbol.ItemsSource = MArbol.GetInstance().ConsultarTipoArbol();
             cmbLote.ItemsSource = MArbol.GetInstance().ConsultarLote();
             dtdFecha.DisplayDateEnd = DateTime.Now;
-            cmbLote.SelectedValue = lote;
+            //cmbLote.SelectedValue = lote;
             Mostrar();
-
             instance = this;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,15 +65,46 @@ namespace Modelo
             }
         }
 
+        //este metodo consulta por medio de la cadena de texto ingresada 
+        public List<Labor> ConsultarParametroInhabilitado(string parametro)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Labor
+                            where c.EstadoLabor == "I" && c.NombreLabor.Contains(parametro)
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
 
         public string GestionLabor(string NombreLabor, bool ModificaArbol, bool RequiereInsumo, string Descripcion, int idLabor, int opc)
         {
 
             using (var entity = new DBFincaEntities())
             {
-                var rpta = entity.gestionLabor(NombreLabor, ModificaArbol, RequiereInsumo, Descripcion, idLabor, opc).First();
+                try
+                {
+                    var rpta = entity.gestionLabor(NombreLabor, ModificaArbol, RequiereInsumo, Descripcion, idLabor, opc).First();
 
-                return rpta.Mensaje;
+                    return rpta.Mensaje;
+                }
+                catch (Exception ex)
+                {
+                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                    }
+
+                    return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+                }
+
             }
 
         }

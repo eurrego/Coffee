@@ -723,6 +723,7 @@
         <Function Name="ComprasProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nit" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="Consultasproduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="gestionArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idLote" Type="smallint" Mode="In" />
           <Parameter Name="idTipoArbol" Type="tinyint" Mode="In" />
@@ -806,6 +807,15 @@
           <Parameter Name="idTipoInsumo" Type="int" Mode="In" />
           <Parameter Name="opc" Type="int" Mode="In" />
         </Function>
+        <Function Name="GestionVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nit" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="numeroFactura" Type="int" Mode="In" />
+          <Parameter Name="idProducto" Type="int" Mode="In" />
+          <Parameter Name="PrecioCarga" Type="money" Mode="In" />
+          <Parameter Name="CantidadCargas" Type="decimal" Mode="In" />
+          <Parameter Name="PrecioBeneficio" Type="money" Mode="In" />
+        </Function>
         <Function Name="insercionAbonoDeuda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="valor" Type="money" Mode="In" />
           <Parameter Name="fecha" Type="date" Mode="In" />
@@ -832,6 +842,9 @@
         </Function>
         <Function Name="SalariosEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_InsertMultiplesGastos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="VentaProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cantidad" Type="decimal" Mode="In" />
+        </Function>
         <EntityContainer Name="DBFincaModelStoreContainer">
           <EntitySet Name="AbonoCompra" EntityType="Self.AbonoCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AbonoDeuda" EntityType="Self.AbonoDeuda" Schema="dbo" store:Type="Tables" />
@@ -2000,6 +2013,19 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="Consultasproduccion" ReturnType="Collection(DBFincaModel.Consultasproduccion_Result)" />
+          <FunctionImport Name="GestionVenta">
+            <Parameter Name="nit" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+            <Parameter Name="PrecioCarga" Mode="In" Type="Decimal" />
+            <Parameter Name="CantidadCargas" Mode="In" Type="Decimal" />
+            <Parameter Name="PrecioBeneficio" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="VentaProduccion" ReturnType="Collection(DBFincaModel.VentaProduccion_Result)">
+            <Parameter Name="Cantidad" Mode="In" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="asociarLaborLote_Result">
           <Property Type="String" Name="mensaje" Nullable="true" MaxLength="50" />
@@ -2112,6 +2138,12 @@
         </ComplexType>
         <ComplexType Name="gestionLabor_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Consultasproduccion_Result">
+          <Property Type="Decimal" Name="Cargas" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="VentaProduccion_Result">
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="16" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2595,6 +2627,21 @@
           <FunctionImportMapping FunctionImportName="RegistrarCompra" FunctionName="DBFincaModel.Store.RegistrarCompra" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.RegistrarCompra_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Consultasproduccion" FunctionName="DBFincaModel.Store.Consultasproduccion" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.Consultasproduccion_Result">
+                <ScalarProperty Name="Cargas" ColumnName="Cargas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GestionVenta" FunctionName="DBFincaModel.Store.GestionVenta" />
+          <FunctionImportMapping FunctionImportName="VentaProduccion" FunctionName="DBFincaModel.Store.VentaProduccion" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.VentaProduccion_Result">
                 <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
               </ComplexTypeMapping>
             </ResultMapping>

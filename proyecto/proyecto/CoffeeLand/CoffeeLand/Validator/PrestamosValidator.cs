@@ -8,16 +8,8 @@ using System.Threading.Tasks;
 
 namespace CoffeeLand.Validator
 {
-    public class GastoValidator : IDataErrorInfo
+    public class PrestamosValidator : IDataErrorInfo
     {
-
-        private string descripcion = string.Empty;
-
-        public string Descripcion
-        {
-            get { return descripcion; }
-            set { descripcion = value; }
-        }
 
         private string valor = string.Empty;
 
@@ -25,6 +17,22 @@ namespace CoffeeLand.Validator
         {
             get { return valor; }
             set { valor = value; }
+        }
+
+        private string valorAbono = string.Empty;
+
+        public string ValorAbono
+        {
+            get { return valorAbono; }
+            set { valorAbono = value; }
+        }
+
+        private string descripcion = string.Empty;
+
+        public string Descripcion
+        {
+            get { return descripcion; }
+            set { descripcion = value; }
         }
 
         public string Error
@@ -54,10 +62,11 @@ namespace CoffeeLand.Validator
                         {
                             if (descripcion.Length > 45)
                             {
-                                result = "La descripción debe ser menor que 10 caracteres.";
+                                result = "La descripción debe ser menor que 45 caracteres.";
                             }
                         }
                         break;
+
                     case "Valor":
                         if (string.IsNullOrEmpty(valor))
                         {
@@ -75,6 +84,23 @@ namespace CoffeeLand.Validator
                             }
                         }
                         break;
+                    case "ValorAbono":
+                        if (string.IsNullOrEmpty(valor))
+                        {
+                            result = "El campo es obligatorio.";
+                        }
+                        else
+                        {
+                            if (!numeros.IsMatch(valorAbono))
+                            {
+                                result = "El campo solo acepta números.";
+                            }
+                            else if (valorAbono.Equals("0"))
+                            {
+                                result = "El valor no puede ser cero";
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -82,6 +108,5 @@ namespace CoffeeLand.Validator
                 return result;
             }
         }
-
     }
 }

@@ -20,21 +20,11 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmAdministracionVentas : UserControl
     {
-        frmProductos misProductos = new frmProductos();
 
         public frmAdministracionVentas()
         {
             InitializeComponent();
         }
 
-        private void tabRegistroVentas_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void tabProductos_GotFocus(object sender, RoutedEventArgs e)
-        {
-            contentProductos.Content = misProductos;
-        }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Modelo;
+using System.Globalization;
 
 namespace CoffeeLand
 {
@@ -49,6 +50,7 @@ namespace CoffeeLand
             instance = this;
             Mostrar();
             tamanioPantalla();
+            dtdFecha.DisplayDateEnd = DateTime.Now;
         }
 
         private void tamanioPantalla()
@@ -62,20 +64,33 @@ namespace CoffeeLand
             var anchoContainer = width / 1.75;
 
             pnlContainer.Width = anchoContainer;
+            pnlMovContainer.Width = anchoContainer;
 
             tblPrestamos.Height = height - 280;
-            //tblDetalleCompra.Height = height - 280;
+            tblMovAbonos.Height = height - 280;
+            tblMovDeudas.Height = height - 280;
+        }
+
+        public void Mostrar()
+        {
+            cmbEmpleado.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarEmpleado();
+            cmbEmpleado.SelectedIndex = 0;
+        }
+
+        private void mostrarMovimiento()
+        {
+            tblMovDeudas.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDetalleDeudasEmpleado(cmbEmpleado.SelectedValue.ToString());
+            tblMovAbonos.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDetalleAbonosEmpleado(cmbEmpleado.SelectedValue.ToString());
         }
 
         //mostrar
-        private void Mostrar()
+        private void MostrarDeudas()
         {
-            //tblPrestamos.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDeudaEmpleado(cmbEmpleado.SelectedValue.ToString());
-            //cmbEmpleado.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarEmpleado();
-            //deudaTotal();
+            tblPrestamos.ItemsSource = MPrestamosEmpleados.GetInstance().ConsultarDeudaEmpleado(cmbEmpleado.SelectedValue.ToString());
+            deudaTotal();
         }
 
-      
+
         private void mensajeInformacion(string mensaje)
         {
             ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
@@ -109,41 +124,66 @@ namespace CoffeeLand
             }
 
             lblTotal.Text = string.Format("{0:c}", total);
-
+            lblTotalAbonos.Text = string.Format("{0:c}", total);
+            lblTotalDeuda.Text = string.Format("{0:c}", total); 
             return total;
         }
 
-        private void cmbEmpleado_SelectionChanged(object sender, RoutedEventArgs e)
+        private void cmbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbEmpleado.SelectedIndex == 0)
+
+           var valor = cmbEmpleado.SelectedIndex; 
+
+            if (cmbEmpleado.SelectedIndex <= 0)
             {
-                tabNuevo.Visibility = Visibility.Collapsed;
+                tblPrestamos.ItemsSource = null;
+                lblTotal.Text = "$0";
+                lblSuperior.Text = "Seleccione un";
+                lblInferior.Text = "Empleado";
+                pnlInicio.Visibility = Visibility.Visible;
+                pnlData.Visibility = Visibility.Collapsed;
                 tabAbono.Visibility = Visibility.Collapsed;
+                tabNuevo.Visibility = Visibility.Collapsed;
+                btnAbono.Visibility = Visibility.Collapsed;
+                btnNuevo.Visibility = Visibility.Collapsed;
+                btnDetalle.Visibility = Visibility.Collapsed;
             }
             else
             {
-                Mostrar();
+                MostrarDeudas();
+                mostrarMovimiento();
+
+                Persona item = cmbEmpleado.SelectedItem as Persona;
+ 
+                var tolower = item.NombrePersona.ToLower();
+                lblEmpleado.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                lblTitleEmpleado.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                lblEmpleadoAbono.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                lblMovEmpleado.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+
 
                 if (tblPrestamos.Items.Count == 0)
                 {
-                    Persona item = cmbEmpleado.SelectedItem as Persona;
-                    lblEmpleado.Text = item.NombrePersona;
-                    lblEmpleadoAbono.Text = item.NombrePersona;
-
+                    lblSuperior.Text = "Este empleado no tiene";
+                    lblInferior.Text = "deudas pendientes";
+                    pnlInicio.Visibility = Visibility.Visible;
+                    pnlData.Visibility = Visibility.Collapsed;
                     tabNuevo.Visibility = Visibility.Visible;
                     tabAbono.Visibility = Visibility.Collapsed;
+                    btnAbono.Visibility = Visibility.Collapsed;
+                    btnNuevo.Visibility = Visibility.Visible;
+                    btnDetalle.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    Persona item = cmbEmpleado.SelectedItem as Persona;
-                    lblEmpleado.Text = item.NombrePersona;
-                    lblEmpleadoAbono.Text = item.NombrePersona;
-
+                    pnlInicio.Visibility = Visibility.Collapsed;
+                    pnlData.Visibility = Visibility.Visible;
                     tabAbono.Visibility = Visibility.Visible;
                     tabNuevo.Visibility = Visibility.Visible;
-
+                    btnAbono.Visibility = Visibility.Visible;
+                    btnNuevo.Visibility = Visibility.Visible;
+                    btnDetalle.Visibility = Visibility.Visible;
                 }
-
             }
         }
 
@@ -170,19 +210,23 @@ namespace CoffeeLand
 
             if (validarCampos())
             {
-
                 rpta = MPrestamosEmpleados.GetInstance().insercionDeudaEmpleado(cmbEmpleado.SelectedValue.ToString(), Convert.ToDecimal(txtValor.Text), Convert.ToDateTime(dtdFecha.SelectedDate), txtDescripcion.Text).ToString();
                 tabBuscar.IsEnabled = true;
                 tabBuscar.Focus();
-                mensajeError(rpta);
+                mensajeInformacion(rpta);
                 Limpiar();
             }
-            Mostrar();
+            MostrarDeudas();
+            mostrarMovimiento();
 
             if (tblPrestamos.Items.Count != 0)
             {
+                pnlData.Visibility = Visibility.Visible;
+                pnlInicio.Visibility = Visibility.Collapsed;
                 tabAbono.Visibility = Visibility.Visible;
+                btnAbono.Visibility = Visibility.Visible;
             }
+           
         }
 
 
@@ -247,14 +291,22 @@ namespace CoffeeLand
                         }
 
                         Limpiar();
-                        Mostrar();
+                        MostrarDeudas();
+                        mostrarMovimiento();
                     }
-                    mensajeError(rpta);
+                    mensajeInformacion(rpta);
 
                     tabBuscar.Focus();
                     if (tblPrestamos.Items.Count == 0)
                     {
+                        lblSuperior.Text = "Este empleado no tiene";
+                        lblInferior.Text = "deudas pendientes";
+                        pnlInicio.Visibility = Visibility.Visible;
+                        pnlData.Visibility = Visibility.Collapsed;
+                        tabNuevo.Visibility = Visibility.Visible;
                         tabAbono.Visibility = Visibility.Collapsed;
+                        btnAbono.Visibility = Visibility.Collapsed;
+                        btnNuevo.Visibility = Visibility.Visible;
                     }
                 }
             }
@@ -268,6 +320,50 @@ namespace CoffeeLand
         {
             txtAbono.Text = string.Empty;
             tabBuscar.Focus();
+        }
+
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
+        {
+            tabNuevo.Focus();
+        }
+
+        private void btnAbono_Click(object sender, RoutedEventArgs e)
+        {
+            tabAbono.Focus();
+        }
+
+        private void btnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            tabBuscar.Focus();
+            cmbEmpleado.SelectedIndex = 0;
+        }
+
+        private void btnOcultar_Click(object sender, RoutedEventArgs e)
+        {
+            tabBuscar.Focus();
+            cmbEmpleado.SelectedIndex = 0;
+        }
+
+        private void btnDetalle_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (tblMovDeudas.Items.Count == 0)
+            {
+                pnlMovInicio.Visibility = Visibility.Visible;
+                pnlMovData.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                pnlMovInicio.Visibility = Visibility.Collapsed;
+                pnlMovData.Visibility = Visibility.Visible;
+            }
+
+            tabMovimiento.Focus();
+        }
+
+        private void btnAtras_Click(object sender, RoutedEventArgs e)
+        {
+            tabInicio.Focus();
         }
     }
 }

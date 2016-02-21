@@ -97,9 +97,6 @@
     <Compile Include="frmDetalleArboles.xaml.cs">
       <DependentUpon>frmDetalleArboles.xaml</DependentUpon>
     </Compile>
-    <Compile Include="frmDetalleCuenta.xaml.cs">
-      <DependentUpon>frmDetalleCuenta.xaml</DependentUpon>
-    </Compile>
     <Compile Include="frmEmpleados.xaml.cs">
       <DependentUpon>frmEmpleados.xaml</DependentUpon>
     </Compile>
@@ -139,16 +136,24 @@
     <Compile Include="frmTipoInsumos.xaml.cs">
       <DependentUpon>frmTipoInsumos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmVenta.xaml.cs">
+      <DependentUpon>frmVenta.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validator\CharToStringConverter.cs" />
     <Compile Include="Validator\CompraValidator.cs" />
     <Compile Include="Validator\ConceptoValidator.cs" />
     <Compile Include="Validator\EmpleadoValidator.cs" />
     <Compile Include="Validator\GastoValidator.cs" />
     <Compile Include="Validator\InsumoValidator.cs" />
+    <Compile Include="Validator\LaboresValidator.cs" />
+    <Compile Include="Validator\LotesValidator.cs" />
+    <Compile Include="Validator\PrestamosValidator.cs" />
+    <Compile Include="Validator\ProductosValidator.cs" />
     <Compile Include="Validator\ProveedorValidator.cs" />
     <Compile Include="Validator\RelayCommand.cs" />
     <Compile Include="Validator\StringFirstLetterToUpper.cs" />
     <Compile Include="Validator\StringToCapitalsConverter.cs" />
+    <Compile Include="Validator\TipoArbolesValidator.cs" />
     <Compile Include="Validator\TipoInsumoValidator.cs" />
     <Page Include="frmAdministracionCostos.xaml">
       <SubType>Designer</SubType>
@@ -183,10 +188,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmDetalleArboles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="frmDetalleCuenta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmTipoInsumos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmVenta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

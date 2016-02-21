@@ -75,9 +75,9 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (cantidad.Length > 10)
+                            else if (cantidad.Equals("0"))
                             {
-                                result = "La teléfono debe ser menor que 10 caracteres.";
+                                result = "La cantidad no puede ser cero";
                             }
                         }
                         break;
@@ -89,7 +89,7 @@ namespace CoffeeLand.Validator
                         }
                         else if (factura.Length > 10)
                         {
-                            result = "La teléfono debe ser menor que 10 caracteres.";
+                            result = "La factura debe ser menor que 10 caracteres.";
                         }
 
                         break;
@@ -104,9 +104,9 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valor.Length > 10)
+                            else if (valor.Equals("0"))
                             {
-                                result = "La teléfono debe ser menor que 10 caracteres.";
+                                result = "El valor no puede ser cero";
                             }
                         }
                         break;

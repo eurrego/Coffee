@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 
 namespace CoffeeLand.Validator
 {
-    public class GastoValidator : IDataErrorInfo
+    public class LotesValidator : IDataErrorInfo
     {
+        private string nombre = string.Empty;
+
+        public string Nombre
+        {
+            get { return nombre; }
+            set { nombre = value; }
+        }
 
         private string descripcion = string.Empty;
 
@@ -19,12 +26,12 @@ namespace CoffeeLand.Validator
             set { descripcion = value; }
         }
 
-        private string valor = string.Empty;
+        private string cuadras = string.Empty;
 
-        public string Valor
+        public string Cuadras
         {
-            get { return valor; }
-            set { valor = value; }
+            get { return cuadras; }
+            set { cuadras = value; }
         }
 
         public string Error
@@ -44,7 +51,26 @@ namespace CoffeeLand.Validator
 
                 switch (name)
                 {
-
+                    case "Nombre":
+                        if (string.IsNullOrEmpty(nombre))
+                        {
+                            result = "El campo es obligatorio.";
+                        }
+                        else
+                        {
+                            if (!letras.IsMatch(nombre))
+                            {
+                                result = "El campo solo acepta letras.";
+                            }
+                            else
+                            {
+                                if (nombre.Length > 45)
+                                {
+                                    result = "El nombre debe ser menor que 45 caracteres.";
+                                }
+                            }
+                        }
+                        break;
                     case "Descripcion":
                         if (string.IsNullOrEmpty(descripcion))
                         {
@@ -54,27 +80,29 @@ namespace CoffeeLand.Validator
                         {
                             if (descripcion.Length > 45)
                             {
-                                result = "La descripción debe ser menor que 10 caracteres.";
+                                result = "La descripción debe ser menor que 45 caracteres.";
                             }
                         }
                         break;
-                    case "Valor":
-                        if (string.IsNullOrEmpty(valor))
+
+                    case "Cuadras":
+                        if (string.IsNullOrEmpty(cuadras))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(valor))
+                            if (!numeros.IsMatch(cuadras))
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valor.Equals("0"))
+                            else if (cuadras.Equals("0"))
                             {
-                                result = "El valor no puede ser cero";
+                                result = "Las cuadras no puede ser cero";
                             }
                         }
                         break;
+
                     default:
                         break;
                 }
@@ -82,6 +110,5 @@ namespace CoffeeLand.Validator
                 return result;
             }
         }
-
     }
 }

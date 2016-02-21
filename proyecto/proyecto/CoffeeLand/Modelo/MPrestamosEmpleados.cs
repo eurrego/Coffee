@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,34 @@ namespace Modelo
             }
         }
 
+        public List<DeudaPersona> ConsultarDetalleDeudasEmpleado(string parametro)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.DeudaPersona
+                             where c.DocumentoPersona.Equals(parametro)
+                             orderby c.Fecha
+                             select c;
+
+                return query.ToList();
+            }
+        }
+
+        public List<AbonoDeuda> ConsultarDetalleAbonosEmpleado(string parametro)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.AbonoDeuda
+                             join t in entity.DeudaPersona on c.idDeudaPersona equals t.idDeudaPersona
+                             orderby c.Fecha
+                             select c;
+
+                return query.ToList();
+            }
+        }
+
+
         public List<DeudaPersona> ConsultarDeudaEmpleado(string parametro)
         {
 
@@ -108,8 +137,26 @@ namespace Modelo
 
             using (var entity = new DBFincaEntities())
             {
-                var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha, descripcion).First();
-                return rpta.Mensaje;
+
+                try
+                {
+                    var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha, descripcion).First();
+                    return rpta.Mensaje;
+                }
+                catch (Exception ex)
+                {
+                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                    }
+
+                    return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+                }
+
             }
         }
 
@@ -118,8 +165,25 @@ namespace Modelo
 
             using (var entity = new DBFincaEntities())
             {
-                var rpta = entity.insercionAbonoDeuda(valor, fecha, idDeuda, opcion).First();
-                return rpta.Mensaje;
+                try
+                {
+                    var rpta = entity.insercionAbonoDeuda(valor, fecha, idDeuda, opcion).First();
+                    return rpta.Mensaje;
+                }
+                catch (Exception ex)
+                {
+                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                    }
+
+                    return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+                }
+
             }
         }
 

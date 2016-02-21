@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Modelo;
+using CoffeeLand.Validator;
 
 namespace CoffeeLand
 {
@@ -23,25 +24,129 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmLotes : UserControl
     {
+        #region Singleton
+
+        private static frmLotes instance;
+
+        public static frmLotes GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new frmLotes();
+            }
+
+            return instance;
+        }
+        #endregion
+
+
+
         // variable para controlar que los campos esten llenos
         bool validacion = false;
 
         public frmLotes()
         {
             InitializeComponent();
+            instance = this;
+            DataContext = this;
             Mostrar();
+            tamanioPantalla();
         }
 
-        // Define el estilo de las celdas 
+        private void tamanioPantalla()
+        {
+            var width = SystemParameters.WorkArea.Width;
+            var height = SystemParameters.WorkArea.Height;
+
+            Width = width;
+            Height = height - 175;
+
+            var anchoContainer = width / 1.75;
+            pnlContainer.Width = anchoContainer;
+
+            tblLotes.Height = height - 285;
+            tblLotesIhhabilitados.Height = height - 285;
+        }
+
+        //mostrar
+        private void Mostrar()
+        {
+            tblLotes.ItemsSource = MLote.GetInstance().ConsultarLotes();
+
+            if (tblLotes.Items.Count != 0)
+            {
+                pnlHabilitados.Visibility = Visibility.Visible;
+                pnlSinRegistros.Visibility = Visibility.Collapsed;
+                pnlInhabilitados.Visibility = Visibility.Collapsed;
+                lblPosicion.Text = "HABILITADOS";
+                lblPosicion.Foreground = Brushes.Green;
+            }
+            else
+            {
+                lblSinRegistros.Text = "registrados o habilitados.";
+                pnlSinRegistros.Visibility = Visibility.Visible;
+                pnlHabilitados.Visibility = Visibility.Collapsed;
+                pnlInhabilitados.Visibility = Visibility.Collapsed;
+                lblPosicion.Text = "";
+            }
+
+            pnlRegistrosInhabilitados.Background = Brushes.LightGray;
+            pnlRegistrosHabilitados.Background = Brushes.Silver;
+
+            CantidadRegistros();
+            lblActivos.Text = (MLote.GetInstance().ConsultarInactivos().Count).ToString();
+        }
+
+        //mostrar
+        public void MostrarInhabilitado()
+        {
+            tblLotesIhhabilitados.ItemsSource = MLote.GetInstance().ConsultarInactivos();
+
+            if (tblLotesIhhabilitados.Items.Count != 0)
+            {
+                pnlInhabilitados.Visibility = Visibility.Visible;
+                pnlHabilitados.Visibility = Visibility.Collapsed;
+                pnlSinRegistros.Visibility = Visibility.Collapsed;
+                lblPosicion.Text = "INHABILITADOS";
+                lblPosicion.Foreground = Brushes.Crimson;
+            }
+            else
+            {
+                lblSinRegistros.Text = "Inhabilitados";
+                pnlSinRegistros.Visibility = Visibility.Visible;
+                pnlHabilitados.Visibility = Visibility.Collapsed;
+                pnlInhabilitados.Visibility = Visibility.Collapsed;
+                lblPosicion.Text = "";
+            }
+
+            pnlRegistrosHabilitados.Background = Brushes.LightGray;
+            pnlRegistrosInhabilitados.Background = Brushes.Silver;
+            CantidadRegistros();
+            CantidadRegistrosInhabilitados();
+        }
+
+        //Método para Buscar por nombre
+        private void BuscarNombre()
+        {
+            tblLotes.ItemsSource = MLote.GetInstance().ConsultarParametroLote(txtBuscarNombre.Text);
+            CantidadRegistros();
+        }
+
+        //Método para Buscar por nombre concepto Inhabilitado
+        private void BuscarNombreConceptoInhabilitado()
+        {
+            tblLotesIhhabilitados.ItemsSource = MLote.GetInstance().ConsultarParametroInhabilitado(txtBuscarNombre.Text);
+            CantidadRegistrosInhabilitados();
+        }
+
         private void CantidadRegistros()
         {
             lblRegistros.Text = tblLotes.Items.Count.ToString();
         }
 
-        // mensaje de Error
-        private void mensajeError(string mensaje)
+        private void CantidadRegistrosInhabilitados()
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
+            lblActivos.Text = tblLotesIhhabilitados.Items.Count.ToString();
         }
 
         // Validación de campos
@@ -70,24 +175,15 @@ namespace CoffeeLand
             txtId.Text = string.Empty;
         }
 
-        //mostrar
-        private void Mostrar()
+        // mensaje de Error
+        public void mensajeError(string mensaje)
         {
-            tblLotes.ItemsSource = MLote.GetInstance().ConsultarLotes();
-            CantidadRegistros();
-            lblActivos.Text = (MLote.GetInstance().ConsultarInactivos().Count).ToString();
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Error", mensaje);
         }
 
-        //Método para Buscar por nombre
-        private void BuscarNombre()
+        public void mensajeInformacion(string mensaje)
         {
-            tblLotes.ItemsSource = MLote.GetInstance().ConsultarParametroLote(txtBuscarNombre.Text);
-            CantidadRegistros();
-        }
-
-        private void frmLotes1_Loaded(object sender, RoutedEventArgs e)
-        {
-            Mostrar();
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
         }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
@@ -96,33 +192,71 @@ namespace CoffeeLand
 
             if (txtId.Text == string.Empty)
             {
-                if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
+                if (validarCampos())
                 {
-                    rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, 0, 1).ToString();
-                    mensajeError(rpta);
-                    Limpiar();
-                    tabBuscar.Focus();
+                    if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
+                    {
+                        rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, 0, 1).ToString();
+                        mensajeInformacion(rpta);
+                        Limpiar();
+                        tabBuscar.Focus();
+                        tblLotes.IsEnabled = true;
+
+                        if (pnlResultados.IsVisible)
+                        {
+                            limpiarPantalla();
+                        }
+                        else
+                        {
+                            Mostrar();
+                        }
+                    }
                 }
             }
             else if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
             {
                 rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, Convert.ToInt32(txtId.Text), 2).ToString();
-                mensajeError(rpta);
+                mensajeInformacion(rpta);
                 Limpiar();
                 tabBuscar.IsEnabled = true;
                 tabNuevo.Header = "NUEVO";
                 tabBuscar.Focus();
+                tblLotes.IsEnabled = true;
+
+                if (pnlResultados.IsVisible)
+                {
+                    limpiarPantalla();
+                }
+                else
+                {
+                    Mostrar();
+                }
             }
-            Mostrar();
         }
 
-        private void txtBuscarNombre_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            BuscarNombre();
+            Limpiar();
+            tabBuscar.IsEnabled = true;
+            tabBuscar.Focus();
+            tabNuevo.Header = "NUEVO";
+            tblLotes.IsEnabled = true;
+        }
+
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
+            tblLotes.IsEnabled = false;
+
             Lote item = tblLotes.SelectedItem as Lote;
 
             txtNombre.Text = item.NombreLote;
@@ -133,14 +267,6 @@ namespace CoffeeLand
             tabBuscar.IsEnabled = false;
             tabNuevo.Header = "EDITAR";
             tabNuevo.Focus();
-        }
-
-        private void btnCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            Limpiar();
-            tabBuscar.IsEnabled = true;
-            tabBuscar.Focus();
-            tabNuevo.Header = "NUEVO";
         }
 
         private async void btnInhabilitar_Click(object sender, RoutedEventArgs e)
@@ -166,24 +292,140 @@ namespace CoffeeLand
                 string rpta = "";
 
                 rpta = MLote.GetInstance().GestionLote(nombre, descripcion, cuadras, id, 3).ToString();
-                mensajeError(rpta);
-                Mostrar();
+                mensajeInformacion(rpta);
+
+                if (pnlResultados.IsVisible)
+                {
+                    limpiarPantalla();
+                }
+                else
+                {
+                    Mostrar();
+                }
             }
         }
 
         private void btnRegistrarArboles_Click(object sender, RoutedEventArgs e)
         {
-       
+
         }
 
-        public static bool IsValid(DependencyObject parent)
+        private void btnInhabilitados_Click(object sender, RoutedEventArgs e)
         {
-            if (Validation.GetHasError(parent))
-            {
-                return false;
-            }
+            MostrarInhabilitado();
+            pnlRegistrosHabilitados.Background = Brushes.LightGray;
+            pnlRegistrosInhabilitados.Background = Brushes.Silver;
+        }
 
-            return true;
+        private void btnHabilitados_Click(object sender, RoutedEventArgs e)
+        {
+            Mostrar();
+            pnlRegistrosInhabilitados.Background = Brushes.LightGray;
+            pnlRegistrosHabilitados.Background = Brushes.Silver;
+        }
+
+        private async void btnHabilitar_Click(object sender, RoutedEventArgs e)
+        {
+
+            Lote item = tblLotesIhhabilitados.SelectedItem as Lote;
+
+            string nombre = item.NombreLote;
+            string descripcion = item.Observaciones;
+            string cuadras = item.Cuadras;
+            byte id = Convert.ToByte(item.idLote);
+
+            var mySettings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Aceptar",
+                NegativeButtonText = "Cancelar",
+            };
+
+            var result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Habilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+            if (result.Equals(MessageDialogResult.Affirmative))
+            {
+                string rpta = "";
+
+                rpta = MLote.GetInstance().GestionLote(nombre, descripcion, cuadras, id, 4).ToString();
+                mensajeInformacion(rpta);
+
+                if (pnlResultados.IsVisible)
+                {
+                    limpiarPantalla();
+                }
+                else
+                {
+                    MostrarInhabilitado();
+                    Mostrar();
+                }
+
+                frmGastos.GetInstance().Mostrar();
+            }
+        }
+
+        public ICommand textBoxButtonCmd => new RelayCommand(ExecuteSearch);
+
+        private void ExecuteSearch(object o)
+        {
+            if (txtBuscarNombre.Text != string.Empty)
+            {
+                if (tblLotes.IsVisible)
+                {
+                    btnHabilitados.IsEnabled = false;
+                    btnInhabilitados.IsEnabled = false;
+
+                    BuscarNombre();
+                    lblBusqueda.Text = txtBuscarNombre.Text.ToUpper();
+                    pnlResultados.Visibility = Visibility.Visible;
+                    txtBuscarNombre.Text = string.Empty;
+                }
+                else if (tblLotesIhhabilitados.IsVisible)
+                {
+                    btnHabilitados.IsEnabled = false;
+                    btnInhabilitados.IsEnabled = false;
+
+                    BuscarNombreConceptoInhabilitado();
+                    lblBusqueda.Text = txtBuscarNombre.Text.ToUpper();
+                    pnlResultados.Visibility = Visibility.Visible;
+                    txtBuscarNombre.Text = string.Empty;
+                }
+                else
+                {
+                    mensajeInformacion("No tiene registros dispobibles para realizar una búsqueda");
+                    txtBuscarNombre.Text = string.Empty;
+                }
+            }
+            else
+            {
+                mensajeError("Debe ingresar una palabra a buscar");
+            }
+        }
+
+        private void btnBuscar_Click(object sender, RoutedEventArgs e)
+        {
+            tabBuscar.Focus();
+        }
+
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
+        {
+            tabNuevo.Focus();
+        }
+
+        private void btnAtras_Click(object sender, RoutedEventArgs e)
+        {
+            limpiarPantalla();
+        }
+
+        private void limpiarPantalla()
+        {
+            btnHabilitados.IsEnabled = true;
+            btnInhabilitados.IsEnabled = true;
+
+            tabBuscar.Focus();
+            pnlResultados.Visibility = Visibility.Collapsed;
+            lblBusqueda.Text = string.Empty;
+            MostrarInhabilitado();
+            Mostrar();
         }
     }
 }

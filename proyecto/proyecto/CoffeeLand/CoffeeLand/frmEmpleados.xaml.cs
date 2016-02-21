@@ -16,6 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Modelo;
 using CoffeeLand.Validator;
+using System.Data;
+using System.Collections;
 
 namespace CoffeeLand
 {
@@ -238,6 +240,8 @@ namespace CoffeeLand
                         {
                             Mostrar();
                         }
+
+                        frmPrestamosEmpleados.GetInstance().Mostrar();
                     }
                 }
             }
@@ -313,31 +317,43 @@ namespace CoffeeLand
             string tipoDocumento = item.TipoDocumento;
             DateTime fecha = item.FechaNacimineto;
 
-            var mySettings = new MetroDialogSettings()
+            var deudas = MPrestamosEmpleados.GetInstance().ConsultarDeudaEmpleado(id.ToString());
+
+            if (deudas.Count == 0)
             {
-                AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-
-            };
-
-            MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result != MessageDialogResult.Negative)
-            {
-                string rpta = "";
-
-                rpta = MPersona.GetInstance().GestionPersona(nombre, genero, telefono, fecha, id, 3, tipoDocumento, tipoContrato).ToString();
-                mensajeInformacion(rpta);
-
-                if (pnlResultados.IsVisible)
+                var mySettings = new MetroDialogSettings()
                 {
-                    limpiarPantalla();
-                }
-                else
+                    AffirmativeButtonText = "Aceptar",
+                    NegativeButtonText = "Cancelar",
+
+                };
+
+                MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                if (result != MessageDialogResult.Negative)
                 {
-                    Mostrar();
+                    string rpta = "";
+
+                    rpta = MPersona.GetInstance().GestionPersona(nombre, genero, telefono, fecha, id, 3, tipoDocumento, tipoContrato).ToString();
+                    mensajeInformacion(rpta);
+
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+
+                    frmPrestamosEmpleados.GetInstance().Mostrar();
                 }
             }
+            else
+            {
+                mensajeError("El empleado no puede inhabilitarse porque tiene prestamos pendientes.");
+            }
+ 
         }
 
         private void btnInhabilitados_Click(object sender, RoutedEventArgs e)
@@ -391,6 +407,8 @@ namespace CoffeeLand
                     MostrarInhabilitado();
                     Mostrar();
                 }
+
+                frmPrestamosEmpleados.GetInstance().Mostrar();
             }
         }
 
