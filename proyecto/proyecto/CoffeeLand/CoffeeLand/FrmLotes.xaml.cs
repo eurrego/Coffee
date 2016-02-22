@@ -210,6 +210,7 @@ namespace CoffeeLand
                         {
                             Mostrar();
                         }
+                        frmArboles.GetInstance().mostrarCmb();
                     }
                 }
             }
@@ -302,12 +303,17 @@ namespace CoffeeLand
                 {
                     Mostrar();
                 }
+                frmArboles.GetInstance().mostrarCmb();
             }
         }
 
         private void btnRegistrarArboles_Click(object sender, RoutedEventArgs e)
         {
+            Lote item = tblLotes.SelectedItem as Lote;
+            byte id = Convert.ToByte(item.idLote);
 
+            frmArboles.GetInstance().seleccionarLote(id);
+            frmGestionTerrenos.GetInstance().tabArboles.Focus();
         }
 
         private void btnInhabilitados_Click(object sender, RoutedEventArgs e)
@@ -359,7 +365,7 @@ namespace CoffeeLand
                     Mostrar();
                 }
 
-                frmGastos.GetInstance().Mostrar();
+                frmArboles.GetInstance().mostrarCmb();
             }
         }
 

@@ -94,9 +94,6 @@
     <Compile Include="frmConsultarGastos.xaml.cs">
       <DependentUpon>frmConsultarGastos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="frmDetalleArboles.xaml.cs">
-      <DependentUpon>frmDetalleArboles.xaml</DependentUpon>
-    </Compile>
     <Compile Include="frmEmpleados.xaml.cs">
       <DependentUpon>frmEmpleados.xaml</DependentUpon>
     </Compile>
@@ -139,6 +136,7 @@
     <Compile Include="frmVenta.xaml.cs">
       <DependentUpon>frmVenta.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validator\ArbolesValidator.cs" />
     <Compile Include="Validator\CharToStringConverter.cs" />
     <Compile Include="Validator\CompraValidator.cs" />
     <Compile Include="Validator\ConceptoValidator.cs" />
@@ -184,10 +182,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmConsultarGastos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="frmDetalleArboles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

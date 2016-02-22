@@ -208,6 +208,8 @@ namespace CoffeeLand
                         {
                             Mostrar();
                         }
+
+                        frmArboles.GetInstance().mostrarTipoArbol();
                     }
                 }
             }
@@ -229,6 +231,8 @@ namespace CoffeeLand
                 {
                     Mostrar();
                 }
+
+                frmArboles.GetInstance().mostrarTipoArbol();
             }
         }
 
@@ -298,6 +302,8 @@ namespace CoffeeLand
                 {
                     Mostrar();
                 }
+
+                frmArboles.GetInstance().mostrarTipoArbol();
             }
 
         }
@@ -349,8 +355,7 @@ namespace CoffeeLand
                     MostrarInhabilitado();
                     Mostrar();
                 }
-
-                frmGastos.GetInstance().Mostrar();
+                frmArboles.GetInstance().mostrarTipoArbol();
             }
         }
 

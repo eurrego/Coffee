@@ -118,8 +118,6 @@ namespace Modelo
             }
         }
 
-
-
         public string gestionArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha, int idMovimiento, int opcion)
         {
 
