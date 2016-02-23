@@ -82,7 +82,7 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionLotes(NombreLote, observaciones, cuadras, idLote, opcion).First();
+                    var rpta = entity.gestionLotes(NombreLote.ToUpper(), observaciones.ToUpper(), cuadras, idLote, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

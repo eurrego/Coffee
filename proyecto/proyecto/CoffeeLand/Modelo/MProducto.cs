@@ -85,7 +85,7 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionProducto(NombreProducto, Descripcion, idProducto, opcion).First();
+                    var rpta = entity.gestionProducto(NombreProducto.ToUpper(), Descripcion.ToUpper(), idProducto, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

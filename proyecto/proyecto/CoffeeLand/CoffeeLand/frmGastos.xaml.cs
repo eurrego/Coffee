@@ -97,11 +97,11 @@ namespace CoffeeLand
             {
                 dt = new DataTable();
                 dt.Columns.Add("idConcepto");
-                dt.Columns.Add("Concepto");
                 dt.Columns.Add("Descripcion");
                 dt.Columns.Add("Fecha", typeof(DateTime));
                 dt.Columns.Add("Valor");
                 dt.Columns.Add("EstadoCuenta");
+                dt.Columns.Add("Concepto");
             }
         }
 
@@ -156,6 +156,8 @@ namespace CoffeeLand
                 pnlData.Visibility = Visibility.Collapsed;
                 pnlInicio.Visibility = Visibility.Visible;
                 mensajeExitoso("Registro exitoso");
+
+                dt.Columns.Add("Concepto");
                 frmConsultarGastos.GetInstance().Mostrar();
 
             }
@@ -183,7 +185,7 @@ namespace CoffeeLand
                 {
                     crearTabla();
 
-                    dt.Rows.Add(cmbConcepto.SelectedValue, cmbConcepto.Text, txtDescripcionGasto.Text, Convert.ToDateTime(dtdFechaGasto.SelectedDate), txtValor.Text, "D");
+                    dt.Rows.Add(cmbConcepto.SelectedValue, txtDescripcionGasto.Text, Convert.ToDateTime(dtdFechaGasto.SelectedDate), txtValor.Text, "D", cmbConcepto.Text);
  
                     tblGastos.ItemsSource = dt.DefaultView;
                     limpiarCampos();

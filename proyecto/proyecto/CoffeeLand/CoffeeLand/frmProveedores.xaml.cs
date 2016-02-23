@@ -395,8 +395,6 @@ namespace CoffeeLand
 
                 if (tblProveedor.IsVisible)
                 {
-                    tblProveedor.Height = tblProveedor.Height - 61;
-
                     btnHabilitados.IsEnabled = false;
                     btnInhabilitados.IsEnabled = false;
 
@@ -407,8 +405,6 @@ namespace CoffeeLand
                 }
                 else if (tblProveedoresIhhabilitados.IsVisible)
                 {
-                    tblProveedoresIhhabilitados.Height = tblProveedoresIhhabilitados.Height - 61;
-
                     btnHabilitados.IsEnabled = false;
                     btnInhabilitados.IsEnabled = false;
 
@@ -441,15 +437,6 @@ namespace CoffeeLand
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
-            if (tblProveedor.IsVisible)
-            {
-                tblProveedor.Height = tblProveedor.Height + 61;
-            }
-            else if (tblProveedoresIhhabilitados.IsVisible)
-            {
-                tblProveedoresIhhabilitados.Height = tblProveedoresIhhabilitados.Height + 61;
-            }
-
             limpiarPantalla();
         }
 

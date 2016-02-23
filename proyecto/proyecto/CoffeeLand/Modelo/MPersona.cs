@@ -85,7 +85,7 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionPersona(nombre, genero, telefono, fechaNacimiento, id, opcion, TipoDocumento, TipoContrato).First();
+                    var rpta = entity.gestionPersona(nombre.ToUpper(), genero.ToUpper(), telefono, fechaNacimiento, id, opcion, TipoDocumento, TipoContrato).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

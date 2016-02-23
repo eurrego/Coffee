@@ -23,6 +23,12 @@
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -65,6 +71,8 @@
                     </DataGrid>
                 </Grid>
             </StackPanel>
+
+            <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
 
             <Grid DockPanel.Dock="Right" x:Name="pnlFormulario" Margin="20 0 0 0">
 

@@ -141,9 +141,11 @@
                 </Grid>
 
             </StackPanel>
-            
+
+            <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
             <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
-                <TabControl Margin="50 -10 30 0" >
+                <TabControl Margin="25 -10 30 0" >
                     <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20" >
                         <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
                             <TextBox x:Name="txtBuscarNombre" 
@@ -340,36 +342,34 @@
                         </StackPanel>
                     </TabItem>
                 </TabControl>
-            </Grid>
-        </DockPanel>
-        <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
-            <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
-                <Button x:Name="btnNuevo" Width="61" Height="61"
+                <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                        <Button x:Name="btnNuevo" Width="61" Height="61"
                         Style="{DynamicResource MetroCircleButtonStyle}"
                         BorderThickness="0" ToolTip="Nuevo"
                         Click="btnNuevo_Click">
-                    <Viewbox Width="30" Height="30">
-                        <Canvas Width="48" Height="48">
-                            <Path Data="M15,0L17,0 17,15.000008 32,15.000008 32,17.000008 17,
+                            <Viewbox Width="30" Height="30">
+                                <Canvas Width="48" Height="48">
+                                    <Path Data="M15,0L17,0 17,15.000008 32,15.000008 32,17.000008 17,
                                           17.000008 17,32 15,32 15,17.000008 0,17.000008 0,15.000008 15,15.000008z"  
                                           Fill="Black" Stretch="Fill" Width="48" Height="48" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-                <Button x:Name="btnBuscar" Width="61" Height="61" 
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                        <Button x:Name="btnBuscar" Width="61" Height="61" 
                         Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" ToolTip="Buscar"
                        Click="btnBuscar_Click">
-                    <Viewbox Width="30" Height="30" RenderTransformOrigin="0.5,0.5">
-                        <Viewbox.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform Angle="-90"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Viewbox.RenderTransform>
-                        <Canvas Width="48" Height="48">
-                            <Path Data="M20.363963,2.0000044C15.050976,2.0000043 10.727978,6.2949964 
+                            <Viewbox Width="30" Height="30" RenderTransformOrigin="0.5,0.5">
+                                <Viewbox.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="-90"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Viewbox.RenderTransform>
+                                <Canvas Width="48" Height="48">
+                                    <Path Data="M20.363963,2.0000044C15.050976,2.0000043 10.727978,6.2949964 
                                   10.727978,11.573999 10.727978,16.85404 15.050976,21.147995 20.363963,
                                   21.147995 25.676981,21.147995 29.999979,16.85404 29.999979,11.573999 
                                   29.999979,6.2949964 25.676981,2.0000043 20.363963,2.0000044z M20.363963,
@@ -379,19 +379,22 @@
                                   19.110611 11.388429,18.931938C9.7271191,16.930492 8.7279784,14.366138 8.7279784,
                                   11.573999 8.7279784,5.1919667 13.947979,0 20.363963,0z"  
                                   Fill="Black" Stretch="Fill" Width="48" Height="48" />
-                        </Canvas>
-                    </Viewbox>
-                </Button>
-            </StackPanel>
-            <TextBlock x:Name="lblPosicion" Foreground="CornflowerBlue"
+                                </Canvas>
+                            </Viewbox>
+                        </Button>
+                    </StackPanel>
+                    <TextBlock x:Name="lblPosicion" Foreground="CornflowerBlue"
                        VerticalAlignment="Center" 
                        FontSize="15" HorizontalAlignment="Left" 
                        Text="POSICIÓN"
                        FontWeight="Light"
-                       Margin="10 0 0 0 "
+                       Margin="45 0 0 0 "
                        >
-            </TextBlock>
-        </Grid>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </DockPanel>
+       
 
     </DockPanel>
 </UserControl>

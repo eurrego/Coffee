@@ -32,7 +32,7 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionTipoArboles(NombreArbol, Descripcion, idTipoArbol, opc).First();
+                    var rpta = entity.gestionTipoArboles(NombreArbol.ToUpper(), Descripcion.ToUpper(), idTipoArbol, opc).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

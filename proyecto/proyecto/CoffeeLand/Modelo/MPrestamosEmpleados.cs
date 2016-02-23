@@ -140,7 +140,7 @@ namespace Modelo
 
                 try
                 {
-                    var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha, descripcion).First();
+                    var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha, descripcion.ToUpper()).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

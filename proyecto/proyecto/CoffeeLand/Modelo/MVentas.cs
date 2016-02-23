@@ -87,8 +87,6 @@ namespace Modelo
             {
 
                 var query = entity.GestionVenta(nit, fecha, numeroFactura, idProducto, PrecioCarga, CantidadCargas, PrecioBeneficio);
-
-
             }
         }
 

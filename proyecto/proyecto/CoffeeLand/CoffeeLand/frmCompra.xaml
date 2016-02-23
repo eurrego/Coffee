@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <validator:CompraValidator x:Key="Validator"/>
@@ -90,9 +91,11 @@
 
             </StackPanel>
 
+            <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
             <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
 
-                <TabControl Margin="50 -20 30 0" >
+                <TabControl Margin="25 -20 30 0" >
 
                     <TabItem x:Name="tabNuevo" Header="" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
                         <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,-20,0,0" >

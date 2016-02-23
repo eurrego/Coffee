@@ -379,8 +379,6 @@ namespace CoffeeLand
 
                 if (tblTipoInsumo.IsVisible)
                 {
-                    tblTipoInsumo.Height = tblTipoInsumo.Height - 61;
-
                     btnHabilitados.IsEnabled = false;
                     btnInhabilitados.IsEnabled = false;
 
@@ -426,15 +424,6 @@ namespace CoffeeLand
 
         private void btnAtras_Click(object sender, RoutedEventArgs e)
         {
-            if (tblTipoInsumo.IsVisible)
-            {
-                tblTipoInsumo.Height = tblTipoInsumo.Height + 61;
-            }
-            else if (tblTiposInsumosIhhabilitados.IsVisible)
-            {
-                tblTiposInsumosIhhabilitados.Height = tblTiposInsumosIhhabilitados.Height + 61;
-            }
-
             limpiarPantalla();
         }
 
@@ -442,7 +431,6 @@ namespace CoffeeLand
         {
             btnHabilitados.IsEnabled = true;
             btnInhabilitados.IsEnabled = true;
-
 
             tabBuscar.Focus();
             pnlResultados.Visibility = Visibility.Collapsed;

@@ -87,7 +87,7 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionLabor(NombreLabor, ModificaArbol, RequiereInsumo, Descripcion, idLabor, opc).First();
+                    var rpta = entity.gestionLabor(NombreLabor.ToUpper(), ModificaArbol, RequiereInsumo, Descripcion.ToUpper(), idLabor, opc).First();
 
                     return rpta.Mensaje;
                 }
