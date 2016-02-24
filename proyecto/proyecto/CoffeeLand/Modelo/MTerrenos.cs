@@ -25,47 +25,68 @@ namespace Modelo
 
         #endregion
 
-        public object ConsultarLote()
+        #region Propertys
+
+        private string nombreLote;
+
+        public string NombreLote
         {
+            get { return nombreLote; }
+            set { nombreLote = value; }
+        }
+
+        private int cuadras;
+
+        public int Cuadras
+        {
+            get { return cuadras; }
+            set { cuadras = value; }
+        }
+
+        private int cantidad;
+
+        public int Cantidad
+        {
+            get { return cantidad; }
+            set { cantidad = value; }
+        }
+
+
+        #endregion
+
+
+        public List<MTerrenos> ConsultarLote()
+        {
+            List<MTerrenos> lista = new List<MTerrenos>();
+
             using (var entity = new DBFincaEntities())
             {
-
-                //List<Lote> lista = new List<Lote>()
-                //{
-                //    new Lote
-                //    {
-                //        idLote = 0,
-                //        NombreLote = "Seleccione un Lote",
-                //    }
-                //};
-
-                var query2 = from c in entity.Lote
+                var lotes = from c in entity.Lote
                             where c.EstadoLote == "A"
                             select c;
 
+                foreach (var item in lotes)
+                {
+                    int total = 0;
 
+                    var cantidad = from c in entity.Arboles
+                                   where c.idLote == item.idLote
+                                   select new { c.Cantidad };
 
-                var query = from c in entity.Lote
-                            join a in entity.Arboles on c.idLote equals a.idLote
-                            where c.EstadoLote == "A"
-                            group a by new
-                            {
-                                c.idLote,
-                                c.NombreLote,
-                                c.Cuadras,
-                                a.Cantidad
+                    if (cantidad.Count() == 0)
+                    {
+                        total = 0;
+                    }
+                    else
+                    {
+                        total = cantidad.Sum(c => c.Cantidad);
+                    }
 
-                            } into result
-                            select new
-                            {
-                                NombreLote = result.Key.NombreLote,
-                                Cuadras = result.Key.Cuadras,
-                                Cantidad = result.Sum(m => m.Cantidad)
-                            };
+                    lista.Add(new MTerrenos { NombreLote = item.NombreLote, Cuadras = int.Parse(item.Cuadras), Cantidad = total });
+                }
 
-                return query.ToList();
+                return lista;
             }
-
         }
 
         public List<Labor> ConsultarLabor()
@@ -73,18 +94,11 @@ namespace Modelo
             using (var entity = new DBFincaEntities())
             {
 
-                List<Labor> lista = new List<Labor>()
-                {
-                    new Labor
-                    {
-                        idLabor = 0,
-                        NombreLabor = "Seleccione una Labor",
-                    }
-                };
 
-                var query = lista.Union(from c in entity.Labor
-                                        where c.EstadoLabor == "A"
-                                        select c);
+
+                var query = from c in entity.Labor
+                            where c.EstadoLabor == "A"
+                            select c;
                 return query.ToList();
             }
 

@@ -210,6 +210,8 @@ namespace CoffeeLand
                         {
                             Mostrar();
                         }
+
+                       
                     }
                 }
             }
@@ -233,6 +235,7 @@ namespace CoffeeLand
                     {
                         Mostrar();
                     }
+
                 }
             }
         }
@@ -376,6 +379,8 @@ namespace CoffeeLand
                     {
                         Mostrar();
                     }
+
+
                 }
             }
         }
@@ -431,6 +436,7 @@ namespace CoffeeLand
                 }
 
                 frmGastos.GetInstance().Mostrar();
+
             }
         }
 

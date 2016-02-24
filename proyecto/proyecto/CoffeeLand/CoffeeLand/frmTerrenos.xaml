@@ -22,15 +22,24 @@
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel  VerticalAlignment="Top" Background="White">
-        <DockPanel  VerticalAlignment="Top" Height="70">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Top">
 
                 <StackPanel>
-                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" IsChecked="True" >
+                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" IsChecked="True" 
+                                  IsHitTestVisible="False" IsTabStop="False">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
                                 <Path Data="M23.898533,6.3730452L19.273537,10.99806 19.884529,10.99806C20.491523,10.99806,20.984534,11.492019,20.984534,12.098039L20.984534,16.976046 22.968004,16.976046 22.968004,14.450027C22.968004,13.898026 23.416004,13.450027 23.968004,13.450027 24.520004,13.450027 24.968004,13.898026 24.968004,14.450027L24.968004,16.976046 26.864504,16.976046 26.864504,12.083024C26.864504,11.476028,27.358521,10.983045,27.964509,10.983045L28.508514,10.983045z M24.312504,4.0000519L24.676517,4.3230509 31.459501,11.105055C31.775511,11.420058 31.868497,11.891068 31.697508,12.304033 31.526518,12.716084 31.127501,12.983051 30.681518,12.983051L28.864502,12.983051 28.864502,17.876073C28.864502,18.141634,28.76995,18.385372,28.612833,18.575552L28.570215,18.622404 28.581768,18.626666C30.196155,19.24275 31.415636,19.954051 32.322372,20.624151 32.766367,20.952139 32.860365,21.579115 32.53237,22.0231 32.204374,22.468082 31.578384,22.562078 31.134391,22.233091 28.968423,20.632151 24.749486,18.765222 16.890602,18.970214 16.606607,18.979214 16.42061,18.980213 16.347611,18.973213L16.230613,18.973213C3.0838089,18.973213 2.3048201,22.097095 2.2998199,22.129095 2.3398199,22.679075 1.9258261,23.115059 1.3748341,23.155056 1.3518343,23.156057 1.3298349,23.157057 1.3078346,23.157057 0.7858429,23.157057 0.34284973,22.714073 0.30484962,22.185093 0.29285049,22.0271 0.27985001,21.19013 1.1528378,20.254166 3.1788073,18.078247 8.269731,16.976289 16.284612,16.976289 16.362611,16.976289 16.439609,16.977288 16.521608,16.977288 16.612607,16.977288 16.711605,16.974289 16.838603,16.971289 17.496719,16.954571 18.131751,16.951854 18.744443,16.961904L18.984536,16.966872 18.984536,12.998067 17.100535,12.998067C16.654521,12.998067 16.255534,12.731037 16.084514,12.319048 15.913524,11.90706 16.006511,11.43605 16.32252,11.121046L23.413518,4.0300202z M7.8985119,2.3730077L3.2735157,6.9980221 3.8845148,6.9980221C4.4915142,6.9980223,4.9845142,7.4920239,4.9845142,8.0980258L4.9845142,12.976042 6.9680042,12.976042 6.9680042,10.450027C6.9680042,9.8980265 7.4160042,9.4500265 7.9680042,9.4500265 8.5200038,9.4500265 8.9680037,9.8980265 8.9680037,10.450027L8.9680037,12.976042 10.864509,12.976042 10.864509,8.0830259C10.864509,7.4760239,11.358509,6.9830222,11.964509,6.9830225L12.508508,6.9830225z M8.3125114,0L8.6765108,0.32300115 15.459505,7.1050227C15.775505,7.4200237 15.868505,7.8910251 15.697505,8.3040266 15.526505,8.7160277 15.127506,8.9830284 14.681506,8.9830284L12.864508,8.9830284 12.864508,13.876044C12.864508,14.483047,12.370508,14.976048,11.764508,14.976048L4.0845146,14.976048C3.4785156,14.976048,2.9845161,14.483047,2.9845161,13.876044L2.9845161,8.9980288 1.1005173,8.9980288C0.65451717,8.9980288 0.25551796,8.7310281 0.084518433,8.3190265 -0.086481094,7.9070251 0.006518364,7.4360237 0.3225174,7.1210227L7.4135122,0.029999971z"  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" />
@@ -40,7 +49,8 @@
                     <TextBlock Text="Lote" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Margin="20 0 0 0">
-                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                                  IsHitTestVisible="False" IsTabStop="False">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
                                 <Path Data="M8,24C6.3460002,24 5,25.346001 5,27 5,28.653999 6.3460002,30 8,30 9.6540003,30 11,28.653999 11,27 11,25.346001 9.6540003,24 8,24z M21,18C19.346001,18 18,19.346001 18,21 18,22.653999 19.346001,24 21,24 22.653999,24 24,22.653999 24,21 24,19.346001 22.653999,18 21,18z M27,5C25.346001,5 24,6.3460002 24,8 24,9.6540003 25.346001,11 27,11 28.653999,11 30,9.6540003 30,8 30,6.3460002 28.653999,5 27,5z M8,2C4.6910095,2 2,4.6909943 2,8 2,11.309006 4.6910095,14 8,14 11.30899,14 14,11.309006 14,8 14,4.6909943 11.30899,2 8,2z M8,0C12.066401,0,15.434203,3.0501282,15.935603,6.9825435L15.937605,7 22.100616,7 22.101765,6.9935956C22.568781,4.7172971 24.587626,3 27,3 29.757,3 32,5.243 32,8 32,10.757 29.757,13 27,13 24.587626,13 22.568781,11.282703 22.101765,9.0064049L22.100616,9 15.937605,9 15.935603,9.0174561C15.765205,10.353863,15.263757,11.588371,14.516341,12.635893L14.388103,12.808235 18.345156,16.766047 18.409283,16.724895C19.165298,16.265041 20.05228,16 21,16 23.757,16 26,18.243 26,21 26,23.757 23.757,26 21,26 18.243,26 16,23.757 16,21 16,19.966125 16.315422,19.004532 16.855087,18.206396L16.897621,18.146629 12.995,14.244009 12.974164,14.261286C11.884956,15.128406,10.565331,15.717825,9.1234684,15.921363L8.9759865,15.938684 8.9759865,22.096317 9.0064049,22.101765C11.282703,22.568781 13,24.587626 13,27 13,29.757 10.757,32 8,32 5.243,32 3,29.757 3,27 3,24.67378 4.5968232,22.713486 6.7518983,22.157686L6.975987,22.105839 6.975987,15.934683 6.7833576,15.907648C2.9475975,15.319838 0,11.997465 0,8 0,3.5890045 3.5889893,0 8,0z"  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
@@ -50,7 +60,8 @@
                     <TextBlock Text="Labor" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Margin="20 0 0 0">
-                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                                    IsHitTestVisible="False" IsTabStop="False">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
                                 <Path Data="M9.1330161,22.646008C8.8430161,22.646008 8.6080155,22.883009 8.6080155,23.17401 8.6080155,23.466012 8.8430161,23.703013 9.1330161,23.703013 9.423016,23.703013 9.6580157,23.466012 9.6580157,23.17401 9.6580157,22.883009 9.423016,22.646008 9.1330161,22.646008z M9.1330161,20.645998C10.526015,20.645998 11.659015,21.780005 11.659015,23.17401 11.659015,24.569018 10.526015,25.703022 9.1330161,25.703022 7.7400164,25.703022 6.6070165,24.569018 6.6070165,23.17401 6.6070165,21.780005 7.7400164,20.645998 9.1330161,20.645998z M14.218009,18.062015C13.648012,18.062015 13.184013,18.528016 13.184013,19.100016 13.184013,19.673016 13.648012,20.139016 14.218009,20.139016 14.788007,20.139016 15.252005,19.673016 15.252005,19.100016 15.252005,18.528016 14.788007,18.062015 14.218009,18.062015z M14.218009,16.062014C15.891002,16.062014 17.251997,17.425015 17.251997,19.100016 17.251997,20.776017 15.891002,22.139018 14.218009,22.139018 12.545016,22.139018 11.18402,20.776017 11.18402,19.100016 11.18402,17.425015 12.545016,16.062014 14.218009,16.062014z M10.67162,14.108508L3.6373779,20.540051C1.5864125,22.414046 1.441395,25.609025 3.3143844,27.663043 4.221354,28.656054 5.46035,29.238057 6.8033175,29.298054 8.1363063,29.358052 9.4322772,28.892046 10.425274,27.985034L23.96978,15.600961z M18.625138,4.126035L19.974148,5.603026 12.632587,12.315557 25.930737,13.808011 26.763022,13.047033 28.113009,14.524024 11.774254,29.462056C10.468274,30.656056 8.7963004,31.304036 7.03833,31.304036 6.9303298,31.304036 6.8223295,31.302052 6.7123155,31.297047 4.8353586,31.212056 3.1043656,30.400044 1.8364087,29.011034 -0.77857426,26.144028 -0.57658133,21.681042 2.2873909,19.063029z M19.462016,0L31.998995,13.698024 30.523997,15.048027 17.987019,1.3500025z"  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
@@ -60,7 +71,8 @@
                     <TextBlock Text="Insumo" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Margin="20 0 0 0">
-                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                                    IsHitTestVisible="False" IsTabStop="False">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
                                 <Path Data="M7.5469905,14.68199C4.4369943,14.68199 1.9999971,17.324993 1.9999971,20.698997 1.9999971,21.590998 2.6189966,22.317999 3.3789954,22.317999L8.2023174,22.317999 8.2165171,22.080647C8.445664,19.211167,9.797231,16.674039,11.80495,14.96135L11.978154,14.81948 11.863735,14.791865C11.521235,14.71874,11.171486,14.68199,10.816986,14.68199z M17.910918,14.681979C16.579036,14.681979,15.324794,15.044185,14.229734,15.681378L14.019792,15.810667 14.013982,15.817991 14.011278,15.815911 13.906073,15.880699C11.675017,17.332468 10.181913,19.958468 10.181913,22.950969 10.181913,24.255963 11.155912,25.317976 12.352873,25.317976L27.827912,25.317976C29.02591,25.317976 29.999911,24.255963 29.999911,22.950969 29.999911,20.663003 29.100863,18.45597 27.533906,16.895971 26.098908,15.467991 24.22989,14.681979 22.270905,14.681979z M14.238732,11.819797L14.155435,11.945755C13.874184,12.347298,13.541499,12.708314,13.167358,13.020501L13.106826,13.068369 13.338254,13.150838C13.453639,13.195394 13.568233,13.243113 13.681983,13.293988 13.813982,13.352488 13.943982,13.415238 14.071982,13.481863L14.106184,13.500319 14.134199,13.487107C14.495685,13.325812,14.868263,13.186942,15.250358,13.072158L15.422414,13.022908 15.378058,12.988017C14.962342,12.647326,14.585978,12.262553,14.255273,11.842044z M9.5719858,5.3180013C7.6029878,5.3180013 6.0009892,6.8880014 6.000989,8.8180013 6.0009892,10.374001 7.0649883,11.758001 8.5899868,12.184001 9.2259865,12.362001 9.9219859,12.363001 10.553985,12.184001 11.541985,11.907001 12.361984,11.225001 12.801983,10.312001 12.909983,10.089001 12.993983,9.8520014 13.051983,9.608001L13.053265,9.6083033 13.031844,9.5447927C12.804056,8.8372087 12.681966,8.0877075 12.681966,7.3179879 12.681966,7.254941 12.682767,7.1920781 12.684361,7.1294079L12.68525,7.106091 12.666964,7.0744739C12.498718,6.793189 12.327984,6.5748763 12.131984,6.3780012 11.453984,5.6940012 10.544985,5.3180013 9.5719858,5.3180013z M19.999972,1.9999962C17.06797,1.9999962 14.681968,4.3859921 14.681968,7.3179879 14.681968,9.6849837 16.269969,11.78898 18.543971,12.434979 19.488972,12.702979 20.515973,12.701979 21.457973,12.43398 23.730976,11.78798 25.317977,9.6839838 25.317977,7.3179879 25.317977,4.3859921 22.931975,1.9999962 19.999972,1.9999962z M19.999972,0C24.034976,0 27.317979,3.2829943 27.317979,7.3179879 27.317979,9.4547343 26.376977,11.435581 24.845992,12.79646L24.624978,12.985176 24.779824,13.026552C26.326348,13.460372 27.755784,14.294755 28.944917,15.478001 30.886874,17.410986 31.999911,20.134987 31.999911,22.950969 31.999911,25.358992 30.128879,27.317978 27.827912,27.317978L12.352873,27.317978C10.556007,27.317978,9.0209916,26.122308,8.4354053,24.450967L8.3923493,24.318002 3.3789954,24.318002C1.5159979,24.318002 0,22.693999 0,20.698997 0,16.905493 2.359992,13.806105 5.6395535,12.930162L5.8277254,12.885126 5.7214482,12.788197C4.651381,11.772611 4.0009909,10.348626 4.0009909,8.8180013 4.0009909,5.7850013 6.4999887,3.3180017 9.5719858,3.3180017 10.893235,3.3180017 12.140218,3.7666578 13.138757,4.592288L13.192219,4.6387682 13.257982,4.4722891C14.370467,1.8466845,16.97372,0,19.999972,0z"  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
@@ -70,7 +82,8 @@
                     <TextBlock Text="Empleados" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Margin="20 0 0 0">
-                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                    <ToggleButton Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                                    IsHitTestVisible="False" IsTabStop="False">
                         <Viewbox Width="24" Height="24">
                             <Canvas Width="24" Height="24">
                                 <Path Data="M27.835608,3.5749702L22.685449,7.6649804C21.426409,8.6639829 20.429378,9.7729857 19.723355,10.958988 18.829764,12.461898 18.394807,13.899332 18.418481,15.260343L18.425437,15.44662 18.47861,15.62094C18.65498,16.214392,18.814844,16.862583,18.940972,17.552792L18.95142,17.612803 19.040505,17.803351C19.185729,18.09924 19.356344,18.390507 19.55235,18.677007 19.860359,19.125008 20.290107,19.509462 20.806087,19.799553L20.931424,19.865158 20.928941,19.843242C20.304454,13.566911 25.201951,9.8902118 25.421159,9.7300882 25.867139,9.4030902 26.49311,9.4990895 26.818095,9.9440861 27.146081,10.389083 27.050084,11.014079 26.606105,11.341077 26.408488,11.488326 22.279776,14.633987 22.948304,19.910738L22.948453,19.911799 23.120761,19.884814C27.793542,19.067666 28.963847,13.991996 28.973645,13.934996 29.871673,10.001986 28.587632,5.6329756 27.835608,3.5749702z M3.3289232,2.9029999L2.1509519,13.775C1.8729587,16.342 1.9779563,18.736 2.4649444,20.89 3.2669251,24.451 5.2728766,28.906 10.265756,29.910999 10.891366,30.036812 11.555733,30.028391 12.225387,29.889309L12.247843,29.884249 12.24058,29.859127C12.210613,29.732676 12.204929,29.59824 12.227938,29.461992 13.768874,20.356905 7.3262126,14.990815 7.0512023,14.766813 6.6232459,14.418787 6.5581858,13.788836 6.9042373,13.360791 7.2532184,12.932807 7.8801392,12.864814 8.3090725,13.211802 8.606443,13.452937 15.269937,18.955853 14.386517,28.377609L14.376833,28.468706 14.589756,28.213818C17.115399,25.096672,17.4931,21.592366,17.125259,18.733084L17.060605,18.288452 17.039768,18.240799C16.721732,17.49032,16.538116,16.748133,16.459643,16.024489L16.434431,15.733871 16.389557,15.601182C16.039422,14.587969 15.652064,13.811719 15.373633,13.38 12.153711,7.6879997 5.9508603,4.1870003 3.3289232,2.9029999z M1.6319647,0L2.8549347,0.48900032C3.2467067,0.64551544,12.342743,4.3533945,16.871444,11.978917L16.963187,12.137229 17.016349,11.987132C17.293279,11.238239 17.64079,10.548487 18.004301,9.936986 18.835327,8.5399828 19.991364,7.2489796 21.441409,6.0989766L28.636634,0.38496304 29.17065,1.5369654C29.298654,1.8139668 32.294747,8.3769822 30.934705,14.321997 30.665698,15.949001 28.304624,21.994015 21.80442,21.994015 21.576413,21.994015 21.345406,21.988015 21.107398,21.972015 20.786388,21.951015 20.458378,21.863015 20.157369,21.717014 19.925362,21.604014 19.702604,21.478014 19.490457,21.340123L19.21562,21.149022 19.205394,21.408792C19.05043,24.482497 17.954103,27.856891 14.927644,30.802 14.623651,31.096001 14.25466,31.332001 13.858669,31.483999 12.973691,31.827 12.062713,32 11.173734,32 10.731745,32 10.296756,31.958 9.8707657,31.872 3.8279116,30.655001 1.446969,25.467 0.51399136,21.33 -0.020995617,18.961 -0.13899279,16.346 0.16300011,13.56z"  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
@@ -80,25 +93,280 @@
                     <TextBlock Text="Árboles" HorizontalAlignment="Center" ></TextBlock>
                 </StackPanel>
             </StackPanel>
+
+
+            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario" Margin="20 20 0 0">
+                <TabControl>
+                    <TabItem x:Name="tabLote" >
+                        <DockPanel >
+                            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
+                                <DataGrid x:Name="tblLotes" 
+                                      HeadersVisibility="None"
+                                      SelectionUnit="FullRow"
+                                      CanUserAddRows="False" 
+                                      CanUserDeleteRows="False"
+                                      AutoGenerateColumns="False"
+                                      FontSize="20" SelectionChanged="tblLotes_SelectionChanged"
+                                      >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding NombreLote, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" IsReadOnly="True"/>
+
+                                        <DataGridTemplateColumn Width="0" Header="Editar">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Visibility="Hidden" >
+                                                        <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+
+                                    <DataGrid.Style>
+                                        <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                            <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                        </Style>
+                                    </DataGrid.Style>
+                                </DataGrid>
+                            </StackPanel>
+
+                            <Separator Margin="50 10 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
+                            <StackPanel Orientation="Vertical"  Margin="50 0 0 0" VerticalAlignment="Top" Background="White" >
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="lblLote" 
+                                                   Margin="0,0,0,0"  
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="60" 
+                                                   FontWeight="Light"
+                                                   Foreground="CornflowerBlue"
+                                                   Text="Seleccione un"
+                                                   
+                                                   />
+                                    <TextBlock x:Name="lblInicioLote" 
+                                                   Margin="10,0,0,0"  
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="60" 
+                                                   FontWeight="Bold"
+                                                   Foreground="CornflowerBlue"
+                                                   Text="Lote"
+                                                   />
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical" Width="200" Height="150" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
+
+                                        <TextBlock x:Name="lblTotalArboles" 
+                                                           Margin="0 30 0 0"
+                                                           FontSize="45" Text="0"
+                                                           HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"
+                                                           FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Green"
+                                                           ></TextBlock>
+                                        <TextBlock FontSize="20" 
+                                               Margin="0 5 0 0"
+                                               Text="Árboles" 
+                                               Foreground="Gray"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" Width="200" Height="150" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="30 30 0 0">
+
+                                        <TextBlock x:Name="lblTotalCuadras" 
+                                                           Margin="0 30 0 0"
+                                                           FontSize="45" Text="0"
+                                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
+                                        <TextBlock FontSize="20" 
+                                               Margin="0 5 0 0"
+                                               Text="Cuadras" 
+                                               Foreground="Gray"
+                                               HorizontalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                                <Button x:Name="btnSiguiente" Width="100" Height="35" 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Siguiente"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Click="btnSiguiente_Click"
+                                                Margin="0 40 0 0">
+
+                                </Button>
+
+                            </StackPanel>
+                            <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
+
+
+                                <Button x:Name="btnAtras" Width="61" Height="61"
+                                Style="{DynamicResource MetroCircleButtonStyle}"
+                                BorderThickness="0" ToolTip="Nuevo"
+                                HorizontalAlignment="Right"
+                                Click="btnAtras_Click"
+                                 >
+                                    <Viewbox Width="30" Height="30">
+                                        <Canvas Width="48" Height="48">
+                                            <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                          15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                          Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem x:Name="tabLabor" >
+                        <DockPanel >
+                            <StackPanel x:Name="pnlContainerLabor" Orientation="Vertical" DockPanel.Dock="Left">
+                                <DataGrid x:Name="tblLabores" 
+                                      HeadersVisibility="None"
+                                      SelectionUnit="FullRow"
+                                      CanUserAddRows="False" 
+                                      CanUserDeleteRows="False"
+                                      AutoGenerateColumns="False"
+                                      FontSize="20" SelectionChanged="tblLotes_SelectionChanged"
+                                      >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding NombreLabor, Converter={StaticResource StringToCapitalsConverter}}" Width="150" Header="Nombre" IsReadOnly="True"/> 
+
+                                        <DataGridTemplateColumn Width="0" Header="Editar">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Visibility="Hidden" >
+                                                        <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                            <Rectangle.OpacityMask>
+                                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                            </Rectangle.OpacityMask>
+                                                        </Rectangle>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+
+                                    <DataGrid.Style>
+                                        <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                            <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                        </Style>
+                                    </DataGrid.Style>
+                                </DataGrid>
+                            </StackPanel>
+
+                            <Separator Margin="50 10 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
+                            <StackPanel Orientation="Vertical"  Margin="50 0 0 0" VerticalAlignment="Top" Background="White" >
+
+                                <StackPanel Orientation="Vertical">
+
+                                    <TextBlock x:Name="lblLoteLabores" 
+                                                   Margin="0,0,0,0"  
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="60" 
+                                                   FontWeight="Light"
+                                                   Foreground="CornflowerBlue"
+                                                   Text="Lote"
+                                                   FontFamily="Arial Rounded MT Bold" 
+                                                   />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="lblLote1" 
+                                                   Margin="0,0,0,0"  
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="50" 
+                                                   FontWeight="Light"
+                                                   Foreground="Gray"
+                                                   Text="Seleccione una"
+                                                   
+                                                   />
+                                        <TextBlock x:Name="lblInicioLote1" 
+                                                   Margin="10,0,0,0"  
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="50" 
+                                                   FontWeight="Bold"
+                                                   Foreground="Gray"
+                                                   Text="Labor"
+                                                   />
+                                    </StackPanel>
+
+                                    <ComboBox x:Name="cmbTipoPago" 
+                                              HorizontalAlignment="Left"
+                    	                      Margin="0,40,0,0" VerticalAlignment="Top"
+                    	                      Width="450" Height="42"
+                    	                      SelectedIndex="0" 
+                                              
+                                              />
+
+                                    <DatePicker x:Name="dtdFechaLabor" HorizontalAlignment="Left" Margin="0,20,0,0" 
+                		                        VerticalAlignment="Top" 
+                		                        Height="42" Width="450"
+                		                        Controls:TextBoxHelper.Watermark="Fecha Evento "
+                		                        Controls:TextBoxHelper.UseFloatingWatermark="True"
+                		                        Controls:TextBoxHelper.ClearTextButton="True"
+                                                />
+
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+
+
+                                </StackPanel>
+
+                                <Button x:Name="btnSiguiente1" Width="100" Height="35" 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Content="Siguiente"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Click="btnSiguiente_Click"
+                                                Margin="0 40 0 0">
+
+                                </Button>
+
+                            </StackPanel>
+                            <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
+
+
+                                <Button x:Name="btnAtras1" Width="61" Height="61"
+                                Style="{DynamicResource MetroCircleButtonStyle}"
+                                BorderThickness="0" ToolTip="Nuevo"
+                                HorizontalAlignment="Right"
+                                Click="btnAtras_Click"
+                                 >
+                                    <Viewbox Width="30" Height="30">
+                                        <Canvas Width="48" Height="48">
+                                            <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                          15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                          Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+
+
+                            </Grid>
+                        </DockPanel>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
         </DockPanel>
-        <Grid VerticalAlignment="Top">
-            <TabControl>
-                <TabItem x:Name="tabLote" Header="">
-                    <DockPanel>
-                        <ListBox x:Name="listLotes" Margin="20 0 0 0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                        </ListBox>
-
-                        
-
-
-                    </DockPanel>
-                </TabItem>
-            </TabControl>
-        </Grid>
-    </StackPanel>
+    </DockPanel>
 </UserControl>

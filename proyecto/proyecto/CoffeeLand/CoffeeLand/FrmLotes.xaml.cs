@@ -211,6 +211,7 @@ namespace CoffeeLand
                             Mostrar();
                         }
                         frmArboles.GetInstance().mostrarCmb();
+                        frmTerrenos.GetInstance().mostrar();
                     }
                 }
             }
@@ -232,6 +233,7 @@ namespace CoffeeLand
                 {
                     Mostrar();
                 }
+                frmTerrenos.GetInstance().mostrar();
             }
         }
 
@@ -304,6 +306,7 @@ namespace CoffeeLand
                     Mostrar();
                 }
                 frmArboles.GetInstance().mostrarCmb();
+                frmTerrenos.GetInstance().mostrar();
             }
         }
 
@@ -366,6 +369,7 @@ namespace CoffeeLand
                 }
 
                 frmArboles.GetInstance().mostrarCmb();
+                frmTerrenos.GetInstance().mostrar();
             }
         }
 
