@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validator:ProveedorValidator x:Key="Validator"/>
+            <validator:TerrenosValidator x:Key="Validator"/>
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
@@ -246,7 +246,7 @@
                                       FontSize="20" SelectionChanged="tblLabores_SelectionChanged"
                                       >
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn x:Name="columnLabor" Binding="{Binding NombreLabor, Converter={StaticResource StringToCapitalsConverter}}"  Header="Nombre" IsReadOnly="True"/> 
+                                        <DataGridTextColumn x:Name="columnLabor" Binding="{Binding NombreLabor, Converter={StaticResource StringToCapitalsConverter}}"  Header="Nombre" IsReadOnly="True"/>
 
                                         <DataGridTemplateColumn Width="0" Header="Editar">
                                             <DataGridTemplateColumn.CellTemplate>
@@ -352,7 +352,7 @@
 
                                 </StackPanel>
 
-                               
+
 
                             </StackPanel>
                             <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
@@ -382,14 +382,14 @@
 
                             <StackPanel x:Name="pnlContainerInsumos" Orientation="Vertical" DockPanel.Dock="Left">
 
-                                <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 20 0 0" >
+                                <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 0 0 0" >
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="20 70 0 0" Text="Agrege un nuevo" FontSize="50" FontWeight="Light" />
                                         <TextBlock Margin="20 0 0 0" Text="Insumo" FontSize="50" FontWeight="Regular"  ></TextBlock>
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 30 0 25" >
+                                <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="0 0 0 25" >
                                     <DataGrid x:Name="tblInsumos" 
                                               HeadersVisibility="All"
                                               SelectionUnit="FullRow"
@@ -398,13 +398,13 @@
                                               AutoGenerateColumns="False"
                                               >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding NombreInsumo}" Header="Insumo " Width="120" IsReadOnly="True"/>
-                                            <DataGridTextColumn   Binding="{Binding Cantidad}"  Header="Cantidad " Width="110" IsReadOnly="True" />
+                                            <DataGridTextColumn Binding="{Binding NombreInsumo}" Header="Insumo " Width="250" IsReadOnly="True"/>
+                                            <DataGridTextColumn   Binding="{Binding Cantidad}"  Header="Cantidad " Width="150" IsReadOnly="True" />
 
                                             <DataGridTemplateColumn Width="110" Header="Editar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnModificarInsumo"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"   >
+                                                        <Button x:Name="btnModificarInsumo"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Click="btnModificarInsumo_Click"   >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
@@ -417,7 +417,7 @@
                                             <DataGridTemplateColumn Width="110" Header="Eliminar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnInhabilitarInsumo"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"   >
+                                                        <Button x:Name="btnInhabilitarInsumo"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Click="btnInhabilitarInsumo_Click"  >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
@@ -444,7 +444,23 @@
                                 <TabControl Margin="25 0 30 0" >
                                     <TabItem x:Name="tabNuevo" Header="Nuevo" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
                                         <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-                                            
+
+                                            <TextBlock x:Name="LblLoteInsumo" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="30" 
+                                                   FontWeight="SemiBold"
+                                                   Foreground="CornflowerBlue"
+                                                   Margin="0 5 0 0"
+                                                   />
+
+                                            <TextBlock x:Name="lblLaborInsumo" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="25" 
+                                                   FontWeight="Light"
+                                                   Foreground="Gray"
+                                                   Margin="0 0 0 0"
+                                                   />
+
                                             <ComboBox x:Name="cmbInsumo"
                             	                        DisplayMemberPath="NombreInsumo" 
             			                                SelectedValuePath="idInsumo"
@@ -456,7 +472,7 @@
                                                         />
 
                                             <DockPanel >
-                                                
+
                                                 <TextBox x:Name="lblStock" Margin="0 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Cantidad Disponible" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
@@ -491,7 +507,7 @@
                                                     </Style>
                                                 </TextBox.Style>
                                                 <TextBox.Text>
-                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <ExceptionValidationRule/>
@@ -525,19 +541,35 @@
                                                        Content="Cancelar"
                                                        Background="Gray"
                                                        Controls:ButtonHelper.PreserveTextCase="True"
+                                                       Click="btnCancelar_Click" 
+                                                       >
+                                                </Button>
+
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="btnSiguienteInsumos"  
+                                                       HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="0 20 0 0" 
+                                                       Height="35"
+                                                       Width="100"
+                                                       Style="{StaticResource AccentedSquareButtonStyle}"
+                                                       Content="Siguiente"
+                                                       Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnSiguienteInsumos_Click"
                                                        >
                                                 </Button>
 
                                                 <Button x:Name="btnAtrasInsumo" Width="100" Height="35" 
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Atras"
-                                                Background="Crimson"
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                                Margin="20 0 0 0">
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Style="{StaticResource AccentedSquareButtonStyle}"
+                                                        Content="Atras"
+                                                        Background="Crimson"
+                                                        Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Margin="20 20 0 0"
+                                                        Click="btnAtrasInsumo_Click">
                                                 </Button>
-
                                             </StackPanel>
                                         </StackPanel>
                                     </TabItem>
@@ -554,12 +586,12 @@
                                 <Grid x:Name="pnlInicioEmpleados" Visibility="Visible" Margin="20 20 0 0" >
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="20 70 0 0" Text="Agrege un nuevo" FontSize="50" FontWeight="Light" />
-                                        <TextBlock Margin="20 0 0 0" Text="Gasto" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                        <TextBlock Margin="20 0 0 0" Text="Empleado" FontSize="50" FontWeight="Regular"  ></TextBlock>
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid x:Name="pnlDataEmeplados" Visibility="Collapsed"  Margin="20 30 0 25" >
-                                    <DataGrid x:Name="tblEmpleados" 
+                                <Grid x:Name="pnlDataEmpleados" Visibility="Collapsed"  Margin="0 0 0 25" >
+                                    <DataGrid x:Name="tblProductividad" 
                                               RenderOptions.ClearTypeHint="Enabled"
                                               TextOptions.TextFormattingMode="Display"
                                               HeadersVisibility="All"
@@ -569,20 +601,15 @@
                                               AutoGenerateColumns="False"
                                               >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="150" IsReadOnly="True"/>
-                                            <DataGridTextColumn Header="Descripcion " Binding="{Binding Descripcion}" Width="120" IsReadOnly="True" />
-                                            <DataGridTemplateColumn Header="Fecha" Width="130" IsReadOnly ="False">
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            <DataGridTextColumn Header="Valor " Binding="{Binding Valor}" Width="100" IsReadOnly="True" />
+                                            <DataGridTextColumn Binding="{Binding NombrePersona}" Header="Empleado " Width="100" IsReadOnly="True"/>
+                                            <DataGridTextColumn   Binding="{Binding Cantidad }"  Header="Cantidad " Width="85" IsReadOnly="True" />
+                                            <DataGridTextColumn   Binding="{Binding Valor }"  Header="Valor " Width="80" IsReadOnly="True" />
+
+
                                             <DataGridTemplateColumn Width="90" Header="Editar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnModificar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"  >
+                                                        <Button x:Name="btnModificarProductividadEmpleado"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnModificarProductividadEmpleado_Click"  >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
@@ -592,10 +619,10 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            <DataGridTemplateColumn Width="100" Header="Eliminar">
+                                            <DataGridTemplateColumn Width="90" Header="Eliminar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnInhabilitar"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}"  BorderThickness="0" >
+                                                        <Button x:Name="btnInhabilitarProductividadEmpleado"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnInhabilitarProductividadEmpleado_Click"  >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
@@ -620,85 +647,83 @@
 
                             <Grid DockPanel.Dock="Right" x:Name="pnlFormularioEmpleados">
                                 <TabControl Margin="25 0 30 0" >
-                                    <TabItem x:Name="tabNuevoEmpleados" Header="" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
+                                    <TabItem x:Name="tabNuevoEmpleados" Header="Nuevo" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
                                         <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-                                            <ComboBox x:Name="cmbEmpleados"
-                            	                        DisplayMemberPath="NombreConcepto" 
-                            	                        SelectedValuePath="idConcepto"
+
+                                            <ComboBox x:Name="cmbEmpleado"
+                            	                        DisplayMemberPath="NombrePersona" 
+                            	                        SelectedValuePath="DocumentoPersona"
                             	                        Margin="0 20 0 0" VerticalAlignment="Top"
                             	                        IsSynchronizedWithCurrentItem="true" 
                             	                        Height="42"
                             	                        SelectedIndex="0"
                                                         />
 
-                                            <TextBox x:Name="txtValor1" Margin="0 20 0 0"
+                                            <DockPanel >
+
+                                                <TextBox x:Name="txtCantidadProductividad" Margin="0 20 0 0"
+                            	                    Controls:TextBoxHelper.Watermark="Cantidad" 
+                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	                    Height="42" VerticalAlignment="Top" 
+                                                    Width="250"
+                                                    IsEnabled="False"
+                                                    >
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+
+                                                <TextBox x:Name="txtValorProductividad" Margin="20 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Valor" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
-                            	                    Height="42" VerticalAlignment="Top" >
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                            	                    Height="42" VerticalAlignment="Top"
+                                                    IsEnabled="False">
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
 
-                                            <DatePicker x:Name="dtdFechaGasto1" Margin="0 20 0 0"
-                            	                        VerticalAlignment="Top" 
-                            	                        Height="42" 
-                            	                        Controls:TextBoxHelper.Watermark="Fecha de Gasto "
-                            	                        Controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                        SelectedDateFormat="Long"
-                                                        >
-                                            </DatePicker>
-
-                                            <TextBox x:Name="txtDescripcionGasto1" Margin="0 20 0 0"
-            	                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
-            	                                     Controls:TextBoxHelper.Watermark="Descripción"
-                                                     Height="62" 
-                                                     VerticalAlignment="Top"
-                                                     >
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Descripcion" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                             UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                            </DockPanel>
 
                                             <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
 
-                                                <Button x:Name="btnAgregarGasto1"  
+                                                <Button x:Name="btnAgregarEmpleado"  
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
                                                        Margin="0 0 0 0" 
@@ -707,6 +732,7 @@
                                                        Style="{StaticResource AccentedSquareButtonStyle}"
                                                        Content="Agregar"
                                                        Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnAgregarEmpleado_Click"
                                                        >
                                                 </Button>
 
@@ -724,6 +750,31 @@
                                                        >
                                                 </Button>
 
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="btnSiguienteEmpleados"  
+                                                       HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="0 20 0 0" 
+                                                       Height="35"
+                                                       Width="100"
+                                                       Style="{StaticResource AccentedSquareButtonStyle}"
+                                                       Content="Siguiente"
+                                                       Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnSiguienteInsumos_Click"
+                                                       >
+                                                </Button>
+
+                                                <Button x:Name="btnAtrasEmpleados" Width="100" Height="35" 
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Style="{StaticResource AccentedSquareButtonStyle}"
+                                                        Content="Atras"
+                                                        Background="Crimson"
+                                                        Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Margin="20 20 0 0"
+                                                        Click="btnAtrasInsumo_Click">
+                                                </Button>
                                             </StackPanel>
                                         </StackPanel>
                                     </TabItem>

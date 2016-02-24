@@ -151,6 +151,7 @@
     <Compile Include="Validator\RelayCommand.cs" />
     <Compile Include="Validator\StringFirstLetterToUpper.cs" />
     <Compile Include="Validator\StringToCapitalsConverter.cs" />
+    <Compile Include="Validator\TerrenosValidator.cs" />
     <Compile Include="Validator\TipoArbolesValidator.cs" />
     <Compile Include="Validator\TipoInsumoValidator.cs" />
     <Page Include="frmAdministracionCostos.xaml">
