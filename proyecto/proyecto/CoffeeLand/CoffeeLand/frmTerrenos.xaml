@@ -312,6 +312,7 @@
                     	                      Margin="0,40,0,0" VerticalAlignment="Top"
                     	                      Width="450" Height="42"
                     	                      SelectedIndex="0" 
+                                              SelectionChanged="cmbTipoPago_SelectionChanged"
                                               
                                               />
 
@@ -326,8 +327,8 @@
 
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="btnSiguienteLabores" Width="100" Height="35" 
+
+                                <Button x:Name="btnSiguienteLabores" Width="100" Height="35" 
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Style="{StaticResource AccentedSquareButtonStyle}"
@@ -336,23 +337,7 @@
                                                 Click="btnSiguienteLabores_Click"
                                                 Margin="0 40 0 0">
 
-                                    </Button>
-
-                                    <Button x:Name="btnAtrasLabores" Width="100" Height="35" 
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Atras"
-                                                Background="Crimson"
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                                Click="btnAtrasLabores_Click"
-                                                Margin="20 40 0 0">
-
-                                    </Button>
-
-                                </StackPanel>
-
-
+                                </Button>
 
                             </StackPanel>
                             <Grid VerticalAlignment="Bottom" Margin="10 0 50 0">
@@ -443,9 +428,10 @@
                             <Grid DockPanel.Dock="Right" x:Name="pnlFormularioInsumos">
                                 <TabControl Margin="25 0 30 0" >
                                     <TabItem x:Name="tabNuevo" Header="Nuevo" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
-                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <DockPanel>
+                                            <StackPanel Orientation="Vertical" DockPanel.Dock="Top"  VerticalAlignment="Top" Margin="20,0,0,0" >
 
-                                            <TextBlock x:Name="LblLoteInsumo" 
+                                                <TextBlock x:Name="LblLoteInsumo" 
                                                    VerticalAlignment="Center" 
                                                    FontSize="30" 
                                                    FontWeight="SemiBold"
@@ -453,15 +439,15 @@
                                                    Margin="0 5 0 0"
                                                    />
 
-                                            <TextBlock x:Name="lblLaborInsumo" 
+                                                <TextBlock x:Name="lblLaborInsumo" 
                                                    VerticalAlignment="Center" 
                                                    FontSize="25" 
                                                    FontWeight="Light"
                                                    Foreground="Gray"
-                                                   Margin="0 0 0 0"
+                                                   
                                                    />
 
-                                            <ComboBox x:Name="cmbInsumo"
+                                                <ComboBox x:Name="cmbInsumo"
                             	                        DisplayMemberPath="NombreInsumo" 
             			                                SelectedValuePath="idInsumo"
                             	                        Margin="0 20 0 0" VerticalAlignment="Top"
@@ -471,9 +457,9 @@
                                                       SelectionChanged="cmbInsumo_SelectionChanged"
                                                         />
 
-                                            <DockPanel >
+                                                <DockPanel >
 
-                                                <TextBox x:Name="lblStock" Margin="0 20 0 0"
+                                                    <TextBox x:Name="lblStock" Margin="0 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Cantidad Disponible" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                    Height="42" VerticalAlignment="Top" 
@@ -481,44 +467,44 @@
                                                     IsEnabled="False"
                                                     />
 
-                                                <TextBox x:Name="txtUnidadMedida" Margin="20 20 0 0"
+                                                    <TextBox x:Name="txtUnidadMedida" Margin="20 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Unidad de Medida" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                    Height="42" VerticalAlignment="Top"
                                                     IsEnabled="False"/>
 
-                                            </DockPanel>
+                                                </DockPanel>
 
-                                            <TextBox x:Name="txtCantidadInsumo" Margin="0 20 0 0"
+                                                <TextBox x:Name="txtCantidadInsumo" Margin="0 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Cantidad" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                    Height="42" VerticalAlignment="Top" >
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
 
-                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
 
-                                                <Button x:Name="btnAgregarInsumos"  
+                                                    <Button x:Name="btnAgregarInsumos"  
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
                                                        Margin="0 0 0 0" 
@@ -529,9 +515,9 @@
                                                        Controls:ButtonHelper.PreserveTextCase="True"
                                                        Click="btnAgregarInsumos_Click" 
                                                        >
-                                                </Button>
+                                                    </Button>
 
-                                                <Button x:Name="btnCancelar"
+                                                    <Button x:Name="btnCancelar"
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
                                                        Margin="20 0 0 0" 
@@ -543,35 +529,45 @@
                                                        Controls:ButtonHelper.PreserveTextCase="True"
                                                        Click="btnCancelar_Click" 
                                                        >
-                                                </Button>
-
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button x:Name="btnSiguienteInsumos"  
+                                                    </Button>
+                                                    <Button x:Name="btnSiguienteInsumos"  
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
-                                                       Margin="0 20 0 0" 
+                                                       Margin="20 0 0 0" 
                                                        Height="35"
                                                        Width="100"
                                                        Style="{StaticResource AccentedSquareButtonStyle}"
                                                        Content="Siguiente"
                                                        Controls:ButtonHelper.PreserveTextCase="True"
                                                         Click="btnSiguienteInsumos_Click"
+                                                       Background="Teal"
                                                        >
+                                                    </Button>
+
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                            <Grid VerticalAlignment="Bottom" Margin="10 0 0 0">
+
+                                                <Button x:Name="btnAtrasInsumoLabor" Width="61" Height="61"
+                                                            Style="{DynamicResource MetroCircleButtonStyle}"
+                                                            BorderThickness="0" ToolTip="Nuevo"
+                                                            HorizontalAlignment="Right"
+                                                            Click="btnAtrasInsumoLabor_Click"
+                                                             >
+                                                    <Viewbox Width="30" Height="30">
+                                                        <Canvas Width="48" Height="48">
+                                                            <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                                                    15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                                                     Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                                        </Canvas>
+                                                    </Viewbox>
                                                 </Button>
 
-                                                <Button x:Name="btnAtrasInsumo" Width="100" Height="35" 
-                                                        VerticalAlignment="Center"
-                                                        HorizontalAlignment="Left"
-                                                        Style="{StaticResource AccentedSquareButtonStyle}"
-                                                        Content="Atras"
-                                                        Background="Crimson"
-                                                        Controls:ButtonHelper.PreserveTextCase="True"
-                                                        Margin="20 20 0 0"
-                                                        Click="btnAtrasInsumo_Click">
-                                                </Button>
-                                            </StackPanel>
-                                        </StackPanel>
+
+                                            </Grid>
+
+                                        </DockPanel>
                                     </TabItem>
                                 </TabControl>
                             </Grid>
@@ -601,15 +597,15 @@
                                               AutoGenerateColumns="False"
                                               >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding NombrePersona}" Header="Empleado " Width="100" IsReadOnly="True"/>
-                                            <DataGridTextColumn   Binding="{Binding Cantidad }"  Header="Cantidad " Width="85" IsReadOnly="True" />
-                                            <DataGridTextColumn   Binding="{Binding Valor }"  Header="Valor " Width="80" IsReadOnly="True" />
+                                            <DataGridTextColumn Binding="{Binding NombrePersona}" Header="Empleado " Width="180" IsReadOnly="True"/>
+                                            <DataGridTextColumn   Binding="{Binding Cantidad }"  Header="Cantidad " Width="150" IsReadOnly="True" />
+                                            <DataGridTextColumn   Binding="{Binding Valor }"  Header="Valor " Width="150" IsReadOnly="True" />
 
 
                                             <DataGridTemplateColumn Width="90" Header="Editar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnModificarProductividadEmpleado"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnModificarProductividadEmpleado_Click"  >
+                                                        <Button x:Name="btnModificarProductividadEmpleado"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Click="btnModificarProductividadEmpleado_Click"  >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
@@ -622,7 +618,7 @@
                                             <DataGridTemplateColumn Width="90" Header="Eliminar">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnInhabilitarProductividadEmpleado"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" Click="btnInhabilitarProductividadEmpleado_Click"  >
+                                                        <Button x:Name="btnInhabilitarProductividadEmpleado"  Width="40"  Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Click="btnInhabilitarProductividadEmpleado_Click"  >
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
                                                                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
@@ -648,9 +644,45 @@
                             <Grid DockPanel.Dock="Right" x:Name="pnlFormularioEmpleados">
                                 <TabControl Margin="25 0 30 0" >
                                     <TabItem x:Name="tabNuevoEmpleados" Header="Nuevo" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
-                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <DockPanel>
+                                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" DockPanel.Dock="Top" Margin="20,0,0,0" >
 
-                                            <ComboBox x:Name="cmbEmpleado"
+
+                                                <TextBlock x:Name="lblLoteEmpleado" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="30" 
+                                                   FontWeight="SemiBold"
+                                                   Foreground="CornflowerBlue"
+                                                   />
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock x:Name="lblLaborempleado" 
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Light"
+                                                               Foreground="Gray"
+                                                               />
+
+                                                    <TextBlock  
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Light"
+                                                               Foreground="Gray"
+                                                               Text="-"
+                                                        Margin="10 0 0 0"
+                                                               />
+
+                                                    <TextBlock x:Name="lblPagoEmpleado" 
+                                                               Margin="10 0 0 0"
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Bold"
+                                                               Foreground="Gray"
+                                                               />
+                                                </StackPanel>
+
+                                                <ComboBox x:Name="cmbEmpleado"
                             	                        DisplayMemberPath="NombrePersona" 
                             	                        SelectedValuePath="DocumentoPersona"
                             	                        Margin="0 20 0 0" VerticalAlignment="Top"
@@ -659,43 +691,288 @@
                             	                        SelectedIndex="0"
                                                         />
 
-                                            <DockPanel >
+                                                <DockPanel >
 
-                                                <TextBox x:Name="txtCantidadProductividad" Margin="0 20 0 0"
+                                                    <TextBox x:Name="txtCantidadProductividad" Margin="0 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Cantidad" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                    Height="42" VerticalAlignment="Top" 
                                                     Width="250"
                                                     IsEnabled="False"
                                                     >
-                                                    <TextBox.Style>
-                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                                </Trigger>
-                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBox.Style>
-                                                    <TextBox.Text>
-                                                        <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                        <TextBox.Style>
+                                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                    </Trigger>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBox.Style>
+                                                        <TextBox.Text>
+                                                            <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                            <Binding.ValidationRules>
-                                                                <ExceptionValidationRule/>
-                                                            </Binding.ValidationRules>
-                                                        </Binding>
-                                                    </TextBox.Text>
-                                                </TextBox>
+                                                                <Binding.ValidationRules>
+                                                                    <ExceptionValidationRule/>
+                                                                </Binding.ValidationRules>
+                                                            </Binding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
 
-                                                <TextBox x:Name="txtValorProductividad" Margin="20 20 0 0"
+                                                    <TextBox x:Name="txtValorProductividad" Margin="20 20 0 0"
                             	                    Controls:TextBoxHelper.Watermark="Valor" 
                                                     Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                    Height="42" VerticalAlignment="Top"
-                                                    IsEnabled="False">
+                                                    >
+                                                        <TextBox.Style>
+                                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                    </Trigger>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBox.Style>
+                                                        <TextBox.Text>
+                                                            <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding.ValidationRules>
+                                                                    <ExceptionValidationRule/>
+                                                                </Binding.ValidationRules>
+                                                            </Binding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+
+                                                </DockPanel>
+
+                                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+
+                                                    <Button x:Name="btnAgregarEmpleado"  
+                                                       HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="0 0 0 0" 
+                                                       Height="35"
+                                                       Width="100"
+                                                       Style="{StaticResource AccentedSquareButtonStyle}"
+                                                       Content="Agregar"
+                                                       Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnAgregarEmpleado_Click"
+                                                       >
+                                                    </Button>
+
+                                                    <Button x:Name="btnCancelarEmpleados"
+                                                       HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="20 0 0 0" 
+                                                       Height="35"
+                                                       Width="100"
+                                                       Style="{StaticResource AccentedSquareButtonStyle}"
+                                                       Content="Cancelar"
+                                                       Background="Gray"
+                                                       Controls:ButtonHelper.PreserveTextCase="True"
+                                                       Click="btnCancelarEmpleados_Click"
+                                                       >
+                                                    </Button>
+                                                    <Button x:Name="btnSiguienteEmpleados"  
+                                                       HorizontalAlignment="Left" 
+                                                       VerticalAlignment="Center"
+                                                       Margin="20 0 0 0" 
+                                                       Height="35"
+                                                       Width="100"
+                                                       Style="{StaticResource AccentedSquareButtonStyle}"
+                                                       Content="Siguiente"
+                                                       Controls:ButtonHelper.PreserveTextCase="True"
+                                                       Click="btnSiguienteEmpleados_Click"
+                                                       Background="Teal" 
+                                                       >
+                                                    </Button>
+
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <Grid VerticalAlignment="Bottom" Margin="10 0 0 0">
+
+
+                                                <Button x:Name="btnAtrasEmpleadosInsumos" Width="61" Height="61"
+                                                            Style="{DynamicResource MetroCircleButtonStyle}"
+                                                            BorderThickness="0" ToolTip="Nuevo"
+                                                            HorizontalAlignment="Right"
+                                                            Click="btnAtrasEmpleadosInsumos_Click"
+                                                             >
+                                                    <Viewbox Width="30" Height="30">
+                                                        <Canvas Width="48" Height="48">
+                                                            <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                                                    15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                                                     Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                </Button>
+
+
+                                            </Grid>
+
+
+                                        </DockPanel>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem x:Name ="tabArboles">
+                        <DockPanel>
+
+                            <StackPanel x:Name="pnlContainerArboles" Orientation="Vertical" DockPanel.Dock="Left">
+
+                                <Grid x:Name="pnlInicioArboles" Visibility="Visible" Margin="20 20 0 0" >
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="20 70 0 0" Text="Este lote no tiene" FontSize="50" FontWeight="Light" />
+                                        <TextBlock Margin="20 0 0 0" Text="Árboles" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid x:Name="pnlDataArboles" Visibility="Collapsed"  Margin="0 0 0 25" >
+                                    <DataGrid x:Name="tblArboles" 
+                                              HeadersVisibility="None"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding NombreTipoArbol}" Header="Árbol" Width="200" IsReadOnly="True"/>
+                                            <DataGridTextColumn   Binding="{Binding Cantidad}"  Header="Cantidad" Width="100" IsReadOnly="True" />
+
+                                            <DataGridTemplateColumn Width="0" Header="" >
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button x:Name="btnModificarProductividadEmpleado"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"
+                                                                Visibility="Hidden">
+                                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                        <DataGrid.Style>
+                                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                            </Style>
+                                        </DataGrid.Style>
+                                    </DataGrid>
+                                </Grid>
+
+                            </StackPanel>
+
+                            <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
+                            <Grid DockPanel.Dock="Right" x:Name="pnlFormularioArboles">
+                                <TabControl Margin="25 0 25 0" >
+                                    <TabItem x:Name="tabNuevoArboles" Visibility="Visible" >
+                                        <DockPanel>
+                                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" DockPanel.Dock="Top" Margin="20,0,0,0" >
+
+
+                                                <TextBlock x:Name="lblLoteArboles" 
+                                                   VerticalAlignment="Center" 
+                                                   FontSize="30" 
+                                                   FontWeight="SemiBold"
+                                                   Foreground="CornflowerBlue"
+                                                   />
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock x:Name="lblLaborArboles" 
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Light"
+                                                               Foreground="Gray"
+                                                               />
+
+                                                    <TextBlock  
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Light"
+                                                               Foreground="Gray"
+                                                               Text="-"
+                                                        Margin="10 0 0 0"
+                                                               />
+
+                                                    <TextBlock x:Name="lblPagoempleadosArboles" 
+                                                               Margin="10 0 0 0"
+                                                               VerticalAlignment="Center" 
+                                                               FontSize="25" 
+                                                               FontWeight="Bold"
+                                                               Foreground="Gray"
+                                                               />
+                                                </StackPanel>
+
+                                                <ComboBox x:Name="cmbTipoArbolLote"
+                            	                        DisplayMemberPath="NombreTipoArbol" 
+                            	                        SelectedValuePath="idTIpoArbol"
+                            	                        Margin="0 20 0 0" VerticalAlignment="Top"
+                            	                        IsSynchronizedWithCurrentItem="true" 
+                            	                        Height="42"
+                            	                        SelectedIndex="0"
+                                                        SelectionChanged="cmbTipoArbolLote_SelectionChanged"
+                                                        />
+                                                
+                                                    <TextBox x:Name="txtCantidadArbolesLotes" Margin="0 20 0 0"
+                            	                    Controls:TextBoxHelper.Watermark="Árboles Lote" 
+                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	                    Height="42" VerticalAlignment="Top" 
+                                                    IsEnabled="False"
+                                                    >
+                                                        <TextBox.Style>
+                                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                    </Trigger>
+                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBox.Style>
+                                                        <TextBox.Text>
+                                                            <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding.ValidationRules>
+                                                                    <ExceptionValidationRule/>
+                                                                </Binding.ValidationRules>
+                                                            </Binding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+
+                                                <ComboBox x:Name="cmbTipoArbolModificar"
+                            	                        DisplayMemberPath="NombreTipoArbol" 
+                            	                        SelectedValuePath="idTIpoArbol"
+                            	                        Margin="0 20 0 0" VerticalAlignment="Top"
+                            	                        IsSynchronizedWithCurrentItem="true" 
+                            	                        Height="42"
+                            	                        SelectedIndex="0"
+                                                        SelectionChanged="cmbTipoArbolLote_SelectionChanged"
+                                                        />
+
+                                                <TextBox x:Name="txtArbolesModicacion" Margin="0 20 0 0"
+                            	                    Controls:TextBoxHelper.Watermark="Árboles a modificar" 
+                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	                    Height="42" VerticalAlignment="Top"
+                                                    >
                                                     <TextBox.Style>
                                                         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
                                                             <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
@@ -719,70 +996,55 @@
                                                     </TextBox.Text>
                                                 </TextBox>
 
-                                            </DockPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
 
-                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-
-                                                <Button x:Name="btnAgregarEmpleado"  
+                                                    <Button x:Name="btnSguientearboles"  
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
                                                        Margin="0 0 0 0" 
                                                        Height="35"
                                                        Width="100"
                                                        Style="{StaticResource AccentedSquareButtonStyle}"
-                                                       Content="Agregar"
-                                                       Controls:ButtonHelper.PreserveTextCase="True"
-                                                        Click="btnAgregarEmpleado_Click"
-                                                       >
-                                                </Button>
-
-                                                <Button x:Name="btnCancelar1"
-                                                       HorizontalAlignment="Left" 
-                                                       VerticalAlignment="Center"
-                                                       Margin="20 0 0 0" 
-                                                       Height="35"
-                                                       Width="100"
-                                                       Style="{StaticResource AccentedSquareButtonStyle}"
-                                                       Content="Cancelar"
-                                                       Background="Gray"
-                                                       Controls:ButtonHelper.PreserveTextCase="True"
-                                                     
-                                                       >
-                                                </Button>
-
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button x:Name="btnSiguienteEmpleados"  
-                                                       HorizontalAlignment="Left" 
-                                                       VerticalAlignment="Center"
-                                                       Margin="0 20 0 0" 
-                                                       Height="35"
-                                                       Width="100"
-                                                       Style="{StaticResource AccentedSquareButtonStyle}"
                                                        Content="Siguiente"
                                                        Controls:ButtonHelper.PreserveTextCase="True"
-                                                        Click="btnSiguienteInsumos_Click"
+                                                       Click="btnSguientearboles_Click"
                                                        >
+                                                    </Button>
+
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <Grid VerticalAlignment="Bottom" Margin="10 0 0 0">
+
+
+                                                <Button x:Name="btnAtrasArboles" Width="61" Height="61"
+                                                            Style="{DynamicResource MetroCircleButtonStyle}"
+                                                            BorderThickness="0" ToolTip="Nuevo"
+                                                            HorizontalAlignment="Right"
+                                                            Click="btnAtrasEmpleadosInsumos_Click"
+                                                             >
+                                                    <Viewbox Width="30" Height="30">
+                                                        <Canvas Width="48" Height="48">
+                                                            <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                                                    15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                                                     Fill="Black" Stretch="Fill" Width="48" Height="48" />
+                                                        </Canvas>
+                                                    </Viewbox>
                                                 </Button>
 
-                                                <Button x:Name="btnAtrasEmpleados" Width="100" Height="35" 
-                                                        VerticalAlignment="Center"
-                                                        HorizontalAlignment="Left"
-                                                        Style="{StaticResource AccentedSquareButtonStyle}"
-                                                        Content="Atras"
-                                                        Background="Crimson"
-                                                        Controls:ButtonHelper.PreserveTextCase="True"
-                                                        Margin="20 20 0 0"
-                                                        Click="btnAtrasInsumo_Click">
-                                                </Button>
-                                            </StackPanel>
-                                        </StackPanel>
+
+                                            </Grid>
+
+
+                                        </DockPanel>
                                     </TabItem>
                                 </TabControl>
                             </Grid>
 
                         </DockPanel>
                     </TabItem>
+
+
                 </TabControl>
 
             </Grid>

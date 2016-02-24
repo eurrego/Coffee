@@ -51,6 +51,14 @@ namespace Modelo
             set { cantidad = value; }
         }
 
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
 
         #endregion
 
@@ -82,7 +90,7 @@ namespace Modelo
                         total = cantidad.Sum(c => c.Cantidad);
                     }
 
-                    lista.Add(new MTerrenos { NombreLote = item.NombreLote, Cuadras = int.Parse(item.Cuadras), Cantidad = total });
+                    lista.Add(new MTerrenos { NombreLote = item.NombreLote, Cuadras = int.Parse(item.Cuadras), Cantidad = total, Id = item.idLote });
                 }
 
                 return lista;
@@ -93,9 +101,6 @@ namespace Modelo
         {
             using (var entity = new DBFincaEntities())
             {
-
-
-
                 var query = from c in entity.Labor
                             where c.EstadoLabor == "A"
                             select c;
@@ -143,6 +148,20 @@ namespace Modelo
                 var query = lista.Union(from c in entity.Persona
                                         where c.TipoContratoPersona == "Temporal" && c.EstadoPersona == "A"
                                         select c);
+                return query.ToList();
+            }
+
+        }
+
+        public object ConsultarCantidadTiposArboles(int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.TipoArbol
+                            join a in entity.Arboles on c.idTipoArbol equals a.idTIpoArbol
+                            where c.EstadoTipoArbol == "A" && a.idLote == idLote
+                            select new { c.NombreTipoArbol, a.Cantidad };
+
                 return query.ToList();
             }
 
@@ -217,6 +236,7 @@ namespace Modelo
                 return rpta.ToString();
             }
         }
+
         public object LaborModificaArbol(int idLote)
         {
             using (var entity = new DBFincaEntities())
