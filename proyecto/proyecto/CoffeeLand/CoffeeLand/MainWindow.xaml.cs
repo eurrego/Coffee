@@ -43,12 +43,15 @@ namespace CoffeeLand
         frmAdministracionEmpleados misEmpleados = new frmAdministracionEmpleados();
         frmAdministracionVentas misVentas = new frmAdministracionVentas();
         frmGestionTerrenos misTerrenos = new frmGestionTerrenos();
+        frmInicio miInicio = new frmInicio();
 
         public MainWindow()
         {
             InitializeComponent();
             instance = this;
             tamanioPAntalla();
+            MainContainer.Content = miInicio;
+            lblTitulo.Text = "Inicio";
         }
 
         private void tamanioPAntalla()
@@ -65,6 +68,8 @@ namespace CoffeeLand
         private void btnInicio_Click(object sender, RoutedEventArgs e)
         {
             lblTitulo.Text = "Inicio";
+            MainContainer.Content = miInicio;
+            Menu.IsOpen = false;
         }
 
         private void btnGestionTerrenos_Click(object sender, RoutedEventArgs e)

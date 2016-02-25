@@ -846,6 +846,7 @@
                                               CanUserAddRows="False" 
                                               CanUserDeleteRows="False"
                                               AutoGenerateColumns="False"
+                                              FontSize="20"
                                               >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding NombreTipoArbol}" Header="Árbol" Width="200" IsReadOnly="True"/>

@@ -46,8 +46,6 @@ namespace CoffeeLand
 
         int init = 0;
         int init1 = 0;
-        int opc = 0;
-        int opc2 = 0;
         int index = -1;
         int cantidadArboles = 0;
 
@@ -649,14 +647,7 @@ namespace CoffeeLand
                         {
                             GuardarDatos();
                             mensajeInformacion("Registro exitoso");
-                            tabLote.Focus();
-                            btnEmpleado.IsChecked = false;
-                            btnLabores.IsChecked = false;
-                            limpiarCampos(1);
-                            limpiarCampos(2);
-                            limpiarCampos(3);
-                            atras();
-                            tblLabores.SelectedItem = null;
+                            volverInicio();
                         }
                         catch (Exception ex)
                         {
@@ -695,22 +686,32 @@ namespace CoffeeLand
                 {
                     GuardarDatos();
                     mensajeInformacion("Registro exitoso");
-                    tabLote.Focus();
-                    btnEmpleado.IsChecked = false;
-                    btnLabores.IsChecked = false;
-                    btnInsumo.IsChecked = false;
-                    btnArboles.IsChecked = false;
-                    limpiarCampos(1);
-                    limpiarCampos(2);
-                    limpiarCampos(3);
-                    atras();
-                    tblLabores.SelectedItem = null;
+                    volverInicio();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+
+        private void volverInicio()
+        {
+            tabLote.Focus();
+            btnEmpleado.IsChecked = false;
+            btnLabores.IsChecked = false;
+            btnInsumo.IsChecked = false;
+            btnArboles.IsChecked = false;
+            limpiarCampos(1);
+            limpiarCampos(2);
+            limpiarCampos(3);
+            atras();
+            tblLabores.SelectedItem = null;
+            pnlInicio.Visibility = Visibility.Visible;
+            pnlData.Visibility = Visibility.Collapsed;
+            pnlInicioEmpleados.Visibility = Visibility.Visible;
+            pnlDataEmpleados.Visibility = Visibility.Collapsed;
         }
 
 

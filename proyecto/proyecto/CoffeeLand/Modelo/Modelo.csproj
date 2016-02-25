@@ -178,6 +178,7 @@
     <Compile Include="MConcepto.cs" />
     <Compile Include="MEstadoCuenta.cs" />
     <Compile Include="MGastos.cs" />
+    <Compile Include="MInicio.cs" />
     <Compile Include="MInsumo.cs" />
     <Compile Include="MLabores.cs" />
     <Compile Include="MLote.cs" />

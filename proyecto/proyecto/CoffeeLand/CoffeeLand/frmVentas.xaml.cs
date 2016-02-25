@@ -19,25 +19,38 @@ using MahApps.Metro.Controls.Dialogs;
 namespace CoffeeLand
 {
     /// <summary>
-    /// Lógica de interacción para frmVenta.xaml
+    /// Lógica de interacción para frmVentas.xaml
     /// </summary>
-    public partial class frmVenta : UserControl
+    public partial class frmVentas : UserControl
     {
         bool validacion = false;
 
-        public frmVenta()
+        public frmVentas()
         {
             InitializeComponent();
+            tamanioPantalla();
             mostrar();
+            dtdFecha.DisplayDateEnd = DateTime.Now;
         }
 
-        private void mostrar()
+        private void tamanioPantalla()
+        {
+            var width = SystemParameters.WorkArea.Width;
+            var height = SystemParameters.WorkArea.Height;
+
+            Width = width;
+            Height = height - 175;
+
+            var anchoContainer = width / 2.25;
+            pnlContainer.Width = anchoContainer;
+
+        }
+
+        public void mostrar()
         {
             cmbProveedor.ItemsSource = MVentas.GetInstance().ConsultarProveedor();
             cmbProducto.ItemsSource = MVentas.GetInstance().ConsultarProducto();
-
             lblcargas.Text = MVentas.GetInstance().ConsultarProduccion().ToString();
-
         }
 
         // mensaje de Error
@@ -60,11 +73,12 @@ namespace CoffeeLand
             txtNumeroFactura.Text = string.Empty;
             txtValorBeneficio.Text = string.Empty;
             txtValorCarga.Text = string.Empty;
+            dtdFecha.SelectedDate = null;
         }
 
-        public bool validarCampos()
+        private bool validarCampos()
         {
-            if (cmbProducto.SelectedIndex == 0 || cmbProveedor.SelectedIndex == 0 || txtValorCarga.Text == string.Empty || txtValorBeneficio.Text == string.Empty || txtNumeroFactura.Text == string.Empty || txtCantidadCarga.Text == string.Empty)
+            if (cmbProducto.SelectedIndex == 0 ||  txtValorCarga.Text == string.Empty ||  txtCantidadCarga.Text == string.Empty)
             {
                 mensajeError("Debe Ingresar todos los Campos");
                 validacion = false;
@@ -77,6 +91,20 @@ namespace CoffeeLand
             return validacion;
         }
 
+        private bool validarCamposBeneficio()
+        {
+            if (cmbProveedor.SelectedIndex == 0 ||  txtValorBeneficio.Text == string.Empty || txtNumeroFactura.Text == string.Empty )
+            {
+                mensajeError("Debe Ingresar todos los Campos");
+                validacion = false;
+            }
+            else
+            {
+                validacion = true;
+            }
+
+            return validacion;
+        }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
@@ -93,9 +121,38 @@ namespace CoffeeLand
                     mensajeInformacion(MVentas.GetInstance().ventaProduccion(decimal.Parse(txtCantidadCarga.Text)));
                     limpiarCampos();
                     lblcargas.Text = MVentas.GetInstance().ConsultarProduccion().ToString();
-
                 }
             }
         }
+
+        private void btnSiguiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (validarCamposBeneficio())
+            {
+                //if (IsValid(cmbProveedor) && IsValid(dtdFecha) && IsValid(txtNumeroFactura))
+                //{
+                    tabVenta.Focus();
+                    btnPaso1.IsChecked = false;
+                    btnPaso2.IsChecked = true;
+                //}
+            }
+
+        }
+
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            limpiarCampos();
+            btnPaso1.IsChecked = true;
+            btnPaso2.IsChecked = false;
+            tabBeneficio.Focus();
+        }
+
+        private void btnAtras_Click(object sender, RoutedEventArgs e)
+        {
+            tabBeneficio.Focus();
+            btnPaso2.IsChecked = false;
+            btnPaso1.IsChecked = true;
+        }
     }
 }
+

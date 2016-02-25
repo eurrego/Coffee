@@ -106,11 +106,17 @@
     <Compile Include="frmGestionTerrenos.xaml.cs">
       <DependentUpon>frmGestionTerrenos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmInicio.xaml.cs">
+      <DependentUpon>frmInicio.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmInsumo.xaml.cs">
       <DependentUpon>frmInsumo.xaml</DependentUpon>
     </Compile>
     <Compile Include="frmLabores.xaml.cs">
       <DependentUpon>frmLabores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.xaml.cs">
+      <DependentUpon>frmLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="frmLotes.xaml.cs">
       <DependentUpon>frmLotes.xaml</DependentUpon>
@@ -133,8 +139,8 @@
     <Compile Include="frmTipoInsumos.xaml.cs">
       <DependentUpon>frmTipoInsumos.xaml</DependentUpon>
     </Compile>
-    <Compile Include="frmVenta.xaml.cs">
-      <DependentUpon>frmVenta.xaml</DependentUpon>
+    <Compile Include="frmVentas.xaml.cs">
+      <DependentUpon>frmVentas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validator\ArbolesValidator.cs" />
     <Compile Include="Validator\CharToStringConverter.cs" />
@@ -202,11 +208,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="frmInicio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="frmInsumo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmLabores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -238,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="frmVenta.xaml">
+    <Page Include="frmVentas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -304,6 +318,9 @@
       <Project>{370046e5-509b-4e93-950b-68a5e422dca4}</Project>
       <Name>Modelo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\256x256.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

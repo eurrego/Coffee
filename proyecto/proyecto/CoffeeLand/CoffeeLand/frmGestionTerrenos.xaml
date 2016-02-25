@@ -30,12 +30,7 @@
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
                             <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" >
-                               <local:frmTerrenos/>
-                            </TabItem>
-                            <TabItem x:Name="tabConsultaCompras" Header="CONSULTA" Controls:ControlsHelper.HeaderFontSize="20" >
-                                <StackPanel Orientation="Vertical" >
-                                    <ContentControl x:Name="contentConsultaCompras" ></ContentControl>
-                                </StackPanel>
+                                <local:frmTerrenos/>
                             </TabItem>
                         </TabControl>
                     </Grid>
