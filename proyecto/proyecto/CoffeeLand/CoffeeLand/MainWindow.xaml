@@ -194,6 +194,29 @@
                                    Foreground="Black"/>
                         </StackPanel>
 
+                        <StackPanel Orientation="Horizontal" Background="#FFD5D5D5" Height="70" Width="400">
+                            <Button x:Name="btnReportes"  
+                                    HorizontalAlignment="Left" 
+                                    VerticalAlignment="Center"
+                                    Margin="10 0 0 0" 
+                                    Height="60"
+                                    Width="60"
+                                    Background="White" BorderBrush="White"
+                                    Style="{DynamicResource MetroCircleButtonStyle}" Click="btnReportes_Click"
+                                    >
+                                <Rectangle Width="30" Height="30" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_people}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Label Content="Reportes" FontSize="30" 
+                                   HorizontalAlignment="Left" 
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI Light"
+                                   Foreground="Black"/>
+                        </StackPanel>
+
                     </StackPanel>
                 </Grid>
             </Controls:Flyout>

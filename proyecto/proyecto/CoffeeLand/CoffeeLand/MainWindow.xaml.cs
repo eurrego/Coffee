@@ -43,6 +43,7 @@ namespace CoffeeLand
         frmAdministracionEmpleados misEmpleados = new frmAdministracionEmpleados();
         frmAdministracionVentas misVentas = new frmAdministracionVentas();
         frmGestionTerrenos misTerrenos = new frmGestionTerrenos();
+        frmReportes misResportes = new frmReportes();
         frmInicio miInicio = new frmInicio();
 
         public MainWindow()
@@ -98,6 +99,13 @@ namespace CoffeeLand
         {
             lblTitulo.Text = "Administración de Empleados";
             MainContainer.Content = misEmpleados;
+            Menu.IsOpen = false;
+        }
+
+        private void btnReportes_Click(object sender, RoutedEventArgs e)
+        {
+            lblTitulo.Text = "Reportes";
+            MainContainer.Content = misResportes;
             Menu.IsOpen = false;
         }
     }
