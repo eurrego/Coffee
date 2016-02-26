@@ -42,26 +42,52 @@
                 </BeginStoryboard>
             </EventTrigger>
         </Grid.Triggers>
-        <Grid x:Name="pnlCarga" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" VerticalAlignment="Top" Width="342" Background="White">
+        <Grid x:Name="pnlCarga" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" VerticalAlignment="Top" Width="342" Background="White" Visibility="Collapsed">
             <Image x:Name="image" HorizontalAlignment="Left" Height="220" Margin="57,44,0,0" VerticalAlignment="Top" Width="239" Source="Resources/256x256.png" />
             <Controls:ProgressRing IsActive="True" Margin="148,354,134,113" />
         </Grid>
-        <Grid x:Name="pnlLogin" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" VerticalAlignment="Top" Width="342" Background="White" Opacity="0.005">
-            <Label x:Name="label" Content="INICIO" HorizontalAlignment="Left" Margin="70,10,0,0" VerticalAlignment="Top" FontSize="64" FontFamily="Arial Rounded MT Bold">
-                <Label.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
-                </Label.Foreground>
+        
+        <Grid x:Name="pnlLogin" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" 
+              VerticalAlignment="Top" Width="342" Background="White" >
+            
+            <Label x:Name="label" Content="INICIO" HorizontalAlignment="Left" Margin="70,10,0,0"
+                   VerticalAlignment="Top" FontSize="64"
+                   FontFamily="Arial Rounded MT Bold"
+                   Foreground="CornflowerBlue">
+               
             </Label>
-            <Label x:Name="label_Copy" Content="DE" HorizontalAlignment="Left" Margin="145,72,0,0" VerticalAlignment="Top" FontSize="32" FontFamily="Arial Rounded MT Bold">
-                <Label.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
-                </Label.Foreground>
+            
+            <Label x:Name="label_Copy" Content="DE" HorizontalAlignment="Left"
+                   Margin="145,72,0,0" VerticalAlignment="Top"
+                   FontSize="32" 
+                   FontFamily="Arial Rounded MT Bold"
+                   Foreground="CornflowerBlue">
             </Label>
-            <Label x:Name="label_Copy1" Content="SESIÓN" HorizontalAlignment="Left" Margin="78,104,0,0" VerticalAlignment="Top" FontSize="48" FontFamily="Arial Rounded MT Bold">
-                <Label.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
-                </Label.Foreground>
+
+            <Label x:Name="label_Copy1" Content="SESIÓN"
+                   HorizontalAlignment="Left" Margin="78,104,0,0" 
+                   VerticalAlignment="Top" FontSize="48"
+                   FontFamily="Arial Rounded MT Bold"
+                   Foreground="CornflowerBlue">
             </Label>
+
+
+            <TextBox x:Name="txtUsuario"
+                     HorizontalAlignment="Left" 
+                     Height="50" Margin="58,245,0,0" 
+                     TextWrapping="Wrap" 
+                     VerticalAlignment="Top" 
+                     Width="229"
+                     Controls:TextBoxHelper.Watermark="Usuario" 
+                     Controls:TextBoxHelper.UseFloatingWatermark="True"
+                     Controls:TextBoxHelper.ClearTextButton="True"
+                     VerticalContentAlignment="Center" 
+                     FontSize="16"  
+                     >
+            </TextBox>
+
+
+
             <PasswordBox x:Name="txtPassword" 
                          HorizontalAlignment="Left" 
                          Margin="58,320,0,0" 
@@ -70,31 +96,10 @@
                          Controls:TextBoxHelper.Watermark="Contraseña" 
                          Controls:TextBoxHelper.UseFloatingWatermark="True"
                          VerticalContentAlignment="Center"
-                         FontSize="16" 
-                        />
+                         Style="{StaticResource Win8MetroPasswordBox}"
+                        >
+            </PasswordBox>
 
-            <TextBox x:Name="txtUsuario"
-                     HorizontalAlignment="Left" 
-                     Height="50" Margin="58,245,0,0" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="229" Controls:TextBoxHelper.Watermark="Usuario" 
-                     Controls:TextBoxHelper.UseFloatingWatermark="True"
-                     VerticalContentAlignment="Center" 
-                     FontSize="16"  
-                     Style="{DynamicResource ButtonCommandMetroTextBox}"
-                     Controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonCmd, Mode=OneWay}" >
-                <Controls:TextBoxHelper.ButtonContent>
-                    <Rectangle Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="20" Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush" Color="Gray" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Controls:TextBoxHelper.ButtonContent>
-            </TextBox>
 
             <Button x:Name="btnIngresar" 
                     Content="INGRESAR" 

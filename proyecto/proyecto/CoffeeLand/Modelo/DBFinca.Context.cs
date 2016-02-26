@@ -548,5 +548,38 @@ namespace Modelo
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentaProduccion_Result>("VentaProduccion", cantidadParameter);
         }
+    
+        public virtual ObjectResult<GestionUsuario_Result> GestionUsuario(Nullable<int> idUsuario, string nickName, string rol, string contrasena, string preguntaSeguridad, string respuesta, Nullable<int> opc)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("idUsuario", idUsuario) :
+                new ObjectParameter("idUsuario", typeof(int));
+    
+            var nickNameParameter = nickName != null ?
+                new ObjectParameter("nickName", nickName) :
+                new ObjectParameter("nickName", typeof(string));
+    
+            var rolParameter = rol != null ?
+                new ObjectParameter("rol", rol) :
+                new ObjectParameter("rol", typeof(string));
+    
+            var contrasenaParameter = contrasena != null ?
+                new ObjectParameter("contrasena", contrasena) :
+                new ObjectParameter("contrasena", typeof(string));
+    
+            var preguntaSeguridadParameter = preguntaSeguridad != null ?
+                new ObjectParameter("preguntaSeguridad", preguntaSeguridad) :
+                new ObjectParameter("preguntaSeguridad", typeof(string));
+    
+            var respuestaParameter = respuesta != null ?
+                new ObjectParameter("respuesta", respuesta) :
+                new ObjectParameter("respuesta", typeof(string));
+    
+            var opcParameter = opc.HasValue ?
+                new ObjectParameter("opc", opc) :
+                new ObjectParameter("opc", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GestionUsuario_Result>("GestionUsuario", idUsuarioParameter, nickNameParameter, rolParameter, contrasenaParameter, preguntaSeguridadParameter, respuestaParameter, opcParameter);
+        }
     }
 }
