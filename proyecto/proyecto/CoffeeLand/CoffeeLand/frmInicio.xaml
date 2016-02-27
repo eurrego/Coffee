@@ -34,23 +34,33 @@
     <DockPanel>
         <DockPanel  DockPanel.Dock="Top">
 
-            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left" Width="650">
+            <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Top" >
 
                 <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 0 0 0" >
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="lblcargas" 
+
+                    <DockPanel>
+                        
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="lblcargas" 
                                    Margin="20 0 0 0" 
                                    Text="Bienvenido" FontSize="80" 
                                    FontWeight="Light"></TextBlock>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Margin="20 0 0 0" Text="finca" FontSize="40" FontWeight="Light" />
-                            <TextBlock x:Name="lblFinca" Margin="10 0 0 0" Text="La Pava" FontSize="40" FontWeight="DemiBold" />
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Margin="20 0 0 0" Text="finca" FontSize="40" FontWeight="Light" />
+                                <TextBlock x:Name="lblFinca" Margin="10 0 0 0" Text="La Pava" FontSize="40" FontWeight="DemiBold" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                        
+                        <Image x:Name="image" HorizontalAlignment="Right" 
+                               Margin="0,0,50,0" 
+                               Width="180"
+                               Source="Resources/256x256.png" />
+
+                    </DockPanel>
                 </Grid>
 
                 <WrapPanel Margin="40 0 0 0">
-                    
+
                     <StackPanel  Orientation="Vertical" Width="200" Height="180" 
                                         HorizontalAlignment="Left"
                                         Background="LightGray"
@@ -97,7 +107,7 @@
                     <StackPanel  Orientation="Vertical" Width="200" Height="180" 
                                         HorizontalAlignment="Left"
                                         Background="LightGray"
-                                        Margin="0 30 0 0">
+                                        Margin="30 30 0 0">
 
                         <TextBlock x:Name="lblEmpleados" 
                                    FontSize="60" Text="0"
@@ -139,275 +149,11 @@
                 </WrapPanel>
 
             </StackPanel>
-
-            <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
-
-            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
-
-                <TabControl Margin="25 -20 30 0" >
-
-                    <TabItem x:Name="tabNuevo" Header="" Visibility="Visible" Controls:ControlsHelper.HeaderFontSize="20">
-                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-
-                            <StackPanel  VerticalAlignment="Top" Background="White">
-                                <DockPanel  VerticalAlignment="Top" HorizontalAlignment="Center" Height="80" >
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
-
-                                        <ToggleButton x:Name="btnPaso1" Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" 
-                                                  IsChecked="True" BorderThickness="0" 
-                                                  IsHitTestVisible="False" IsTabStop="False">
-                                            <Viewbox Width="24" Height="24">
-                                                <Canvas Width="24" Height="24">
-                                                    <Path Data="M1,20L31,20C31.552002,20 32,20.447021 32,21 32,21.552979 31.552002,22 31,22L1,22C0.44799805,22 0,21.552979 0,21 0,20.447021 0.44799805,20 1,20z M26.000004,2.0000114L26.000004,8.9790087 26.396006,8.9790087C28.344004,8.9790087 29.929003,7.4140091 29.929003,5.4900093 29.929003,3.5650101 28.344004,2.0000114 26.396006,2.0000114z M3.0829964,2L3.0829964,10.796C3.0829964,13.556,5.481997,15,7.8519979,15L19.231001,15C21.602003,15,24.000004,13.556,24.000004,10.796L24.000004,2z M1.0829959,0L26.000004,0 26.396006,1.1444092E-05C29.447004,1.1444092E-05 31.929003,2.4620113 31.929003,5.4900093 31.929003,8.5160084 29.447004,10.979008 26.396006,10.979008L25.995466,10.979008 25.99172,11.130093C25.821077,14.551515,23.03141,17,19.231001,17L7.8519979,17C3.9299967,17,1.0829958,14.391,1.0829959,10.796z" 
-                                                      Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" 
-                                                      Stretch="Fill" Width="24" />
-                                                </Canvas>
-                                            </Viewbox>
-                                        </ToggleButton>
-                                        <TextBlock Text="Ingresar" HorizontalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="beneficio" HorizontalAlignment="Center"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20 0 0 0">
-                                        <ToggleButton x:Name="btnPaso2" Width="50" Height="50" Style="{DynamicResource MetroCircleToggleButtonStyle}" BorderThickness="0"
-                                                  IsHitTestVisible="False" IsTabStop="False">
-                                            <Viewbox Width="24" Height="24">
-                                                <Canvas Width="24" Height="24">
-                                                    <Path Data="M13.731008,14.149972C13.706008,14.307973,13.679008,14.431974,13.647008,14.522974L12.820013,16.892982 14.663003,16.892982 13.828007,14.522974C13.803008,14.445974,13.776008,14.321973,13.748008,14.149972z M21.594003,13.268964L24.838033,13.268964 24.838033,14.105967 22.593011,14.105967 22.593011,15.786973 24.662033,15.786973 24.662033,16.619975 22.593011,16.619975 22.593011,18.376983 24.973035,18.376983 24.973035,19.209985 21.594003,19.209985z M17.392045,13.268964L18.391044,13.268964 18.391044,18.376983 20.725038,18.376983 20.725038,19.209985 17.392045,19.209985z M13.203011,13.267969L14.327005,13.267969 16.563995,19.208991 15.47,19.208991 14.928002,17.696984 12.561014,17.696984 12.040017,19.208991 10.948022,19.208991z M8.8800377,13.16899C9.5100388,13.16899,9.9690394,13.23899,10.25704,13.37999L10.25704,14.352987C9.9160399,14.109988 9.4760394,13.988988 8.9390378,13.988988 8.791038,13.988988 8.6430382,14.002988 8.4960379,14.029988 8.3490376,14.057988 8.2180371,14.102988 8.1010375,14.166988 7.9850368,14.229988 7.891037,14.311988 7.8180365,14.411987 7.7450366,14.509987 7.7090363,14.629987 7.7090363,14.771986 7.7090363,14.904987 7.7370367,15.018986 7.7930364,15.115986 7.8490367,15.212985 7.9310369,15.299985 8.0390372,15.379985 8.1460375,15.460985 8.2780375,15.538984 8.4330372,15.614985 8.5890374,15.690984 8.7680382,15.772985 8.9720387,15.861984 9.1820387,15.968984 9.3810391,16.082984 9.5660395,16.201984 9.7530398,16.319984 9.9160399,16.451982 10.05704,16.594981 10.19904,16.738982 10.31004,16.897981 10.39304,17.073981 10.47504,17.248981 10.517041,17.44898 10.517041,17.671979 10.517041,17.97298 10.456041,18.226978 10.33304,18.434978 10.20904,18.641977 10.04404,18.809978 9.8350396,18.939977 9.6270394,19.069976 9.3870387,19.162976 9.1150384,19.221976 8.8440384,19.279975 8.5570378,19.308976 8.2550377,19.308976 8.154037,19.308976 8.0300374,19.300975 7.884037,19.284976 7.7360367,19.270976 7.5860362,19.247976 7.4320364,19.219976 7.2780361,19.190976 7.1330356,19.155976 6.9950356,19.113977 6.8580355,19.072976 6.7480354,19.025977 6.6640353,18.972976L6.6640353,17.957978C6.7560353,18.039979 6.8660354,18.115979 6.9930358,18.181979 7.1210355,18.247977 7.2560358,18.303979 7.398036,18.349979 7.5410361,18.394979 7.6830363,18.429979 7.8260369,18.454978 7.9700369,18.479978 8.1000371,18.492978 8.2220368,18.492978 8.640038,18.492978 8.9540381,18.422979 9.159039,18.285978 9.3650384,18.146978 9.468039,17.946979 9.468039,17.68498 9.468039,17.542979 9.4330392,17.42098 9.3650384,17.317981 9.2970385,17.213981 9.2000384,17.119981 9.0770383,17.033981 8.9540381,16.948981 8.8090376,16.866981 8.6430382,16.787982 8.4760375,16.707982 8.298037,16.625982 8.107037,16.540982 7.9030366,16.432983 7.7130365,16.323983 7.5370364,16.212983 7.3600359,16.102983 7.207036,15.980984 7.0770359,15.846984 6.9470353,15.712984 6.8450355,15.561984 6.7700352,15.392986 6.6970353,15.224985 6.6600351,15.026986 6.6600351,14.799986 6.6600351,14.521987 6.7240352,14.279988 6.8510356,14.073988 6.9770355,13.867989 7.1450357,13.697989 7.3540358,13.56399 7.5620365,13.42999 7.8000369,13.33099 8.0650372,13.26499 8.3320374,13.20099 8.6030373,13.16899 8.8800377,13.16899z M18.471048,1.9998841C18.279554,1.9986796,17.986103,2.0624566,17.82483,2.41644L17.449827,3.2404019C17.038812,4.14139 16.167833,4.7453849 15.175819,4.8194196 14.184843,4.8913786 13.226825,4.4234292 12.686781,3.5914104L12.196786,2.8364169C11.912787,2.3984348 11.474795,2.5084185 11.345765,2.5524244 11.188781,2.6054019 10.827754,2.785453 10.871762,3.2704308L10.963804,4.2884213C11.052794,5.2763831 10.613763,6.199404 9.7877669,6.7583553 8.9657378,7.3153541 7.902739,7.3833463 7.0147299,6.9283359L6.1437502,6.4873635C5.6707229,6.2464001 5.3486986,6.5553557 5.2597084,6.6563675 5.1547269,6.7773373 4.9387216,7.1003916 5.214725,7.4953439L5.8877053,8.4603569C6.4507599,9.2663137 6.5307169,10.277285 6.1017575,11.16332 5.6677322,12.058265 4.811706,12.627287 3.8127343,12.686307L2.6786904,12.753262C2.1567125,12.785304 2.037693,13.197286 2.0146823,13.323261 1.9847139,13.480241 1.9626799,13.868236 2.408729,14.07624L3.5067007,14.589233C4.4047198,15.009271 4.9847426,15.84721 5.0597553,16.82919 5.1327543,17.810193 4.6857285,18.722167 3.861685,19.270194L2.8486747,19.943156C2.4427261,20.214149 2.5226829,20.593171 2.5746851,20.743133 2.6177156,20.86514 2.782695,21.261131 3.3246925,21.212182L4.4117388,21.111169C5.4057059,21.022182 6.3477316,21.455159 6.9127392,22.280158 7.4717655,23.094112 7.5427503,24.105083 7.1037202,24.988065L6.5987105,26.008069C6.3857569,26.439094 6.6477222,26.729068 6.77077,26.83307 6.8747143,26.921081 7.2417221,27.181087 7.6727562,26.872071L8.4367404,26.325082C8.9097676,25.98805 9.4667801,25.81508 10.027759,25.81508 10.429801,25.81508 10.834774,25.904067 11.210754,26.084058 12.112801,26.516057 12.685805,27.367059 12.742812,28.359048L12.797805,29.338037C12.827774,29.84102 13.250813,29.958024 13.379781,29.983047 13.510825,30.010024 13.959804,30.052993 14.174833,29.580039L14.549837,28.756015C14.96079,27.856065 15.83183,27.251033 16.823844,27.177058 17.809877,27.104062 18.773876,27.574086 19.313859,28.406045L19.803853,29.161039C20.08889,29.599019 20.525846,29.490012 20.653898,29.445031 20.811859,29.391015 21.172885,29.211024 21.128879,28.727023L21.03586,27.708057C20.94687,26.720096 21.386877,25.797075 22.212873,25.239099 23.034902,24.681125 24.0979,24.614108 24.98591,25.068082L25.855913,25.509114C26.333946,25.754106 26.651941,25.441062 26.740932,25.340112 26.844936,25.219079 27.060941,24.896087 26.785915,24.502111L26.112936,23.537099C25.548904,22.730104 25.468946,21.72017 25.897905,20.834136 26.332908,19.938153 27.187957,19.369191 28.187967,19.311208L29.32195,19.243156C29.84295,19.212211 29.961971,18.800168 29.985958,18.674194 30.015987,18.517215 30.03796,18.128183 29.590934,17.920177L28.493938,17.407184C27.594943,16.987209 27.014921,16.150245 26.940946,15.167227 26.867946,14.187262 27.314912,13.275288 28.137918,12.727261L29.151966,12.05326C29.557975,11.783305 29.477956,11.404283 29.424978,11.253284 29.380971,11.131276 29.207935,10.731319 28.67497,10.785335L27.587924,10.885308C26.587915,10.971306 25.652908,10.541319 25.0879,9.7163193 24.528936,8.9033434 24.457889,7.8913343 24.895942,7.0093896L25.401929,5.9883472C25.614944,5.5573847 25.351942,5.2674109 25.228893,5.1634085 25.126903,5.0763738 24.759895,4.8153913 24.327884,5.125384L23.562923,5.672373C22.75188,6.2503674 21.689857,6.3433835 20.789886,5.9133975 19.887838,5.4803593 19.314836,4.6303966 19.257888,3.6384065L19.201858,2.6584405C19.172866,2.1554575 18.748851,2.038455 18.619882,2.0144071 18.587381,2.0079071 18.534877,2.0002856 18.471048,1.9998841z M18.520517,0.00058354079C18.674839,0.0037169566 18.83134,0.019487636 18.988843,0.048493746 20.236841,0.28243844 21.125888,1.2854753 21.19791,2.5444288L21.253879,3.5234177C21.274875,3.8893795 21.54087,4.0553929 21.653907,4.1084315 21.77189,4.1653764 22.078899,4.2734072 22.399887,4.0453832L23.163871,3.4983937C24.204896,2.7564008 25.553909,2.8134067 26.525903,3.6413972 27.481966,4.4543736 27.750951,5.7553799 27.192962,6.8773725L26.686914,7.8973767C26.526941,8.2203695 26.668909,8.4863569 26.736904,8.5863316 26.807949,8.689357 27.027921,8.9383156 27.403963,8.8933336L28.491924,8.7933599C29.762933,8.6833145 30.889957,9.3973543 31.310007,10.586302 31.727003,11.763286 31.303964,13.022301 30.259946,13.717237L29.24596,14.392275C28.938951,14.597228 28.92595,14.89825 28.93596,15.018243 28.944932,15.139213 29.001939,15.437243 29.339956,15.595261L30.437988,16.108253C31.576976,16.640228 32.185012,17.822217 31.949966,19.050164 31.714002,20.285194 30.704959,21.165124 29.439931,21.239158L28.30595,21.307151C27.920936,21.329124 27.751928,21.594135 27.697971,21.70717 27.645969,21.814162 27.545932,22.096141 27.752965,22.392156L28.425945,23.357108C29.141956,24.384132 29.07097,25.709064 28.248941,26.654056 27.413911,27.614064 26.086933,27.870042 24.949899,27.292047L24.078918,26.850099C23.729917,26.672061 23.440912,26.82306 23.33288,26.89508 23.229911,26.965087 22.994924,27.166072 23.027883,27.528066L23.120903,28.546058C23.232902,29.801044 22.504869,30.921022 21.307897,31.335017 20.100854,31.74999 18.819835,31.317989 18.12586,30.249034L17.63684,29.494041C17.428831,29.174039 17.107845,29.164029 16.972833,29.172025 16.843864,29.182035 16.526845,29.24203 16.369861,29.585042L15.994857,30.409005C15.54185,31.403009 14.59482,31.997972 13.540793,31.997972 13.366781,31.997972 13.189777,31.981981 13.01082,31.947984 11.762762,31.713979 10.874752,30.711003 10.801753,29.45205L10.74676,28.47306C10.724787,28.108075 10.459771,27.942062 10.345755,27.888047 10.22875,27.831041 9.9218011,27.723071 9.5997767,27.952071L8.8367686,28.498023C7.7977576,29.243007 6.4467315,29.184049 5.4747376,28.356057 4.5187344,27.542043 4.2496891,26.242074 4.8077387,25.120082L5.3127484,24.099101C5.4736995,23.776109 5.3317308,23.510122 5.2637367,23.411124 5.1917147,23.306144 4.9736948,23.063106 4.5967383,23.103145L3.5087149,23.204095C2.2416744,23.31713 1.1116587,22.599124 0.69069513,21.410176 0.27369901,20.233192 0.69667669,18.975215 1.7397161,18.27918L2.7546796,17.60518C3.0616896,17.399188 3.0737135,17.099206 3.0646805,16.979213 3.0557079,16.858243 2.997724,16.560212 2.659708,16.402194L1.5627129,15.889201C0.42268726,15.357227 -0.18431317,14.174261 0.049697865,12.94729 0.28566202,11.711285 1.2947049,10.832331 2.560708,10.75732L3.6937143,10.690304C4.0787282,10.667294 4.2477359,10.403321 4.3027291,10.290285 4.3547315,10.182316 4.4537315,9.9003374 4.2466983,9.6043217L3.5737183,8.6393091C2.8586845,7.6123468 2.9297301,6.2883918 3.7516982,5.3433983 4.5867285,4.3833906 5.9127297,4.1263754 7.0507412,4.7043697L7.921782,5.1463801C8.2717614,5.3274076 8.5587515,5.176409 8.6677613,5.1013977 8.769752,5.0313913 9.0057768,4.831382 8.9717803,4.4693882L8.8797383,3.450421C8.7667613,2.195435 9.4957718,1.0754565 10.692805,0.66146065 11.897772,0.24648927 13.179828,0.67946626 13.873805,1.7474433L14.3638,2.5024371C14.572847,2.8214023 14.895848,2.8354401 15.027807,2.824454 15.156837,2.8144443 15.473795,2.7554242 15.629802,2.4114351L16.004806,1.5874725C16.466825,0.57598264,17.440261,-0.021345236,18.520517,0.00058354079z" 
-                                                      Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" Stretch="Fill" Width="24" Height="24" />
-                                                </Canvas>
-                                            </Viewbox>
-                                        </ToggleButton>
-                                        <TextBlock Text="Registrar" HorizontalAlignment="Center"></TextBlock>
-                                        <TextBlock Text="Venta" HorizontalAlignment="Center"></TextBlock>
-                                    </StackPanel>
-                                </DockPanel>
-                            </StackPanel>
-
-                            <TabControl Margin="0 5 0 0">
-                                <TabItem x:Name="tabBeneficio" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
-
-                                        <TextBlock FontSize="40" FontWeight="Light" 
-                                               Background="White" 
-                                               Foreground="CornflowerBlue"
-                                               VerticalAlignment="Center"
-                                               Text="Costo Beneficio">
-                                        </TextBlock>
-
-                                        <ComboBox x:Name="cmbProveedor" 
-                                              DisplayMemberPath="NombreProveedor" 
-                    	                      SelectedValuePath="Nit"
-                                              VerticalAlignment="Top"
-                                              Height="42"
-                                              Visibility="Visible"
-                                              SelectedIndex="0"
-                                              Margin="0 20 0 0"
-                                              >
-                                        </ComboBox>
-
-                                        <DockPanel>
-
-                                            <TextBox x:Name="txtNumeroFactura" Margin="0,20,0,0"
-                        	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                        	                    Controls:TextBoxHelper.Watermark="Numero de factura" 
-                        	                    Height="42" VerticalAlignment="Top" 
-                                                Width="250"
-                                                DockPanel.Dock="Left">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Factura" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-
-                                            <TextBox x:Name="txtValorBeneficio" Margin="20,20,0,0"
-                        	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                        	                    Controls:TextBoxHelper.Watermark="Valor Beneficio" 
-                        	                    Height="42" VerticalAlignment="Top" 
-                                                DockPanel.Dock="Right">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                            </TextBox>
-
-
-
-                                        </DockPanel>
-
-                                        <Button x:Name="btnSiguiente" Width="100" Height="35" 
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Siguiente"
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                               
-                                                Margin="0 20 0 0">
-
-                                        </Button>
-                                    </StackPanel>
-                                </TabItem>
-
-                                <TabItem x:Name="tabVenta" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
-
-                                        <TextBlock FontSize="40" FontWeight="Light" 
-                                               Background="White" 
-                                               Foreground="CornflowerBlue"
-                                               VerticalAlignment="Center"
-                                               Text="Registro Venta">
-                                        </TextBlock>
-
-                                        <ComboBox x:Name="cmbProducto" 
-                    	                        DisplayMemberPath="NombreProducto" 
-                    	                        SelectedValuePath="idProducto"
-                    	                        Margin="0 20 0 0" VerticalAlignment="Top"
-                    	                        IsSynchronizedWithCurrentItem="true" 
-                    	                        Height="42"
-                                                SelectedIndex="0"
-                                                >
-                                        </ComboBox>
-
-                                        <DatePicker x:Name="dtdFecha" Margin="0,20,0,0" 
-                            	                    VerticalAlignment="Top" 
-                            	                    Height="42" 
-                            	                    Controls:TextBoxHelper.Watermark="Fecha "
-                            	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                    SelectedDateFormat="Long"
-                                                    />
-
-                                        <DockPanel>
-                                            <TextBox x:Name="txtCantidadCarga" 
-        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-        		                                 Controls:TextBoxHelper.Watermark="Cantidad de Cargas" 
-                                                 Height="42" 
-                                                 VerticalAlignment="Top" 
-                                                 DockPanel.Dock="Left"
-                                                 Margin="0 20 0 0" Width="200">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-
-                                            <TextBox x:Name="txtValorCarga" 
-        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-        		                                 Controls:TextBoxHelper.Watermark="Valor Carga" 
-                                                 Height="42" 
-                                                 VerticalAlignment="Top"
-                                                 DockPanel.Dock="Right"
-                                                 Margin="20 20 0 0">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                        </DockPanel>
-
-                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0" Visibility="Visible">
-
-                                            <Button x:Name="btnGuardar" Width="100" Height="35" 
-                                                 Margin="0 20 0 0"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Guardar"
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                               
-                                                 />
-
-                                            <Button x:Name="btnCancelar"  Width="100" Height="35" 
-                                                    Margin="20 20 0 0"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Cancelar"
-                                                Background="Gray"    
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                              
-                                                 >
-                                            </Button>
-
-
-                                            <Button x:Name="btnAtras"  Width="100" Height="35" 
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource AccentedSquareButtonStyle}"
-                                                Content="Atras"
-                                                Controls:ButtonHelper.PreserveTextCase="True"
-                                                Background="Crimson"    
-                                         
-                                                Margin="20 20 0 0" >
-
-                                            </Button>
-
-                                        </StackPanel>
-                                    </StackPanel>
-                                </TabItem>
-                            </TabControl>
-                        </StackPanel>
-                    </TabItem>
-                </TabControl>
-            </Grid>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right">
+                    
+                </StackPanel>
+            </DockPanel>
         </DockPanel>
     </DockPanel>
 </UserControl>
