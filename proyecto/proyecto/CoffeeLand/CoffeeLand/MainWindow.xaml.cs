@@ -53,6 +53,7 @@ namespace CoffeeLand
             tamanioPAntalla();
             MainContainer.Content = miInicio;
             lblTitulo.Text = "Inicio";
+            
         }
 
         private void tamanioPAntalla()

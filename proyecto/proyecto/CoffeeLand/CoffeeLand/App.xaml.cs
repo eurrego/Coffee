@@ -22,6 +22,7 @@ namespace CoffeeLand
 
             // cargamos ventana de inicia y validamos el usuario
             frmLogin inicio = new frmLogin();
+
             Nullable<bool> resultDialog = inicio.ShowDialog(); // ojo con este codigo.
 
             if (true == resultDialog.HasValue && true == resultDialog.Value) // si se logra valida se procede a cargar la ventana principal.

@@ -22,93 +22,317 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Storyboard x:Key="ShowPnlLogin" >
+                <DoubleAnimation Storyboard.TargetName="pnlLogin" 
+                                 Storyboard.TargetProperty="Opacity"
+                                 From="0.0" To="9.0" Duration="0:0:5" 
+                                 BeginTime="0:0:5"  />
+            </Storyboard>
+
+            <Storyboard x:Key="ShowMessageNotification" >
+                <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,-71" 
+                                To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:3" 
+                                AutoReverse="True" />
+            </Storyboard>
+
         </ResourceDictionary>
+
     </Window.Resources>
 
 
-    <Grid x:Name="pnlPrincipal" RenderTransformOrigin="0.523,0.42">
-        <Grid.Triggers>
-            <!-- Animates the rectangle's opacity. -->
-            <EventTrigger RoutedEvent="Grid.Loaded">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimation
-                                    Storyboard.TargetName="pnlLogin" 
-                                    Storyboard.TargetProperty="Opacity"
-                                    From="0.0" To="9.0" Duration="0:0:5" 
-                                    BeginTime="0:0:5"
-                         />
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Grid.Triggers>
-        <Grid x:Name="pnlCarga" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" VerticalAlignment="Top" Width="342" Background="White" Visibility="Collapsed">
-            <Image x:Name="image" HorizontalAlignment="Left" Height="220" Margin="57,44,0,0" VerticalAlignment="Top" Width="239" Source="Resources/256x256.png" />
-            <Controls:ProgressRing IsActive="True" Margin="148,354,134,113" />
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl x:Name="ControlesFlyouts">
+            <Controls:Flyout x:Name="message"
+                             Header=""
+                             Position="Bottom"
+                             IsPinned="False"
+                             IsOpen="False"
+                             AnimateOnPositionChange="False"
+                             AnimateOpacity="True"
+                             IsModal="False"
+                             Theme="Dark"
+                             CloseButtonVisibility="Collapsed"
+                             TitleVisibility="Collapsed"
+                             AreAnimationsEnabled="True"
+                             Height="90">
+                <Grid Width="370">
+                    <StackPanel Orientation="Vertical" Margin="0 0 0 0">
+                        <TextBlock x:Name="lblTitulo" Margin="0 10 0 0"
+                                   Foreground="Crimson"
+                                   FontSize="18" 
+                                   Text=""
+                                   FontWeight="Regular"/>
+                        <TextBlock x:Name="lblMensaje" Margin="0 0 0 0" Foreground="WhiteSmoke"
+                                   FontSize="18" 
+                                   Text=""
+                                   FontWeight="Light"/>
+                    </StackPanel>
+
+                </Grid>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+
+
+
+    <Grid x:Name="pnlPrincipal" Loaded="pnlPrincipal_Loaded">
+        <Button x:Name="btnCerrar" Width="35" Height="35"
+                Margin="0 10 15 0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                BorderThickness="0" 
+                ToolTip="Cerrar"
+                Click="btnCerrar_Click"
+                >
+            <Rectangle Width="15" Height="15" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}"/>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Grid x:Name="pnlCarga" 
+              Height="450" Margin="0,50,0,0"
+              VerticalAlignment="Top"
+              Width="340" 
+              Background="White"
+              >
+
+            <StackPanel>
+                <Image x:Name="image" HorizontalAlignment="Center" 
+                       Margin="0,44,0,0" 
+                       Width="240"
+                       Source="Resources/256x256.png" />
+
+                <Controls:ProgressRing IsActive="True" 
+                                       Margin="0 40 0 0"
+                                       HorizontalAlignment="Center"
+                                       />
+            </StackPanel>
         </Grid>
-        
-        <Grid x:Name="pnlLogin" HorizontalAlignment="Left" Height="527" Margin="10,10,0,0" 
-              VerticalAlignment="Top" Width="342" Background="White" >
-            
-            <Label x:Name="label" Content="INICIO" HorizontalAlignment="Left" Margin="70,10,0,0"
-                   VerticalAlignment="Top" FontSize="64"
-                   FontFamily="Arial Rounded MT Bold"
-                   Foreground="CornflowerBlue">
-               
-            </Label>
-            
-            <Label x:Name="label_Copy" Content="DE" HorizontalAlignment="Left"
-                   Margin="145,72,0,0" VerticalAlignment="Top"
-                   FontSize="32" 
-                   FontFamily="Arial Rounded MT Bold"
-                   Foreground="CornflowerBlue">
-            </Label>
-
-            <Label x:Name="label_Copy1" Content="SESIÓN"
-                   HorizontalAlignment="Left" Margin="78,104,0,0" 
-                   VerticalAlignment="Top" FontSize="48"
-                   FontFamily="Arial Rounded MT Bold"
-                   Foreground="CornflowerBlue">
-            </Label>
 
 
-            <TextBox x:Name="txtUsuario"
-                     HorizontalAlignment="Left" 
-                     Height="50" Margin="58,245,0,0" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
+        <StackPanel x:Name="pnlLogin" 
+              Height="490" Margin="0,50,0,0"
+              VerticalAlignment="Top"
+              Width="340" 
+              Background="White"
+              Opacity = "0"
+              >
+
+            <StackPanel>
+                <Label Content="INICIO"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Top" FontSize="64"
+                       FontFamily="Arial Rounded MT Bold"
+                       Foreground="CornflowerBlue">
+                </Label>
+                <Label Content="DE" HorizontalAlignment="Center"
+                       Margin="0 -15 0 0"
+                       VerticalAlignment="Top"
+                       FontSize="32" 
+                       FontFamily="Arial Rounded MT Bold"
+                       Foreground="CornflowerBlue">
+                </Label>
+
+                <Label Content="SESIÓN"
+                       Margin="0 -15 0 0"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Top" 
+                       FontSize="48"
+                       FontFamily="Arial Rounded MT Bold"
+                       Foreground="CornflowerBlue">
+                </Label>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBox x:Name="txtUsuario"
+                     HorizontalAlignment="Center" 
+                     Height="42" 
+                     Margin="0 40 0 0"
                      Width="229"
                      Controls:TextBoxHelper.Watermark="Usuario" 
                      Controls:TextBoxHelper.UseFloatingWatermark="True"
-                     Controls:TextBoxHelper.ClearTextButton="True"
-                     VerticalContentAlignment="Center" 
-                     FontSize="16"  
                      >
-            </TextBox>
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                </Trigger>
+                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-
-
-            <PasswordBox x:Name="txtPassword" 
-                         HorizontalAlignment="Left" 
-                         Margin="58,320,0,0" 
-                         VerticalAlignment="Top" 
-                         Width="229" Height="50"  
+                <PasswordBox x:Name="txtPassword" 
+                         HorizontalAlignment="Center" 
+                         Margin="0,30,0,0" 
+                         Width="229" 
+                         Height="42"  
                          Controls:TextBoxHelper.Watermark="Contraseña" 
                          Controls:TextBoxHelper.UseFloatingWatermark="True"
-                         VerticalContentAlignment="Center"
-                         Style="{StaticResource Win8MetroPasswordBox}"
-                        >
-            </PasswordBox>
+                         Controls:PasswordBoxHelper.CapsLockIcon="!"
+                         >
+                    <Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                        <TextBlock>
+                            <Run Text="Tiene el " />
+                            <Run Text="Bloqueo de Mayúsculas"
+                                 Foreground="Red" />
+                            <Run Text=" activo" />
+                        </TextBlock>
+                    </Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                </PasswordBox>
 
-
-            <Button x:Name="btnIngresar" 
+                <Button x:Name="btnIngresar" 
                     Content="INGRESAR" 
-                    HorizontalAlignment="Left" 
-                    Margin="117,406,0,0" 
-                    VerticalAlignment="Top" 
-                    Width="105"  Height="38" 
+                    HorizontalAlignment="Center" 
+                    Margin="0,30,0,0" 
+                    Width="105" 
+                    Height="38" 
                     Click="btnIngresar_Click"
                     Style="{StaticResource AccentedSquareButtonStyle}"/>
+
+            </StackPanel>
+
+            <Grid x:Name="containerRecuperar">
+                <Label Content="¿Olvido su contraseña?"
+                   Foreground="Coral"
+                   FontSize="15"
+                   FontWeight="Light"
+                   Margin="0 60 5 0"
+                   HorizontalAlignment="Right"
+                   Width="160" Height="40"></Label>
+                <Button x:Name="btnRecuperarContraseña"
+                    Width="160"
+                    Margin="0 60 5 0"
+                    HorizontalAlignment="Right"
+                    BorderThickness="0" 
+                    Background="{x:Null}"
+                    Click="btnRecuperarContraseña_Click"
+                    Opacity="0" 
+                    />
+            </Grid>
+
+        </StackPanel>
+
+        <Grid x:Name="pnlRecuperar" 
+              Height="450" Margin="0,50,0,0"
+              VerticalAlignment="Top"
+              Width="340" 
+              Background="White"
+              Visibility="Collapsed"
+              >
+
+            <StackPanel VerticalAlignment="Top" Margin="0 40 0 0">
+
+                <Label  Content="RECUPERAR" HorizontalAlignment="Center" 
+                       VerticalAlignment="Top" FontSize="35"
+                       FontFamily="Arial Rounded MT Bold"
+                       Foreground="Gray">
+                </Label>
+
+                <Label  Content="CONTRASEÑA"
+                       HorizontalAlignment="Center"  
+                       VerticalAlignment="Top" FontSize="24"
+                       Margin="0 -10 0 0"
+                       FontFamily="Arial Rounded MT Bold"
+                       Foreground="Gray">
+                </Label>
+
+
+                <StackPanel x:Name="pnlValidate" Visibility="Visible">
+
+                    <ComboBox x:Name="cmbPreguntaSeguridad"  
+                          VerticalAlignment="Top"
+                          Height="42"
+                          SelectedIndex="0" 
+                          Margin="40 60 40 0"
+                          FontSize="10"
+                         />
+
+                    <TextBox x:Name="txtRepuestaSeguridad" 
+                         Margin="40 20 40 0"
+        		         Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		         Controls:TextBoxHelper.Watermark="Respuesta Seguridad" 
+                         Height="42" 
+                         >
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                    </Trigger>
+                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <Button x:Name="btnRecuperar" 
+                        Content="Recuperar" 
+                        Controls:ButtonHelper.PreserveTextCase="True"    
+                        Width="105"  Height="38" 
+                        Click="btnRecuperar_Click"
+                        Margin="0 30 0 0 "
+                        Style="{StaticResource AccentedSquareButtonStyle}"/>
+                </StackPanel>
+
+                <StackPanel x:Name="pnlChangePassword" Visibility="Collapsed">
+
+                    <PasswordBox x:Name="txtContrasena" 
+                         Margin="40 60 40 0"
+                         Height="42"  
+                         Controls:TextBoxHelper.Watermark="Nueva Contraseña" 
+                         Controls:TextBoxHelper.UseFloatingWatermark="True"
+                         Controls:PasswordBoxHelper.CapsLockIcon="!"
+                         >
+                        <Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                            <TextBlock>
+                            <Run Text="Tiene el " />
+                            <Run Text="Bloqueo de Mayúsculas"
+                                 Foreground="Red" />
+                            <Run Text=" activo" />
+                            </TextBlock>
+                        </Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                    </PasswordBox>
+
+                    <PasswordBox x:Name="txtConfirmarContrasena" 
+                                 Margin="40 20 40 0"
+                                 Height="42"  
+                                 Controls:TextBoxHelper.Watermark="Confirmar Contraseña" 
+                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+                                 Controls:PasswordBoxHelper.CapsLockIcon="!"
+                                 >
+                        <Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                            <TextBlock>
+                            <Run Text="Tiene el " />
+                            <Run Text="Bloqueo de Mayúsculas"
+                                 Foreground="Red" />
+                            <Run Text=" activo" />
+                            </TextBlock>
+                        </Controls:PasswordBoxHelper.CapsLockWarningToolTip>
+                    </PasswordBox>
+
+                    <Button x:Name="btnCambiar" 
+                        Content="Cambiar" 
+                        Controls:ButtonHelper.PreserveTextCase="True"    
+                        Width="105"  Height="38" 
+                        Click="btnCambiar_Click"
+                        Margin="0 30 0 0 "
+                        Style="{StaticResource AccentedSquareButtonStyle}"/>
+                </StackPanel>
+
+            </StackPanel>
 
         </Grid>
     </Grid>
