@@ -10,16 +10,9 @@
 namespace Modelo
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class GestionUsuario_Result
     {
-        public short idUsuario { get; set; }
-        public string Nickname { get; set; }
-        public string Rol { get; set; }
-        public string PreguntaSeguridad { get; set; }
-        public string Respuesta { get; set; }
-        public string EstadoUsuario { get; set; }
-        public string Contrasena { get; set; }
+        public string Mensaje { get; set; }
     }
 }

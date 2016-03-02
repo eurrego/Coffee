@@ -281,6 +281,7 @@
     <Compile Include="Validator\TipoArbolesValidator.cs" />
     <Compile Include="Validator\TipoInsumoValidator.cs" />
     <Compile Include="Validator\VentaValidator.cs" />
+    <Compile Include="Validator\UsuarioValidator.cs" />
     <Page Include="frmAdministracionCostos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
