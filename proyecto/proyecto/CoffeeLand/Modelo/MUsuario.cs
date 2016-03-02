@@ -109,7 +109,7 @@ namespace Modelo
             using (var entity = new DBFincaEntities())
             {
                 var contra = from c in entity.Usuario
-                             where c.Nickname == nickName
+                             where c.Nickname == nickName && c.EstadoUsuario == "A"
                              select c;
                 return contra.ToList();
             }

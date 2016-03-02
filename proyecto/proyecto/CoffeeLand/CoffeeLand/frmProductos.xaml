@@ -16,13 +16,18 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" /> 
             </ResourceDictionary.MergedDictionaries>
 
             <validator:ProductosValidator x:Key="Validator"/>
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>

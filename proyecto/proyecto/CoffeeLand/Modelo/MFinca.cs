@@ -46,52 +46,29 @@ namespace Modelo
         }
 
 
-        public string ConsultarDepartamentoParametro(int id)
+        public object ConsultarDepartamentoParametro(int id)
         {
-            string nombre = string.Empty;
 
             using (var entity = new DBFincaEntities())
             {
-
-
                 var query = from c in entity.Departamento
                             where c.idDepartamento == id
-                            select new
-                            {
-                                c.NombreDepartamento
-                            };
+                            select c;
 
-
-                foreach (var item in query)
-                {
-                    Type v = item.GetType();
-                    nombre = v.GetProperty("NombreDepartamento").GetValue(item).ToString();
-                }
-
-                return nombre;
+                return query.ToList();
             }
         }
 
-        public string ConsultarMunicipioParametro(int id)
+        public object ConsultarMunicipioParametro(int id)
         {
-            string nombre = string.Empty;
 
             using (var entity = new DBFincaEntities())
             {
                 var query = from c in entity.Municipio
                             where c.idMunicipio == id
-                            select new
-                            {
-                                c.NombreMunicipio
-                            };
+                            select c;
 
-                foreach (var item in query)
-                {
-                    Type v = item.GetType();
-                    nombre = v.GetProperty("NombreMunicipio").GetValue(item).ToString();
-                }
-
-                return nombre;
+                return query.ToList() ;
             }
         }
 

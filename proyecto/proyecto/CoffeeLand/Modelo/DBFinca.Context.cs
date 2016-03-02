@@ -334,7 +334,7 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<gestionProveedor_Result>("gestionProveedor", nitParameter, nombreProveedorParameter, telefonoParameter, direccionParameter, tipoDocumentoParameter, opcParameter);
         }
     
-        public virtual ObjectResult<gestionTipoArboles_Result> gestionTipoArboles(string nombreArbol, string descripcion, Nullable<int> idTipoArbol, Nullable<int> opc)
+        public virtual ObjectResult<gestionTipoArboles_Result> gestionTipoArboles(string nombreArbol, string descripcion, Nullable<int> idTipoArbol, Nullable<int> tiempoProduccion, Nullable<int> opc)
         {
             var nombreArbolParameter = nombreArbol != null ?
                 new ObjectParameter("NombreArbol", nombreArbol) :
@@ -348,11 +348,15 @@ namespace Modelo
                 new ObjectParameter("idTipoArbol", idTipoArbol) :
                 new ObjectParameter("idTipoArbol", typeof(int));
     
+            var tiempoProduccionParameter = tiempoProduccion.HasValue ?
+                new ObjectParameter("tiempoProduccion", tiempoProduccion) :
+                new ObjectParameter("tiempoProduccion", typeof(int));
+    
             var opcParameter = opc.HasValue ?
                 new ObjectParameter("opc", opc) :
                 new ObjectParameter("opc", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<gestionTipoArboles_Result>("gestionTipoArboles", nombreArbolParameter, descripcionParameter, idTipoArbolParameter, opcParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<gestionTipoArboles_Result>("gestionTipoArboles", nombreArbolParameter, descripcionParameter, idTipoArbolParameter, tiempoProduccionParameter, opcParameter);
         }
     
         public virtual ObjectResult<gestionTipoInsumo_Result> gestionTipoInsumo(string nombreTipoInsumo, string descripcion, Nullable<int> idTipoInsumo, Nullable<int> opc)

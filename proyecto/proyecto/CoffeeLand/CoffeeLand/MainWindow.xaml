@@ -22,12 +22,17 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
             <validator:UsuarioValidator x:Key="Validator"/>
+
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
 
 
             <ContextMenu x:Key="cmButton">
@@ -228,7 +233,7 @@
                                     >
                                 <Rectangle Width="30" Height="30" Fill="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_people}"/>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                             </Button>
@@ -720,6 +725,7 @@
                                                       Margin="0 20 0 0" 
                                                       Height="42"
                                                       SelectedIndex="0"
+                                                  SelectionChanged="cmbRol_SelectionChanged"
                                                       >
                                         </ComboBox>
 

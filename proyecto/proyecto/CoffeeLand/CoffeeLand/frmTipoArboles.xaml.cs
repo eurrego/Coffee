@@ -151,7 +151,7 @@ namespace CoffeeLand
         private bool validarCampos()
         {
 
-            if (txtNombre.Text == string.Empty || txtDescripcion.Text == string.Empty)
+            if (txtNombre.Text == string.Empty || txtDescripcion.Text == string.Empty || txtTiempoProduccion.Text == string.Empty)
             {
                 mensajeError("Debe Ingresar todos los Campos");
                 validacion = false;
@@ -169,6 +169,7 @@ namespace CoffeeLand
         {
             txtNombre.Text = string.Empty;
             txtDescripcion.Text = string.Empty;
+            txtTiempoProduccion.Text = string.Empty;
             txtId.Text = string.Empty;
         }
 
@@ -192,9 +193,9 @@ namespace CoffeeLand
             {
                 if (validarCampos())
                 {
-                    if (IsValid(txtNombre) && IsValid(txtDescripcion))
+                    if (IsValid(txtNombre) && IsValid(txtDescripcion) & IsValid(txtTiempoProduccion))
                     {
-                        rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, 0, 1).ToString();
+                        rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, 0, Convert.ToInt32(txtTiempoProduccion.Text), 1).ToString();
                         mensajeInformacion(rpta);
                         Limpiar();
                         tabBuscar.Focus();
@@ -215,7 +216,7 @@ namespace CoffeeLand
             }
             else if (IsValid(txtNombre) && IsValid(txtDescripcion))
             {
-                rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, Convert.ToInt32(txtId.Text), 2).ToString();
+                rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, Convert.ToInt32(txtId.Text), Convert.ToInt32(txtTiempoProduccion.Text), 2).ToString();
                 mensajeInformacion(rpta);
                 Limpiar();
                 tabBuscar.IsEnabled = true;
@@ -254,6 +255,7 @@ namespace CoffeeLand
             txtId.Text = item.idTipoArbol.ToString();
             txtNombre.Text = item.NombreTipoArbol;
             txtDescripcion.Text = item.Descripcion;
+            txtTiempoProduccion.Text = item.TiempoProduccion.ToString();
 
             tabBuscar.IsEnabled = false;
             tabNuevo.Header = "EDITAR";
@@ -278,6 +280,7 @@ namespace CoffeeLand
             byte id = item.idTipoArbol;
             string nombre = item.NombreTipoArbol;
             string descripcion = item.Descripcion;
+            byte tiempoProduccion = item.TiempoProduccion;
 
             var mySettings = new MetroDialogSettings()
             {
@@ -291,7 +294,7 @@ namespace CoffeeLand
             {
                 string rpta = "";
 
-                rpta = MTipoArbol.GetInstance().registrarTipoArbol(nombre, descripcion, id, 3).ToString();
+                rpta = MTipoArbol.GetInstance().registrarTipoArbol(nombre, descripcion, id, tiempoProduccion, 3).ToString();
                 mensajeInformacion(rpta);
 
                 if (pnlResultados.IsVisible)
@@ -330,6 +333,7 @@ namespace CoffeeLand
             byte id = item.idTipoArbol;
             string nombre = item.NombreTipoArbol;
             string descripcion = item.Descripcion;
+            byte tiempoProduccion = item.TiempoProduccion;
 
             var mySettings = new MetroDialogSettings()
             {
@@ -343,7 +347,7 @@ namespace CoffeeLand
             {
                 string rpta = "";
 
-                rpta = MTipoArbol.GetInstance().registrarTipoArbol(nombre, descripcion, id, 4).ToString();
+                rpta = MTipoArbol.GetInstance().registrarTipoArbol(nombre, descripcion, id, tiempoProduccion, 4).ToString();
                 mensajeInformacion(rpta);
 
                 if (pnlResultados.IsVisible)

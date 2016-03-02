@@ -784,6 +784,7 @@
           <Parameter Name="NombreArbol" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
           <Parameter Name="idTipoArbol" Type="int" Mode="In" />
+          <Parameter Name="tiempoProduccion" Type="int" Mode="In" />
           <Parameter Name="opc" Type="int" Mode="In" />
         </Function>
         <Function Name="gestionTipoInsumo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1926,6 +1927,7 @@
             <Parameter Name="NombreArbol" Mode="In" Type="String" />
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="idTipoArbol" Mode="In" Type="Int32" />
+            <Parameter Name="tiempoProduccion" Mode="In" Type="Int32" />
             <Parameter Name="opc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="gestionTipoInsumo" ReturnType="Collection(DBFincaModel.gestionTipoInsumo_Result)">
@@ -2014,7 +2016,7 @@
             <End Role="SalarioPersonaPermanente" EntitySet="SalarioPersonaPermanente" />
           </AssociationSet>
           <FunctionImport Name="PagosPersona" ReturnType="Collection(DBFincaModel.PagosPersona_Result)">
-            <Parameter Name="opcionPago" Mode="In" Type="Int32" />
+          <Parameter Name="opcionPago" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="asociarLaborLote_Result">

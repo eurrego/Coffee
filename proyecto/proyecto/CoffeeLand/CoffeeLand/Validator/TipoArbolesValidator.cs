@@ -18,6 +18,14 @@ namespace CoffeeLand.Validator
             set { nombre = value; }
         }
 
+        private string tiempoProduccion = string.Empty;
+
+        public string TiempoProduccion
+        {
+            get { return tiempoProduccion; }
+            set { tiempoProduccion = value; }
+        }
+
         private string descripcion = string.Empty;
 
         public string Descripcion
@@ -73,6 +81,23 @@ namespace CoffeeLand.Validator
                             if (descripcion.Length > 45)
                             {
                                 result = "La descripción debe ser menor que 45 caracteres.";
+                            }
+                        }
+                        break;
+                    case "TiempoProduccion":
+                        if (string.IsNullOrEmpty(tiempoProduccion))
+                        {
+                            result = "El campo es obligatorio.";
+                        }
+                        else
+                        {
+                            if (!numeros.IsMatch(tiempoProduccion))
+                            {
+                                result = "El campo solo acepta números.";
+                            }
+                            else if (tiempoProduccion.Equals("0"))
+                            {
+                                result = "El valor no puede ser cero";
                             }
                         }
                         break;

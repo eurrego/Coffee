@@ -17,11 +17,9 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
-
             </ResourceDictionary.MergedDictionaries>
 
-            <validator:CompraValidator x:Key="Validator"/>
+            <validator:FincaValidator x:Key="Validator"/>
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
@@ -46,9 +44,10 @@
 
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="lblcargas" 
-                                   Margin="20 0 0 0" 
+                                   Margin="35 40 0 0" 
                                    Text="Bienvenido" FontSize="80" 
-                                   FontWeight="Light"></TextBlock>
+                                   FontWeight="Light"
+                                   VerticalAlignment="Center"></TextBlock>
                         </StackPanel>
 
                         <Image x:Name="image" HorizontalAlignment="Right" 
@@ -61,16 +60,108 @@
             </StackPanel>
 
             <DockPanel>
-
                 <StackPanel DockPanel.Dock="Left" x:Name="pnlInfo" Width="600">
 
+                    <StackPanel Margin="0 20 0 0" HorizontalAlignment="Center">
 
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel  Orientation="Vertical" Width="260" Height="180" 
+                                      HorizontalAlignment="Left"
+                                      Background="WhiteSmoke"
+                                      Margin="0 30 0 0">
+
+                                <TextBlock x:Name="lblLotes" 
+                                FontSize="60" Text="0"
+                                  Margin="0 40 0 0"
+                                  HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 FontFamily="Arial Rounded MT Bold" 
+                                  Foreground="CornflowerBlue"
+                                  ></TextBlock>
+
+                                <TextBlock FontSize="30" 
+                                 Margin="0 0 0 0"
+                                 Text="Lotes" 
+                                 Foreground="Gray"
+                                 FontWeight="Regular"
+                                  HorizontalAlignment="Center"></TextBlock>
+
+                            </StackPanel>
+
+                            <StackPanel  Orientation="Vertical" Width="260" Height="180" 
+                                       HorizontalAlignment="Left"
+                                     Background="WhiteSmoke"
+                                     Margin="30 30 0 0">
+
+                                <TextBlock x:Name="lblArboles" 
+                                           FontSize="60" 
+                                           Margin="0 40 0 0"
+                                           Text="0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Arial Rounded MT Bold" 
+                                           Foreground="CornflowerBlue"
+                                           >
+                                </TextBlock>
+
+                                <TextBlock FontSize="30" 
+                                        Text="Árboles" 
+                                         Foreground="Gray"
+                                         FontWeight="Regular"
+                                         HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel  Orientation="Vertical" Width="260" Height="180" 
+                                       HorizontalAlignment="Left"
+                                        Background="WhiteSmoke"
+                                      Margin="0 30 0 0">
+
+                                <TextBlock x:Name="lblEmpleados" 
+                                 FontSize="60" Text="0"
+                                 Margin="0 40 0 0"
+                                  HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                  FontFamily="Arial Rounded MT Bold" 
+                                 Foreground="CornflowerBlue"
+                                  ></TextBlock>
+
+                                <TextBlock FontSize="30" 
+                                       Text="Empleados" 
+                                        Foreground="Gray"
+                                         FontWeight="Regular"
+                                          HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+
+                            <StackPanel  Orientation="Vertical" Width="260" Height="180" 
+                                     HorizontalAlignment="Left"
+                                      Background="WhiteSmoke"
+                                      Margin="30 30 0 0">
+
+                                <TextBlock x:Name="lblProductos" 
+                                  FontSize="60" Text="0"
+                                  Margin="0 40 0 0"
+                                 HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  FontFamily="Arial Rounded MT Bold" 
+                                 Foreground="CornflowerBlue"
+                                 ></TextBlock>
+
+                                <TextBlock FontSize="30" 
+                                         Text="Productos" 
+                                          Foreground="Gray"
+                                         FontWeight="Regular"
+                                         HorizontalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
 
-                <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+                <Separator Margin="15 0 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
 
                 <StackPanel DockPanel.Dock="Right" x:Name="pnlForm" Margin="50 0 0 0">
-                    <Grid Margin="0 60 0 0">
+                    <Grid Margin="0 0 0 0">
 
                         <StackPanel x:Name="tabUpdateFinca" Visibility="Collapsed" >
                             <StackPanel Orientation="Vertical">
@@ -111,8 +202,8 @@
                                 </StackPanel>
 
                                 <Button x:Name="btnUpdate" Width="80" Height="80"
-                                            Margin="0 40 0 0"
-                                            HorizontalAlignment="Center"
+                                        HorizontalAlignment="Left"
+                                            Margin="250 40 0 0"
                                             Style="{DynamicResource MetroCircleButtonStyle}"
                                             BorderThickness="0" ToolTip="Nuevo"
                                             Click="btnUpdate_Click"
@@ -125,9 +216,9 @@
                                     </Viewbox>
                                 </Button>
 
-                                <TextBlock  Margin="0,-5,0,0"  
+                                <TextBlock  Margin="250,-5,0,0"  
                                                 VerticalAlignment="Top" 
-                                                HorizontalAlignment="Center"
+                                                HorizontalAlignment="Left"
                                                 FontSize="20" 
                                                 FontWeight="Regular"
                                                 Text="Registrar"
@@ -136,117 +227,138 @@
 
                         </StackPanel>
                         <StackPanel x:Name="tabInfo" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
+                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="0,0,0,0">
 
-                                <TextBlock x:Name="lblInfoFinca" 
-                                                   Margin="0,20,0,0"  
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Margin="0,20,0,0"  
                                                    VerticalAlignment="Top" 
-                                                   FontSize="60" 
+                                                   FontSize="80" 
                                                    FontWeight="Light"
-                                                   Foreground="CornflowerBlue"
-                                                   Text="La Pava"
+                                                   Foreground="Gray"
+                                                   Text="Finca"
                                                    FontFamily="Arial Rounded MT Bold"
                                                    />
 
-                                <StackPanel Orientation="Horizontal" Margin="0 -10 0 0">
+                                    <TextBlock x:Name="lblInfoFinca" 
+                                                   Margin="10,20,0,0"  
+                                                   VerticalAlignment="Top" 
+                                                   FontSize="80" 
+                                                   FontWeight="Light"
+                                                   Foreground="CornflowerBlue"
+                                                   Text=""
+                                                   FontFamily="Arial Rounded MT Bold"
+                                                   />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 -15 0 0">
                                     <TextBlock x:Name="lblMunicipio"  Margin="0,10,0,0" 
                                                        VerticalAlignment="Top" Height="52" 
-                                                       FontSize="40" Foreground="Gray" 
-                                                       Text="Concordia"
+                                                       FontSize="45" Foreground="Gray" 
+                                                       Text=""
                                                        DockPanel.Dock="Left"
+                                               FontFamily="Arial Rounded MT Bold"
                                                        />
 
                                     <TextBlock  Margin="5,10,0,0" 
                                                     VerticalAlignment="Top" Height="52" 
-                                                    FontSize="40" Foreground="Gray" 
+                                                    FontSize="45" Foreground="Gray" 
                                                     Text=","
                                                     DockPanel.Dock="Left"
+                                                FontFamily="Arial Rounded MT Bold"
                                                     />
 
                                     <TextBlock x:Name="lblDepartamento"  Margin="10,10,0,0" 
                                                        VerticalAlignment="Top" Height="52" 
-                                                       FontSize="40" Foreground="CornflowerBlue" 
-                                                       Text="Antioquia"
+                                                       FontSize="45" Foreground="CornflowerBlue" 
+                                                       Text=""
                                                        DockPanel.Dock="Left"
+                                               FontFamily="Arial Rounded MT Bold"
                                                        />
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                <StackPanel Orientation="Horizontal" Margin="0 30 0 0">
                                     <TextBlock  VerticalAlignment="Top"
                                                     Height="42" 
                                                     FontSize="30" Foreground="Gray" 
-                                                    Text="Vereda: "
-                                                    />
-
-                                    <TextBlock x:Name="lblVereda"   
-                                                   VerticalAlignment="Top" 
-                                                   Height="42"
-                                                   FontSize="30" 
-                                                   Margin="70 0 0 0"
-                                                   Foreground="#FF92C6F9"
-                                                   Text="El Concordilcito"
-                                                   />
-                                </StackPanel>
-
-
-                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-                                    <TextBlock  VerticalAlignment="Top"
-                                                    Height="42" 
-                                                    FontSize="30" Foreground="Gray" 
-                                                    Text="Propietario: "
+                                                    Text="Propietario"
+                                               FontWeight="Light"
                                                     />
 
                                     <TextBlock x:Name="lblPropietario"   
                                                    VerticalAlignment="Top" 
                                                    Height="42"
                                                    FontSize="30" 
-                                                   Margin="15 0 0 0"
-                                                   Foreground="#FF92C6F9"
-                                                   Text="Juan Diego Fernandez"
+                                                   Margin="10 0 0 0"
+                                                   Foreground="CornflowerBlue"
+                                                   Text=""
+                                                FontWeight="Bold"
                                                    />
                                 </StackPanel>
 
-
-                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
                                     <TextBlock  VerticalAlignment="Top"
-                                                    Height="42" 
-                                                    FontSize="30" Foreground="Gray" 
-                                                    Text="Cuadras: "
+                                                 Height="42" 
+                                                FontSize="30" Foreground="Gray" 
+                                                Text="Vereda"
+                                                FontWeight="Light"
                                                     />
 
-                                    <TextBlock x:Name="lblCuadras"   
+                                    <TextBlock x:Name="lblVereda"   
                                                    VerticalAlignment="Top" 
                                                    Height="42"
                                                    FontSize="30" 
-                                                   Margin="50 0 0 0"
-                                                   Foreground="#FF92C6F9"
-                                                   Text="1.342"
+                                                   Margin="60 0 0 0"
+                                                   Foreground="CornflowerBlue"
+                                                   Text=""
+                                              FontWeight="Bold"
                                                    />
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
                                     <TextBlock  VerticalAlignment="Top"
                                                     Height="42" 
                                                     FontSize="30" Foreground="Gray" 
-                                                    Text="Teléfono: "
+                                                    Text="Teléfono"
+                                                 FontWeight="Light"
                                                     />
 
                                     <TextBlock x:Name="lblTelefono"   
                                                    VerticalAlignment="Top" 
                                                    Height="42"
                                                    FontSize="30" 
-                                                   Margin="45 0 0 0"
-                                                   Foreground="#FF92C6F9"
-                                                   Text="3645765"
+                                                   Margin="40 0 0 0"
+                                                   Foreground="CornflowerBlue"
+                                                   Text=""
+                                                FontWeight="Bold"
                                                    />
 
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                                    <TextBlock  VerticalAlignment="Top"
+                                                    Height="42" 
+                                                    FontSize="30" Foreground="Gray" 
+                                                    Text="Cuadras"
+                                                 FontWeight="Light"
+                                                    />
+
+                                    <TextBlock x:Name="lblCuadras"   
+                                                   VerticalAlignment="Top" 
+                                                   Height="42"
+                                                   FontSize="30" 
+                                                   Margin="40 0 0 0"
+                                                   Foreground="CornflowerBlue"
+                                                   Text=""
+                                                FontWeight="Bold"
+                                                   />
                                 </StackPanel>
 
                                 <Button x:Name="btnActualizar"  
                                                 HorizontalAlignment="Left" 
                                                 VerticalAlignment="Center"
                                                 Height="35"
-                                                Margin="0 20 0 0"
+                                                Margin="0 40 0 0"
                                                 Width="100"
                                                 Content="Actualizar"
                                                 Controls:ButtonHelper.PreserveTextCase="True"
@@ -257,7 +369,16 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Name="tabFormulario" Visibility="Collapsed" >
-                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="0,0,0,0" >
+                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="0,0,30,0" >
+
+                                <TextBlock VerticalAlignment="Top" 
+                                           Height="42"
+                                           FontSize="30" 
+                                           Margin="0 20 0 0"
+                                           Foreground="CornflowerBlue"
+                                           Text="Registro Finca"
+                                           FontFamily="Arial Rounded MT Bold"    
+                                           />
 
                                 <TextBox x:Name="txtNombre" 
         		                             Controls:TextBoxHelper.UseFloatingWatermark="True"
@@ -308,7 +429,7 @@
                                         </Style>
                                     </TextBox.Style>
                                     <TextBox.Text>
-                                        <Binding Path="Nombre" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                        <Binding Path="Propietario" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
                                          UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
                                                 <ExceptionValidationRule/>
@@ -319,7 +440,7 @@
 
                                 <DockPanel>
                                     <ComboBox x:Name="cmbDepartamento" VerticalAlignment="Top"
-                                                  DisplayMemberPath= "{Binding NombreDepartamento, Converter={StaticResource StringToCapitalsConverter}}"     
+                                                  DisplayMemberPath= "NombreDepartamento"     
                     	                          SelectedValuePath="idDepartamento"
                                                   Controls:TextBoxHelper.Watermark="Departamento"
                                                   Margin="0 20 0 0" 
@@ -331,9 +452,10 @@
                                     </ComboBox>
 
                                     <ComboBox x:Name="cmbMunicipio" VerticalAlignment="Top"
-                                                  DisplayMemberPath= "{Binding NombreMunicipio, Converter={StaticResource StringToCapitalsConverter}}" 
+                                                  DisplayMemberPath= "NombreMunicipio" 
                     	                          SelectedValuePath="idMunicipio"
                                                   Controls:TextBoxHelper.Watermark="Municipio"
+                                                  IsEnabled="False"
                                                   Margin="20 20 0 0" 
                                                   Height="42"
                                                   SelectedIndex="0"
@@ -366,7 +488,7 @@
                                             </Style>
                                         </TextBox.Style>
                                         <TextBox.Text>
-                                            <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                            <Binding Path="Vereda" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
                                                         UpdateSourceTrigger="PropertyChanged">
                                                 <Binding.ValidationRules>
                                                     <ExceptionValidationRule/>
@@ -427,7 +549,7 @@
                                         </Style>
                                     </TextBox.Style>
                                     <TextBox.Text>
-                                        <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                        <Binding Path="Cuadras" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
                                          UpdateSourceTrigger="PropertyChanged">
                                             <Binding.ValidationRules>
                                                 <ExceptionValidationRule/>

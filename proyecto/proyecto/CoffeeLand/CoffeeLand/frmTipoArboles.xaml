@@ -17,12 +17,17 @@
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <validator:TipoArbolesValidator x:Key="Validator"/>
             <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -58,8 +63,9 @@
                               AutoGenerateColumns="False"
                                >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreTipoArbol, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="200" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="270" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreTipoArbol, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="200" IsReadOnly="True" />
+                            <DataGridTextColumn   Binding="{Binding TiempoProduccion}"  Header="Producción" Width="100" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="90" Header="Editar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -262,7 +268,38 @@
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            
+
+                            <TextBox x:Name="txtTiempoProduccion" 
+        		                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                 Controls:TextBoxHelper.Watermark="Tiempo de Producción (meses)" 
+                                 Controls:TextBoxHelper.IsSpellCheckContextMenuEnabled="True"
+                                 Height="42" 
+                                 VerticalAlignment="Top" 
+                                 Margin="0 20 0 0">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                            </Trigger>
+                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                                <TextBox.Text>
+                                    <Binding Path="TiempoProduccion" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+
+
                             <TextBox x:Name="txtDescripcion" Margin="0 20 0 0"
             	                 Controls:TextBoxHelper.UseFloatingWatermark="True"
             	                 Controls:TextBoxHelper.Watermark="Descripción"

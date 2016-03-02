@@ -54,15 +54,15 @@ namespace CoffeeLand
 
             cmbDepartamento.ItemsSource = MFinca.GetInstance().ConsultarDepartamento();
 
-            //var itemLotes = MInicio.GetInstance().ConsultarLote();
-            //var itemArboles = MInicio.GetInstance().ConsultarCantidadArboles();
-            //var itemEmpleados = MInicio.GetInstance().ConsultarEmpleados();
-            //var itemProductos = MInicio.GetInstance().ConsultarEmpleados();
+            var itemLotes = MInicio.GetInstance().ConsultarLote();
+            var itemArboles = MInicio.GetInstance().ConsultarCantidadArboles();
+            var itemEmpleados = MInicio.GetInstance().ConsultarEmpleados();
+            var itemProductos = MInicio.GetInstance().ConsultarEmpleados();
 
-            //lblArboles.Text = string.Format("{0:0,0}", itemArboles);
-            //lblEmpleados.Text = string.Format("{0:0}", itemEmpleados.Count);
-            //lblLotes.Text = string.Format("{0:0}", itemLotes.Count);
-            //lblProductos.Text = string.Format("{0:0}", itemProductos.Count);
+            lblArboles.Text = string.Format("{0:0,0}", itemArboles);
+            lblEmpleados.Text = string.Format("{0:0}", itemEmpleados.Count);
+            lblLotes.Text = string.Format("{0:0}", itemLotes.Count);
+            lblProductos.Text = string.Format("{0:0}", itemProductos.Count);
 
             infoFinca();
 
@@ -100,7 +100,8 @@ namespace CoffeeLand
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            tabFormulario.Focus();
+            tabFormulario.Visibility = Visibility.Visible;
+            tabUpdateFinca.Visibility = Visibility.Collapsed;
         }
 
         // limpiar Controles
@@ -120,11 +121,16 @@ namespace CoffeeLand
         {
             if (validarCampos())
             {
-                MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
-                mensajeInformacion("Registro Exitoso");
-                Limpiar();
-                infoFinca();
-                tabInfo.Focus();
+                if (IsValid(txtNombre) && IsValid(txtPropietario) && IsValid(txtTelefono) && IsValid(txtVereda))
+                {
+                    MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
+                    mensajeInformacion("Registro Exitoso");
+                    Limpiar();
+                    infoFinca();
+                    tabInfo.Visibility = Visibility.Visible;
+                    tabUpdateFinca.Visibility = Visibility.Collapsed;
+                    tabFormulario.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
@@ -137,12 +143,28 @@ namespace CoffeeLand
             {
                 Type v = item.GetType();
                 lblInfoFinca.Text = v.GetProperty("NombreFinca").GetValue(item).ToString();
+                lblPropietario.Text = v.GetProperty("Propietario").GetValue(item).ToString();
                 lblTelefono.Text = v.GetProperty("Telefono").GetValue(item).ToString();
                 lblVereda.Text = v.GetProperty("Vereda").GetValue(item).ToString();
-                lblCuadras.Text = v.GetProperty("Hectareas").GetValue(item).ToString();
+                lblCuadras.Text = v.GetProperty("Cuadras").GetValue(item).ToString();
 
-                lblDepartamento.Text = MFinca.GetInstance().ConsultarDepartamentoParametro(Convert.ToInt32(v.GetProperty("idDepartamento").GetValue(item)));
-                lblMunicipio.Text = MFinca.GetInstance().ConsultarMunicipioParametro(Convert.ToInt32(v.GetProperty("idMunicipio").GetValue(item)));
+
+                var municipio = MFinca.GetInstance().ConsultarMunicipioParametro(Convert.ToInt32(v.GetProperty("idMunicipio").GetValue(item))) as IEnumerable<Municipio>;
+
+
+                foreach (var mun in municipio)
+                {
+                    lblMunicipio.Text = mun.NombreMunicipio;
+                    int id = mun.idDepartamento;
+
+                    var departamento = MFinca.GetInstance().ConsultarDepartamentoParametro(id) as IEnumerable<Departamento>;
+
+                    foreach (var dep in departamento)
+                    {
+                        lblDepartamento.Text = dep.NombreDepartamento;
+                    }
+
+                }
             }
         }
 
@@ -205,7 +227,16 @@ namespace CoffeeLand
 
         private void cmbDepartamento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cmbMunicipio.ItemsSource = MFinca.GetInstance().ConsultarMunicipios(int.Parse(cmbDepartamento.SelectedValue.ToString()));
+            if (cmbDepartamento.SelectedIndex >= 1)
+            {
+                cmbMunicipio.ItemsSource = MFinca.GetInstance().ConsultarMunicipios(int.Parse(cmbDepartamento.SelectedValue.ToString()));
+                cmbMunicipio.IsEnabled = true;
+            }
+            else
+            {
+                cmbMunicipio.IsEnabled = false;
+            }
+       
         }
 
         private void btnActualizar_Click(object sender, RoutedEventArgs e)
@@ -215,8 +246,8 @@ namespace CoffeeLand
             txtTelefono.Text = lblTelefono.Text;
             txtVereda.Text = lblVereda.Text;
             txtCuadras.Text = lblCuadras.Text;
-            cmbDepartamento.SelectedItem = lblDepartamento.Text;
-            cmbMunicipio.SelectedItem = lblMunicipio.Text;
+            cmbDepartamento.Text = lblDepartamento.Text;
+            cmbMunicipio.Text = lblMunicipio.Text;
 
             tabUpdateFinca.Visibility = Visibility.Collapsed;
             tabInfo.Visibility = Visibility.Collapsed;

@@ -25,14 +25,14 @@ namespace Modelo
 
         #endregion
 
-        public object registrarTipoArbol(String NombreArbol, String Descripcion, int idTipoArbol, int opc)
+        public object registrarTipoArbol(String NombreArbol, String Descripcion, int idTipoArbol, int tiempoProduccion, int opc)
         {
 
             using (var entity = new DBFincaEntities())
             {
                 try
                 {
-                    var rpta = entity.gestionTipoArboles(NombreArbol.ToUpper(), Descripcion.ToUpper(), idTipoArbol, opc).First();
+                    var rpta = entity.gestionTipoArboles(NombreArbol.ToUpper(), Descripcion.ToUpper(), idTipoArbol, tiempoProduccion, opc).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)

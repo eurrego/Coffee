@@ -208,8 +208,8 @@ namespace CoffeeLand
                 Type v = item.GetType();
                 Nickname = v.GetProperty("Nickname").GetValue(item).ToString();
                 Respuesta = v.GetProperty("Respuesta").GetValue(item).ToString();
-                Password = v.GetProperty("Contrasena").GetValue(item).ToString();
-                confirmarPassword = v.GetProperty("Contrasena").GetValue(item).ToString();
+                Password = DesEncriptar(v.GetProperty("Contrasena").GetValue(item).ToString());
+                confirmarPassword = DesEncriptar(v.GetProperty("Contrasena").GetValue(item).ToString());
                 id = v.GetProperty("idUsuario").GetValue(item).ToString();
                 PreguntaSeguridad = v.GetProperty("PreguntaSeguridad").GetValue(item).ToString();
             }
@@ -487,8 +487,8 @@ namespace CoffeeLand
             txtUsuario.Text = item.Nickname;
             txtRespuesta.Text = item.Respuesta;
 
-            txtContrasena.Password = item.Contrasena;
-            txtConfirmarContrasena.Password = item.Contrasena;
+            txtContrasena.Password = DesEncriptar(item.Contrasena);
+            txtConfirmarContrasena.Password = DesEncriptar(item.Contrasena);
 
             txtId.Text = item.idUsuario.ToString();
             cmbPregunta.SelectedItem = item.PreguntaSeguridad;
@@ -503,6 +503,7 @@ namespace CoffeeLand
         {
             Usuario items = tblUsuarios.SelectedItem as Usuario;
             byte id = Convert.ToByte(items.idUsuario);
+            string rol = string.Empty;
 
             if (items.Rol == "Administrador")
             {
@@ -511,7 +512,7 @@ namespace CoffeeLand
                 foreach (var item in tblUsuarios.Items)
                 {
                     Type v = item.GetType();
-                    var rol = v.GetProperty("Rol").GetValue(item).ToString();
+                    rol = v.GetProperty("Rol").GetValue(item).ToString();
 
                     if (rol == "Administrador")
                     {
@@ -519,7 +520,11 @@ namespace CoffeeLand
                     }
                 }
 
-                if ((cantidad - 1) >= 1)
+                if (cantidad > 1)
+                {
+                    return true;
+                }
+                else if (cantidad == 1 && cmbRol.SelectedItem.Equals("Administrador"))
                 {
                     return true;
                 }
@@ -528,10 +533,21 @@ namespace CoffeeLand
                     return false;
                 }
             }
+            else
+            {
+                return true;
+            }
 
-            return true;
         }
 
+        public string DesEncriptar(string cadenaAdesencriptar)
+        {
+            string result = string.Empty;
+            byte[] decryted = Convert.FromBase64String(cadenaAdesencriptar);
+            //result = System.Text.Encoding.Unicode.GetString(decryted, 0, decryted.ToArray().Length);
+            result = System.Text.Encoding.Unicode.GetString(decryted);
+            return result;
+        }
 
         private async void btnInhabilitar_Click(object sender, RoutedEventArgs e)
         {
@@ -766,6 +782,14 @@ namespace CoffeeLand
             btnMenu.Visibility = Visibility.Visible;
             lblTitulo.Visibility = Visibility.Visible;
             Usuario.IsPinned = false;
+        }
+
+        private void cmbRol_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbRol.SelectedIndex > 0 )
+            {
+                
+            }
         }
     }
 }
