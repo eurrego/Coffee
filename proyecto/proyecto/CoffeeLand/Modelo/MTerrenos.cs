@@ -267,8 +267,15 @@ namespace Modelo
                 {
                     new TipoArbol
                     {
-                        idTipoArbol=0,
-                        NombreTipoArbol = "Seleccione árbol",
+                        idTipoArbol= 0,
+                        NombreTipoArbol = "Seleccione árbol"
+                        
+                    },
+                    new TipoArbol
+                    {
+                        NombreTipoArbol = "Nueva siembra"
+
+
                     }
                 };
 
@@ -295,7 +302,6 @@ namespace Modelo
                 };
 
                 var query = lista.Union((from c in entity.TipoArbol
-
                                          select c));
                 return query.ToList();
             }

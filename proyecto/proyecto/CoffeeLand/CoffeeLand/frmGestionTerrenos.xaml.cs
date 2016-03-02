@@ -36,11 +36,24 @@ namespace CoffeeLand
 
         #endregion
 
+        
+
         public frmGestionTerrenos()
         {
             InitializeComponent();
             instance = this;
+            
         }
 
+        private void tabRegistroTerrenos_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmTerrenos misTerrenos = new frmTerrenos();
+            contentRegistroTerrenos.Content = misTerrenos;
+        }
+
+        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            tabRegistroTerrenos.Visibility = Visibility.Visible;
+        }
     }
 }

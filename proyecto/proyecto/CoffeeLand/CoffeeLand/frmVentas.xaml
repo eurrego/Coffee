@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validator:CompraValidator x:Key="Validator"/>
+            <validator:VentaValidator x:Key="Validator"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -161,6 +161,14 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="ValorBeneficio" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
                                             </TextBox>
 
 
@@ -230,7 +238,7 @@
                                                     </Style>
                                                 </TextBox.Style>
                                                 <TextBox.Text>
-                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <ExceptionValidationRule/>
@@ -260,7 +268,7 @@
                                                     </Style>
                                                 </TextBox.Style>
                                                 <TextBox.Text>
-                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <Binding Path="ValorCarga" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
                                                         <Binding.ValidationRules>
                                                             <ExceptionValidationRule/>

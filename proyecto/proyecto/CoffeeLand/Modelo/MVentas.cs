@@ -102,5 +102,22 @@ namespace Modelo
 
             }
         }
+
+        public int ValidarFactura(int Factura, string Proveedor)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = (from c in entity.Compra
+                             where c.NumeroFactura == Factura && c.NitProveedor == Proveedor
+                             select c).Count();
+
+                return query;
+
+            }
+
+
+        }
     }
 }

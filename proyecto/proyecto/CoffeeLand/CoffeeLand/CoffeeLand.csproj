@@ -280,6 +280,7 @@
     <Compile Include="Validator\TerrenosValidator.cs" />
     <Compile Include="Validator\TipoArbolesValidator.cs" />
     <Compile Include="Validator\TipoInsumoValidator.cs" />
+    <Compile Include="Validator\VentaValidator.cs" />
     <Page Include="frmAdministracionCostos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

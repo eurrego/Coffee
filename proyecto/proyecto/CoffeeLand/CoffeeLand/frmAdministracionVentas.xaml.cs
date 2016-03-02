@@ -26,5 +26,16 @@ namespace CoffeeLand
             InitializeComponent();
         }
 
+        private void tabRegistroVentas_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmVentas miVenta = new frmVentas();
+            contentRegistroVenta.Content = miVenta;
+
+        }
+
+        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            tabRegistroVentas.Visibility = Visibility.Visible;
+        }
     }
 }

@@ -25,12 +25,12 @@
 
     <StackPanel Orientation="Vertical" Margin="10 0 0 0">
         <TabControl>
-            <TabItem  Header="Terrenos" Controls:ControlsHelper.HeaderFontSize="40">
+            <TabItem  Header="Terrenos" Controls:ControlsHelper.HeaderFontSize="40" GotFocus="TabItem_GotFocus" >
                 <DockPanel>
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
-                            <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" >
-                                <local:frmTerrenos/>
+                            <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Hidden" IsVisibleChanged="tabRegistroTerrenos_IsVisibleChanged" >
+                                <ContentControl x:Name="contentRegistroTerrenos"></ContentControl>
                             </TabItem>
                         </TabControl>
                     </Grid>

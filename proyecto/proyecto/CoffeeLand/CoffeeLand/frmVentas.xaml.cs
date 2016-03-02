@@ -129,12 +129,18 @@ namespace CoffeeLand
         {
             if (validarCamposBeneficio())
             {
-                //if (IsValid(cmbProveedor) && IsValid(dtdFecha) && IsValid(txtNumeroFactura))
-                //{
+                if (MVentas.GetInstance().ValidarFactura(int.Parse(txtNumeroFactura.Text.ToString()),cmbProveedor.SelectedValue.ToString())==0)
+                {
                     tabVenta.Focus();
                     btnPaso1.IsChecked = false;
                     btnPaso2.IsChecked = true;
-                //}
+
+                }
+                else
+                {
+                    mensajeError("Este número de factura ya se encuentra asociado a este proveedor");
+                }
+          
             }
 
         }
