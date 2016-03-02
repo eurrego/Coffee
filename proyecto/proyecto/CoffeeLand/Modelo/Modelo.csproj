@@ -180,11 +180,15 @@
     <Compile Include="MCompra.cs" />
     <Compile Include="MConcepto.cs" />
     <Compile Include="MEstadoCuenta.cs" />
+    <Compile Include="MFinca.cs" />
     <Compile Include="MGastos.cs" />
     <Compile Include="MInicio.cs" />
     <Compile Include="MInsumo.cs" />
     <Compile Include="MLabores.cs" />
     <Compile Include="MLote.cs" />
+    <Compile Include="ModificarFinca_Result.cs">
+      <DependentUpon>DBFinca.tt</DependentUpon>
+    </Compile>
     <Compile Include="MovimientoProduccion.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>

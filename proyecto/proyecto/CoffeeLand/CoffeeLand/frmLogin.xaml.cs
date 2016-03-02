@@ -71,6 +71,9 @@ namespace CoffeeLand
                             if (item.Contrasena.Equals(Encriptar(txtPassword.Password.ToString())))
                             {
                                 MUsuario.GetInstance().rol = item.Rol;
+                                MainWindow.GetInstance().lblUser.Text = item.Nickname;
+                                MainWindow.GetInstance().lblIdUser.Text = item.idUsuario.ToString();
+
                                 DialogResult = true;
                             }
                             else
@@ -148,7 +151,7 @@ namespace CoffeeLand
 
         private void btnCerrar_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.Close();
+            Close();
         }
 
         private void btnRecuperar_Click(object sender, RoutedEventArgs e)

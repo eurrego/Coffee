@@ -18,15 +18,19 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
 
             <validator:CompraValidator x:Key="Validator"/>
+            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
                    TargetType="{x:Type Separator}">
                 <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
             </Style>
+
+
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -39,18 +43,14 @@
                 <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 0 0 0" >
 
                     <DockPanel>
-                        
+
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="lblcargas" 
                                    Margin="20 0 0 0" 
                                    Text="Bienvenido" FontSize="80" 
                                    FontWeight="Light"></TextBlock>
-                            <StackPanel Orientation="Horizontal" >
-                                <TextBlock Margin="20 0 0 0" Text="finca" FontSize="40" FontWeight="Light" />
-                                <TextBlock x:Name="lblFinca" Margin="10 0 0 0" Text="La Pava" FontSize="40" FontWeight="DemiBold" />
-                            </StackPanel>
                         </StackPanel>
-                        
+
                         <Image x:Name="image" HorizontalAlignment="Right" 
                                Margin="0,0,50,0" 
                                Width="180"
@@ -58,101 +58,426 @@
 
                     </DockPanel>
                 </Grid>
-
-                <WrapPanel Margin="40 0 0 0">
-
-                    <StackPanel  Orientation="Vertical" Width="200" Height="180" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="0 30 0 0">
-
-                        <TextBlock x:Name="lblLotes" 
-                                   FontSize="60" Text="0"
-                                   Margin="0 40 0 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Arial Rounded MT Bold" 
-                                   Foreground="Green"
-                                   ></TextBlock>
-
-                        <TextBlock FontSize="30" 
-                                   Margin="0 0 0 0"
-                                   Text="Lotes" 
-                                   Foreground="Gray"
-                                   FontWeight="Regular"
-                                   HorizontalAlignment="Center"></TextBlock>
-                    </StackPanel>
-
-                    <StackPanel  Orientation="Vertical" Width="200" Height="180" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="30 30 0 0">
-
-                        <TextBlock x:Name="lblArboles" 
-                                   FontSize="40" Text="0"
-                                   Margin="0 60 0 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Arial Rounded MT Bold" 
-                                   Foreground="Crimson"
-                                   ></TextBlock>
-
-                        <TextBlock FontSize="30" 
-                                           Text="Árboles" 
-                                           Foreground="Gray"
-                                           FontWeight="Regular"
-                                           HorizontalAlignment="Center"></TextBlock>
-                    </StackPanel>
-
-                    <StackPanel  Orientation="Vertical" Width="200" Height="180" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="30 30 0 0">
-
-                        <TextBlock x:Name="lblEmpleados" 
-                                   FontSize="60" Text="0"
-                                   Margin="0 40 0 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Arial Rounded MT Bold" 
-                                   Foreground="CornflowerBlue"
-                                   ></TextBlock>
-
-                        <TextBlock FontSize="30" 
-                                           Text="Empleados" 
-                                           Foreground="Gray"
-                                           FontWeight="Regular"
-                                           HorizontalAlignment="Center"></TextBlock>
-                    </StackPanel>
-
-                    <StackPanel  Orientation="Vertical" Width="200" Height="180" 
-                                        HorizontalAlignment="Left"
-                                        Background="LightGray"
-                                        Margin="30 30 0 0">
-
-                        <TextBlock x:Name="lblProductos" 
-                                   FontSize="60" Text="0"
-                                   Margin="0 40 0 0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Arial Rounded MT Bold" 
-                                   Foreground="Goldenrod"
-                                   ></TextBlock>
-
-                        <TextBlock FontSize="30" 
-                                           Text="Productos" 
-                                           Foreground="Gray"
-                                           FontWeight="Regular"
-                                           HorizontalAlignment="Center"></TextBlock>
-                    </StackPanel>
-
-                </WrapPanel>
-
             </StackPanel>
+
             <DockPanel>
-                <StackPanel DockPanel.Dock="Right">
-                    
+
+                <StackPanel DockPanel.Dock="Left" x:Name="pnlInfo" Width="600">
+
+
                 </StackPanel>
+
+                <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
+                <StackPanel DockPanel.Dock="Right" x:Name="pnlForm" Margin="50 0 0 0">
+                    <Grid Margin="0 60 0 0">
+
+                        <StackPanel x:Name="tabUpdateFinca" Visibility="Collapsed" >
+                            <StackPanel Orientation="Vertical">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Margin="0,20,0,0"  
+                                                VerticalAlignment="Top" 
+                                                FontSize="60" 
+                                                FontWeight="Light"
+                                                Foreground="CornflowerBlue"
+                                                Text="Debe"
+                                                />
+
+                                    <TextBlock  Margin="20,20,0,0"  
+                                                VerticalAlignment="Top" 
+                                                FontSize="60" 
+                                                FontWeight="Regular"
+                                                Foreground="CornflowerBlue"
+                                                Text="Registrar"
+                                                />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Margin="0,-20,0,0"  
+                                                VerticalAlignment="Top" 
+                                                FontSize="60" 
+                                                FontWeight="Light"
+                                                Foreground="CornflowerBlue"
+                                                Text="los datos de su"
+                                                 />
+                                    <TextBlock  Margin="20,-20,0,0"  
+                                                VerticalAlignment="Top" 
+                                                FontSize="60" 
+                                                FontWeight="Regular"
+                                                Foreground="CornflowerBlue"
+                                                Text="Finca."
+                                                 />
+                                </StackPanel>
+
+                                <Button x:Name="btnUpdate" Width="80" Height="80"
+                                            Margin="0 40 0 0"
+                                            HorizontalAlignment="Center"
+                                            Style="{DynamicResource MetroCircleButtonStyle}"
+                                            BorderThickness="0" ToolTip="Nuevo"
+                                            Click="btnUpdate_Click"
+                                            >
+                                    <Viewbox Width="60" Height="60">
+                                        <Canvas Width="120" Height="120">
+                                            <Path Data="M14.295026,0C20.324566,7.6098331E-08,25.805967,4.1556529,27.845625,9.9731506L27.848595,9.9819225 30.086088,2.5850097 32.000101,3.16301 28.548079,14.575019 27.720818,14.325199 27.692038,14.406989 18.682106,11.236992 19.3461,9.349995 26.303652,11.797894 26.28668,11.72872C24.866867,6.2106613 19.753498,1.9999999 14.295026,1.9999996 7.5159818,1.9999999 1.9999975,7.4879755 1.9999973,14.234007 1.9999975,20.979001 7.5159818,26.466001 14.295026,26.466001 15.442974,26.466001 16.578959,26.308957 17.671974,25.99896L18.217018,27.922971C16.947001,28.282956 15.628032,28.466001 14.295026,28.466001 6.4129559,28.466001 0,22.080991 0,14.234007 0,6.3850092 6.4129559,7.6098331E-08 14.295026,0z"  
+                                                      Fill="Black" Stretch="Fill" Width="120" Height="120" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+
+                                <TextBlock  Margin="0,-5,0,0"  
+                                                VerticalAlignment="Top" 
+                                                HorizontalAlignment="Center"
+                                                FontSize="20" 
+                                                FontWeight="Regular"
+                                                Text="Registrar"
+                                                 />
+                            </StackPanel>
+
+                        </StackPanel>
+                        <StackPanel x:Name="tabInfo" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,0,0">
+
+                                <TextBlock x:Name="lblInfoFinca" 
+                                                   Margin="0,20,0,0"  
+                                                   VerticalAlignment="Top" 
+                                                   FontSize="60" 
+                                                   FontWeight="Light"
+                                                   Foreground="CornflowerBlue"
+                                                   Text="La Pava"
+                                                   FontFamily="Arial Rounded MT Bold"
+                                                   />
+
+                                <StackPanel Orientation="Horizontal" Margin="0 -10 0 0">
+                                    <TextBlock x:Name="lblMunicipio"  Margin="0,10,0,0" 
+                                                       VerticalAlignment="Top" Height="52" 
+                                                       FontSize="40" Foreground="Gray" 
+                                                       Text="Concordia"
+                                                       DockPanel.Dock="Left"
+                                                       />
+
+                                    <TextBlock  Margin="5,10,0,0" 
+                                                    VerticalAlignment="Top" Height="52" 
+                                                    FontSize="40" Foreground="Gray" 
+                                                    Text=","
+                                                    DockPanel.Dock="Left"
+                                                    />
+
+                                    <TextBlock x:Name="lblDepartamento"  Margin="10,10,0,0" 
+                                                       VerticalAlignment="Top" Height="52" 
+                                                       FontSize="40" Foreground="CornflowerBlue" 
+                                                       Text="Antioquia"
+                                                       DockPanel.Dock="Left"
+                                                       />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                    <TextBlock  VerticalAlignment="Top"
+                                                    Height="42" 
+                                                    FontSize="30" Foreground="Gray" 
+                                                    Text="Vereda: "
+                                                    />
+
+                                    <TextBlock x:Name="lblVereda"   
+                                                   VerticalAlignment="Top" 
+                                                   Height="42"
+                                                   FontSize="30" 
+                                                   Margin="70 0 0 0"
+                                                   Foreground="#FF92C6F9"
+                                                   Text="El Concordilcito"
+                                                   />
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                    <TextBlock  VerticalAlignment="Top"
+                                                    Height="42" 
+                                                    FontSize="30" Foreground="Gray" 
+                                                    Text="Propietario: "
+                                                    />
+
+                                    <TextBlock x:Name="lblPropietario"   
+                                                   VerticalAlignment="Top" 
+                                                   Height="42"
+                                                   FontSize="30" 
+                                                   Margin="15 0 0 0"
+                                                   Foreground="#FF92C6F9"
+                                                   Text="Juan Diego Fernandez"
+                                                   />
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                    <TextBlock  VerticalAlignment="Top"
+                                                    Height="42" 
+                                                    FontSize="30" Foreground="Gray" 
+                                                    Text="Cuadras: "
+                                                    />
+
+                                    <TextBlock x:Name="lblCuadras"   
+                                                   VerticalAlignment="Top" 
+                                                   Height="42"
+                                                   FontSize="30" 
+                                                   Margin="50 0 0 0"
+                                                   Foreground="#FF92C6F9"
+                                                   Text="1.342"
+                                                   />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                                    <TextBlock  VerticalAlignment="Top"
+                                                    Height="42" 
+                                                    FontSize="30" Foreground="Gray" 
+                                                    Text="Teléfono: "
+                                                    />
+
+                                    <TextBlock x:Name="lblTelefono"   
+                                                   VerticalAlignment="Top" 
+                                                   Height="42"
+                                                   FontSize="30" 
+                                                   Margin="45 0 0 0"
+                                                   Foreground="#FF92C6F9"
+                                                   Text="3645765"
+                                                   />
+
+                                </StackPanel>
+
+                                <Button x:Name="btnActualizar"  
+                                                HorizontalAlignment="Left" 
+                                                VerticalAlignment="Center"
+                                                Height="35"
+                                                Margin="0 20 0 0"
+                                                Width="100"
+                                                Content="Actualizar"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Click="btnActualizar_Click"
+                                                >
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Name="tabFormulario" Visibility="Collapsed" >
+                            <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="0,0,0,0" >
+
+                                <TextBox x:Name="txtNombre" 
+        		                             Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                             Controls:TextBoxHelper.Watermark="Nombre" 
+                                             Height="42" 
+                                             VerticalAlignment="Top" 
+                                             Margin="0 20 0 0">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                </Trigger>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="Nombre" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <TextBox x:Name="txtPropietario" 
+        		                             Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                             Controls:TextBoxHelper.Watermark="Propietario" 
+                                             Height="42" 
+                                             VerticalAlignment="Top" 
+                                             Margin="0 20 0 0">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                </Trigger>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="Nombre" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <DockPanel>
+                                    <ComboBox x:Name="cmbDepartamento" VerticalAlignment="Top"
+                                                  DisplayMemberPath= "{Binding NombreDepartamento, Converter={StaticResource StringToCapitalsConverter}}"     
+                    	                          SelectedValuePath="idDepartamento"
+                                                  Controls:TextBoxHelper.Watermark="Departamento"
+                                                  Margin="0 20 0 0" 
+                                                  Height="42"
+                                                  Width="250"
+                                                  SelectedIndex="0"
+                                                  SelectionChanged="cmbDepartamento_SelectionChanged"
+                                                  >
+                                    </ComboBox>
+
+                                    <ComboBox x:Name="cmbMunicipio" VerticalAlignment="Top"
+                                                  DisplayMemberPath= "{Binding NombreMunicipio, Converter={StaticResource StringToCapitalsConverter}}" 
+                    	                          SelectedValuePath="idMunicipio"
+                                                  Controls:TextBoxHelper.Watermark="Municipio"
+                                                  Margin="20 20 0 0" 
+                                                  Height="42"
+                                                  SelectedIndex="0"
+                                                  >
+                                    </ComboBox>
+
+                                </DockPanel>
+
+                                <DockPanel>
+
+                                    <TextBox x:Name="txtVereda" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Vereda" 
+                                                 Height="42" 
+                                                 Width="200"
+                                                 VerticalAlignment="Top"
+                                                 DockPanel.Dock="Left"
+                                                 Margin="0 20 0 0">
+                                        <TextBox.Style>
+                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                    </Trigger>
+                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <TextBox.Text>
+                                            <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                        UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <ExceptionValidationRule/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                    <TextBox x:Name="txtTelefono" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Telefono" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top"
+                                                 DockPanel.Dock="Left"
+                                                 Margin="20 20 0 0">
+                                        <TextBox.Style>
+                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                    </Trigger>
+                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <TextBox.Text>
+                                            <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <ExceptionValidationRule/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                </DockPanel>
+
+                                <TextBox x:Name="txtCuadras" 
+        		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+        		                                 Controls:TextBoxHelper.Watermark="Cuadras" 
+                                                 Height="42" 
+                                                 VerticalAlignment="Top"
+                                                 DockPanel.Dock="Left"
+                                                 Margin="0 20 0 0">
+                                    <TextBox.Style>
+                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                </Trigger>
+                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                    <TextBox.Text>
+                                        <Binding Path="Telefono" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <ExceptionValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+
+                                <TextBox x:Name="txtId"
+            	                 Controls:TextBoxHelper.Watermark="id"
+            	                 TextWrapping="Wrap" Height="38" VerticalAlignment="Top"
+                                 Visibility="Collapsed"/>
+
+                                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                    <Button x:Name="btnGuardar"  
+                                                HorizontalAlignment="Left" 
+                                                VerticalAlignment="Center"
+                                                Height="35"
+                                                Width="100"
+                                                Content="Guardar"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Click="btnGuardar_Click"
+                                                >
+                                    </Button>
+                                    <Button x:Name="btnCancelar"  
+                                                HorizontalAlignment="Left" 
+                                                VerticalAlignment="Center"
+                                                Controls:ButtonHelper.PreserveTextCase="True"
+                                                Margin="10 0 0 0" 
+                                                Height="35"
+                                                Width="100"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Background="Gray"
+                                                Content="Cancelar"
+                                                Click="btnCancelar_Click"
+                                                >
+                                    </Button>
+
+                                </StackPanel>
+
+                            </StackPanel>
+                        </StackPanel>
+
+
+                    </Grid>
+
+                </StackPanel>
+
             </DockPanel>
         </DockPanel>
     </DockPanel>

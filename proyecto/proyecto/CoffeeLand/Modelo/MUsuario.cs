@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+    
 namespace Modelo
 {
     public class MUsuario
@@ -24,7 +24,75 @@ namespace Modelo
 
         #endregion
 
+
         public string rol { get; set; }
+
+        public List<Usuario> ConsultarUsuario()
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Usuario
+                            where c.EstadoUsuario == "A"
+                            select c;
+                return query.ToList();
+            }
+
+            
+        }
+
+        public List<Usuario> ConsultarUsuarioParametro(string parametro)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Usuario
+                            where c.EstadoUsuario == "A" && c.Nickname == parametro
+                            select c;
+                return query.ToList();
+            }
+
+
+        }
+
+        public List<Usuario> ConsultarInactivos()
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Usuario
+                            where c.EstadoUsuario == "I"
+                            select c;
+                return query.ToList();
+            }
+        }
+
+
+        //este metodo consulta por medio de la cadena de texto ingresada 
+        public List<Usuario> ConsultarParametro(string parametro)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Usuario
+                            where c.EstadoUsuario == "A" && c.Nickname.Contains(parametro)
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
+        //este metodo consulta por medio de la cadena de texto ingresada 
+        public List<Usuario> ConsultarParametroInhabilitado(string parametro)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Usuario
+                            where c.EstadoUsuario == "I" && c.Nickname.Contains(parametro)
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
+
 
         public string GestionUsuario(int idUsuario, string nickName, string rol, string contrasena, string preguntaSeguridad, string respuesta, int opc)
         {

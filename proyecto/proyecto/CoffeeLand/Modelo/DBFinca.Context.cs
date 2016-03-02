@@ -581,5 +581,38 @@ namespace Modelo
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GestionUsuario_Result>("GestionUsuario", idUsuarioParameter, nickNameParameter, rolParameter, contrasenaParameter, preguntaSeguridadParameter, respuestaParameter, opcParameter);
         }
+    
+        public virtual ObjectResult<ModificarFinca_Result> ModificarFinca(string nombreFinca, string propietario, Nullable<int> idDepartamento, Nullable<int> idMunicipio, string vereda, string telefono, string hectareas)
+        {
+            var nombreFincaParameter = nombreFinca != null ?
+                new ObjectParameter("nombreFinca", nombreFinca) :
+                new ObjectParameter("nombreFinca", typeof(string));
+    
+            var propietarioParameter = propietario != null ?
+                new ObjectParameter("Propietario", propietario) :
+                new ObjectParameter("Propietario", typeof(string));
+    
+            var idDepartamentoParameter = idDepartamento.HasValue ?
+                new ObjectParameter("idDepartamento", idDepartamento) :
+                new ObjectParameter("idDepartamento", typeof(int));
+    
+            var idMunicipioParameter = idMunicipio.HasValue ?
+                new ObjectParameter("idMunicipio", idMunicipio) :
+                new ObjectParameter("idMunicipio", typeof(int));
+    
+            var veredaParameter = vereda != null ?
+                new ObjectParameter("Vereda", vereda) :
+                new ObjectParameter("Vereda", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("telefono", telefono) :
+                new ObjectParameter("telefono", typeof(string));
+    
+            var hectareasParameter = hectareas != null ?
+                new ObjectParameter("hectareas", hectareas) :
+                new ObjectParameter("hectareas", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ModificarFinca_Result>("ModificarFinca", nombreFincaParameter, propietarioParameter, idDepartamentoParameter, idMunicipioParameter, veredaParameter, telefonoParameter, hectareasParameter);
+        }
     }
 }

@@ -191,8 +191,9 @@
                 </PasswordBox>
 
                 <Button x:Name="btnIngresar" 
-                    Content="INGRESAR" 
+                    Content="Ingresar" 
                     HorizontalAlignment="Center" 
+                    Controls:ButtonHelper.PreserveTextCase="True"
                     Margin="0,30,0,0" 
                     Width="105" 
                     Height="38" 
