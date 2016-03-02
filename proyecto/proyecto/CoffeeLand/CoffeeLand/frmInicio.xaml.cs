@@ -120,7 +120,7 @@ namespace CoffeeLand
         {
             if (validarCampos())
             {
-                MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbDepartamento.SelectedValue.ToString()), int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
+                MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
                 mensajeInformacion("Registro Exitoso");
                 Limpiar();
                 infoFinca();

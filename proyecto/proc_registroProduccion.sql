@@ -1,4 +1,4 @@
-create proc registroProduccion
+alter proc registroProduccion
 (@idLote int,@fecha date, @cantidad int)
 as
 begin

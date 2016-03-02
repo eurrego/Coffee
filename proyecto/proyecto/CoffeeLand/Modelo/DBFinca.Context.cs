@@ -582,7 +582,7 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GestionUsuario_Result>("GestionUsuario", idUsuarioParameter, nickNameParameter, rolParameter, contrasenaParameter, preguntaSeguridadParameter, respuestaParameter, opcParameter);
         }
     
-        public virtual ObjectResult<ModificarFinca_Result> ModificarFinca(string nombreFinca, string propietario, Nullable<int> idDepartamento, Nullable<int> idMunicipio, string vereda, string telefono, string hectareas)
+        public virtual ObjectResult<ModificarFinca_Result> ModificarFinca(string nombreFinca, string propietario, Nullable<int> idMunicipio, string vereda, string telefono, string hectareas)
         {
             var nombreFincaParameter = nombreFinca != null ?
                 new ObjectParameter("nombreFinca", nombreFinca) :
@@ -591,10 +591,6 @@ namespace Modelo
             var propietarioParameter = propietario != null ?
                 new ObjectParameter("Propietario", propietario) :
                 new ObjectParameter("Propietario", typeof(string));
-    
-            var idDepartamentoParameter = idDepartamento.HasValue ?
-                new ObjectParameter("idDepartamento", idDepartamento) :
-                new ObjectParameter("idDepartamento", typeof(int));
     
             var idMunicipioParameter = idMunicipio.HasValue ?
                 new ObjectParameter("idMunicipio", idMunicipio) :
@@ -612,7 +608,16 @@ namespace Modelo
                 new ObjectParameter("hectareas", hectareas) :
                 new ObjectParameter("hectareas", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ModificarFinca_Result>("ModificarFinca", nombreFincaParameter, propietarioParameter, idDepartamentoParameter, idMunicipioParameter, veredaParameter, telefonoParameter, hectareasParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ModificarFinca_Result>("ModificarFinca", nombreFincaParameter, propietarioParameter, idMunicipioParameter, veredaParameter, telefonoParameter, hectareasParameter);
+        }
+    
+        public virtual ObjectResult<PagosPersona_Result> PagosPersona(Nullable<int> opcionPago)
+        {
+            var opcionPagoParameter = opcionPago.HasValue ?
+                new ObjectParameter("opcionPago", opcionPago) :
+                new ObjectParameter("opcionPago", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PagosPersona_Result>("PagosPersona", opcionPagoParameter);
         }
     }
 }

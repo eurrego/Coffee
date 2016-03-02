@@ -130,11 +130,11 @@ namespace Modelo
         }
 
 
-        public string modificarFinca(string nombreFinca, string propietario, int idDepartamento, int idMunicipio, string vereda, string telefono, string hectareas)
+        public string modificarFinca(string nombreFinca, string propietario, int idMunicipio, string vereda, string telefono, string hectareas)
         {
             using (var entity = new DBFincaEntities())
             {
-                var rpta = entity.ModificarFinca(nombreFinca, propietario, idDepartamento, idMunicipio, vereda, telefono, hectareas);
+                var rpta = entity.ModificarFinca(nombreFinca, propietario, idMunicipio, vereda, telefono, hectareas);
 
                 return null;
             }

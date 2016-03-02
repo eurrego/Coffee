@@ -1,5 +1,5 @@
 
-create proc VentaProduccion
+alter proc VentaProduccion
 (@Cantidad decimal(10,2))
 as
 

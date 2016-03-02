@@ -1,4 +1,4 @@
-create proc GestionVenta
+alter proc GestionVenta
 (@nit int,@fecha date,@numeroFactura 
 int,@idProducto int,@PrecioCarga 
 money,@CantidadCargas decimal(10,2),@PrecioBeneficio money) 

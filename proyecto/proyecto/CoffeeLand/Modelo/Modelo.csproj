@@ -207,6 +207,9 @@
     </Compile>
     <Compile Include="MUsuario.cs" />
     <Compile Include="MVentas.cs" />
+    <Compile Include="PagosPersona_Result.cs">
+      <DependentUpon>DBFinca.tt</DependentUpon>
+    </Compile>
     <Compile Include="Persona.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
