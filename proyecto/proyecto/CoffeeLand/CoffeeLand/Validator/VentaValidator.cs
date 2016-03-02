@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace CoffeeLand.Validator
 {
-    public class TerrenosValidator : IDataErrorInfo
+    public class VentaValidator : IDataErrorInfo
     {
+
         private string cantidad = string.Empty;
 
         public string Cantidad
@@ -18,21 +19,31 @@ namespace CoffeeLand.Validator
             set { cantidad = value; }
         }
 
-        private string cantidadEmpleados = string.Empty;
+        private string factura = string.Empty;
 
-        public string CantidadEmpleados
+        public string Factura
         {
-            get { return cantidadEmpleados; }
-            set { cantidadEmpleados = value; }
+            get { return factura; }
+            set { factura = value; }
         }
 
-        private string valor = string.Empty;
+        private string valorBeneficio = string.Empty;
 
-        public string Valor
+        public string ValorBeneficio
         {
-            get { return valor; }
-            set { valor = value; }
+            get { return valorBeneficio; }
+            set { valorBeneficio = value; }
         }
+
+        private string valorCarga;
+
+        public string ValorCarga
+        {
+            get { return valorCarga; }
+            set { valorCarga = value; }
+        }
+
+
 
         public string Error
         {
@@ -47,6 +58,7 @@ namespace CoffeeLand.Validator
                 string result = null;
 
                 Regex numeros = new Regex("^[0-9]*$");
+                Regex Cargas = new Regex("^[0-9 ,]*$");
                 Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
 
                 switch (name)
@@ -59,9 +71,9 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidad))
+                            if (!Cargas.IsMatch(cantidad))
                             {
-                                result = "El campo solo acepta números.";
+                                result = "El campo solo acepta números y comas.";
                             }
                             else if (cantidad.Equals("0"))
                             {
@@ -69,40 +81,61 @@ namespace CoffeeLand.Validator
                             }
                         }
                         break;
-                    case "CantidadEmpleados":
-                        if (string.IsNullOrEmpty(cantidadEmpleados))
+                    case "Factura":
+                        if (string.IsNullOrEmpty(factura))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidadEmpleados))
+                            if (!numeros.IsMatch(factura))
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (cantidadEmpleados.Equals("0"))
+                            else if (factura.Length > 10)
                             {
-                                result = "La cantidad no puede ser cero";
+                                result = "La factura debe ser menor que 10 caracteres.";
                             }
+
                         }
+                      
+
                         break;
-                    case "Valor":
-                        if (string.IsNullOrEmpty(valor))
+                    case "ValorBeneficio":
+                        if (string.IsNullOrEmpty(valorBeneficio))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(valor))
+                            if (!numeros.IsMatch(valorBeneficio))
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valor.Equals("0"))
+                            else if (valorBeneficio.Equals("0"))
                             {
                                 result = "El valor no puede ser cero";
                             }
                         }
                         break;
+                    case "ValorCarga":
+                        if (string.IsNullOrEmpty(valorCarga))
+                        {
+                            result = "El campo es obligatorio.";
+                        }
+                        else
+                        {
+                            if (!numeros.IsMatch(valorCarga))
+                            {
+                                result = "El campo solo acepta números.";
+                            }
+                            else if (valorCarga.Equals("0"))
+                            {
+                                result = "El valor no puede ser cero";
+                            }
+                        }
+                        break;
+
                     default:
                         break;
                 }
@@ -110,5 +143,7 @@ namespace CoffeeLand.Validator
                 return result;
             }
         }
+
+
     }
 }

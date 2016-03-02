@@ -211,7 +211,7 @@ namespace CoffeeLand
                             Mostrar();
                         }
 
-                       
+                        
                     }
                 }
             }
@@ -238,6 +238,8 @@ namespace CoffeeLand
 
                 }
             }
+            frmTerrenos.GetInstance().volverInicio();
+            frmTerrenos.GetInstance().mostrar();
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -379,7 +381,8 @@ namespace CoffeeLand
                     {
                         Mostrar();
                     }
-
+                    frmTerrenos.GetInstance().volverInicio();
+                    frmTerrenos.GetInstance().mostrar();
 
                 }
             }
@@ -436,7 +439,8 @@ namespace CoffeeLand
                 }
 
                 frmGastos.GetInstance().Mostrar();
-
+                frmTerrenos.GetInstance().volverInicio();
+                frmTerrenos.GetInstance().mostrar();
             }
         }
 

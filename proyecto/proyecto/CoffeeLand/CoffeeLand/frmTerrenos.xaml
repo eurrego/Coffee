@@ -140,6 +140,10 @@
                             <StackPanel Orientation="Vertical"  Margin="50 0 0 0" VerticalAlignment="Top" Background="White" >
 
                                 <StackPanel Orientation="Horizontal">
+                                    
+                                    
+                                    
+                                    
                                     <TextBlock x:Name="lblLote" 
                                                    Margin="0,0,0,0"  
                                                    VerticalAlignment="Center" 
@@ -714,7 +718,7 @@
                                                             </Style>
                                                         </TextBox.Style>
                                                         <TextBox.Text>
-                                                            <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                            <Binding Path="CantidadEmpleados" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
                                                                 <Binding.ValidationRules>
                                                                     <ExceptionValidationRule/>
@@ -1022,7 +1026,7 @@
                                                             Style="{DynamicResource MetroCircleButtonStyle}"
                                                             BorderThickness="0" ToolTip="Nuevo"
                                                             HorizontalAlignment="Right"
-                                                            Click="btnAtrasEmpleadosInsumos_Click"
+                                                            Click="btnAtrasArboles_Click"
                                                              >
                                                     <Viewbox Width="30" Height="30">
                                                         <Canvas Width="48" Height="48">

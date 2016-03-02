@@ -17,7 +17,18 @@ namespace CoffeeLand.Validator
             {
                 var text = ((string)value);
                 var tolower = text.ToLower();
-                return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                if (tolower == "recoleccion")
+                {
+
+                    var recoleccion = ("recolección");
+                    return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(recoleccion);
+
+                }
+                else
+                {
+                    return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                }
+                
             }
 
             return value;
