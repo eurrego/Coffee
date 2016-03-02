@@ -97,6 +97,28 @@ namespace Modelo
             }
         }
 
+        public List<Lote> ConsultarLoteCmb()
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                List<Lote> lista = new List<Lote>()
+                {
+                    new Lote
+                    {
+                        idLote = 0,
+                        NombreLote = "Seleccione un Lote",
+                    }
+                };
+
+                var query = lista.Union(from c in entity.Lote
+                                        where c.EstadoLote == "A"
+                                        select c);
+                return query.ToList();
+            }
+
+        }
+
         public List<Labor> ConsultarLabor()
         {
             using (var entity = new DBFincaEntities())

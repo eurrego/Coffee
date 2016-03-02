@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="CoffeeLand.frmReporteEgresoTotalFinca"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my ="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             
+             xmlns:local="clr-namespace:CoffeeLand"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <Grid   VerticalAlignment="Top" Background="White" Margin="0,20,0,0" DockPanel.Dock="Left">
+            <GroupBox  x:Name="pnlPrincipal" Header="Ingresos Totales"
+                              HorizontalAlignment="Left" Margin="22,0,0,0" 
+                              VerticalAlignment="Top" >
+                <Grid Margin="0,0,0,-29">
+                    <my:CrystalReportsViewer HorizontalAlignment ="Left" Name ="crystalReportsViewer1" Width ="975" Margin="2,0,0,34"/>
+                </Grid>
+            </GroupBox>
+            <DatePicker Name="dtdFechaInicio" HorizontalAlignment="Left" Margin="512,39,0,0" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.484,-2.462" />
+            <DatePicker Name="dtdFechaFin" HorizontalAlignment="Left" Margin="701,39,0,0" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.484,-2.538"/>
+            <Button x:Name="btnExportarPDF" ToolTip="Exportar a PDF" Content="PDF" HorizontalAlignment="Left" Margin="89,28,0,0" VerticalAlignment="Top" Width="34" Height="37" RenderTransformOrigin="0.636,-0.04" Click="btnExportarPDF_Click" BorderThickness="0" Opacity="0" Background="{x:Null}"/>
+        </Grid>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="60 20 60 0"
+                    VerticalAlignment="Top"
+                    Height="200" Background="WhiteSmoke"
+                    >
+            <Button x:Name="btnReporte"  
+                    Margin="0 40 0 0"
+                    	VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Width="100"
+                    	Height="100"
+                    	Style="{DynamicResource MetroCircleButtonStyle}"
+                        BorderThickness="0"
+                 Click="btnReporte_Click">
+                <Rectangle Width="60" Height="60" Fill="{DynamicResource BlackBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_printer_text}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <TextBlock Text="Generar Reporte" Margin="0 10 0 0" FontSize="25" 
+                       HorizontalAlignment="Center"
+                       Foreground="CornflowerBlue"></TextBlock>
+        </StackPanel>
+
+    </DockPanel>
+</UserControl>

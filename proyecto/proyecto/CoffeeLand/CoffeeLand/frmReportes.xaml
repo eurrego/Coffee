@@ -25,24 +25,63 @@
             <TabItem  Header="Ingresos" Controls:ControlsHelper.HeaderFontSize="40">
                 <TabControl Margin="0 -10 0 0" >
                     <TabItem  Header="LOTE" Controls:ControlsHelper.HeaderFontSize="20" >
-                    
+                        <local:frmReporteIngresosLote></local:frmReporteIngresosLote>
                     </TabItem>
                     <TabItem Header="TOTALES" Controls:ControlsHelper.HeaderFontSize="20" >
                         <local:frmReporteIngresosTotales/>
                     </TabItem>
                 </TabControl>
             </TabItem>
+           
             <TabItem Header="Egresos" Controls:ControlsHelper.HeaderFontSize="40">
                 <TabControl Margin="0 -10 0 0" >
                     <TabItem  Header="LOTE" Controls:ControlsHelper.HeaderFontSize="20">
-                        
+                        <local:frmReporteEgresoLote></local:frmReporteEgresoLote>
                     </TabItem>
-                    <TabItem  Header="TOTALES" Controls:ControlsHelper.HeaderFontSize="20" >
+                    <TabItem  Header="GASTOS" Controls:ControlsHelper.HeaderFontSize="20" >
                        
+                            <local:frmReporteGastos></local:frmReporteGastos>
+                   
+                    </TabItem>
+                    <TabItem  Header="FINCA" Controls:ControlsHelper.HeaderFontSize="20" >
+
+                        <local:frmReporteEgresoTotalFinca></local:frmReporteEgresoTotalFinca>
+
                     </TabItem>
                 </TabControl>
             </TabItem>
-            
+            <TabItem Header="Lotes" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0" >
+                    <TabItem  Header="PRODUCCIÓN" Controls:ControlsHelper.HeaderFontSize="20">
+                        <local:frmReporteProduccionLote></local:frmReporteProduccionLote>
+                    </TabItem>
+                    <TabItem  Header="LABORES" Controls:ControlsHelper.HeaderFontSize="20" >
+
+                        <local:frmReporteLaboresLote></local:frmReporteLaboresLote>
+
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Empleados" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0" >
+                    <TabItem  Header="PRESTAMOS" Controls:ControlsHelper.HeaderFontSize="20">
+                        <local:frmReporteDeudaEmpleado></local:frmReporteDeudaEmpleado>
+                    </TabItem>
+                    <TabItem  Header="PAGOS" Controls:ControlsHelper.HeaderFontSize="20" >
+
+                        <local:frmPagoEmpleados></local:frmPagoEmpleados>
+
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="Compras" Controls:ControlsHelper.HeaderFontSize="40">
+                <TabControl Margin="0 -10 0 0" >
+                    <TabItem  Header="COMPRAS" Controls:ControlsHelper.HeaderFontSize="20">
+                        <local:frmReporteCompraInsumo></local:frmReporteCompraInsumo>
+                    </TabItem>
+                    
+                </TabControl>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

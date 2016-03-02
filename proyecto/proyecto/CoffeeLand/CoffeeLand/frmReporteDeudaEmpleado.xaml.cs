@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using CrystalDecisions.Shared;
-using MahApps.Metro.Controls;
 using CoffeeLand.Reportes;
 
 namespace CoffeeLand
 {
     /// <summary>
-    /// Lógica de interacción para frmReporteIngresosTotales.xaml
+    /// Lógica de interacción para frmReporteDeudaEmpleado.xaml
     /// </summary>
-    public partial class frmReporteIngresosTotales : UserControl
-    {
-        ReporteIngresosTotales rptDoc = new ReporteIngresosTotales();
+    public partial class frmReporteDeudaEmpleado : UserControl
 
-        public frmReporteIngresosTotales()
+    {
+        ReporteDeudaEmpleado rptDoc = new ReporteDeudaEmpleado();
+
+        public frmReporteDeudaEmpleado()
         {
             InitializeComponent();
             dtdFechaInicio.DisplayDateEnd = DateTime.Now;
@@ -55,7 +56,7 @@ namespace CoffeeLand
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Ingresos Totales.pdf";
+                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Deudas Empleados.pdf";
                 CrExportOptions = rptDoc.ExportOptions;
                 {
                     CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
@@ -82,11 +83,10 @@ namespace CoffeeLand
             {
                 if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
                 {
-                    rptDoc.Load("C:\\Users\\Caty\\Documents\\GitHub\\CoffeeLand.Metro\\Proyecto\\CoffeeLand\\ReporteIngresosTotales.rpt");
+                    rptDoc.Load("C:\\Users\\Caty\\Documents\\GitHub\\CoffeeLand.Metro\\Proyecto\\CoffeeLand\\ReporteDeudaEmpleado.rpt");
 
-                 
-                    rptDoc.SetParameterValue("@fecha_inicial", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
-                    rptDoc.SetParameterValue("@fecha_fin", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
+                    rptDoc.SetParameterValue("@FECHA_INI", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
+                    rptDoc.SetParameterValue("@FECHA_FIN", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
 
 
                     crystalReportsViewer1.ViewerCore.ReportSource = rptDoc;
