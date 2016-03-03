@@ -145,6 +145,9 @@
     <Compile Include="frmPagoEmpleados.xaml.cs">
       <DependentUpon>frmPagoEmpleados.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmPagos.xaml.cs">
+      <DependentUpon>frmPagos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmPrestamosEmpleados.xaml.cs">
       <DependentUpon>frmPrestamosEmpleados.xaml</DependentUpon>
     </Compile>
@@ -352,6 +355,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmPagoEmpleados.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmPagos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

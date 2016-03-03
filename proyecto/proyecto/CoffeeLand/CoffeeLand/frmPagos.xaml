@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="CoffeeLand.frmPagos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:validator ="clr-namespace:CoffeeLand.Validator"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:local="clr-namespace:CoffeeLand"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="728" d:DesignWidth="1366">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <validator:PrestamosValidator x:Key="Validator"/>
+            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+            <validator:CharToStringConverter x:Key="CharToStringConverter"/>
+
+            <Style x:Key="CleanMetroStatusBarSeparator"
+                   BasedOn="{StaticResource MetroStatusBarSeparator}"
+                   TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{DynamicResource BlackBrush}" />
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <DockPanel>
+        <DockPanel  DockPanel.Dock="Top">
+
+            <TabControl Margin="0 -40 0 0">
+                <TabItem x:Name="tabInicio" Header="">
+                    <DockPanel  DockPanel.Dock="Top">
+                        <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
+
+                            <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 20 0 0" >
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock x:Name="lblSuperior" Margin="20 70 0 0" Text="Seleccione un" FontSize="50" FontWeight="Light" />
+                                    <TextBlock x:Name="lblInferior" Margin="20 0 0 0" Text="Tipo de Pago" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid x:Name="pnlSinRegistros" Visibility="Collapsed" Margin="20 20 0 0" >
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Margin="20 70 0 0" Text="No hay pagos " FontSize="50" FontWeight="Light" />
+                                    <TextBlock Margin="20 0 0 0" Text="Pendientes" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 -15 0 25" >
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="lblTitleTipoPago" Text="" FontSize="40"
+                                               FontWeight="Light" 
+                                               Background="White" Height="55"
+                                               Foreground="CornflowerBlue"
+                                               VerticalAlignment="Center"
+                                               >
+                                        </TextBlock>
+                                        <Button x:Name="btnOcultar" Width="50" Height="50" Style="{DynamicResource MetroCircleButtonStyle}" 
+                                                HorizontalAlignment="Center"
+                                                BorderThickness="0" ToolTip="Volver"
+                                                
+                                                Margin="20 5 0 0">
+                                            <Viewbox Width="30" Height="30" >
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M11.068992,0L12.690991,1.2470026 3.3698097,13.366051 31.998999,13.366051 31.998999,
+                                                          15.413051 3.370545,15.413051 12.690991,27.532066 11.068992,28.779069 0,14.389034z"  
+                                                          Fill="Black" Stretch="Fill" Width="30" Height="30" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <DataGrid x:Name="tblPagos" 
+                                              HeadersVisibility="All"
+                                              SelectionUnit="FullRow"
+                                              CanUserAddRows="False" 
+                                              CanUserDeleteRows="False"
+                                              AutoGenerateColumns="False"
+                                              Margin="0 15 0 0"
+                                              >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Binding="{Binding DocumentoPersona}"  Header="Cedula" Width="130" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Nombre}"  Header="Nombre" Width="130" IsReadOnly="True"/>
+
+                                            <DataGridTextColumn Binding="{Binding Valor_a_pagar,StringFormat={}{0:c}}"  Header="Valor a Pagar" Width="130" IsReadOnly="True"/>
+                                            <DataGridTextColumn Binding="{Binding Valor_Deuda,StringFormat={}{0:c}}"   Header="Valor Deuda" Width="130" IsReadOnly="True"/>
+                                            <DataGridTemplateColumn Width="70" Header="Detalle Pago">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button x:Name="btnDetallePago"   Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"   >
+                                                            <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                                <Rectangle.OpacityMask>
+                                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                                </Rectangle.OpacityMask>
+                                                            </Rectangle>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                        </DataGrid.Columns>
+
+                                        <DataGrid.Style>
+                                            <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                            </Style>
+                                        </DataGrid.Style>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
+
+                        <Grid DockPanel.Dock="Right" x:Name="pnlFormulario">
+                            <TabControl Margin="25 0 30 0" VerticalAlignment="Top" >
+                                <TabItem x:Name="tabBuscar"  Header="BUSCAR" Controls:ControlsHelper.HeaderFontSize="20">
+                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                        <ComboBox x:Name="cmbTipoEmpleado"
+                                                  Margin="0,20,0,0" 
+                                                  VerticalAlignment="Top"
+                                                  Height="42"
+                                                  SelectedIndex="0"
+                                                  SelectionChanged="cmbTipoEmpleado_SelectionChanged" 
+                                                  >
+                                            <ComboBox.Items>
+                                                <ComboBoxItem>Seleccione Tipo de Contrato</ComboBoxItem>
+                                                <ComboBoxItem>Permanente</ComboBoxItem>
+                                                <ComboBoxItem>Temporal</ComboBoxItem>
+                                            </ComboBox.Items>
+                                        </ComboBox>
+
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical" Width="300" Height="130" 
+                                                        HorizontalAlignment="Left"
+                                                        Background="LightGray"
+                                                        Margin="0 30 0 0">
+
+                                                <TextBlock x:Name="lblTotal" 
+                                                           Margin="0 25 0 0"
+                                                           FontSize="45" Text="$0"
+                                                           HorizontalAlignment="Center" 
+                                                           FontFamily="Arial Rounded MT Bold" 
+                                                           Foreground="Crimson"
+                                                           ></TextBlock>
+                                                <TextBlock FontSize="20" 
+                                                           Margin="0 5 0 0"
+                                                           Text="Total" 
+                                                           Foreground="Gray"
+                                                           HorizontalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <Button x:Name="btnPagar"  
+                                                    HorizontalAlignment="Left" 
+                                                    VerticalAlignment="Center"
+                                                    Height="35"
+                                                    Width="100"
+                                                    Content="Pagar"
+                                                    Controls:ButtonHelper.PreserveTextCase="True"
+                                                    Margin="0 20 0 0"
+                                                    Style="{StaticResource AccentedSquareButtonStyle}"
+                                                    
+                                                    >
+                                        </Button>
+
+                                    </StackPanel>
+                                </TabItem>
+
+                            </TabControl>
+
+                        </Grid>
+                    </DockPanel>
+                </TabItem>
+               
+            </TabControl>
+
+        </DockPanel>
+    </DockPanel>
+</UserControl>

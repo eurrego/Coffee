@@ -709,6 +709,9 @@
           <Parameter Name="nit" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Consultasproduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="DetalleSalario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="int" Mode="In" />
+        </Function>
         <Function Name="gestionArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idLote" Type="smallint" Mode="In" />
           <Parameter Name="idTipoArbol" Type="tinyint" Mode="In" />
@@ -2018,6 +2021,9 @@
           <FunctionImport Name="PagosPersona" ReturnType="Collection(DBFincaModel.PagosPersona_Result)">
           <Parameter Name="opcionPago" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="DetalleSalario" ReturnType="Collection(DBFincaModel.DetalleSalario_Result)">
+            <Parameter Name="cedula" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="asociarLaborLote_Result">
           <Property Type="String" Name="mensaje" Nullable="true" MaxLength="50" />
@@ -2158,6 +2164,13 @@
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="Valor_a_pagar" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="Valor_Deuda" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="DetalleSalario_Result">
+          <Property Type="String" Name="NombreLabor" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="subtotal" Nullable="true" Precision="19" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2678,6 +2691,17 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Valor_a_pagar" ColumnName="Valor_a_pagar" />
                 <ScalarProperty Name="Valor_Deuda" ColumnName="Valor_Deuda" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DetalleSalario" FunctionName="DBFincaModel.Store.DetalleSalario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.DetalleSalario_Result">
+                <ScalarProperty Name="NombreLabor" ColumnName="NombreLabor" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
