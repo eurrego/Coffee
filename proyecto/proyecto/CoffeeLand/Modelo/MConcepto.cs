@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
 
 namespace Modelo
 {
@@ -77,16 +78,17 @@ namespace Modelo
 
         public string GestionConcepto(string NombreConcepto, string Descripcion, byte idConcepto, int opcion)
         {
+
             using (var entity = new DBFincaEntities())
             {
                 try
                 {
-                    var rpta = entity.gestionConcepto(NombreConcepto.ToUpper(), Descripcion.ToUpper(), idConcepto, opcion).First();
+                    var rpta = entity.gestionConcepto(Converter.GetInstance().StringToCapitalsConverter(NombreConcepto), Converter.GetInstance().StringFirtsLetterToUpper(Descripcion), idConcepto, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string filePath = @"C:\Users\Brian\Desktop\LogCoffeeLand.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

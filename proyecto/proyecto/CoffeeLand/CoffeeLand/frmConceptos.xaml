@@ -64,8 +64,8 @@
                                   AutoGenerateColumns="False"
                                   >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreConcepto, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="215" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="220" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreConcepto}" Header="Nombre" Width="215" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion}"  Header="Descripción" Width="220" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="90" Header="Editar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -120,8 +120,8 @@
                                   AutoGenerateColumns="False"
                                   >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreConcepto, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="255" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="270" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreConcepto}" Header="Nombre" Width="255" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion}"  Header="Descripción" Width="270" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="100" Header="Habilitar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
