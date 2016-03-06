@@ -175,14 +175,15 @@ namespace Modelo
 
         }
 
-        public object ConsultarCantidadTiposArboles(int idLote)
+        public object ConsultarTiposArboles(int idArboles)
         {
             using (var entity = new DBFincaEntities())
             {
-                var query = from c in entity.TipoArbol
-                            join a in entity.Arboles on c.idTipoArbol equals a.idTIpoArbol
-                            where c.EstadoTipoArbol == "A" && a.idLote == idLote
-                            select new { c.NombreTipoArbol, a.Cantidad };
+                var query = from c in entity.MovimientosArboles
+                            join a in entity.Arboles on c.idArboles equals a.idArboles
+                            join t in entity.TipoArbol on a.idTIpoArbol equals t.idTipoArbol
+                            where t.EstadoTipoArbol == "A" && c.idArboles == idArboles
+                            select new { t.NombreTipoArbol, c.Fecha, c.Cantidad };
 
                 return query.ToList();
             }
@@ -270,19 +271,13 @@ namespace Modelo
                         idTipoArbol= 0,
                         NombreTipoArbol = "Seleccione árbol"
                         
-                    },
-                    new TipoArbol
-                    {
-                        NombreTipoArbol = "Nueva siembra"
-
-
                     }
                 };
 
                 var query = lista.Union(from a in entity.Arboles
                                         join t in entity.TipoArbol on a.idTIpoArbol equals t.idTipoArbol
-                                        where a.idLote == idLote
-                                        select new { a.idArboles, a.idLote, a.idTIpoArbol, a.Cantidad, t.NombreTipoArbol });
+                                        where a.idLote == idLote && t.EstadoTipoArbol == "A"
+                                        select new { a.idArboles, a.idTIpoArbol, t.NombreTipoArbol });
 
                 return query.ToList();
             }

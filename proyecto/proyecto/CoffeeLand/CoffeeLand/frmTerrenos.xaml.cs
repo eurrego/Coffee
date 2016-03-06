@@ -699,24 +699,15 @@ namespace CoffeeLand
                     }
                     
                     txtArbolesModicacion.IsEnabled = false;
-                    txtArbolesModicacion.Text = (cantidadArboles).ToString();
+                    txtArbolesModicacion.Text = string.Format("{0:0,0}", cantidadArboles); 
 
                     cmbTipoArbolLote.ItemsSource = MTerrenos.GetInstance().LaborModificaArbol(Convert.ToInt32(itemTerrenos.Id)) as IEnumerable;
                     cmbTipoArbolModificar.ItemsSource = MTerrenos.GetInstance().ConsultarTipoArboles();
-                    tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarCantidadTiposArboles(Convert.ToInt32(itemTerrenos.Id)) as IEnumerable;
+                  
                     btnArboles.IsChecked = true;
                     tabArboles.Focus();
 
-                    if (tblArboles.Items.Count != 0)
-                    {
-                        pnlDataArboles.Visibility = Visibility.Visible;
-                        pnlInicioArboles.Visibility = Visibility.Collapsed;
-                    }
-                    else
-                    {
-                        pnlDataArboles.Visibility = Visibility.Collapsed;
-                        pnlInicioArboles.Visibility = Visibility.Visible;
-                    }
+                  
                 }
                 else
                 {
@@ -751,21 +742,50 @@ namespace CoffeeLand
         {
             if (cmbTipoArbolLote.SelectedIndex != 0)
             {
-                MTerrenos item = tblLotes.SelectedItem as MTerrenos;
+                tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarTiposArboles( Convert.ToInt32(cmbTipoArbolLote.SelectedValue)) as IEnumerable;
 
-                if (cmbTipoArbolLote.SelectedIndex != 1)
+                if (tblArboles.Items.Count != 0)
                 {
-                    var cantidad = MTerrenos.GetInstance().cantidadArbolesLote(int.Parse(cmbTipoArbolLote.SelectedValue.ToString()), Convert.ToInt32(item.Id));
-                    txtCantidadArbolesLotes.Text = cantidad.ToString();
+                    pnlDataArboles.Visibility = Visibility.Visible;
+                    pnlInicioArboles.Visibility = Visibility.Collapsed;
+                    pnlArbolesSinRegistros.Visibility = Visibility.Collapsed;
+                    btnSiguienteArboles.IsEnabled = true;
                 }
-               
-
-                
+                else
+                {
+                    pnlDataArboles.Visibility = Visibility.Collapsed;
+                    pnlInicioArboles.Visibility = Visibility.Collapsed;
+                    pnlArbolesSinRegistros.Visibility = Visibility.Visible;
+                    btnSiguienteArboles.IsEnabled = false;
+                }
             }
             else
             {
-                txtCantidadArbolesLotes.Text = "0";
+                pnlDataArboles.Visibility = Visibility.Collapsed;
+                pnlInicioArboles.Visibility = Visibility.Visible;
+                pnlArbolesSinRegistros.Visibility = Visibility.Collapsed;
+                btnSiguienteArboles.IsEnabled = false;
             }
+
+
+           
+
+
+            //if (cmbTipoArbolLote.SelectedIndex != 0)
+            //{
+            //    MTerrenos item = tblLotes.SelectedItem as MTerrenos;
+
+            //    if (cmbTipoArbolLote.SelectedIndex != 1)
+            //    {
+            //        var cantidad = MTerrenos.GetInstance().cantidadArbolesLote(int.Parse(cmbTipoArbolLote.SelectedValue.ToString()), Convert.ToInt32(item.Id));
+            //        txtCantidadArbolesLotes.Text = cantidad.ToString();
+            //    }
+
+            //}
+            //else
+            //{
+            //    txtCantidadArbolesLotes.Text = "0";
+            //}
         }
 
         private async void btnSguientearboles_Click(object sender, RoutedEventArgs e)
@@ -923,6 +943,21 @@ namespace CoffeeLand
             limpiarCampos(4);
             tabEmpleados.Focus();
             btnArboles.IsChecked = false;
+        }
+
+        private void btnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            tblMovimientoArboles.Visibility = Visibility.Visible;
+        }
+
+        private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
+        {
+            tabSeleccionar.Focus();
+        }
+
+        private void btnatras_Click_1(object sender, RoutedEventArgs e)
+        {
+            tabNuevoArboles.Focus();
         }
     }
 }

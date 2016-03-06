@@ -213,12 +213,58 @@ namespace CoffeeLand
                     fila["Precio"] = txtValor.Text;
                     fila["Subtotal"] = (int.Parse(txtValor.Text) * int.Parse(txtCantidad.Text)).ToString();
                     fila["TipoInsumo"] = cmbTipoInsumo.Text;
-                    dtDetalleCompra.Rows.Add(fila);
+                    
 
 
-                    tblDetalleCompra.ItemsSource = dtDetalleCompra.DefaultView;
-                    limpiarCampos();
-                    TotalCompra();
+                    int RindexRow = 0;
+                    int indexRow = dtDetalleCompra.Rows.Count + 1;
+                    int DistintoPrecio = 0;
+
+                    foreach (DataRow row in dtDetalleCompra.Rows)
+                    {
+
+                        if (row["idInsumo"].Equals(item.idInsumo.ToString()))
+                        {
+
+                            if (row["Precio"].Equals(txtValor.Text))
+                            {
+
+                                fila["Cantidad"] = (int.Parse(row["Cantidad"].ToString()) + int.Parse(txtCantidad.Text)).ToString();
+                                fila["Subtotal"] = (int.Parse(txtValor.Text) * int.Parse(fila["Cantidad"].ToString())).ToString();
+
+                                indexRow = RindexRow;
+                            }
+
+                            else
+                            {
+                                mensajeError("El insumo ya existe en la factura con un valor distinto al cual desea ingresar");
+
+                                DistintoPrecio = 1;
+                            }
+
+                        }
+
+                        RindexRow++;
+                    }
+
+
+                    if (indexRow != (dtDetalleCompra.Rows.Count + 1))
+                    {
+                        dtDetalleCompra.Rows[indexRow].Delete();
+                    }
+
+
+
+                    if (DistintoPrecio == 0)
+                    {
+
+                        dtDetalleCompra.Rows.Add(fila);
+
+                        tblDetalleCompra.ItemsSource = dtDetalleCompra.DefaultView;
+                        limpiarCampos();
+                        TotalCompra();
+
+                    }
 
                     pnlInicio.Visibility = Visibility.Collapsed;
                     pnlData.Visibility = Visibility.Visible;
@@ -310,7 +356,7 @@ namespace CoffeeLand
                     }
                     else
                     {
-                        mensajeError("Este proveedor ya tiene un número de factura igual registrado");
+                        mensajeError("Este número de factura ya se encuentra asociado a este proveedor");
                         tabProveedor.Focus();
                         txtNumeroFactura.Focus();
                     }
@@ -378,12 +424,20 @@ namespace CoffeeLand
             {
                 if (IsValid(cmbProveedor) && IsValid(dtdFecha) && IsValid(txtNumeroFactura))
                 {
-                    tabInsumo.Focus();
-                    lblProveedor.Text = cmbProveedor.Text;
-                    lblFactura.Text = txtNumeroFactura.Text;
+                    if (MVentas.GetInstance().ValidarFactura(int.Parse(txtNumeroFactura.Text), cmbProveedor.SelectedValue.ToString()) == 0)
+                    {
 
-                    btnPaso1.IsChecked = false;
-                    btnPaso2.IsChecked = true;
+                        tabInsumo.Focus();
+                        lblProveedor.Text = cmbProveedor.Text;
+                        lblFactura.Text = txtNumeroFactura.Text;
+
+                        btnPaso1.IsChecked = false;
+                        btnPaso2.IsChecked = true;
+                    }
+                    else
+                    { 
+                        mensajeError("Este número de factura ya se encuentra asociado a este proveedor");
+                    }
                 }
             }
 

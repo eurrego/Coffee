@@ -16,6 +16,7 @@ using Modelo;
 using System.Collections;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Data;
 
 namespace CoffeeLand
 {
@@ -42,6 +43,7 @@ namespace CoffeeLand
 
         int total;
         int idCompra;
+        int init = 0;
 
         public frmEstadoCuenta()
         {
@@ -49,6 +51,7 @@ namespace CoffeeLand
             instance = this;
             Mostrar();
             tamanioPantalla();
+            
         }
 
         private void tamanioPantalla()
@@ -205,7 +208,30 @@ namespace CoffeeLand
             lblProveedorDetalleCompra.Text = itemProveedor.NombreProveedor;
 
             lblTotalDetalleCompra.Text = string.Format("{0:c}", item.total);
-            tblDetalleCompra.ItemsSource = MEstadoCuenta.GetInstance().ConsultaDetalleCompra(item.idCompra) as IEnumerable;
+
+            var detalle = MEstadoCuenta.GetInstance().ConsultaDetalleCompra(item.idCompra) as IEnumerable;
+
+           
+
+            if (detalle != null)
+            {
+                tblDetalleCompra.ItemsSource = detalle;
+
+            }
+            else
+            {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("nombre");
+                    dt.Columns.Add("cantidad");
+                    dt.Columns.Add("valor");
+                    dt.Columns.Add("subtotal");
+
+                dt.Rows.Add("Beneficio","1", string.Format("{0:c}", item.total),string.Format("{0:c}", item.total));
+
+                tblDetalleCompra.ItemsSource = dt.DefaultView;
+            }
+
+            
             tabDetalleCuenta.Focus();
         }
 

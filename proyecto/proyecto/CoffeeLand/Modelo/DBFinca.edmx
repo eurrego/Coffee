@@ -193,7 +193,6 @@
           <Property Name="idArboles" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="TipoMovimiento" Type="varchar" MaxLength="7" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -250,7 +249,7 @@
           <Key>
             <PropertyRef Name="idRegistroPago" />
           </Key>
-          <Property Name="idRegistroPago" Type="int" Nullable="false" />
+          <Property Name="idRegistroPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="RegistroPagoSalario">
@@ -1227,7 +1226,6 @@
           <Property Name="idArboles" Type="Int32" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
-          <Property Name="TipoMovimiento" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Arboles" Relationship="Self.FK_MovimientosArboles_Arboles" FromRole="MovimientosArboles" ToRole="Arboles" />
         </EntityType>
         <EntityType Name="Municipio">
@@ -2359,7 +2357,6 @@
                 <ScalarProperty Name="idArboles" ColumnName="idArboles" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
