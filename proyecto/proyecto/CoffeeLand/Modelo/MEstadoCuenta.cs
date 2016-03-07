@@ -76,7 +76,16 @@ namespace Modelo
                                 subtotal = c.Precio * c.Cantidad
                             };
 
-                return query.ToList();
+                if (query.Count() != 0)
+                {
+                    return query.ToList();
+                }
+                else
+                {
+                    return query.Count();
+                }
+
+                
 
             }
         }

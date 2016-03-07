@@ -213,6 +213,7 @@ namespace CoffeeLand
             index = tblGastos.SelectedIndex;
             dt.Rows[index].Delete();
             index = -1;
+            TotalGasto();
 
             if (tblGastos.Items.Count == 0)
             {
@@ -227,11 +228,12 @@ namespace CoffeeLand
         {
             index = tblGastos.SelectedIndex;
             cmbConcepto.SelectedValue = dt.Rows[index].ItemArray[0];
-            txtValor.Text = dt.Rows[index].ItemArray[4].ToString();
-            dtdFechaGasto.SelectedDate = Convert.ToDateTime(dt.Rows[index].ItemArray[3]);
-            txtDescripcionGasto.Text = dt.Rows[index].ItemArray[2].ToString();
+            txtValor.Text = dt.Rows[index].ItemArray[3].ToString();
+            dtdFechaGasto.SelectedDate = Convert.ToDateTime(dt.Rows[index].ItemArray[2]);
+            txtDescripcionGasto.Text = dt.Rows[index].ItemArray[1].ToString();
 
             dt.Rows[index].Delete();
+            TotalGasto();
 
             if (tblGastos.Items.Count == 0)
             {

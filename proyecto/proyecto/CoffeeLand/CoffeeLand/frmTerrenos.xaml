@@ -140,10 +140,10 @@
                             <StackPanel Orientation="Vertical"  Margin="50 0 0 0" VerticalAlignment="Top" Background="White" >
 
                                 <StackPanel Orientation="Horizontal">
-                                    
-                                    
-                                    
-                                    
+
+
+
+
                                     <TextBlock x:Name="lblLote" 
                                                    Margin="0,0,0,0"  
                                                    VerticalAlignment="Center" 
@@ -836,40 +836,53 @@
 
                             <StackPanel x:Name="pnlContainerArboles" Orientation="Vertical" DockPanel.Dock="Left">
 
-                                <Grid x:Name="pnlInicioArboles" Visibility="Visible" Margin="20 20 0 0" >
+                                <Grid x:Name="pnlArbolesSinRegistros" Visibility="Collapsed" Margin="20 20 0 0" >
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="20 70 0 0" Text="Este lote no tiene" FontSize="50" FontWeight="Light" />
                                         <TextBlock Margin="20 0 0 0" Text="Árboles" FontSize="50" FontWeight="Regular"  ></TextBlock>
                                     </StackPanel>
                                 </Grid>
 
-                                <Grid x:Name="pnlDataArboles" Visibility="Collapsed"  Margin="0 0 0 25" >
+                                <Grid x:Name="pnlInicioArboles" Visibility="Collapsed" Margin="20 20 0 0" >
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="20 70 0 0" Text="Debe seleccionar un" FontSize="50" FontWeight="Light" />
+                                        <TextBlock Margin="20 0 0 0" Text="tipo de árbol" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid x:Name="pnlDataArboles" Visibility="Visible"  Margin="0 0 0 25" >
                                     <DataGrid x:Name="tblArboles" 
-                                              HeadersVisibility="None"
+                                              HeadersVisibility="All"
                                               SelectionUnit="FullRow"
                                               CanUserAddRows="False" 
                                               CanUserDeleteRows="False"
                                               AutoGenerateColumns="False"
-                                              FontSize="20"
                                               >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding NombreTipoArbol}" Header="Árbol" Width="200" IsReadOnly="True"/>
                                             <DataGridTextColumn   Binding="{Binding Cantidad}"  Header="Cantidad" Width="100" IsReadOnly="True" />
-
-                                            <DataGridTemplateColumn Width="0" Header="" >
+                                            <DataGridTemplateColumn Header="Fecha Movimiento"  Width="200" IsReadOnly ="False">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <Button x:Name="btnModificarProductividadEmpleado"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"
-                                                                Visibility="Hidden">
+                                                        <DatePicker SelectedDate="{Binding Fecha,Mode=OneWay}" SelectedDateFormat="Long" IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTemplateColumn Width="110" Header="Seleccionar" >
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button x:Name="btnSeleccionar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0" Click="btnSeleccionar_Click">
                                                             <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                 <Rectangle.OpacityMask>
-                                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_edit}"/>
+                                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_check}"/>
                                                                 </Rectangle.OpacityMask>
                                                             </Rectangle>
                                                         </Button>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
+
                                         </DataGrid.Columns>
                                         <DataGrid.Style>
                                             <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
@@ -897,16 +910,18 @@
                                                    Foreground="CornflowerBlue"
                                                    />
 
-                                                <StackPanel Orientation="Horizontal">
+                                                <DockPanel >
 
-                                                    <TextBlock x:Name="lblLaborArboles" 
+                                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+
+                                                        <TextBlock x:Name="lblLaborArboles" 
                                                                VerticalAlignment="Center" 
                                                                FontSize="25" 
                                                                FontWeight="Light"
                                                                Foreground="Gray"
                                                                />
 
-                                                    <TextBlock  
+                                                        <TextBlock  
                                                                VerticalAlignment="Center" 
                                                                FontSize="25" 
                                                                FontWeight="Light"
@@ -915,95 +930,64 @@
                                                         Margin="10 0 0 0"
                                                                />
 
-                                                    <TextBlock x:Name="lblPagoempleadosArboles" 
+                                                        <TextBlock x:Name="lblPagoempleadosArboles" 
                                                                Margin="10 0 0 0"
                                                                VerticalAlignment="Center" 
                                                                FontSize="25" 
                                                                FontWeight="Bold"
-                                                               Foreground="Gray"
+                                                               Foreground="Gray" 
                                                                />
-                                                </StackPanel>
+                                                    </StackPanel>
+
+
+
+                                                    <TextBlock x:Name="txtArbolesModicacion"
+                                                               DockPanel.Dock="Right"
+                                                               Margin="10 0 0 0"
+                                                               Text="4500"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="25" 
+                                                               FontWeight="Bold"
+                                                               Foreground="Gray"
+                                                               >
+
+                                                    </TextBlock>
+
+                                                    <TextBlock DockPanel.Dock="Right"
+                                                               Text="Arboles a mover:"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="25"
+                                                               Foreground="CornflowerBlue"
+                                                               FontWeight="Bold"
+                                                               >
+                                                    </TextBlock>
+
+                                                </DockPanel>
 
                                                 <ComboBox x:Name="cmbTipoArbolLote"
                             	                        DisplayMemberPath="NombreTipoArbol" 
-                            	                        SelectedValuePath="idTIpoArbol"
+                            	                        SelectedValuePath="idArboles"
                             	                        Margin="0 20 0 0" VerticalAlignment="Top"
                             	                        IsSynchronizedWithCurrentItem="true" 
                             	                        Height="42"
                             	                        SelectedIndex="0"
                                                         SelectionChanged="cmbTipoArbolLote_SelectionChanged"
                                                         />
-                                                
-                                                    <TextBox x:Name="txtCantidadArbolesLotes" Margin="0 20 0 0"
-                            	                    Controls:TextBoxHelper.Watermark="Árboles Lote" 
-                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                            	                    Height="42" VerticalAlignment="Top" 
-                                                    IsEnabled="False"
-                                                    >
-                                                        <TextBox.Style>
-                                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                                <Style.Triggers>
-                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                                    </Trigger>
-                                                                    <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                                    </Trigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </TextBox.Style>
-                                                        <TextBox.Text>
-                                                            <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                                <Binding.ValidationRules>
-                                                                    <ExceptionValidationRule/>
-                                                                </Binding.ValidationRules>
-                                                            </Binding>
-                                                        </TextBox.Text>
-                                                    </TextBox>
-
-                                                <ComboBox x:Name="cmbTipoArbolModificar"
-                            	                        DisplayMemberPath="NombreTipoArbol" 
-                            	                        SelectedValuePath="idTIpoArbol"
-                            	                        Margin="0 20 0 0" VerticalAlignment="Top"
-                            	                        IsSynchronizedWithCurrentItem="true" 
-                            	                        Height="42"
-                            	                        SelectedIndex="0"
-                                                        SelectionChanged="cmbTipoArbolLote_SelectionChanged"
-                                                        />
-
-                                                <TextBox x:Name="txtArbolesModicacion" Margin="0 20 0 0"
-                            	                    Controls:TextBoxHelper.Watermark="Árboles a modificar" 
-                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                            	                    Height="42" VerticalAlignment="Top"
-                                                    >
-                                                    <TextBox.Style>
-                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                                </Trigger>
-                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBox.Style>
-                                                    <TextBox.Text>
-                                                        <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                            <Binding.ValidationRules>
-                                                                <ExceptionValidationRule/>
-                                                            </Binding.ValidationRules>
-                                                        </Binding>
-                                                    </TextBox.Text>
-                                                </TextBox>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
 
-                                                    <Button x:Name="btnSguientearboles"  
+
+
+
+
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <Grid VerticalAlignment="Bottom" Margin="15 0 0 0">
+
+                                                <Button x:Name="btnSiguienteArboles"  
                                                        HorizontalAlignment="Left" 
                                                        VerticalAlignment="Center"
                                                        Margin="0 0 0 0" 
@@ -1014,13 +998,7 @@
                                                        Controls:ButtonHelper.PreserveTextCase="True"
                                                        Click="btnSguientearboles_Click"
                                                        >
-                                                    </Button>
-
-                                                </StackPanel>
-                                            </StackPanel>
-
-                                            <Grid VerticalAlignment="Bottom" Margin="10 0 0 0">
-
+                                                </Button>
 
                                                 <Button x:Name="btnAtrasArboles" Width="61" Height="61"
                                                             Style="{DynamicResource MetroCircleButtonStyle}"
@@ -1040,6 +1018,123 @@
 
                                             </Grid>
 
+
+                                        </DockPanel>
+                                    </TabItem>
+                                    <TabItem x:Name="tabSeleccionar">
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Top">
+
+
+                                                <ComboBox x:Name="cmbTipoArbolModificar"
+                            	                                  DisplayMemberPath="NombreTipoArbol" 
+                            	                                  SelectedValuePath="idTIpoArbol"
+                            	                                  Margin="0 0 0 0" VerticalAlignment="Top"
+                            	                                  Height="42"
+                            	                                  SelectedIndex="0"
+                                                                  SelectionChanged="cmbTipoArbolLote_SelectionChanged"
+                                                                   />
+
+                                                <TextBox x:Name="txtCantidadArbolesLotes" 
+                                                                Margin="0 20 0 0"
+                            	                                Controls:TextBoxHelper.Watermark="Cantidad" 
+                                                                Controls:TextBoxHelper.UseFloatingWatermark="True"
+                            	                                Height="42" 
+                                                                IsEnabled="False"
+                                                                >
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                                         UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="btnAgregar"  
+                                                           HorizontalAlignment="Left" 
+                                                           VerticalAlignment="Center"
+                                                           Margin="0 10 0 0" 
+                                                           Height="35"
+                                                           Width="100"
+                                                           Style="{StaticResource AccentedSquareButtonStyle}"
+                                                           Content="Agregar"
+                                                           Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnAgregar_Click"
+                                                           >
+                                                    </Button>
+
+                                                    <Button x:Name="btnatras"  
+                                                           HorizontalAlignment="Left" 
+                                                           VerticalAlignment="Center"
+                                                           Margin="20 10 0 0" 
+                                                           Height="35"
+                                                           Width="100"
+                                                           Style="{StaticResource AccentedSquareButtonStyle}"
+                                                           Content="Agregar"
+                                                           Controls:ButtonHelper.PreserveTextCase="True"
+                                                        Click="btnatras_Click_1"
+                                                           >
+                                                    </Button>
+                                                </StackPanel>
+
+
+                                            </StackPanel>
+
+
+
+                                            <DataGrid x:Name="tblMovimientoArboles" 
+                                                          HeadersVisibility="All"
+                                                          SelectionUnit="FullRow"
+                                                          CanUserAddRows="False" 
+                                                          CanUserDeleteRows="False"
+                                                          AutoGenerateColumns="False"
+                                                          Margin="0 10 0 0"
+                                                          Visibility="Visible"
+                                                        >
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="IdMovimiento" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="idArbol" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="Árbol" Width="150" IsReadOnly="True"/>
+                                                    <DataGridTextColumn   Header="Cantidad" Width="150" IsReadOnly="True" />
+
+
+                                                    <DataGridTemplateColumn Width="110" Header="Eliminar" >
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button x:Name="btnSeleccionar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"
+                                                                Visibility="Hidden">
+                                                                    <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
+                                                                        <Rectangle.OpacityMask>
+                                                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>
+                                                                        </Rectangle.OpacityMask>
+                                                                    </Rectangle>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                                <DataGrid.Style>
+                                                    <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
+                                                        <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
+                                                    </Style>
+                                                </DataGrid.Style>
+                                            </DataGrid>
 
                                         </DockPanel>
                                     </TabItem>

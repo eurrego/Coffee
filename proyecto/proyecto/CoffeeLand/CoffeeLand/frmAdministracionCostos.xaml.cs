@@ -45,5 +45,18 @@ namespace CoffeeLand
             InitializeComponent();
             instance = this;
         }
+
+        private void tabRegistroCompras_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmCompra miCompra = new frmCompra();
+            contentRegistroCompra.Content = miCompra;
+        }
+
+        private void tabRegistroGastos_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmGastos miGasto = new frmGastos();
+            contentRegistroGasto.Content = miGasto;
+
+        }
     }
 }
