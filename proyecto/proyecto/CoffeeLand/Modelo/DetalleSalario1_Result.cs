@@ -10,16 +10,13 @@
 namespace Modelo
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class MovimientosArboles
+    public partial class DetalleSalario1_Result
     {
-        public int idMovimientosArboles { get; set; }
-        public int idArboles { get; set; }
+        public string NombreLabor { get; set; }
         public System.DateTime Fecha { get; set; }
         public int Cantidad { get; set; }
-        public string TipoMovimiento { get; set; }
-    
-        public virtual Arboles Arboles { get; set; }
+        public decimal Valor { get; set; }
+        public Nullable<decimal> subtotal { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Modelo
         public int idSalarioPersonaPermanente { get; set; }
         public string DocumentoPersona { get; set; }
         public decimal Valor { get; set; }
-        public int IdRegistroPago { get; set; }
+        public Nullable<int> idRegistroPago { get; set; }
     
         public virtual Persona Persona { get; set; }
         public virtual RegistroPago RegistroPago { get; set; }
