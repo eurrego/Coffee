@@ -20,10 +20,7 @@ namespace CoffeeLand
         bool validacion = false;
 
 
-        string name = Environment.MachineName;
-        string name1 = System.Net.Dns.GetHostName();
-
-        string name2 = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
+      
 
         public frmReporteIngresosLote()
         {
@@ -56,11 +53,9 @@ namespace CoffeeLand
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-<<<<<<< HEAD
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\"+name+"\\Desktop\\Informe Ingeresos Lote.pdf";
-=======
+
                 CrDiskFileDestinationOptions.DiskFileName = path + "\\Informe Ingeresos Lote.pdf";
->>>>>>> d84dd911a229647518de0cf9eeaf59d4da4e01ea
+
                 CrExportOptions = rptDoc.ExportOptions;
                 {
                     CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
@@ -113,10 +108,7 @@ namespace CoffeeLand
                         //   rptDoc.SetDataSource(Mreporte.GetInstance().funcionreporteingresosLote(idlote, DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()), DateTime.Parse(dtdFechaFin.SelectedDate.ToString())) as IEnumerable);
 
                         crystalReportsViewer2.ViewerCore.ReportSource = rptDoc;
-<<<<<<< HEAD
-                       
-=======
->>>>>>> d84dd911a229647518de0cf9eeaf59d4da4e01ea
+
                     }
                     else
                     {
