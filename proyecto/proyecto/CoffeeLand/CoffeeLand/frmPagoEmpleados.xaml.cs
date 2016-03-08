@@ -17,6 +17,7 @@ namespace CoffeeLand
     {
         ReportePagoEmpleadoPermanente rptDoc = new ReportePagoEmpleadoPermanente();
         ReportePagoEmpleadosTemp rptDoc1 = new ReportePagoEmpleadosTemp();
+        bool validacion = false;
 
         public frmPagoEmpleados()
         {
@@ -31,7 +32,7 @@ namespace CoffeeLand
         private void llenarCmbTipoEmpleado()
         {
             List<string> data = new List<string>();
-            data.Add("Seleccione un tipo de Pago");
+            data.Add("Seleccione un tipo de empleado");
             data.Add("Empleado Temporal");
             data.Add("Empleado Permanente");
 
@@ -84,13 +85,15 @@ namespace CoffeeLand
 
         public void exportarReportePDFTemporal()
         {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             try
             {
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
 
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Pago Empleado Temporal.pdf";
+                CrDiskFileDestinationOptions.DiskFileName = path + "\\Informe Pago Empleado Temporal.pdf";
 
                 CrExportOptions = rptDoc1.ExportOptions;
                 {
@@ -112,19 +115,31 @@ namespace CoffeeLand
             }
         }
 
+        private bool Validar()
+        {
+            if (dtdFechaInicio.SelectedDate.Equals(null) || dtdFechaFin.SelectedDate.Equals(null) || cmbTipoEmpleado.SelectedIndex == 0)
+            {
+                mensajeError("Debe Ingresar todos los Campos");
+                validacion = false;
+            }
+            else
+            {
+                validacion = true;
+            }
+
+            return validacion;
+        }
+
+
+
         public void generarReporteEmpleadoPermanente()
         {
 
-
-            if (cmbTipoEmpleado.SelectedIndex != 0)
+            if (Validar())
             {
 
-                if (!dtdFechaInicio.SelectedDate.Equals(null) && !dtdFechaFin.SelectedDate.Equals(null))
-                {
-                    if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
+               if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
                     {
-
-                        rptDoc.Load("C:\\Users\\Naits\\Documents\\GitHub\\coffee\\proyecto\\proyecto\\CoffeeLand\\CoffeeLand\\Reportes\\ReportePagoEmpleadoPermanente.rpt");
 
                         rptDoc.SetParameterValue("@FECHA_INI", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
                         rptDoc.SetParameterValue("@FECHA_FIN", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
@@ -137,31 +152,19 @@ namespace CoffeeLand
                     else
                     {
                         mensajeError("La fecha inicial, no puede ser mayor que la fecha final.");
-                        dtdFechaFin.SelectedDate = null;
                     }
-                }
-                else
-                {
-                    mensajeError("Por favor seleccione la fecha inicial.");
-                    dtdFechaFin.SelectedDate = null;
-                }
+              
             }
-            else
-            {
-                mensajeError("Por favor seleccione un Lote.");
-            }
-
 
         }
 
         public void generarReporteEmpleadoTemporal()
         {
 
-            if (cmbTipoEmpleado.SelectedIndex != 0)
+            if (Validar())
             {
 
-                if (!dtdFechaInicio.SelectedDate.Equals(null) && !dtdFechaFin.SelectedDate.Equals(null))
-                {
+               
                     if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
                     {
 
@@ -178,20 +181,9 @@ namespace CoffeeLand
                     else
                     {
                         mensajeError("La fecha inicial, no puede ser mayor que la fecha final.");
-                        dtdFechaFin.SelectedDate = null;
                     }
-                }
-                else
-                {
-                    mensajeError("Por favor seleccione la fecha inicial.");
-                    dtdFechaFin.SelectedDate = null;
-                }
             }
-            else
-            {
-                mensajeError("Por favor seleccione un Lote.");
-            }
-
+  
         }
 
         private void btnExportarPDF_Click(object sender, RoutedEventArgs e)
@@ -215,7 +207,6 @@ namespace CoffeeLand
             }
             else
             {
-     
                 generarReporteEmpleadoTemporal();
             }
 
@@ -232,6 +223,7 @@ namespace CoffeeLand
 
             var anchoContainer = width / 1.5;
             pnlPrincipal.Width = anchoContainer;
+            crystalReportsViewer2.Width = anchoContainer - 20;
 
             pnlPrincipal.Height = height - 220;
         }
