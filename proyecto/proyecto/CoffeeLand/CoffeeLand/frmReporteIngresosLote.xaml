@@ -26,7 +26,11 @@
                               HorizontalAlignment="Left" Margin="22,0,0,0" 
                               VerticalAlignment="Top" >
                 <Grid Margin="0,0,0,-29">
-                    <my:CrystalReportsViewer HorizontalAlignment ="Left" Name ="crystalReportsViewer2" Width ="975" Margin="2,0,0,34"/>
+                    <my:CrystalReportsViewer HorizontalAlignment ="Left" 
+                                             Name ="crystalReportsViewer2" 
+                                             Width ="975" 
+                                             Margin="2,0,0,34"
+                                             ToggleSidePanel="None"/>
                 </Grid>
             </GroupBox>
             <DatePicker Name="dtdFechaInicio" HorizontalAlignment="Left" Margin="512,39,0,0" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.484,-2.462" />

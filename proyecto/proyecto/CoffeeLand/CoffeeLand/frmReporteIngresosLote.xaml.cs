@@ -6,6 +6,7 @@ using CoffeeLand.Reportes;
 using CrystalDecisions.Shared;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows.Controls.Primitives;
 
 namespace CoffeeLand
 {
@@ -16,6 +17,12 @@ namespace CoffeeLand
     {
 
         rptIngresosLote rptDoc = new rptIngresosLote();
+
+
+        string name = Environment.MachineName;
+        string name1 = System.Net.Dns.GetHostName();
+
+        string name2 = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
 
         public frmReporteIngresosLote()
         {
@@ -46,7 +53,7 @@ namespace CoffeeLand
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Ingeresos Lote.pdf";
+                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\"+name+"\\Desktop\\Informe Ingeresos Lote.pdf";
                 CrExportOptions = rptDoc.ExportOptions;
                 {
                     CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
@@ -90,7 +97,7 @@ namespace CoffeeLand
                         //   rptDoc.SetDataSource(Mreporte.GetInstance().funcionreporteingresosLote(idlote, DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()), DateTime.Parse(dtdFechaFin.SelectedDate.ToString())) as IEnumerable);
 
                         crystalReportsViewer2.ViewerCore.ReportSource = rptDoc;
-
+                       
                     }
                     else
                     {
