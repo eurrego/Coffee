@@ -64,9 +64,9 @@ namespace CoffeeLand.Validator
                             }
                             else
                             {
-                                if (nombre.Length > 45)
+                                if (nombre.Length > 50)
                                 {
-                                    result = "El nombre debe ser menor que 45 caracteres.";
+                                    result = "El nombre debe ser menor que 50 caracteres.";
                                 }
                             }
                         }
@@ -100,9 +100,9 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (documento.Length > 20)
+                            else if (documento.Length > 15)
                             {
-                                result = "El documento debe ser menor que 20 caracteres.";
+                                result = "El documento debe ser menor que 15 caracteres.";
                             }
                         }
                         break;

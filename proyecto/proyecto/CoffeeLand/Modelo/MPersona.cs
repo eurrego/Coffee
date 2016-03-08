@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
 
 namespace Modelo
 {
@@ -85,12 +86,14 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionPersona(nombre.ToUpper(), genero.ToUpper(), telefono, fechaNacimiento, id, opcion, TipoDocumento, TipoContrato).First();
+                    var rpta = entity.gestionPersona(Converter.GetInstance().StringToCapitalsConverter(nombre), genero.ToUpper(), telefono, fechaNacimiento, id, opcion, TipoDocumento, TipoContrato).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+                    string filePath = @""+ path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {
