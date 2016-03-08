@@ -52,6 +52,7 @@ namespace CoffeeLand
             DataContext = this;
             Mostrar();
             tamanioPantalla();
+            dtdFechaNacimiento.DisplayDateEnd = DateTime.Now;
         }
 
 
@@ -228,40 +229,48 @@ namespace CoffeeLand
                     {
                         rpta = MPersona.GetInstance().GestionPersona(txtNombre.Text, Convert.ToString(cmbGenero.SelectedItem), txtTelefono.Text, Convert.ToDateTime(dtdFechaNacimiento.SelectedDate), Convert.ToInt32(txtDocumento.Text), 1, Convert.ToString(cmbTipoDocumento.SelectedItem), Convert.ToString(cmbTipoContrato.SelectedItem));
                         mensajeInformacion(rpta);
-                        Limpiar();
-                        tabBuscar.Focus();
-                        tblEmpleado.IsEnabled = true;
 
-                        if (pnlResultados.IsVisible)
+                        if (!rpta.Equals("Existe un Empleado con este documento"))
                         {
-                            limpiarPantalla();
-                        }
-                        else
-                        {
-                            Mostrar();
-                        }
+                            Limpiar();
+                            tabBuscar.Focus();
+                            tblEmpleado.IsEnabled = true;
 
-                        frmPrestamosEmpleados.GetInstance().Mostrar();
+                            if (pnlResultados.IsVisible)
+                            {
+                                limpiarPantalla();
+                            }
+                            else
+                            {
+                                Mostrar();
+                            }
+
+                            frmPrestamosEmpleados.GetInstance().Mostrar();
+                        }
                     }
                 }
             }
             else
             {
-                rpta = MPersona.GetInstance().GestionPersona(txtNombre.Text, Convert.ToString(cmbGenero.SelectedItem), txtTelefono.Text, Convert.ToDateTime(dtdFechaNacimiento.SelectedDate), Convert.ToInt32(txtId.Text), 2, Convert.ToString(cmbTipoDocumento.SelectedItem), Convert.ToString(cmbTipoContrato.SelectedItem));
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblEmpleado.IsEnabled = true;
+                if (validarCampos())
+                {
+                    rpta = MPersona.GetInstance().GestionPersona(txtNombre.Text, Convert.ToString(cmbGenero.SelectedItem), txtTelefono.Text, Convert.ToDateTime(dtdFechaNacimiento.SelectedDate), Convert.ToInt32(txtId.Text), 2, Convert.ToString(cmbTipoDocumento.SelectedItem), Convert.ToString(cmbTipoContrato.SelectedItem));
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblEmpleado.IsEnabled = true;
+                    txtDocumento.IsEnabled = true;
 
-                if (pnlResultados.IsVisible)
-                {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
                 }
             }
         }
@@ -273,6 +282,7 @@ namespace CoffeeLand
             tabBuscar.Focus();
             tabNuevo.Header = "NUEVO";
             tblEmpleado.IsEnabled = true;
+            txtDocumento.IsEnabled = true;
         }
 
         public static bool IsValid(DependencyObject parent)
@@ -299,6 +309,8 @@ namespace CoffeeLand
             cmbTipoContrato.SelectedValue = item.TipoContratoPersona;
             cmbTipoDocumento.SelectedValue = item.TipoDocumento;
             dtdFechaNacimiento.SelectedDate = item.FechaNacimineto;
+
+            txtDocumento.IsEnabled = false;
 
             tabBuscar.IsEnabled = false;
             tabNuevo.Header = "EDITAR";
@@ -353,7 +365,7 @@ namespace CoffeeLand
             {
                 mensajeError("El empleado no puede inhabilitarse porque tiene prestamos pendientes.");
             }
- 
+
         }
 
         private void btnInhabilitados_Click(object sender, RoutedEventArgs e)

@@ -167,7 +167,7 @@ namespace CoffeeLand
 
         private void btnDetallePago_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbTipoEmpleado.SelectedIndex.Equals(2))
+            if (cmbTipoEmpleado.SelectedIndex.Equals(2))//temporal
             {
                 tabDetalle.Focus();
                 PagosPersona_Result item = tblPagos.SelectedItem as PagosPersona_Result;
@@ -176,7 +176,7 @@ namespace CoffeeLand
                 lblNombreEmpleado.Text = item.Nombre.ToString();
                 lblCedulaEmpleado.Text = item.DocumentoPersona.ToString();
             }
-            else if (cmbTipoEmpleado.SelectedIndex.Equals(1))
+            else if (cmbTipoEmpleado.SelectedIndex.Equals(1))//permanente
             {
                 tabAsignar.Visibility = Visibility.Visible;
                 tabAsignar.Focus();
@@ -194,7 +194,7 @@ namespace CoffeeLand
             auxiliar = DataGridtoDataTable(tblPagos);
             string val = "0";
 
-            if (cmbTipoEmpleado.SelectedIndex.Equals(1))
+            if (cmbTipoEmpleado.SelectedIndex.Equals(1))//persona permanente
             {
                 for (int i = 0; i < auxiliar.Rows.Count; i++)
                 {
@@ -220,10 +220,10 @@ namespace CoffeeLand
                     mensajeError("Registro de pago exitoso.");
                 }
             }
-            else if (cmbTipoEmpleado.SelectedIndex.Equals(2))
+            else if (cmbTipoEmpleado.SelectedIndex.Equals(2))//persona temporal
             {
                 auxiliar.Columns.Remove("NOMBRE");
-                auxiliar.Columns.Remove("VALOR A pAGAR");
+                auxiliar.Columns.Remove("VALOR A PAGAR");
                 auxiliar.Columns.Remove("VALOR DEUDA");
                 auxiliar.Columns.Remove("DETALLE PAGO");
                 MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 2);

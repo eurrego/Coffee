@@ -52,9 +52,9 @@ namespace Modelo
 
                     entity.SP_InsertMultiplesSalariosPersonaPermanente(dt);
                 }
-                else if (opc == 2)
+                else if (opc == 2)//temporal
                 {
-                    entity.SP_InsertMultiplesSalariosPersonaTemporal(dt);
+                    entity.Insercion_RegistroPago_SalarioPersonaTemporal();
                 }
             }
 

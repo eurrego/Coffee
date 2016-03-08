@@ -14,6 +14,7 @@ namespace CoffeeLand
     public partial class frmReporteCompraInsumo : UserControl
     {
         ReporteCompraInsumos rptDoc = new ReporteCompraInsumos();
+        bool validacion = false;
 
         public frmReporteCompraInsumo()
         {
@@ -33,6 +34,7 @@ namespace CoffeeLand
 
             var anchoContainer = width / 1.5;
             pnlPrincipal.Width = anchoContainer;
+            crystalReportsViewer1.Width = anchoContainer - 20;
 
             pnlPrincipal.Height = height - 220;
         }
@@ -50,12 +52,14 @@ namespace CoffeeLand
 
         private void btnExportarPDF_Click(object sender, RoutedEventArgs e)
         {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             try
             {
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Compras.pdf";
+                CrDiskFileDestinationOptions.DiskFileName = path + "\\Informe Compras.pdf";
                 CrExportOptions = rptDoc.ExportOptions;
                 {
                     CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
@@ -76,13 +80,29 @@ namespace CoffeeLand
             }
         }
 
+        private bool Validar()
+        {
+            if (dtdFechaInicio.SelectedDate.Equals(null) || dtdFechaFin.SelectedDate.Equals(null))
+            {
+                mensajeError("Debe Ingresar todos los Campos");
+                validacion = false;
+            }
+            else
+            {
+                validacion = true;
+            }
+
+            return validacion;
+        }
+
+
+
         private void btnReporte_Click(object sender, RoutedEventArgs e)
         {
-            if (!dtdFechaInicio.SelectedDate.Equals(null))
+            if (Validar())
             {
                 if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
                 {
-                    rptDoc.Load("C:\\Users\\Caty\\Documents\\GitHub\\CoffeeLand.Metro\\Proyecto\\CoffeeLand\\ReporteCompraInsumos.rpt");
 
                     rptDoc.SetParameterValue("@FECHA_INI", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
                     rptDoc.SetParameterValue("@FECHA_FIN", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
@@ -94,13 +114,7 @@ namespace CoffeeLand
                 else
                 {
                     mensajeError("La fecha inicial, no puede ser mayor que la fecha final.");
-                    dtdFechaFin.SelectedDate = null;
                 }
-            }
-            else
-            {
-                mensajeError("Por favor seleccione la fecha inicial.");
-                dtdFechaFin.SelectedDate = null;
             }
         }
     }

@@ -624,13 +624,18 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PagosPersona_Result>("PagosPersona", opcionPagoParameter);
         }
     
-        public virtual ObjectResult<DetalleSalario_Result> DetalleSalario(Nullable<int> cedula)
+        public virtual ObjectResult<DetalleSalario_Result1> DetalleSalario(Nullable<int> cedula)
         {
             var cedulaParameter = cedula.HasValue ?
                 new ObjectParameter("cedula", cedula) :
                 new ObjectParameter("cedula", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DetalleSalario_Result>("DetalleSalario", cedulaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DetalleSalario_Result1>("DetalleSalario", cedulaParameter);
+        }
+    
+        public virtual int Insercion_RegistroPago_SalarioPersonaTemporal()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insercion_RegistroPago_SalarioPersonaTemporal");
         }
     }
 }

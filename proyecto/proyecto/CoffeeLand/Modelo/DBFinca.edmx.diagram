@@ -30,7 +30,7 @@
         <EntityTypeShape EntityType="DBFincaModel.Proveedor" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.RegistroPago" Width="1.5" PointX="5.25" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.RegistroPagoSalario" Width="2.125" PointX="7.5" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBFincaModel.SalarioPersonaPermanente" Width="1.875" PointX="4.875" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBFincaModel.SalarioPersonaPermanente" Width="1.875" PointX="5" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.SalarioPersonaTemporal" Width="2.125" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.TipoArbol" Width="1.5" PointX="1.75" PointY="28.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.TipoInsumo" Width="1.5" PointX="9.75" PointY="2.875" IsExpanded="true" />
@@ -67,7 +67,7 @@
         <EntityTypeShape EntityType="DBFincaModel.Usuario" Width="2.25" PointX="9.125" PointY="15.75" />
         <AssociationConnector Association="DBFincaModel.FK_CostoBeneficio_Compra" />
         <AssociationConnector Association="DBFincaModel.FK_CostoBeneficio_Venta" />
-        <AssociationConnector Association="DBFincaModel.FK_SalarioPersonaPermanente_RegistroPago" />
+        <AssociationConnector Association="DBFincaModel.FK_SalarioPersonaPermanente_RegistroPago1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

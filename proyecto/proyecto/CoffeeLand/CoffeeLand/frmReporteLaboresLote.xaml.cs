@@ -14,8 +14,8 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmReporteLaboresLote : UserControl
     {
-
         ReporteLaboresLote rptDoc = new ReporteLaboresLote();
+        bool validacion = false;
 
         public frmReporteLaboresLote()
         {
@@ -37,16 +37,16 @@ namespace CoffeeLand
         }
 
 
-
-
         private void btnExportarPDF_Click(object sender, RoutedEventArgs e)
         {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             try
             {
                 ExportOptions CrExportOptions;
                 DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
                 PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                CrDiskFileDestinationOptions.DiskFileName = "C:\\Users\\Naits\\Desktop\\Informe Labores Lote.pdf";
+                CrDiskFileDestinationOptions.DiskFileName = path + "\\Informe Labores Lote.pdf";
                 CrExportOptions = rptDoc.ExportOptions;
                 {
                     CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
@@ -67,42 +67,44 @@ namespace CoffeeLand
             }
         }
 
-        private void btnReporte_Click(object sender, RoutedEventArgs e)
+        private bool Validar()
         {
-            if (cmbLotes.SelectedIndex != 0)
+            if (dtdFechaInicio.SelectedDate.Equals(null) || dtdFechaFin.SelectedDate.Equals(null) || cmbLotes.SelectedIndex == 0)
             {
-                int idlote = int.Parse(cmbLotes.SelectedValue.ToString());
-                if (!dtdFechaInicio.SelectedDate.Equals(null) && !dtdFechaFin.SelectedDate.Equals(null))
-                {
-                    if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
-                    {
-
-
-                        rptDoc.Load("C:\\Users\\Naits\\Documents\\GitHub\\coffee\\proyecto\\proyecto\\CoffeeLand\\CoffeeLand\\Reportes\\ReporteLaboresLote.rpt");
-                        rptDoc.SetParameterValue("@idLote", idlote);
-                        rptDoc.SetParameterValue("@fecha_ini", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
-                        rptDoc.SetParameterValue("@fecha_fin", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
-
-                        //   rptDoc.SetDataSource(Mreporte.GetInstance().funcionreporteingresosLote(idlote, DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()), DateTime.Parse(dtdFechaFin.SelectedDate.ToString())) as IEnumerable);
-
-                        crystalReportsViewer2.ViewerCore.ReportSource = rptDoc;
-
-                    }
-                    else
-                    {
-                        mensajeError("La fecha inicial, no puede ser mayor que la fecha final.");
-                        dtdFechaFin.SelectedDate = null;
-                    }
-                }
-                else
-                {
-                    mensajeError("Por favor seleccione la fecha inicial.");
-                    dtdFechaFin.SelectedDate = null;
-                }
+                mensajeError("Debe Ingresar todos los Campos");
+                validacion = false;
             }
             else
             {
-                mensajeError("Por favor seleccione un Lote.");
+                validacion = true;
+            }
+
+            return validacion;
+        }
+
+
+        private void btnReporte_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validar())
+            {
+                int idlote = int.Parse(cmbLotes.SelectedValue.ToString());
+
+                if (dtdFechaInicio.SelectedDate <= dtdFechaFin.SelectedDate)
+                {
+                    rptDoc.SetParameterValue("@idLote", idlote);
+                    rptDoc.SetParameterValue("@fecha_ini", DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()));
+                    rptDoc.SetParameterValue("@fecha_fin", DateTime.Parse(dtdFechaFin.SelectedDate.ToString()));
+
+                    //   rptDoc.SetDataSource(Mreporte.GetInstance().funcionreporteingresosLote(idlote, DateTime.Parse(dtdFechaInicio.SelectedDate.ToString()), DateTime.Parse(dtdFechaFin.SelectedDate.ToString())) as IEnumerable);
+
+                    crystalReportsViewer2.ViewerCore.ReportSource = rptDoc;
+
+                }
+                else
+                {
+                    mensajeError("La fecha inicial, no puede ser mayor que la fecha final.");
+                    dtdFechaFin.SelectedDate = null;
+                }
             }
 
         }
@@ -118,6 +120,7 @@ namespace CoffeeLand
 
             var anchoContainer = width / 1.5;
             pnlPrincipal.Width = anchoContainer;
+            crystalReportsViewer2.Width = anchoContainer - 20;
 
             pnlPrincipal.Height = height - 220;
         }
