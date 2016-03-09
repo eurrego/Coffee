@@ -287,34 +287,46 @@ namespace CoffeeLand
             string nombre = item.NombreTipoInsumo;
             string descripcion = item.Descripcion;
 
-            var mySettings = new MetroDialogSettings()
+
+            var items =  MTipoInsumo.GetInstance().ConsultarInsumo(id);
+
+            if (items.Count == 0 )
             {
-                AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-
-            };
-
-            MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result != MessageDialogResult.Negative)
-            {
-                string rpta = "";
-
-                rpta = MTipoInsumo.GetInstance().GestionTipoInsumo(nombre, descripcion, id, 3).ToString();
-                mensajeInformacion(rpta);
-
-                if (pnlResultados.IsVisible)
+                var mySettings = new MetroDialogSettings()
                 {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
-                }
+                    AffirmativeButtonText = "Aceptar",
+                    NegativeButtonText = "Cancelar",
 
-                frmInsumo.GetInstance().Mostrar();
-                frmCompra.GetInstance().Mostrar();
+                };
+
+
+                MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                if (result != MessageDialogResult.Negative)
+                {
+                    string rpta = "";
+
+                    rpta = MTipoInsumo.GetInstance().GestionTipoInsumo(nombre, descripcion, id, 3).ToString();
+                    mensajeInformacion(rpta);
+
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+
+                    frmInsumo.GetInstance().Mostrar();
+                    frmCompra.GetInstance().Mostrar();
+                }
             }
+            else
+            {
+                mensajeError("El tipo de insumo no puede inhabilitarse, existen insumo asociado");
+            }
+
         }
 
         private void btnInhabilitados_Click(object sender, RoutedEventArgs e)

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
+
 
 namespace Modelo
 {
@@ -138,14 +140,16 @@ namespace Modelo
             using (var entity = new DBFincaEntities())
             {
 
+
                 try
                 {
-                    var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha, descripcion.ToUpper()).First();
+                    var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha,Converter.GetInstance().StringFirtsLetterToUpper(descripcion)).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {
@@ -172,7 +176,8 @@ namespace Modelo
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

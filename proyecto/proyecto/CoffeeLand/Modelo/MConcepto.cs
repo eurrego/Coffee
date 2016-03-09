@@ -88,7 +88,8 @@ namespace Modelo
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Brian\Desktop\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

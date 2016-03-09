@@ -275,6 +275,7 @@
     <Compile Include="Validator\InsumoValidator.cs" />
     <Compile Include="Validator\LaboresValidator.cs" />
     <Compile Include="Validator\LotesValidator.cs" />
+    <Compile Include="Validator\PagosValidator.cs" />
     <Compile Include="Validator\PrestamosValidator.cs" />
     <Compile Include="Validator\ProductosValidator.cs" />
     <Compile Include="Validator\ProveedorValidator.cs" />

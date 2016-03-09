@@ -24,5 +24,11 @@ namespace CoffeeLand
         {
             InitializeComponent();
         }
+
+        private void tabRegistroPrestamos_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmPrestamosEmpleados misPrestamos = new frmPrestamosEmpleados();
+            contentPrestamos.Content = misPrestamos;
+        }
     }
 }

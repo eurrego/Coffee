@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
 
 namespace Modelo
 {
@@ -104,12 +105,13 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionInsumo(IdTipoInsumo, nombre.ToUpper(), descripcion.ToUpper(), marca.ToUpper(), unidaMedida.ToUpper(), id, opcion).First();
+                    var rpta = entity.gestionInsumo(IdTipoInsumo, Converter.GetInstance().StringToCapitalsConverter(nombre), Converter.GetInstance().StringFirtsLetterToUpper(descripcion), Converter.GetInstance().StringToCapitalsConverter(marca), Converter.GetInstance().StringToCapitalsConverter(unidaMedida), id, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Susy\Desktop\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

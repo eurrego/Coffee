@@ -177,12 +177,12 @@ namespace CoffeeLand
         // mensaje de Error
         public void mensajeError(string mensaje)
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("ERROR", mensaje);
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Error", mensaje);
         }
 
         public void mensajeInformacion(string mensaje)
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("INFORMACIÓN", mensaje);
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
         }
 
 
