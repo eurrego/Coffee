@@ -47,7 +47,7 @@
                             <TabItem x:Name="tabLabores" Header="LABORES" Controls:ControlsHelper.HeaderFontSize="20">
                                 <local:frmLabores/>
                             </TabItem>
-                            <TabItem x:Name="tabArboles" Header="ARBOLES" Controls:ControlsHelper.HeaderFontSize="20">
+                            <TabItem x:Name="tabArboles" Header="ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabArboles_IsVisibleChanged">
                                 <ContentControl x:Name="contentArboles"></ContentControl>
                             </TabItem>
                             <TabItem x:Name="tabTipoArboles" Header="TIPO DE ARBOLES" Controls:ControlsHelper.HeaderFontSize="20">

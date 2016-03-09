@@ -56,22 +56,29 @@ namespace CoffeeLand
             tabRegistroTerrenos.Visibility = Visibility.Visible;
         }
 
-        private void tabArboles_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void tabArboles_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string tabItem = ((sender as TabControl).SelectedItem as TabItem).Header as string;
-
-            switch (tabItem)
+            if (sender != null)
             {
-                case "ARBOLES":
-                    frmArboles misArboles = new frmArboles();
-                    contentArboles.Content = misArboles;
-                    break;
+                string tab = (sender as TabItem).Header as string;
+                frmArboles misArboles = new frmArboles();
+
+                switch (tab)
+                {
+                    case "ARBOLES":
+                        contentArboles.Content = misArboles;
+                        break;
+                    default:
+                        break;
+                }
             }
+          
+
         }
     }
 }
