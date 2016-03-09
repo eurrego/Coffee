@@ -36,7 +36,9 @@
                 <DockPanel>
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
-                            <local:frmPagos></local:frmPagos>
+                            <TabItem x:Name="tabPagos" Header="" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabPagos_IsVisibleChanged" >
+                                <ContentControl x:Name="contentPagos"></ContentControl>
+                            </TabItem>
                         </TabControl>
                     </Grid>
                 </DockPanel>
