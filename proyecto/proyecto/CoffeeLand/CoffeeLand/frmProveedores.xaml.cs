@@ -200,7 +200,7 @@ namespace CoffeeLand
             {
                 if (validarCampos())
                 {
-                    if (IsValid(txtNombre) && IsValid(txtDocumento) && IsValid(txtDireccion) && IsValid(txtTelefono) && IsValid(cmbTipoDocumento))
+                    if (IsValid(txtNombre) && IsValid(txtDocumento) && IsValid(txtDireccion) && IsValid(txtTelefono))
                     {
                         rpta = MProveedor.GetInstance().GestionProveedor(txtDocumento.Text, txtNombre.Text, txtTelefono.Text, txtDireccion.Text, Convert.ToString(cmbTipoDocumento.SelectedItem), 1);
                         mensajeInformacion(rpta);
@@ -220,23 +220,27 @@ namespace CoffeeLand
                     }
                 }
             }
-            else if (IsValid(txtNombre) && IsValid(txtDocumento) && IsValid(txtDireccion) && IsValid(txtTelefono) && IsValid(cmbTipoDocumento))
+            else if (validarCampos())
             {
-                rpta = MProveedor.GetInstance().GestionProveedor(txtId.Text, txtNombre.Text, txtTelefono.Text, txtDireccion.Text, Convert.ToString(cmbTipoDocumento.SelectedItem), 2);
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblProveedor.IsEnabled = true;
+                if (IsValid(txtNombre) && IsValid(txtDocumento) && IsValid(txtDireccion) && IsValid(txtTelefono))
+                {
+                    rpta = MProveedor.GetInstance().GestionProveedor(txtId.Text, txtNombre.Text, txtTelefono.Text, txtDireccion.Text, Convert.ToString(cmbTipoDocumento.SelectedItem), 2);
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblProveedor.IsEnabled = true;
+                    txtDocumento.IsEnabled = true;
 
-                if (pnlResultados.IsVisible)
-                {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
                 }
             } 
         }
@@ -248,6 +252,7 @@ namespace CoffeeLand
             tabBuscar.Focus();
             tabNuevo.Header = "NUEVO";
             tblProveedor.IsEnabled = true;
+            txtDocumento.IsEnabled = true;
         }
 
         public static bool IsValid(DependencyObject parent)
@@ -272,6 +277,8 @@ namespace CoffeeLand
             txtDireccion.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(item.Direccion.ToLower());
             cmbTipoDocumento.SelectedItem = item.TipoDocumento;
             txtId.Text = item.Nit;
+
+            txtDocumento.IsEnabled = false;
 
             tabBuscar.IsEnabled = false;
             tabNuevo.Header = "EDITAR";

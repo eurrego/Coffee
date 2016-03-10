@@ -43,7 +43,6 @@ namespace CoffeeLand
 
         int total;
         int idCompra;
-        int init = 0;
 
         public frmEstadoCuenta()
         {
@@ -51,7 +50,7 @@ namespace CoffeeLand
             instance = this;
             Mostrar();
             tamanioPantalla();
-            
+
         }
 
         private void tamanioPantalla()
@@ -140,7 +139,7 @@ namespace CoffeeLand
             {
                 total += int.Parse(quitarDecimales(valor.adeuda.ToString()));
             }
-            lblTotal.Text = string.Format("{0:c}", total); 
+            lblTotal.Text = string.Format("{0:c}", total);
         }
 
         private void btnAbonar_Click(object sender, RoutedEventArgs e)
@@ -155,29 +154,43 @@ namespace CoffeeLand
             tblCompras.IsEnabled = false;
         }
 
+
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
             if (txtAbono.Text != string.Empty)
             {
-                if (int.Parse(txtAbono.Text) <= total)
+                if (IsValid(txtAbono))
                 {
-                    string rpta = MEstadoCuenta.GetInstance().RegistroAbono(idCompra, decimal.Parse(txtAbono.Text), Convert.ToDateTime(dtdFechaAbono.SelectedDate), total);
-                    Proveedor item = cmbProveedor.SelectedItem as Proveedor;
+                    if (int.Parse(txtAbono.Text) <= total)
+                    {
+                        string rpta = MEstadoCuenta.GetInstance().RegistroAbono(idCompra, decimal.Parse(txtAbono.Text), Convert.ToDateTime(dtdFechaAbono.SelectedDate), total);
+                        Proveedor item = cmbProveedor.SelectedItem as Proveedor;
 
-                    var data = MEstadoCuenta.GetInstance().ConsultaCompraProveedor(item.Nit) as IEnumerable;
-                    tblCompras.ItemsSource = data;
+                        var data = MEstadoCuenta.GetInstance().ConsultaCompraProveedor(item.Nit) as IEnumerable;
+                        tblCompras.ItemsSource = data;
 
-                    tabBuscar.IsEnabled = true;
-                    tabBuscar.Focus();
-                    tabAbono.Visibility = Visibility.Collapsed;
-                    mensaje(rpta);
-                    tblCompras.IsEnabled = true;
+                        tabBuscar.IsEnabled = true;
+                        tabBuscar.Focus();
+                        tabAbono.Visibility = Visibility.Collapsed;
+                        mensaje(rpta);
+                        tblCompras.IsEnabled = true;
 
-                    TotalAdeuda(data);
-                }
-                else
-                {
-                    mensajeError("Debe ingresar un valor que no sea superior a lo que se adeuda");
+                        TotalAdeuda(data);
+                    }
+                    else
+                    {
+                        mensajeError("Debe ingresar un valor que no sea superior a lo que se adeuda");
+                    }
                 }
             }
             else
@@ -211,7 +224,7 @@ namespace CoffeeLand
 
             var detalle = MEstadoCuenta.GetInstance().ConsultaDetalleCompra(item.idCompra) as IEnumerable;
 
-           
+
 
             if (detalle != null)
             {
@@ -220,18 +233,18 @@ namespace CoffeeLand
             }
             else
             {
-                    DataTable dt = new DataTable();
-                    dt.Columns.Add("nombre");
-                    dt.Columns.Add("cantidad");
-                    dt.Columns.Add("valor");
-                    dt.Columns.Add("subtotal");
+                DataTable dt = new DataTable();
+                dt.Columns.Add("nombre");
+                dt.Columns.Add("cantidad");
+                dt.Columns.Add("valor");
+                dt.Columns.Add("subtotal");
 
-                dt.Rows.Add("Beneficio","1", string.Format("{0:c}", item.total),string.Format("{0:c}", item.total));
+                dt.Rows.Add("Beneficio", "1", string.Format("{0:c}", item.total), string.Format("{0:c}", item.total));
 
                 tblDetalleCompra.ItemsSource = dt.DefaultView;
             }
 
-            
+
             tabDetalleCuenta.Focus();
         }
 

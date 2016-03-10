@@ -85,8 +85,6 @@ namespace Modelo
                     return query.Count();
                 }
 
-                
-
             }
         }
 
@@ -104,8 +102,8 @@ namespace Modelo
                 }
                 catch (Exception ex)
                 {
-
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

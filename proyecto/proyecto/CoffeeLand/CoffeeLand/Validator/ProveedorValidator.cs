@@ -42,14 +42,6 @@ namespace CoffeeLand.Validator
             set { documento = value; }
         }
 
-        private int selected = 0;
-
-        public int Selected
-        {
-            get { return selected; }
-            set { selected = value; }
-        }
-
 
         public string Error
         {
@@ -134,15 +126,6 @@ namespace CoffeeLand.Validator
                                 result = "El documento debe ser menor que 20 caracteres.";
                             }
                         }
-                        break;
-                    case "Selected":
-                        if (selected == 0)
-                        {
-                            result = "Debe seleccionar un valor.";
-                        }
-                        break;
-
-                    default:
                         break;
                 }
 

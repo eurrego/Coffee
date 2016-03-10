@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace CoffeeLand.Validator
 {
-    public class ArbolesValidator : IDataErrorInfo
+    public class EstadoCuentaValidator : IDataErrorInfo
     {
-        private string cantidad = string.Empty;
+        private string valor = string.Empty;
 
-        public string Cantidad
+        public string Valor
         {
-            get { return cantidad; }
-            set { cantidad = value; }
+            get { return valor; }
+            set { valor = value; }
         }
 
         public string Error
         {
+
             get { return null; }
         }
 
@@ -35,46 +36,36 @@ namespace CoffeeLand.Validator
                 switch (name)
                 {
 
-                    case "Cantidad":
-
-                        int cant = 0;
-
-                        if (cantidad != string.Empty)
-                        {
-                            cant = Convert.ToInt32(cantidad);
-                        }
-
-                        if (string.IsNullOrEmpty(cantidad))
+                    case "Valor":
+                        if (string.IsNullOrEmpty(valor))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidad))
+                            if (!numeros.IsMatch(valor))
                             {
                                 result = "El campo solo acepta números.";
                             }
                             else
                             {
-                                if (cantidad.Equals("0"))
+                                if (valor.Equals("0"))
                                 {
-                                    result = "La cantidad no puede ser cero";
+                                    result = "El valor no puede ser cero";
                                 }
-                                else if (cant > 2000000000)
+                                else if (valor.Length > 19)
                                 {
-                                    result = "La cantidad debe ser menor a 2000000000";
+                                    result = "El valor debe ser menor de 19 números";
                                 }
 
                             }
                         }
                         break;
-
-                    default:
-                        break;
                 }
 
                 return result;
             }
+
         }
     }
 }

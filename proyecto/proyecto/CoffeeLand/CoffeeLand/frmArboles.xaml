@@ -50,7 +50,7 @@
                             <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 0 0 25" >
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock x:Name="lblLote" Text="lote uno" FontSize="40" FontWeight="Light" 
+                                        <TextBlock x:Name="lblLote" Text="lote uno" FontSize="40"
                                                Background="White"
                                                Foreground="CornflowerBlue"
                                                VerticalAlignment="Center">
@@ -82,7 +82,7 @@
                                               >
                                         <DataGrid.Columns>
 
-                                            <DataGridTextColumn  Header="Tipo Árbol" Binding="{ Binding NombreTipoArbol, Converter={StaticResource StringToCapitalsConverter}}" Width="250" IsReadOnly="True"/>
+                                            <DataGridTextColumn  Header="Tipo Árbol" Binding="{ Binding NombreTipoArbol}" Width="250" IsReadOnly="True"/>
                                             <DataGridTextColumn  Header="Cantidad " Binding="{ Binding Cantidad}" Width="250" IsReadOnly="True" />
                                             <DataGridTextColumn  Header="idArboles" Binding="{ Binding idArboles}" Width="200" IsReadOnly="True" Visibility="Collapsed"/>
                                             <DataGridTextColumn  Header="idTipoArbol " Binding="{ Binding idTipoArbol}" Width="85" IsReadOnly="True" Visibility="Collapsed" />
@@ -161,9 +161,10 @@
                                     </StackPanel>
                                 </TabItem>
                                 <TabItem x:Name="tabNuevo" Header="NUEVO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                    <AdornerDecorator>
+                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
 
-                                        <TextBlock x:Name="lblNuevoLote" 
+                                            <TextBlock x:Name="lblNuevoLote" 
                                                    VerticalAlignment="Center" 
                                                    FontSize="30" 
                                                    FontWeight="SemiBold"
@@ -171,7 +172,7 @@
                                                    Margin="0 5 0 0"
                                                    />
 
-                                        <ComboBox x:Name="cmbTipoArbol" 
+                                            <ComboBox x:Name="cmbTipoArbol" 
                             	                Margin="0,20,0,0" VerticalAlignment="Top"
                             	                Height="42"
                             	                DisplayMemberPath="NombreTipoArbol"
@@ -179,44 +180,44 @@
                                                 SelectedIndex="0"
                                               />
 
-                                        <TextBox x:Name="txtCantidad" 
+                                            <TextBox x:Name="txtCantidad" 
         		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                                 Controls:TextBoxHelper.Watermark="Cantidad" 
                                                  Height="42" 
                                                  VerticalAlignment="Top" 
                                                  Margin="0 20 0 0">
-                                            <TextBox.Style>
-                                                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                        </Trigger>
-                                                        <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBox.Style>
-                                            <TextBox.Text>
-                                                <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding.ValidationRules>
-                                                        <ExceptionValidationRule/>
-                                                    </Binding.ValidationRules>
-                                                </Binding>
-                                            </TextBox.Text>
-                                        </TextBox>
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
 
-                                        <DatePicker x:Name="dtdFecha" 
+                                            <DatePicker x:Name="dtdFecha" 
                                                     Margin="0,20,0,0" VerticalAlignment="Top" 
                                                     Controls:TextBoxHelper.Watermark="Fecha Evento "
                                                     Height="42" 
                                                     SelectedDateFormat="Long">
-                                                    </DatePicker>
+                                            </DatePicker>
 
-                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                                            <Button x:Name="btnGuardar"  
+                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                                <Button x:Name="btnGuardar"  
                                                     HorizontalAlignment="Left" 
                                                     VerticalAlignment="Center"
                                                     Height="35"
@@ -225,8 +226,8 @@
                                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                                     Click="btnGuardar_Click"
                                                     >
-                                            </Button>
-                                            <Button x:Name="btnCancelar"  
+                                                </Button>
+                                                <Button x:Name="btnCancelar"  
                                                    HorizontalAlignment="Left" 
                                                    VerticalAlignment="Center"
                                                    Margin="10 0 0 0" 
@@ -237,11 +238,12 @@
                                                    Content="Cancelar"
                                                    Click="btnCancelar_Click"
                                                  >
-                                            </Button>
+                                                </Button>
+
+                                            </StackPanel>
 
                                         </StackPanel>
-
-                                    </StackPanel>
+                                    </AdornerDecorator>
                                 </TabItem>
 
                             </TabControl>
@@ -322,28 +324,27 @@
 
                                         <TextBlock x:Name="lblDetalleLote" 
                                                    VerticalAlignment="Top" 
-                                                   FontSize="60" 
+                                                   FontSize="40" 
                                                    Margin="-5 -20 0 0"
                                                    Foreground="CornflowerBlue"
                                                    Text="Lote Uno"
                                                    />
 
-                                            <TextBlock x:Name="lblTipoArbol"  Margin="0,10,0,0" 
+                                        <TextBlock x:Name="lblTipoArbol"  Margin="0,10,0,0" 
                                                        VerticalAlignment="Top" 
                                                        FontSize="15" Foreground="Gray" 
                                                        Text="TIPO DE ÁRBOL"
                                                        DockPanel.Dock="Left"
                                                        />
-                                      
-                                            <TextBlock x:Name="lblMovTipoArbol"  
+
+                                        <TextBlock x:Name="lblMovTipoArbol"  
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Top" 
                                                        Margin="-2 -15 0 0"
-                                                       FontSize="50" Foreground="Green" 
+                                                       FontSize="40" Foreground="Green" 
                                                        Text="Zoca Calavera"
-                                                       FontWeight="Light"
                                                        />
-                                       
+
 
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Vertical" Width="350" Height="130" 
@@ -479,5 +480,5 @@
 
         </DockPanel>
     </DockPanel>
-    
+
 </UserControl>

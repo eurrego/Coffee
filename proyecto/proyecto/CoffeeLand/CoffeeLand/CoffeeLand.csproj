@@ -270,6 +270,7 @@
     <Compile Include="Validator\CompraValidator.cs" />
     <Compile Include="Validator\ConceptoValidator.cs" />
     <Compile Include="Validator\EmpleadoValidator.cs" />
+    <Compile Include="Validator\EstadoCuentaValidator.cs" />
     <Compile Include="Validator\FincaValidator.cs" />
     <Compile Include="Validator\GastoValidator.cs" />
     <Compile Include="Validator\InsumoValidator.cs" />

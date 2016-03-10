@@ -64,9 +64,9 @@
                                   AutoGenerateColumns="False"
                                   >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreInsumo, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="128" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="200" IsReadOnly="True" />
-                            <DataGridTextColumn Binding="{Binding Marca, Converter={StaticResource StringToCapitalsConverter}}"  Header="Marca" Width="107" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreInsumo}" Header="Nombre" Width="128" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Descripcion}"  Header="Descripción" Width="200" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding Marca}"  Header="Marca" Width="107" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="90" Header="Editar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -110,7 +110,7 @@
                                         </Grid.RowDefinitions>
 
                                         <TextBox x:Name="txtUnidadMedida" Margin="3" 
-                                                 Text="{Binding UnidadMedida, Converter={StaticResource StringToCapitalsConverter}}"
+                                                 Text="{Binding UnidadMedida}"
                                                  Controls:TextBoxHelper.Watermark="Unidad de Medida"
                                                  Controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  Grid.Row="0"
@@ -172,9 +172,9 @@
                                 
                                    >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreInsumo, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="175" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="200" IsReadOnly="True" />
-                            <DataGridTextColumn   Binding="{Binding Marca, Converter={StaticResource StringToCapitalsConverter}}"  Header="Marca" Width="150" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreInsumo}" Header="Nombre" Width="175" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion}"  Header="Descripción" Width="200" IsReadOnly="True" />
+                            <DataGridTextColumn   Binding="{Binding Marca}"  Header="Marca" Width="150" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="100" Header="Habilitar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
