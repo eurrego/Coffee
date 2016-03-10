@@ -171,7 +171,7 @@
                                                     Margin="0 20 0 0"
                                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                                     Click="btnPagar_Click"
-                                                   Visibility="Collapsed"
+                                                    Visibility="Collapsed"
                                                     >
                                         </Button>
 

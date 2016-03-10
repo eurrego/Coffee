@@ -45,7 +45,6 @@ namespace CoffeeLand
             Mostrar();
             instance = this;
             tamanioPantalla();
-            rbtNinguno.IsChecked = true;
             dtdFecha.DisplayDateEnd = DateTime.Now;
             dtdFechaFinal.DisplayDateEnd = DateTime.Now;
         }
@@ -87,6 +86,7 @@ namespace CoffeeLand
                 pnlInicio.Visibility = Visibility.Collapsed;
                 pnlData.Visibility = Visibility.Visible;
                 gboxFiltrado.Visibility = Visibility.Visible;
+                rbtNinguno.IsChecked = true;
                 cantidadTotal();
             }
         }

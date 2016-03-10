@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CoffeeLand.frmConsultaCompras"
+﻿<UserControl x:Class="CoffeeLand.frmConsultarVentas"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,7 +10,6 @@
              Background="White"
              d:DesignHeight="728" d:DesignWidth="1366">
 
-
     <UserControl.Resources>
         <ResourceDictionary>
 
@@ -21,7 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -45,24 +43,20 @@
                 </Grid>
 
                 <Grid x:Name="pnlData" Visibility="Visible"  Margin="20 30 0 25" >
-                    <DataGrid x:Name="tblCompra" 
+                    <DataGrid x:Name="tblGastos" 
                                       HeadersVisibility="All"
                                       SelectionUnit="FullRow"
                                       CanUserAddRows="False" 
                                       CanUserDeleteRows="False"
                                       AutoGenerateColumns="False"
                                       ScrollViewer.CanContentScroll="True"
-                                      FontSize="10"
                                       >
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="columnNit" Binding="{Binding NitProveedor}"  Header="Nit" Width="100" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnNombre" Binding="{Binding NombreProveedor}"  Header="Nombre" Width="150" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="90" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnFactura" Binding="{Binding NumeroFactura}" Header="Numero Factura" Width="90" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnTotal"  Binding="{Binding Total,StringFormat={}{0:c}}" Header="Total" Width="102" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnEstado"  Binding="{Binding EstadoCuenta, Converter={StaticResource CharToStringConverter}}" Header="Estado Cuenta" Width="102" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnNombreConcepto" Binding="{Binding NombreConcepto}"  Header="Concepto" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnDescripcion" Binding="{Binding Descripcion}"  Header="Descripción" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnValor"  Binding="{Binding Valor,StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
                         </DataGrid.Columns>
-
                         <DataGrid.Style>
                             <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
                                 <Setter Property="AlternatingRowBackground" Value="{DynamicResource GrayBrush10}" />
@@ -78,68 +72,58 @@
 
                 <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,20,0">
 
-                   
+
 
                     <GroupBox x:Name="gboxFiltrado" Header="FILTRADO" Margin="0 20 0 0" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <RadioButton x:Name="rbtNinguno" Margin="30 10 0 10" Content="Ninguno" Checked="rbtNinguno_Checked" ></RadioButton>
-                            <RadioButton x:Name="rbtEstado" Margin="10 10 0 10" Content="Estado de Cuenta" Checked="rbtEstado_Checked"></RadioButton>
+                            <RadioButton x:Name="rbtNinguno" Margin="30 10 0 10" Content="Ninguno" Checked="rbtNinguno_Checked"></RadioButton>
                             <RadioButton x:Name="rbtFecha" Margin="30 10 0 10" Content="Fecha" Checked="rbtFecha_Checked"></RadioButton>
                         </StackPanel>
                     </GroupBox>
-                
 
-                    
-                        <GroupBox x:Name="gboxEstado" Header="FILTRAR ESTADO DE CUENTA" Margin="0 20 0 0" Visibility="Collapsed">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                
-                                    <CheckBox x:Name="chkDebe" Content="Debe"  Margin="20 10 0 0" Checked="chkDebe_Checked" Unchecked="chkDebe_Unchecked" />
-                                    <CheckBox x:Name="chkPagado" Content="Pagado" Margin="20 20 0 10" Checked="chkPagado_Checked" Unchecked="chkPagado_Unchecked" />
-                                
-                            </StackPanel>
-                        </GroupBox>
                     <GroupBox x:Name="gboxFecha" Header="FILTRAR FECHA" Margin="0 20 0 0" Visibility="Collapsed">
-                            <StackPanel Orientation="Vertical">
-                                
-                                    <DatePicker x:Name="dtdFecha" Margin="10 10 10 0" 
+                        <StackPanel Orientation="Vertical">
+
+                            <DatePicker x:Name="dtdFecha" Margin="10 10 10 0" 
                             	                    Height="42" 
                             	                    Controls:TextBoxHelper.Watermark="Fecha de Inicial"
                             	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
                                                     Controls:TextBoxHelper.ClearTextButton="True"
                                                     SelectedDateFormat="Long" SelectedDateChanged="dtdFecha_SelectedDateChanged"
                                                     >
-                                    </DatePicker>
+                            </DatePicker>
 
-                                    <DatePicker x:Name="dtdFechaFinal" Margin="10 10 10 10" 
+                            <DatePicker x:Name="dtdFechaFinal" Margin="10 10 10 10" 
                             	                    Height="42" 
                             	                    Controls:TextBoxHelper.Watermark="Fecha Final"
                             	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
                                                     Controls:TextBoxHelper.ClearTextButton="True"
                                                     SelectedDateFormat="Long" SelectedDateChanged="dtdFechaFinal_SelectedDateChanged"
                                                     >
-                                    </DatePicker>
-                            
-                            </StackPanel>
-                        </GroupBox>
-   
-               
+                            </DatePicker>
+
+                        </StackPanel>
+                    </GroupBox>
+
+
 
                     <StackPanel Orientation="Horizontal">
-                        <StackPanel x:Name="pnlDeudaTotal" Orientation="Vertical" Width="400" Height="130" 
+                        <StackPanel x:Name="pnlTotalPeriodo" Orientation="Vertical" Width="400" Height="130" 
                                         HorizontalAlignment="Left"
                                         Background="LightGray"
                                         Margin="0 30 0 0">
 
                             <TextBlock x:Name="lblTotal" 
                                            FontSize="45" Text="$0"
-                                           HorizontalAlignment="Center" FontFamily="Arial Rounded MT Bold" 
+                                           HorizontalAlignment="Center"
+                                       FontFamily="Arial Rounded MT Bold" 
                                            Foreground="Crimson"
                                           Margin="0 20 0 0"
                                            ></TextBlock>
 
                             <TextBlock FontSize="15" 
                                            Margin="0 10 0 0"
-                                           Text="Deuda Total" 
+                                           Text="Total Período" 
                                            Foreground="Gray"
                                            FontWeight="Light"
                                            HorizontalAlignment="Center"></TextBlock>
