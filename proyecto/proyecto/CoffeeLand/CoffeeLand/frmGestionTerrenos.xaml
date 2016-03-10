@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CoffeeLand"
-             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              Background="White"
@@ -18,19 +17,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" Margin="10 0 0 0">
         <TabControl>
-            <TabItem  Header="Terrenos" Controls:ControlsHelper.HeaderFontSize="40" GotFocus="TabItem_GotFocus" >
+            <TabItem  Header="Terrenos" Controls:ControlsHelper.HeaderFontSize="40" Selector.Selected="TabItem_Selected">
                 <DockPanel>
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
-                            <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Hidden" IsVisibleChanged="tabRegistroTerrenos_IsVisibleChanged" >
+                            <TabItem x:Name="tabRegistroTerrenos" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20">
                                 <ContentControl x:Name="contentRegistroTerrenos"></ContentControl>
                             </TabItem>
                         </TabControl>
@@ -39,30 +35,25 @@
             </TabItem>
             <TabItem Header="Configuración" Controls:ControlsHelper.HeaderFontSize="40">
                 <DockPanel>
-                    <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="107*"/>
-                            <ColumnDefinition Width="1245*"/>
-                        </Grid.ColumnDefinitions>
-                        <TabControl Margin="0,-10,-0.2,0.4" SelectionChanged="TabControl_SelectionChanged" Grid.ColumnSpan="2">
-                            <TabItem x:Name="tabLotes" Header="LOTES" Controls:ControlsHelper.HeaderFontSize="20">
-                                <local:frmLotes/>
-                            </TabItem>
-                            <TabItem x:Name="tabLabores" Header="LABORES" Controls:ControlsHelper.HeaderFontSize="20">
-                                <local:frmLabores/>
-                            </TabItem>
-                            <TabItem x:Name="tabArboles" Header="ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabArboles_IsVisibleChanged">
-                                <ContentControl x:Name="contentArboles"></ContentControl>
-                            </TabItem>
-                            <TabItem x:Name="tabTipoArboles" Header="TIPO DE ARBOLES" Controls:ControlsHelper.HeaderFontSize="20">
-                                <local:frmTipoArboles/>
-                            </TabItem>
-                        </TabControl>
-                    </Grid>
+                    <TabControl x:Name="tabConfiguracion" Margin="0,-10,0, 0" >
+                        <TabItem x:Name="tabLotes" Header="LOTES" Controls:ControlsHelper.HeaderFontSize="20">
+                            <local:frmLotes/>
+                        </TabItem>
+                        <TabItem x:Name="tabLabores" Header="LABORES" Controls:ControlsHelper.HeaderFontSize="20" >
+                            <local:frmLabores/>
+                        </TabItem>
+                        <TabItem x:Name="tabArboles" Header="ARBOLES" Controls:ControlsHelper.HeaderFontSize="20" Selector.Selected="tabArboles_Selected">
+                            <ContentControl x:Name="contentArboles"></ContentControl>
+                        </TabItem>
+                        <TabItem x:Name="tabTipoArboles" Header="TIPO DE ARBOLES" Controls:ControlsHelper.HeaderFontSize="20"  >
+                            <local:frmTipoArboles/>
+                        </TabItem>
+                    </TabControl>
                 </DockPanel>
 
             </TabItem>
         </TabControl>
+
 
     </StackPanel>
 </UserControl>
