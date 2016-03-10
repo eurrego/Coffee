@@ -215,25 +215,28 @@ namespace CoffeeLand
                     }
                 }
             }
-            else if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
+            else if (validarCampos())
             {
-                rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, Convert.ToInt32(txtId.Text), 2).ToString();
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblLotes.IsEnabled = true;
+                if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
+                {
+                    rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, Convert.ToInt32(txtId.Text), 2).ToString();
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblLotes.IsEnabled = true;
 
-                if (pnlResultados.IsVisible)
-                {
-                    limpiarPantalla();
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+                    frmTerrenos.GetInstance().mostrar();
                 }
-                else
-                {
-                    Mostrar();
-                }
-                frmTerrenos.GetInstance().mostrar();
             }
         }
 
@@ -281,33 +284,44 @@ namespace CoffeeLand
             string cuadras = item.Cuadras;
             byte id = Convert.ToByte(item.idLote);
 
-            var mySettings = new MetroDialogSettings()
+            var items =  MLote.GetInstance().ConsultarArboles(id) ;
+
+            if (items.Count == 0)
             {
-                AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-
-            };
-
-            MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result != MessageDialogResult.Negative)
-            {
-                string rpta = "";
-
-                rpta = MLote.GetInstance().GestionLote(nombre, descripcion, cuadras, id, 3).ToString();
-                mensajeInformacion(rpta);
-
-                if (pnlResultados.IsVisible)
+                var mySettings = new MetroDialogSettings()
                 {
-                    limpiarPantalla();
-                }
-                else
+                    AffirmativeButtonText = "Aceptar",
+                    NegativeButtonText = "Cancelar",
+
+                };
+
+                MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Inhabilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                if (result != MessageDialogResult.Negative)
                 {
-                    Mostrar();
+                    string rpta = "";
+
+                    rpta = MLote.GetInstance().GestionLote(nombre, descripcion, cuadras, id, 3).ToString();
+                    mensajeInformacion(rpta);
+
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+                    frmArboles.GetInstance().mostrarCmb();
+                    frmTerrenos.GetInstance().mostrar();
                 }
-                frmArboles.GetInstance().mostrarCmb();
-                frmTerrenos.GetInstance().mostrar();
             }
+            else
+            {
+                mensajeError("No se puede Inhabilitar el lote porque tiene árboles asociados, debe eliminarlos atravez de una labor");
+            }
+
+          
         }
 
         private void btnRegistrarArboles_Click(object sender, RoutedEventArgs e)

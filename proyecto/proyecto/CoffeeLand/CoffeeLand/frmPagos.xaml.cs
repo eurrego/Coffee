@@ -61,7 +61,6 @@ namespace CoffeeLand
 
         private void cmbTipoEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-         
 
             if (cmbTipoEmpleado.SelectedIndex == 0)
             {
@@ -70,7 +69,6 @@ namespace CoffeeLand
                 pnlData.Visibility = Visibility.Collapsed;
                 pnlInicio.Visibility = Visibility.Visible;
                 pnlSinRegistros.Visibility = Visibility.Collapsed;
-          
 
                 //btnAbonos.IsEnabled = false;
                 //btnGuardar.IsEnabled = false;
@@ -93,6 +91,7 @@ namespace CoffeeLand
                     lblTotal.Text = "$0";
                     lblTitleTipoPago.Text = "Empleado Permanente";
                     columnDetalle.Header = "Asignar Pago";
+                    btnPagar.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -100,6 +99,7 @@ namespace CoffeeLand
                     pnlInicio.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Visible;
                     lblTotal.Text = "$0";
+                    btnPagar.Visibility = Visibility.Collapsed;
                 }
 
             }
@@ -125,12 +125,14 @@ namespace CoffeeLand
                     pnlInicio.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Collapsed;
                     columnDetalle.Header = "Detalle";
+                    btnPagar.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     pnlData.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Visible;
                     lblTotal.Text = "$0";
+                    btnPagar.Visibility = Visibility.Collapsed;
                 }
             }
         }

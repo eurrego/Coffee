@@ -363,47 +363,58 @@ namespace CoffeeLand
             int cantidad = item.Cantidad;
             DateTime fecha = item.Fecha;
             int idMovimientoArbol = item.idMovimientosArboles;
+            int idLote =Convert.ToInt32(cmbLote.SelectedValue);
 
+            var items = MArbol.GetInstance().ConsultarLabor(idLote);
 
-            var mySettings = new MetroDialogSettings()
+            if (items.Count == 0)
             {
-                AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-            };
-
-            MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Eliminar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result != MessageDialogResult.Negative)
-            {
-                string rpta = "";
-
-                rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(idTipoArbol), cantidad, fecha, idMovimientoArbol, 3).ToString();
-                mensajeInformacion(rpta);
-
-                Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
-                tblMovimientosArboles.ItemsSource = MArbol.GetInstance().ConsultarMovimiento(idArbol);
-                cantidadMovTotal();
-
-                if (tblMovimientosArboles.Items.Count == 0)
+                var mySettings = new MetroDialogSettings()
                 {
-                    if (tblArboles.Items.Count == 0)
+                    AffirmativeButtonText = "Aceptar",
+                    NegativeButtonText = "Cancelar",
+                };
+
+                MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Eliminar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                if (result != MessageDialogResult.Negative)
+                {
+                    string rpta = "";
+
+                    rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(idTipoArbol), cantidad, fecha, idMovimientoArbol, 3).ToString();
+                    mensajeInformacion(rpta);
+
+                    Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
+                    tblMovimientosArboles.ItemsSource = MArbol.GetInstance().ConsultarMovimiento(idArbol);
+                    cantidadMovTotal();
+
+                    if (tblMovimientosArboles.Items.Count == 0)
                     {
-                        lblSuperior.Text = "Este Lote no tiene";
-                        lblInferior.Text = "árboles registrados";
-                        pnlInicio.Visibility = Visibility.Visible;
-                        pnlData.Visibility = Visibility.Collapsed;
-                        tabNuevo.Visibility = Visibility.Visible;
-                        tabArboles.Focus();
-                    }
-                    else
-                    {
-                        pnlInicio.Visibility = Visibility.Collapsed;
-                        pnlData.Visibility = Visibility.Visible;
-                        tabNuevo.Visibility = Visibility.Visible;
-                        tabArboles.Focus();
+                        if (tblArboles.Items.Count == 0)
+                        {
+                            lblSuperior.Text = "Este Lote no tiene";
+                            lblInferior.Text = "árboles registrados";
+                            pnlInicio.Visibility = Visibility.Visible;
+                            pnlData.Visibility = Visibility.Collapsed;
+                            tabNuevo.Visibility = Visibility.Visible;
+                            tabArboles.Focus();
+                        }
+                        else
+                        {
+                            pnlInicio.Visibility = Visibility.Collapsed;
+                            pnlData.Visibility = Visibility.Visible;
+                            tabNuevo.Visibility = Visibility.Visible;
+                            tabArboles.Focus();
+                        }
                     }
                 }
             }
+            else
+            {
+                mensajeError("Los árboles no pueden eliminarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo atravez de una labor.");
+            }
+
+           
         }
 
         private void btnEditarCancelar_Click(object sender, RoutedEventArgs e)

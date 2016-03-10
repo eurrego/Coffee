@@ -23,11 +23,29 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmInicio : UserControl
     {
+        #region Singleton
+
+        private static frmInicio instance;
+
+        public static frmInicio GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new frmInicio();
+            }
+
+            return instance;
+        }
+
+        #endregion
+
+
         bool validacion = false;
 
         public frmInicio()
         {
             InitializeComponent();
+            instance = this;
             mostrar();
             tamanioPantalla();
         }
@@ -46,7 +64,7 @@ namespace CoffeeLand
         }
 
 
-        private void mostrar()
+        public void mostrar()
         {
 
             string finca = string.Empty;
@@ -59,7 +77,16 @@ namespace CoffeeLand
             var itemEmpleados = MInicio.GetInstance().ConsultarEmpleados();
             var itemProductos = MInicio.GetInstance().ConsultarEmpleados();
 
-            lblArboles.Text = string.Format("{0:0,0}", itemArboles);
+
+            if (itemArboles == 0)
+            {
+                lblArboles.Text = "0";
+            }
+            else
+            {
+                lblArboles.Text = string.Format("{0:0,0}", itemArboles);
+            }
+
             lblEmpleados.Text = string.Format("{0:0}", itemEmpleados.Count);
             lblLotes.Text = string.Format("{0:0}", itemLotes.Count);
             lblProductos.Text = string.Format("{0:0}", itemProductos.Count);

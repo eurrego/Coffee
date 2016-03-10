@@ -325,7 +325,7 @@
                                         <TextBlock x:Name="lblDetalleLote" 
                                                    VerticalAlignment="Top" 
                                                    FontSize="40" 
-                                                   Margin="-5 -20 0 0"
+                                                   Margin="-5 -10 0 0"
                                                    Foreground="CornflowerBlue"
                                                    Text="Lote Uno"
                                                    />
@@ -340,7 +340,7 @@
                                         <TextBlock x:Name="lblMovTipoArbol"  
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Top" 
-                                                       Margin="-2 -15 0 0"
+                                                       Margin="-2 -10 0 0"
                                                        FontSize="40" Foreground="Green" 
                                                        Text="Zoca Calavera"
                                                        />

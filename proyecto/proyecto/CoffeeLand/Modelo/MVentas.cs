@@ -67,14 +67,21 @@ namespace Modelo
         }
 
         public decimal ConsultarProduccion()
-
         {
             using (var entity = new DBFincaEntities())
             {
 
                 var query = entity.Consultasproduccion().First();
+                decimal? valor = query.Cargas;
 
-                return query.Cargas.Value;
+                if (valor == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return query.Cargas.Value;
+                }
 
             }
         }

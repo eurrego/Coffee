@@ -171,7 +171,7 @@ namespace CoffeeLand
             {
                 if (IsValid(txtAbono))
                 {
-                    if (int.Parse(txtAbono.Text) <= total)
+                    if (Convert.ToInt64(txtAbono.Text) <= total)
                     {
                         string rpta = MEstadoCuenta.GetInstance().RegistroAbono(idCompra, decimal.Parse(txtAbono.Text), Convert.ToDateTime(dtdFechaAbono.SelectedDate), total);
                         Proveedor item = cmbProveedor.SelectedItem as Proveedor;

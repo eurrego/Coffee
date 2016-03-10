@@ -119,6 +119,19 @@ namespace Modelo
             }
         }
 
+
+        public List<Labor_Lote> ConsultarLabor(int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Labor_Lote
+                            where c.idLote == idLote && c.Labor.ModificaArboles == true
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
         public string gestionArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha, int idMovimiento, int opcion)
         {
             try

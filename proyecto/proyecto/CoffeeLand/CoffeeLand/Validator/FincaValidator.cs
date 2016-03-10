@@ -80,9 +80,9 @@ namespace CoffeeLand.Validator
                             }
                             else
                             {
-                                if (nombre.Length > 45)
+                                if (nombre.Length > 25)
                                 {
-                                    result = "El nombre debe ser menor que 45 caracteres.";
+                                    result = "El nombre debe ser menor que 25 caracteres.";
                                 }
                             }
                         }
@@ -120,9 +120,9 @@ namespace CoffeeLand.Validator
                             }
                             else
                             {
-                                if (vereda.Length > 45)
+                                if (vereda.Length > 50)
                                 {
-                                    result = "La vereda debe ser menor que 45 caracteres.";
+                                    result = "La vereda debe ser menor que 50 caracteres.";
                                 }
                             }
                         }
@@ -156,9 +156,9 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (cuadras.Length > 20)
+                            else if (cuadras.Length > 5)
                             {
-                                result = "El cuadras debe ser menor que 20 caracteres.";
+                                result = "El cuadras debe ser menor que 5 caracteres.";
                             }
                         }
                         break;

@@ -87,6 +87,7 @@ namespace CoffeeLand
             lblTitulo.Text = "Inicio";
             MainContainer.Content = miInicio;
             Menu.IsOpen = false;
+            frmInicio.GetInstance().mostrar();
         }
 
         private void btnGestionTerrenos_Click(object sender, RoutedEventArgs e)

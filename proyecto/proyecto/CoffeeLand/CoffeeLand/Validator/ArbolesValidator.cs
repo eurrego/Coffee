@@ -37,12 +37,7 @@ namespace CoffeeLand.Validator
 
                     case "Cantidad":
 
-                        int cant = 0;
-
-                        if (cantidad != string.Empty)
-                        {
-                            cant = Convert.ToInt32(cantidad);
-                        }
+                        double cant = 0;
 
                         if (string.IsNullOrEmpty(cantidad))
                         {
@@ -50,22 +45,32 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidad))
+
+                            if (Cantidad.Length > 10)
                             {
-                                result = "El campo solo acepta números.";
+                                result = "El campo no acepta mas de 10 números";
                             }
                             else
                             {
-                                if (cantidad.Equals("0"))
+                                if (!numeros.IsMatch(cantidad))
                                 {
-                                    result = "La cantidad no puede ser cero";
+                                    result = "El campo solo acepta números.";
                                 }
-                                else if (cant > 2000000000)
+                                else
                                 {
-                                    result = "La cantidad debe ser menor a 2000000000";
-                                }
+                                    cant = Convert.ToInt64(cantidad);
 
-                            }
+                                    if (cantidad.Equals("0"))
+                                    {
+                                        result = "La cantidad no puede ser cero";
+                                    }
+                                    else if (cant > 1900000000)
+                                    {
+                                        result = "La cantidad debe ser menor a 1900000000";
+                                    }
+
+                                }
+                            } 
                         }
                         break;
 
