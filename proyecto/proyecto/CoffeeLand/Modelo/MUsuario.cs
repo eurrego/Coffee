@@ -103,6 +103,7 @@ namespace Modelo
                 using (var entity = new DBFincaEntities())
                 {
                     string mensaje = entity.GestionUsuario(idUsuario, nickName, rol, contrasena, preguntaSeguridad, respuesta, opc).First().Mensaje;
+
                     return mensaje;
                 }
             }
@@ -132,6 +133,27 @@ namespace Modelo
                 return contra.ToList();
             }
         }
+
+        public string Exportar(string path)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var rpta = entity.exportarDB(path).First();
+
+                return rpta.Mensaje;
+            }
+        }
+
+        public void Importar(string path)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var rpta = entity.ImportarDB(path);
+
+                
+            }
+        }
+
 
         #region Inicio de sesión, para conexión dimanico
         //public string bb { get; set; }

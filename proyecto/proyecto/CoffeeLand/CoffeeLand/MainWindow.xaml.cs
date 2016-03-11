@@ -17,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Modelo;
 using CoffeeLand.Validator;
 using System.Collections;
+using Microsoft.Win32;
 
 namespace CoffeeLand
 {
@@ -58,7 +59,7 @@ namespace CoffeeLand
             tamanioPAntalla();
             MainContainer.Content = miInicio;
             lblTitulo.Text = "Inicio";
-           
+
         }
 
         private void tamanioPAntalla()
@@ -811,6 +812,42 @@ namespace CoffeeLand
             {
 
             }
+        }
+
+        private async void btnExportar_Click(object sender, RoutedEventArgs e)
+        {
+            var mySettings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Aceptar",
+                NegativeButtonText = "Cancelar",
+
+            };
+
+            MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea exportar todos Los datos?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+            if (result != MessageDialogResult.Negative)
+            {
+                System.IO.Directory.CreateDirectory(@"C:" + "\\Backup");
+                var rpta = MUsuario.GetInstance().Exportar(@"C:" + "\\Backup");
+                mensajeInformacion(rpta);
+            }
+        }
+
+        private void btnImportar_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivo .Bak|*.Bak";
+            openFileDialog.Title = "Importar Datos";
+
+            openFileDialog.ShowDialog();
+            string ruta = openFileDialog.FileName;
+
+            if (ruta != string.Empty)
+            {
+                MUsuario.GetInstance().Importar(ruta);
+                
+            }
+
         }
     }
 }

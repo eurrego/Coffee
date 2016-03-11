@@ -1,14 +1,33 @@
 USE DBFinca;
 GO
+
+create proc exportarDB
+(@rutaEscritorio varchar (1000))
+as
+begin
+
+DECLARE @backupPath varchar(1000);
+SET @backupPath = @rutaEscritorio +'\\BDFinca.Bak'
+
 BACKUP DATABASE DBFinca
-TO DISK = 'C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\Backup\BDFinca.Bak'
+TO DISK = @backupPath
    WITH FORMAT,
       MEDIANAME = 'C_SQLServerBackups',
       NAME = 'Backup of DBFINCA';
+end
+
 GO
+
 
 USE master;
 GO
+
+create proc exportarDB
+(@ruta varchar (1000))
+as
+begin
+
+
 
 DECLARE @backupPath nvarchar(400);
 DECLARE @sourceDb nvarchar(50);

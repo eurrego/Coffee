@@ -249,7 +249,7 @@
           <Key>
             <PropertyRef Name="idRegistroPago" />
           </Key>
-          <Property Name="idRegistroPago" Type="int" Nullable="false" />
+          <Property Name="idRegistroPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="RegistroPagoSalario">
@@ -715,6 +715,9 @@
         <Function Name="DetalleSalario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cedula" Type="int" Mode="In" />
         </Function>
+        <Function Name="exportarDB" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rutaEscritorio" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="gestionArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idLote" Type="smallint" Mode="In" />
           <Parameter Name="idTipoArbol" Type="tinyint" Mode="In" />
@@ -813,6 +816,9 @@
           <Parameter Name="PrecioCarga" Type="money" Mode="In" />
           <Parameter Name="CantidadCargas" Type="decimal" Mode="In" />
           <Parameter Name="PrecioBeneficio" Type="money" Mode="In" />
+        </Function>
+        <Function Name="ImportarDB" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ruta" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Insercion_RegistroPago_SalarioPersonaPermanente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Insercion_RegistroPago_SalarioPersonaTemporal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -2080,6 +2086,12 @@
           </FunctionImport>
           <FunctionImport Name="Insercion_RegistroPago_SalarioPersonaTemporal" />
           <FunctionImport Name="Insercion_RegistroPago_SalarioPersonaPermanente" />
+          <FunctionImport Name="exportarDB" ReturnType="Collection(DBFincaModel.exportarDB_Result)">
+          <Parameter Name="rutaEscritorio" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImportarDB">
+          <Parameter Name="ruta" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ComprasProveedor_Result">
           <Property Type="Int32" Name="idCompra" Nullable="false" />
@@ -2173,6 +2185,9 @@
           <Property Type="String" Name="NombreTipoArbol" Nullable="false" MaxLength="45" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="exportarDB_Result">
+          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2703,6 +2718,15 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Insercion_RegistroPago_SalarioPersonaTemporal" FunctionName="DBFincaModel.Store.Insercion_RegistroPago_SalarioPersonaTemporal" />
           <FunctionImportMapping FunctionImportName="Insercion_RegistroPago_SalarioPersonaPermanente" FunctionName="DBFincaModel.Store.Insercion_RegistroPago_SalarioPersonaPermanente" />
+          <FunctionImportMapping FunctionImportName="exportarDB" FunctionName="DBFincaModel.Store.exportarDB" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.exportarDB_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ImportarDB" FunctionName="DBFincaModel.Store.ImportarDB" >
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

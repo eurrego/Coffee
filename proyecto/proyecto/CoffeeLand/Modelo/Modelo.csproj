@@ -124,6 +124,9 @@
     <Compile Include="Egreso.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
+    <Compile Include="exportarDB_Result.cs">
+      <DependentUpon>DBFinca.tt</DependentUpon>
+    </Compile>
     <Compile Include="Finca.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>

@@ -38,6 +38,12 @@
                 <MenuItem x:Name="btnPerfil"
                           Header="Perfil"
                           Click="btnPerfil_Click"/>
+                <MenuItem x:Name="btnExportar"
+                          Header="Exportar"
+                          Click="btnExportar_Click"/>
+                <MenuItem x:Name="btnImportar"
+                          Header="Importar"
+                          Click="btnImportar_Click"/>
                 <MenuItem x:Name="btnSalir"
                           Header="Salir"
                           Click="btnSalir_Click"/>

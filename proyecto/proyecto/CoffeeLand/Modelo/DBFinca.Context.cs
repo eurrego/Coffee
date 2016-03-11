@@ -624,5 +624,23 @@ namespace Modelo
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insercion_RegistroPago_SalarioPersonaPermanente");
         }
+    
+        public virtual ObjectResult<exportarDB_Result> exportarDB(string rutaEscritorio)
+        {
+            var rutaEscritorioParameter = rutaEscritorio != null ?
+                new ObjectParameter("rutaEscritorio", rutaEscritorio) :
+                new ObjectParameter("rutaEscritorio", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<exportarDB_Result>("exportarDB", rutaEscritorioParameter);
+        }
+    
+        public virtual int ImportarDB(string ruta)
+        {
+            var rutaParameter = ruta != null ?
+                new ObjectParameter("ruta", ruta) :
+                new ObjectParameter("ruta", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ImportarDB", rutaParameter);
+        }
     }
 }
