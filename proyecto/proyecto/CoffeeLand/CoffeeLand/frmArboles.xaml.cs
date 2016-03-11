@@ -431,40 +431,52 @@ namespace CoffeeLand
         private void btnEditarGuardar_Click(object sender, RoutedEventArgs e)
         {
             string rpta = "";
+            MovimientosArboles item = tblMovimientosArboles.SelectedItem as MovimientosArboles;
+            int idLote = Convert.ToInt32(cmbLote.SelectedValue);
 
             if (validarCamposEditar())
             {
                 if (IsValid(txtEditarCantidad) && IsValid(cmbEditarTipoArbol))
                 {
-                    rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(cmbEditarTipoArbol.SelectedValue), Convert.ToInt32(txtEditarCantidad.Text), Convert.ToDateTime(dtdEditarFecha.SelectedDate), Convert.ToInt32(txtEditarId.Text), 2).ToString();
-                    mensajeInformacion(rpta);
-                    Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
-                    LimpiarEditar();
-                    tabDetalleLote.IsEnabled = true;
-                    tabEditar.Visibility = Visibility.Collapsed;
-                    tblMovimientosArboles.IsEnabled = true;
-                    btnAtras.IsEnabled = true;
+                    var items = MArbol.GetInstance().ConsultarLabor(idLote);
 
-                    tabDetalleLote.Focus();
-
-                    tblMovimientosArboles.ItemsSource = MArbol.GetInstance().ConsultarMovimiento(idArboles);
-                    cantidadMovTotal();
-
-                    if (tblArboles.Items.Count != 0)
+                    if (items.Count == 0)
                     {
-                        pnlInicio.Visibility = Visibility.Collapsed;
-                        pnlData.Visibility = Visibility.Visible;
+                        rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(cmbEditarTipoArbol.SelectedValue), Convert.ToInt32(txtEditarCantidad.Text), Convert.ToDateTime(dtdEditarFecha.SelectedDate), Convert.ToInt32(txtEditarId.Text), 2).ToString();
+                        mensajeInformacion(rpta);
+                        Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
+                        LimpiarEditar();
+                        tabDetalleLote.IsEnabled = true;
+                        tabEditar.Visibility = Visibility.Collapsed;
+                        tblMovimientosArboles.IsEnabled = true;
+                        btnAtras.IsEnabled = true;
+
+                        tabDetalleLote.Focus();
+
+                        tblMovimientosArboles.ItemsSource = MArbol.GetInstance().ConsultarMovimiento(idArboles);
+                        cantidadMovTotal();
+
+                        if (tblArboles.Items.Count != 0)
+                        {
+                            pnlInicio.Visibility = Visibility.Collapsed;
+                            pnlData.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            pnlData.Visibility = Visibility.Collapsed;
+                            pnlInicio.Visibility = Visibility.Visible;
+                        }
+
+                        if (tblMovimientosArboles.Items.Count != 0)
+                        {
+
+                        }
                     }
                     else
                     {
-                        pnlData.Visibility = Visibility.Collapsed;
-                        pnlInicio.Visibility = Visibility.Visible;
+                        mensajeError("Los árboles no pueden eliminarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo atravez de una labor.");
                     }
 
-                    if (tblMovimientosArboles.Items.Count != 0)
-                    {
-
-                    }
                 }
             }
         }

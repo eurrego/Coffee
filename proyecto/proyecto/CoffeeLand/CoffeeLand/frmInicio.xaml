@@ -20,7 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:FincaValidator x:Key="Validator"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"

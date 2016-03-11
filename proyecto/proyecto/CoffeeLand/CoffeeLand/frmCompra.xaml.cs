@@ -458,21 +458,6 @@ namespace CoffeeLand
             btnPaso1.IsChecked = true;
         }
 
-        public ICommand ComboBoxButtonCmd => new RelayCommand(Execute);
-
-        private void Execute(object o)
-        {
-            frmAdministracionCostos.GetInstance().tabConfiguracion.Focus();
-            frmAdministracionCostos.GetInstance().tabProveedores.Focus();
-        }
-
-        public ICommand ComboBoxButtonCmdInsumo => new RelayCommand(ExecuteInsumo);
-
-        private void ExecuteInsumo(object o)
-        {
-            frmAdministracionCostos.GetInstance().tabConfiguracion.Focus();
-        }
-
         public static bool IsValid(DependencyObject parent)
         {
             if (Validation.GetHasError(parent))

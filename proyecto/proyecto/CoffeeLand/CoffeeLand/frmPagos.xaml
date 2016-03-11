@@ -20,7 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:PagosValidator x:Key="Validator"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"

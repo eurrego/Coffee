@@ -139,8 +139,6 @@ namespace Modelo
 
             using (var entity = new DBFincaEntities())
             {
-
-
                 try
                 {
                     var rpta = entity.insercionDeudaEmpleado(documento, valor, fecha,Converter.GetInstance().StringFirtsLetterToUpper(descripcion)).First();

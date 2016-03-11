@@ -20,8 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:TipoInsumoValidator x:Key="Validator"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -65,8 +63,8 @@
                                   
                                   >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreTipoInsumo, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="215" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="220" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreTipoInsumo}" Header="Nombre" Width="215" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion}"  Header="Descripción" Width="220" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="90" Header="Editar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -123,8 +121,8 @@
                                  
                                    >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreTipoInsumo, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" Width="255" IsReadOnly="True"/>
-                            <DataGridTextColumn   Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="270" IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding NombreTipoInsumo}" Header="Nombre" Width="255" IsReadOnly="True"/>
+                            <DataGridTextColumn   Binding="{Binding Descripcion}"  Header="Descripción" Width="270" IsReadOnly="True" />
                             <DataGridTemplateColumn Width="100" Header="Habilitar">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

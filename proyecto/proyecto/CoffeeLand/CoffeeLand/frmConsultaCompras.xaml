@@ -21,7 +21,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"

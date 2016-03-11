@@ -20,8 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:ConceptoValidator x:Key="conceptoValidator"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"

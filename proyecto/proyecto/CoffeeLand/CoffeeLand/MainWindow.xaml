@@ -24,8 +24,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
+           
             <validator:UsuarioValidator x:Key="Validator"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"

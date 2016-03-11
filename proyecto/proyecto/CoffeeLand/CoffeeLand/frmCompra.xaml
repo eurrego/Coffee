@@ -139,32 +139,21 @@
 
                             <TabControl Margin="0 20 0 0">
                                 <TabItem x:Name="tabProveedor" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
+                                    <AdornerDecorator>
+                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
 
-                                        <ComboBox x:Name="cmbProveedor" 
+                                            <ComboBox x:Name="cmbProveedor" 
                                               DisplayMemberPath="NombreProveedor" 
                     	                      SelectedValuePath="Nit"
                                               VerticalAlignment="Top"
-                                              Controls:TextBoxHelper.ClearTextButton="True"
-                                              Controls:TextBoxHelper.ButtonCommand="{Binding ComboBoxButtonCmd }"
                                               Height="42"
                                               Visibility="Visible"
                                               SelectedIndex="0"
                                               >
-                                            <Controls:TextBoxHelper.ButtonContent>
-                                                <Rectangle Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Gray" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.Fill>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
-                                                    </Rectangle.Fill>
-                                                </Rectangle>
-                                            </Controls:TextBoxHelper.ButtonContent>
-                                        </ComboBox>
+                                            </ComboBox>
 
-                                        <DockPanel>
-                                            <DatePicker x:Name="dtdFecha" Margin="0 20 0 0" 
+                                            <DockPanel>
+                                                <DatePicker x:Name="dtdFecha" Margin="0 20 0 0" 
                             	                    VerticalAlignment="Top" 
                             	                    Height="42" 
                                                     Width="250"
@@ -174,39 +163,39 @@
                                                     SelectedDateFormat="Long"
                                                      DockPanel.Dock="Left"
                                                     >
-                                            </DatePicker>
+                                                </DatePicker>
 
-                                            <TextBox x:Name="txtNumeroFactura" Margin="20,20,0,0"
+                                                <TextBox x:Name="txtNumeroFactura" Margin="20,20,0,0"
                         	                    Controls:TextBoxHelper.UseFloatingWatermark="True"
                         	                    Controls:TextBoxHelper.Watermark="Numero de factura" 
                         	                    Height="42" VerticalAlignment="Top" 
                                                 DockPanel.Dock="Right">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Factura" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="Factura" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
 
-                                        </DockPanel>
+                                            </DockPanel>
 
-                                        <Button x:Name="btnSiguiente" Width="100" Height="35" 
+                                            <Button x:Name="btnSiguiente" Width="100" Height="35" 
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Style="{StaticResource AccentedSquareButtonStyle}"
@@ -215,17 +204,19 @@
                                                 Click="btnSiguiente_Click"
                                                 Margin="0 20 0 0">
 
-                                        </Button>
-                                    </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </AdornerDecorator>
                                 </TabItem>
 
                                 <TabItem x:Name="tabInsumo" Header="" Controls:ControlsHelper.HeaderFontSize="10" Visibility="Visible">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
+                                    <AdornerDecorator>
+                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" >
 
-                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Vertical">
 
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock x:Name="lblInfo" 
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock x:Name="lblInfo" 
                                                    Margin="0,0,0,0" 
                                                    Text="PROVEEDOR" 
                                                    Height="40"  
@@ -234,7 +225,7 @@
                                                    Foreground="Gray" 
                                                    />
 
-                                                <TextBlock x:Name="lblInfoF" 
+                                                    <TextBlock x:Name="lblInfoF" 
                                                    Margin="140,0,0,0" 
                                                    Text="FACTURA" 
                                                    Height="40"  
@@ -242,11 +233,11 @@
                                                    FontWeight="Bold"
                                                    Foreground="Gray" 
                                                    />
-                                            </StackPanel>
+                                                </StackPanel>
 
-                                            <StackPanel Orientation="Horizontal" Margin="0 -30 0 0">
+                                                <StackPanel Orientation="Horizontal" Margin="0 -30 0 0">
 
-                                                <TextBlock x:Name="lblProveedor" 
+                                                    <TextBlock x:Name="lblProveedor" 
                                                    Margin="-2,0,0,0" 
                                                    Text="Proveedor" 
                                                    Height="40" Width="200" 
@@ -256,7 +247,7 @@
                                                    VerticalAlignment="Center"/>
 
 
-                                                <TextBlock x:Name="lblFactura" 
+                                                    <TextBlock x:Name="lblFactura" 
                                                    Margin="0,0,0,0" 
                                                    Text="Factura" 
                                                    Height="40" Width="150" 
@@ -265,12 +256,12 @@
                                                    Foreground="CornflowerBlue" 
                                                    VerticalAlignment="Center"/>
 
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
 
 
 
-                                        <ComboBox x:Name="cmbTipoInsumo" 
+                                            <ComboBox x:Name="cmbTipoInsumo" 
                     	                        DisplayMemberPath="NombreTipoInsumo" 
                     	                        SelectedValuePath="idTipoInsumo"
                     	                        Margin="0 10 0 0" VerticalAlignment="Top"
@@ -279,92 +270,80 @@
                                                 SelectionChanged="cmbTipoInsumo_SelectionChanged"
                                                   SelectedIndex="0"
                                                 >
-                                        </ComboBox>
+                                            </ComboBox>
 
-                                        <ComboBox x:Name="cmbInsumo" 
+                                            <ComboBox x:Name="cmbInsumo" 
                     	                        DisplayMemberPath="NombreInsumo" 
                     	                        SelectedValuePath="idInsumo"
                     	                        Margin="0 20 0 0" VerticalAlignment="Top"
-                    	                        Controls:TextBoxHelper.ClearTextButton="True"
-                                                Controls:TextBoxHelper.ButtonCommand="{Binding ComboBoxButtonCmdInsumo}"
                     	                        Height="42"
                                                 SelectedIndex="0"
                     	                        >
-                                            <Controls:TextBoxHelper.ButtonContent>
-                                                <Rectangle Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="20" Height="20">
-                                                    <Rectangle.Resources>
-                                                        <SolidColorBrush x:Key="BlackBrush" Color="Gray" />
-                                                    </Rectangle.Resources>
-                                                    <Rectangle.Fill>
-                                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_add}" />
-                                                    </Rectangle.Fill>
-                                                </Rectangle>
-                                            </Controls:TextBoxHelper.ButtonContent>
-                                        </ComboBox>
-                                        <DockPanel>
-                                            <TextBox x:Name="txtValor" 
+                                            </ComboBox>
+                                            <DockPanel>
+                                                <TextBox x:Name="txtValor" 
         		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                                 Controls:TextBoxHelper.Watermark="Valor" 
                                                  Height="42" 
                                                  VerticalAlignment="Top" 
                                                  DockPanel.Dock="Left"
                                                  Margin="0 20 0 0" Width="200">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="Valor" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                            <TextBox x:Name="txtCantidad" 
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+                                                <TextBox x:Name="txtCantidad" 
         		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
         		                                 Controls:TextBoxHelper.Watermark="Cantidad" 
                                                  Height="42" 
                                                  VerticalAlignment="Top"
                                                  DockPanel.Dock="Right"
                                                  Margin="20 20 0 0">
-                                                <TextBox.Style>
-                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
-                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
-                                                        <Style.Triggers>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
-                                                            </Trigger>
-                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
-                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBox.Style>
-                                                <TextBox.Text>
-                                                    <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                    <TextBox.Style>
+                                                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                            <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                                </Trigger>
+                                                                <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                    <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                    <TextBox.Text>
+                                                        <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding.ValidationRules>
-                                                            <ExceptionValidationRule/>
-                                                        </Binding.ValidationRules>
-                                                    </Binding>
-                                                </TextBox.Text>
-                                            </TextBox>
-                                        </DockPanel>
+                                                            <Binding.ValidationRules>
+                                                                <ExceptionValidationRule/>
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+                                            </DockPanel>
 
-                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0" Visibility="Visible">
+                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0" Visibility="Visible">
 
-                                            <Button x:Name="btnAgregar" Width="100" Height="35" 
+                                                <Button x:Name="btnAgregar" Width="100" Height="35" 
                                                  Margin="0 20 0 0"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
@@ -373,10 +352,10 @@
                                                 Controls:ButtonHelper.PreserveTextCase="True"
                                                 Click="btnAgregar_Click"
                                                  />
-                                            
 
 
-                                            <Button x:Name="btnCancelar"  Width="100" Height="35" 
+
+                                                <Button x:Name="btnCancelar"  Width="100" Height="35" 
                                                     Margin="20 20 0 0"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
@@ -386,10 +365,10 @@
                                                 Controls:ButtonHelper.PreserveTextCase="True"
                                                 Click="btnCancelar_Click"
                                                  >
-                                            </Button>
+                                                </Button>
 
 
-                                            <Button x:Name="btnAtras"  Width="100" Height="35" 
+                                                <Button x:Name="btnAtras"  Width="100" Height="35" 
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Style="{StaticResource AccentedSquareButtonStyle}"
@@ -399,11 +378,12 @@
                                                 Click="btnAtras_Click"
                                                 Margin="20 20 0 0" >
 
-                                            </Button>
+                                                </Button>
+
+                                            </StackPanel>
 
                                         </StackPanel>
-
-                                    </StackPanel>
+                                    </AdornerDecorator>
                                 </TabItem>
                             </TabControl>
 

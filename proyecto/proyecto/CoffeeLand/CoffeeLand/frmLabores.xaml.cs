@@ -296,7 +296,7 @@ namespace CoffeeLand
         {       
             Labor item = tblLabores.SelectedItem as Labor;
 
-            if (item.NombreLabor.Equals("Recoleccion"))
+            if (item.NombreLabor.Equals("Recolección") || item.NombreLabor.Equals("Eliminación") || item.NombreLabor.Equals("Siembra"))
             {
                 mensajeError("Esta labor no puede modificarse.");
             }
@@ -343,7 +343,7 @@ namespace CoffeeLand
         {
             Labor item = tblLabores.SelectedItem as Labor;
 
-            if (item.NombreLabor.Equals("Recoleccion"))
+            if (item.NombreLabor.Equals("Recolección") || item.NombreLabor.Equals("Eliminación") || item.NombreLabor.Equals("Siembra"))
             {
                 mensajeError("Esta labor no puede inhabilitarse.");
             }

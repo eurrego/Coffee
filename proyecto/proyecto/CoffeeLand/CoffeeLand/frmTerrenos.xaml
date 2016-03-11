@@ -19,8 +19,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:TerrenosValidator x:Key="Validator"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -109,7 +107,7 @@
                                       FontSize="20" SelectionChanged="tblLotes_SelectionChanged"
                                       >
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn x:Name="columnLote" Binding="{Binding NombreLote, Converter={StaticResource StringToCapitalsConverter}}" Header="Nombre" IsReadOnly="True"/>
+                                        <DataGridTextColumn x:Name="columnLote" Binding="{Binding NombreLote}" Header="Nombre" IsReadOnly="True"/>
 
                                         <DataGridTemplateColumn Width="0" Header="Editar">
                                             <DataGridTemplateColumn.CellTemplate>
@@ -250,7 +248,7 @@
                                       FontSize="20" SelectionChanged="tblLabores_SelectionChanged"
                                       >
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn x:Name="columnLabor" Binding="{Binding NombreLabor, Converter={StaticResource StringToCapitalsConverter}}"  Header="Nombre" IsReadOnly="True"/>
+                                        <DataGridTextColumn x:Name="columnLabor" Binding="{Binding NombreLabor}"  Header="Nombre" IsReadOnly="True"/>
 
                                         <DataGridTemplateColumn Width="0" Header="Editar">
                                             <DataGridTemplateColumn.CellTemplate>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -242,22 +243,54 @@ namespace Modelo
 
         public string RegistroCompra(string nit, DateTime fecha, int numeroFactura)
         {
-
-            using (var entity = new DBFincaEntities())
+            try
             {
-                var rpta = entity.RegistrarCompra(nit, fecha, numeroFactura).First();
-                return rpta.Mensaje;
+                using (var entity = new DBFincaEntities())
+                {
+                    var rpta = entity.RegistrarCompra(nit, fecha, numeroFactura).First();
+                    return rpta.Mensaje;
+                }
             }
+            catch (Exception ex)
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+                return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+            }
+           
         }
 
         public void RegistroDetalleCompra(DataTable DetalleCompra)
         {
-
-            using (var entity = new DBFincaEntities())
+            try
             {
-                entity.SP_InsertarDetalleCompra(DetalleCompra);
+                using (var entity = new DBFincaEntities())
+                {
+                    entity.SP_InsertarDetalleCompra(DetalleCompra);
 
+                }
             }
+            catch (Exception ex )
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                } 
+            }
+           
         }
     }
 }

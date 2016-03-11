@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -154,16 +155,32 @@ namespace Modelo
         }
 
         public string ventaProduccion(decimal cantidad)
-
         {
-            using (var entity = new DBFincaEntities())
+            try
             {
+                using (var entity = new DBFincaEntities())
+                {
 
-                var query = entity.VentaProduccion(cantidad).First();
+                    var query = entity.VentaProduccion(cantidad).First();
 
-                return query.Mensaje;
-
+                    return query.Mensaje;
+                }
             }
+            catch (Exception ex )
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+                return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+            }
+          
         }
 
         public int ValidarFactura(int Factura, string Proveedor)
@@ -171,16 +188,12 @@ namespace Modelo
 
             using (var entity = new DBFincaEntities())
             {
-
                 var query = (from c in entity.Compra
                              where c.NumeroFactura == Factura && c.NitProveedor == Proveedor
                              select c).Count();
 
                 return query;
-
             }
-
-
         }
     }
 }

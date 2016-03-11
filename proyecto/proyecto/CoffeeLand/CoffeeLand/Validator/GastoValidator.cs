@@ -52,9 +52,9 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                            if (descripcion.Length > 45)
+                            if (descripcion.Length > 150)
                             {
-                                result = "La descripción debe ser menor que 10 caracteres.";
+                                result = "La descripción debe ser menor que 150 caracteres.";
                             }
                         }
                         break;
@@ -69,9 +69,17 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valor.Equals("0"))
+                            else
                             {
-                                result = "El valor no puede ser cero";
+                                if (valor.Equals("0"))
+                                {
+                                    result = "El valor no puede ser cero";
+                                }
+                                else if (valor.Length > 19)
+                                {
+                                    result = "El valor debe ser menor de 19 números";
+                                }
+
                             }
                         }
                         break;

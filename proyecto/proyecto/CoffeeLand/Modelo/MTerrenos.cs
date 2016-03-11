@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,22 +178,39 @@ namespace Modelo
 
         public List<consultarMovimientosArboles_Result1> ConsultarTiposArboles(int idArboles)
         {
-            using (var entity = new DBFincaEntities())
-            {
-                var query = entity.consultarMovimientosArboles(idArboles);
-                return query.ToList();
-            }
-
+                using (var entity = new DBFincaEntities())
+                {
+                    var query = entity.consultarMovimientosArboles(idArboles);
+                    return query.ToList();
+                }
         }
 
         public string asociarLaborLote(int labor, int lote, DateTime fecha)
         {
-            using (var entity = new DBFincaEntities())
+            try
             {
+                using (var entity = new DBFincaEntities())
+                {
 
-                var rpta = entity.asociarLaborLote(labor, lote, fecha).First();
-                return rpta.mensaje;
+                    var rpta = entity.asociarLaborLote(labor, lote, fecha).First();
+                    return rpta.mensaje;
+                }
             }
+            catch (Exception ex)
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+                return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+            }
+
 
         }
 
@@ -247,11 +265,28 @@ namespace Modelo
 
         public string MovimientoArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha)
         {
-            using (var entity = new DBFincaEntities())
+            try
             {
+                using (var entity = new DBFincaEntities())
+                {
 
-                var rpta = entity.gestionArboles2(idLote, idTipoArbol, cantidad, fecha);
-                return rpta.ToString();
+                    var rpta = entity.gestionArboles2(idLote, idTipoArbol, cantidad, fecha);
+                    return rpta.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+                return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
             }
         }
 
