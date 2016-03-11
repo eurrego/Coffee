@@ -19,7 +19,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validator:PrestamosValidator x:Key="Validator"/>
+            <validator:PagosValidator x:Key="Validator"/>
             <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
 
@@ -60,7 +60,6 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock x:Name="lblTitleTipoPago" Text=""
                                                    FontSize="40"
-                                               FontWeight="Light" 
                                                Background="White" Height="55"
                                                Foreground="CornflowerBlue"
                                                VerticalAlignment="Center"
@@ -69,7 +68,7 @@
                                         <Button x:Name="btnOcultar" Width="50" Height="50" Style="{DynamicResource MetroCircleButtonStyle}" 
                                                 HorizontalAlignment="Center"
                                                 BorderThickness="0" ToolTip="Volver"
-                                                
+                                                Click="btnOcultar_Click"
                                                 Margin="20 5 0 0">
                                             <Viewbox Width="30" Height="30" >
                                                 <Canvas Width="30" Height="30">
@@ -95,7 +94,7 @@
 
                                             <DataGridTextColumn Binding="{Binding Valor_a_pagar,StringFormat={}{0:c}}"  Header="Valor a Pagar" Width="130" IsReadOnly="True"/>
                                             <DataGridTextColumn Binding="{Binding Valor_Deuda,StringFormat={}{0:c}}"   Header="Valor Deuda" Width="130" IsReadOnly="True"/>
-                                            <DataGridTemplateColumn Width="70" Header="Detalle Pago">
+                                            <DataGridTemplateColumn x:Name="columnDetalle" Width="120" Header="Detalle Pago">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Button x:Name="btnDetallePago"   Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"  Click="btnDetallePago_Click" >
@@ -172,24 +171,47 @@
                                                     Margin="0 20 0 0"
                                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                                     Click="btnPagar_Click"
+                                                    Visibility="Collapsed"
                                                     >
                                         </Button>
 
                                     </StackPanel>
                                 </TabItem>
-                                <TabItem x:Name="tabAsignar" Header="Asignar Valor Pago" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                <TabItem x:Name="tabAsignar" Header="ASIGNAR PAGO" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
+                                    <AdornerDecorator>
+                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
 
-                                        <TextBox x:Name="txtPago" 
+                                            <TextBox x:Name="txtPago" 
                                                    VerticalAlignment="Center" 
                                                    Margin="0 5 0 0"
                                                    Height="42"
                                                    Controls:TextBoxHelper.Watermark="Asignar Pago"
                                                    Controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                   Controls:TextBoxHelper.ClearTextButton="true"
-                                                   />
+                                                   >
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Valor" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                        UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
 
-                                        <DatePicker x:Name="dtdFechaPago" 
+                                            <DatePicker x:Name="dtdFechaPago" 
                             	                Margin="0,20,0,0" VerticalAlignment="Top"
                             	                Height="42"
                                                     SelectedDateFormat="Long"
@@ -197,13 +219,8 @@
                                                 IsEnabled="False"
                                               />
 
-
-
-
-
-
-                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                                            <Button x:Name="btnConfirmarPago"  
+                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                                <Button x:Name="btnConfirmarPago"  
                                                     HorizontalAlignment="Left" 
                                                     VerticalAlignment="Center"
                                                     Height="35"
@@ -213,8 +230,8 @@
                                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                                     Click="btnConfirmarPago_Click"
                                                     >
-                                            </Button>
-                                            <Button x:Name="btnCancelar"  
+                                                </Button>
+                                                <Button x:Name="btnCancelar"  
                                                    HorizontalAlignment="Left" 
                                                    VerticalAlignment="Center"
                                                    Margin="10 0 0 0" 
@@ -226,11 +243,12 @@
                                                    Controls:ButtonHelper.PreserveTextCase="True"
                                                    Click="btnCancelar_Click"
                                                  >
-                                            </Button>
+                                                </Button>
+
+                                            </StackPanel>
 
                                         </StackPanel>
-
-                                    </StackPanel>
+                                    </AdornerDecorator>
                                 </TabItem>
 
 
@@ -288,7 +306,7 @@
 
                                         <TextBlock x:Name="lblNombreEmpleado" 
                                                    VerticalAlignment="Top" 
-                                                   FontSize="60" 
+                                                   FontSize="40" 
                                                    Margin="-5 -20 0 0"
                                                    Foreground="CornflowerBlue"
                                                    Text=""
@@ -305,9 +323,8 @@
                                                        HorizontalAlignment="Left"
                                                        VerticalAlignment="Top" 
                                                        Margin="-2 -15 0 0"
-                                                       FontSize="50" Foreground="Green" 
+                                                       FontSize="40" Foreground="Green" 
                                                        Text=""
-                                                       FontWeight="Light"
                                                        />
 
                                         <Button x:Name="btnAtras"  Width="100" Height="35" 

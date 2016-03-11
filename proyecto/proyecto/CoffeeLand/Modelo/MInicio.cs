@@ -50,13 +50,22 @@ namespace Modelo
 
         public int ConsultarCantidadArboles()
         {
+            int cantidad = 0;
+
             using (var entity = new DBFincaEntities())
             {
 
                 var query = from c in entity.Arboles
                             select new { c.Cantidad };
 
-                int cantidad = query.Sum(total => total.Cantidad);
+                if (query.Count() == 0)
+                {
+                    cantidad = 0;
+                }
+                else
+                {
+                    cantidad = query.Sum(total => total.Cantidad);
+                }
 
                 return cantidad;
             }

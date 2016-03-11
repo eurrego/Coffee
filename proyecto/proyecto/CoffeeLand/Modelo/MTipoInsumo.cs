@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
 
 namespace Modelo
 {
@@ -35,6 +36,19 @@ namespace Modelo
                 return query.ToList();
             }
         }
+
+        public List<Insumo> ConsultarInsumo(int id)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Insumo
+                            where c.idTipoInsumo == id && c.EstadoInsumo == "A"
+                            select c;
+                return query.ToList();
+            }
+        }
+
+
 
         public List<TipoInsumo> ConsultarInactivos()
         {
@@ -80,12 +94,13 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionTipoInsumo(nombre.ToUpper(), descripcion.ToUpper(), id, opcion).First();
+                    var rpta = entity.gestionTipoInsumo(Converter.GetInstance().StringToCapitalsConverter(nombre), Converter.GetInstance().StringFirtsLetterToUpper(descripcion), id, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Susy\Desktop\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

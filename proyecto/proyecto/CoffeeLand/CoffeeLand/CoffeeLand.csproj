@@ -115,11 +115,17 @@
     <Compile Include="frmConsultarGastos.xaml.cs">
       <DependentUpon>frmConsultarGastos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmConsultarVentas.xaml.cs">
+      <DependentUpon>frmConsultarVentas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmEmpleados.xaml.cs">
       <DependentUpon>frmEmpleados.xaml</DependentUpon>
     </Compile>
     <Compile Include="frmEstadoCuenta.xaml.cs">
       <DependentUpon>frmEstadoCuenta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmExistencias.xaml.cs">
+      <DependentUpon>frmExistencias.xaml</DependentUpon>
     </Compile>
     <Compile Include="frmGastos.xaml.cs">
       <DependentUpon>frmGastos.xaml</DependentUpon>
@@ -270,11 +276,13 @@
     <Compile Include="Validator\CompraValidator.cs" />
     <Compile Include="Validator\ConceptoValidator.cs" />
     <Compile Include="Validator\EmpleadoValidator.cs" />
+    <Compile Include="Validator\EstadoCuentaValidator.cs" />
     <Compile Include="Validator\FincaValidator.cs" />
     <Compile Include="Validator\GastoValidator.cs" />
     <Compile Include="Validator\InsumoValidator.cs" />
     <Compile Include="Validator\LaboresValidator.cs" />
     <Compile Include="Validator\LotesValidator.cs" />
+    <Compile Include="Validator\PagosValidator.cs" />
     <Compile Include="Validator\PrestamosValidator.cs" />
     <Compile Include="Validator\ProductosValidator.cs" />
     <Compile Include="Validator\ProveedorValidator.cs" />
@@ -318,11 +326,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="frmConsultarVentas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="frmEmpleados.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmEstadoCuenta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmExistencias.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

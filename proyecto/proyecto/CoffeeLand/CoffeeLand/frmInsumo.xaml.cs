@@ -195,7 +195,7 @@ namespace CoffeeLand
             {
                 if (validarCampos())
                 {
-                    if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtMarca) && IsValid(txtUnidadMedida) && IsValid(cmbTipoInsumo))
+                    if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtMarca) && IsValid(txtUnidadMedida))
                     {
                         rpta = MInsumo.GetInstance().GestionInsumo(Convert.ToByte(cmbTipoInsumo.SelectedValue), txtNombre.Text, txtDescripcion.Text, txtMarca.Text, txtUnidadMedida.Text, 0, 1);
                         mensajeInformacion(rpta);
@@ -215,26 +215,30 @@ namespace CoffeeLand
                     }
                 }
             }
-            else if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtMarca) && IsValid(txtUnidadMedida) && IsValid(cmbTipoInsumo))
+            else if (validarCampos())
             {
-                rpta = MInsumo.GetInstance().GestionInsumo(Convert.ToByte(cmbTipoInsumo.SelectedValue), txtNombre.Text, txtDescripcion.Text, txtMarca.Text, txtUnidadMedida.Text, Convert.ToInt32(txtId.Text), 2);
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblInsumo.IsEnabled = true;
-
-                if (pnlResultados.IsVisible)
+                if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtMarca) && IsValid(txtUnidadMedida))
                 {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
+                    rpta = MInsumo.GetInstance().GestionInsumo(Convert.ToByte(cmbTipoInsumo.SelectedValue), txtNombre.Text, txtDescripcion.Text, txtMarca.Text, txtUnidadMedida.Text, Convert.ToInt32(txtId.Text), 2);
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblInsumo.IsEnabled = true;
+
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+
+                    frmCompra.GetInstance().Mostrar();
                 }
 
-                frmCompra.GetInstance().Mostrar();
             }
         }
 

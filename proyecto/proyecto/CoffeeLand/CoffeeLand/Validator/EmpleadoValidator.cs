@@ -44,74 +44,78 @@ namespace CoffeeLand.Validator
         {
             get
             {
-                string result = null;
-
-                Regex numeros = new Regex("^[0-9]*$");
-                Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
-
-                switch (name)
-                {
-                    case "Nombre":
-                        if (string.IsNullOrEmpty(nombre))
-                        {
-                            result = "El campo es obligatorio.";
-                        }
-                        else
-                        {
-                            if (!letras.IsMatch(nombre))
-                            {
-                                result = "El campo solo acepta letras.";
-                            }
-                            else
-                            {
-                                if (nombre.Length > 50)
-                                {
-                                    result = "El nombre debe ser menor que 50 caracteres.";
-                                }
-                            }
-                        }
-                        break;
-
-                    case "Telefono":
-                        if (string.IsNullOrEmpty(telefono))
-                        {
-                            result = "El campo es obligatorio.";
-                        }
-                        else
-                        {
-                            if (!numeros.IsMatch(telefono))
-                            {
-                                result = "El campo solo acepta números.";
-                            }
-                            else if (telefono.Length > 10)
-                            {
-                                result = "La teléfono debe ser menor que 10 caracteres.";
-                            }
-                        }
-                        break;
-                    case "Documento":
-                        if (string.IsNullOrEmpty(documento))
-                        {
-                            result = "El campo es obligatorio.";
-                        }
-                        else
-                        {
-                            if (!numeros.IsMatch(documento))
-                            {
-                                result = "El campo solo acepta números.";
-                            }
-                            else if (documento.Length > 15)
-                            {
-                                result = "El documento debe ser menor que 15 caracteres.";
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                return result;
+                return IsValid(name);
             }
         }
+
+        private string IsValid(string propertyName)
+        {
+            Regex numeros = new Regex("^[0-9]*$");
+            Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
+
+            switch (propertyName)
+            {
+                case "Nombre":
+                    if (string.IsNullOrEmpty(nombre))
+                    {
+                        return  "El campo es obligatorio.";
+                    }
+                    else
+                    {
+                        if (!letras.IsMatch(nombre))
+                        {
+                            return  "El campo solo acepta letras.";
+                        }
+                        else
+                        {
+                            if (nombre.Length > 50)
+                            {
+                                return  "El nombre debe ser menor que 50 caracteres.";
+                            }
+                        }
+                    }
+                    break;
+                case "Telefono":
+                    if (string.IsNullOrEmpty(telefono))
+                    {
+                        return  "El campo es obligatorio.";
+                    }
+                    else
+                    {
+                        if (!numeros.IsMatch(telefono))
+                        {
+                            return  "El campo solo acepta números.";
+                        }
+                        else if (telefono.Length > 10)
+                        {
+                            return  "La teléfono debe ser menor que 10 caracteres.";
+                        }
+                    }
+                    break;
+                case "Documento":
+                    if (string.IsNullOrEmpty(documento))
+                    {
+                        return  "El campo es obligatorio.";
+                    }
+                    else
+                    {
+                        if (!numeros.IsMatch(documento))
+                        {
+                            return  "El campo solo acepta letras.";
+                        }
+                        else
+                        {
+                            if (documento.Length > 15)
+                            {
+                                return  "El documento debe ser menor que 15 caracteres.";
+                            }
+                        }
+                    }
+                    break;
+            }
+            return null;
+        }
+
+      
     }
 }

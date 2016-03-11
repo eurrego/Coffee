@@ -20,30 +20,31 @@ using MahApps.Metro.Controls.Dialogs;
 namespace CoffeeLand
 {
     /// <summary>
-    /// Lógica de interacción para frmConsultarGastos.xaml
+    /// Interaction logic for frmConsultarVentas.xaml
     /// </summary>
-    public partial class frmConsultarGastos : UserControl
+    public partial class frmConsultarVentas : UserControl
     {
         #region Singleton
 
-        private static frmConsultarGastos instance;
+        private static frmConsultarVentas instance;
 
-        public static frmConsultarGastos GetInstance()
+        public static frmConsultarVentas GetInstance()
         {
             if (instance == null)
             {
-                instance = new frmConsultarGastos();
+                instance = new frmConsultarVentas();
             }
 
             return instance;
         }
         #endregion
 
-        public frmConsultarGastos()
+
+        public frmConsultarVentas()
         {
             InitializeComponent();
-            Mostrar();
             instance = this;
+            Mostrar();
             tamanioPantalla();
             dtdFecha.DisplayDateEnd = DateTime.Now;
             dtdFechaFinal.DisplayDateEnd = DateTime.Now;
@@ -60,26 +61,21 @@ namespace CoffeeLand
             var anchoContainer = width / 1.75;
             var temp = anchoContainer - 185;
 
-            columnNombreConcepto.Width = temp / 4;
-            columnDescripcion.Width = temp / 4;
-            columnValor.Width = temp / 4;
-            columnFecha.Width = temp / 4;
-
             pnlContainer.Width = anchoContainer;
-            tblGastos.Height = height - 270;
+            tblVentas.Height = height - 270;
         }
 
         public void Mostrar()
         {
 
-            tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastos() as IEnumerable;
+            tblVentas.ItemsSource = MVentas.GetInstance().ConsultarVentas() as IEnumerable;
 
-            if (tblGastos.Items.Count == 0)
+            if (tblVentas.Items.Count == 0)
             {
                 pnlData.Visibility = Visibility.Collapsed;
                 pnlInicio.Visibility = Visibility.Visible;
-                lblSuperior.Text = "No hay gastos";
-                lblInferior.Text = "registrados.";
+                lblSuperior.Text = "No hay ventas";
+                lblInferior.Text = "registradas.";
             }
             else
             {
@@ -94,22 +90,22 @@ namespace CoffeeLand
         // mensaje de Error
         public void mensajeError(string mensaje)
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("ERROR", mensaje);
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Error", mensaje);
         }
 
         public void mensajeInformacion(string mensaje)
         {
-            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("INFORMACIÓN", mensaje);
+            ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
         }
 
         private void cantidadTotal()
         {
             decimal valor = 0;
 
-            foreach (var item in tblGastos.Items)
+            foreach (var item in tblVentas.Items)
             {
                 Type v = item.GetType();
-                var total = v.GetProperty("Valor").GetValue(item).ToString();
+                var total = v.GetProperty("Total").GetValue(item).ToString();
 
                 valor += Convert.ToDecimal(total);
 
@@ -120,11 +116,11 @@ namespace CoffeeLand
 
         private void Registros()
         {
-            if (tblGastos.Items.Count == 0)
+            if (tblVentas.Items.Count == 0)
             {
                 pnlData.Visibility = Visibility.Collapsed;
                 pnlInicio.Visibility = Visibility.Visible;
-                lblSuperior.Text = "No hay Gastos que cumplan";
+                lblSuperior.Text = "No hay Ventas que cumplan";
                 lblInferior.Text = "con este Filtrado.";
             }
             else
@@ -147,19 +143,19 @@ namespace CoffeeLand
             {
                 if (dtdFecha.SelectedDate != null && dtdFechaFinal.SelectedDate == null)
                 {
-                    tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastosFecha(Convert.ToDateTime(dtdFecha.SelectedDate), DateTime.Now) as IEnumerable;
+                    tblVentas.ItemsSource = MVentas.GetInstance().ConsultaVentasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), DateTime.Now) as IEnumerable;
                     Registros();
                     cantidadTotal();
                 }
                 else if (dtdFecha.SelectedDate != null && dtdFechaFinal.SelectedDate != null)
                 {
-                    tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastosFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblVentas.ItemsSource = MVentas.GetInstance().ConsultaVentasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
                     Registros();
                     cantidadTotal();
                 }
                 else if (dtdFecha.SelectedDate == null && dtdFechaFinal.SelectedDate == null)
                 {
-                    tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastosFecha(Convert.ToDateTime("01/01/1970"), DateTime.Now) as IEnumerable;
+                    tblVentas.ItemsSource = MVentas.GetInstance().ConsultaVentasFecha(Convert.ToDateTime("01/01/1970"), DateTime.Now) as IEnumerable;
                     Registros();
                     cantidadTotal();
                 }
@@ -178,13 +174,13 @@ namespace CoffeeLand
             {
                 if (dtdFecha.SelectedDate == null && dtdFechaFinal.SelectedDate != null)
                 {
-                    tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastosFecha(Convert.ToDateTime("01/01/1970"), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblVentas.ItemsSource = MVentas.GetInstance().ConsultaVentasFecha(Convert.ToDateTime("01/01/1970"), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
                     Registros();
                     cantidadTotal();
                 }
                 else
                 {
-                    tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastosFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblVentas.ItemsSource = MVentas.GetInstance().ConsultaVentasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
                     Registros();
                     cantidadTotal();
                 }
@@ -196,7 +192,7 @@ namespace CoffeeLand
             dtdFecha.SelectedDate = null;
             dtdFechaFinal.SelectedDate = null;
             gboxFecha.Visibility = Visibility.Visible;
-            tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastos() as IEnumerable;
+            tblVentas.ItemsSource = MVentas.GetInstance().ConsultarVentas() as IEnumerable;
             Registros();
             cantidadTotal();
         }
@@ -207,9 +203,9 @@ namespace CoffeeLand
             gboxFecha.Visibility = Visibility.Collapsed;
             dtdFecha.SelectedDate = null;
             dtdFechaFinal.SelectedDate = null;
-            tblGastos.ItemsSource = MGastos.GetInstance().ConsultaGastos() as IEnumerable;
+            tblVentas.ItemsSource = MVentas.GetInstance().ConsultarVentas() as IEnumerable;
             Registros();
-            cantidadTotal(); 
+            cantidadTotal();
         }
     }
 }

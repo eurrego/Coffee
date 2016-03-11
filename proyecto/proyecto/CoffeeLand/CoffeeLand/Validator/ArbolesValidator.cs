@@ -36,23 +36,44 @@ namespace CoffeeLand.Validator
                 {
 
                     case "Cantidad":
+
+                        double cant = 0;
+
                         if (string.IsNullOrEmpty(cantidad))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidad))
+
+                            if (Cantidad.Length > 10)
                             {
-                                result = "El campo solo acepta números.";
+                                result = "El campo no acepta mas de 10 números";
                             }
-                            else if (cantidad.Equals("0"))
+                            else
                             {
-                                result = "La cantidad no puede ser cero";
-                            }
+                                if (!numeros.IsMatch(cantidad))
+                                {
+                                    result = "El campo solo acepta números.";
+                                }
+                                else
+                                {
+                                    cant = Convert.ToInt64(cantidad);
+
+                                    if (cantidad.Equals("0"))
+                                    {
+                                        result = "La cantidad no puede ser cero";
+                                    }
+                                    else if (cant > 1900000000)
+                                    {
+                                        result = "La cantidad debe ser menor a 1900000000";
+                                    }
+
+                                }
+                            } 
                         }
                         break;
-                   
+
                     default:
                         break;
                 }

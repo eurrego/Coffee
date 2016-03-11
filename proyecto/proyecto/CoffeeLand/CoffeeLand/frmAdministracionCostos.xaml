@@ -45,8 +45,15 @@
             </TabItem>
             <TabItem  Header="Cuentas" Controls:ControlsHelper.HeaderFontSize="40">
                 <TabControl Margin="0 -10 0 0">
-                    <TabItem x:Name="tabConsulta" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" >
-                        <local:frmEstadoCuenta/>
+                    <TabItem x:Name="tabConsulta" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabConsulta_IsVisibleChanged" >
+                        <ContentControl x:Name="contentCuentas"></ContentControl>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem  Header="Existencias" Controls:ControlsHelper.HeaderFontSize="40" Selector.Selected="TabItem_Selected">
+                <TabControl Margin="0 -10 0 0">
+                    <TabItem x:Name="tabExistencias" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20"  >
+                        <ContentControl x:Name="contentExistencias"></ContentControl>
                     </TabItem>
                 </TabControl>
             </TabItem>

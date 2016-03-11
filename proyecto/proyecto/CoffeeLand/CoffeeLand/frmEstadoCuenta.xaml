@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CoffeeLand"
-             xmlns:validatorConcepto ="clr-namespace:CoffeeLand.Validator"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:validator ="clr-namespace:CoffeeLand.Validator"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
              Background="White"
@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <validatorConcepto:ConceptoValidator x:Key="conceptoValidator"/>
+            <validator:EstadoCuentaValidator x:Key="Validator"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -49,7 +49,7 @@
                             <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 0 0 25" >
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock x:Name="lblProveedor" Text="" FontSize="40" FontWeight="Light" 
+                                        <TextBlock x:Name="lblProveedor" Text="" FontSize="40" 
                                                Background="White" Height="50"
                                                Foreground="CornflowerBlue"
                                                VerticalAlignment="Center">
@@ -145,7 +145,7 @@
                                               />
 
                                         <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Vertical" Width="300" Height="130" 
+                                            <StackPanel Orientation="Vertical" Width="350" Height="130" 
                                                         HorizontalAlignment="Left"
                                                         Background="LightGray"
                                                         Margin="0 30 0 0">
@@ -167,16 +167,38 @@
                                     </StackPanel>
                                 </TabItem>
                                 <TabItem x:Name="tabAbono" Header="ABONOS" Controls:ControlsHelper.HeaderFontSize="20" Visibility="Collapsed">
-                                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
-                                        <TextBox x:Name="txtAbono" 
+                                    <AdornerDecorator>
+                                        <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="20,0,0,0" >
+                                            <TextBox x:Name="txtAbono" 
         		                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
-        		                                 Controls:TextBoxHelper.Watermark="Valor Abono" 
-        		                                 Controls:TextBoxHelper.ClearTextButton="True" 
+        		                                 Controls:TextBoxHelper.Watermark="Valor Abono"
                                                  Height="42" 
                                                  VerticalAlignment="Top" 
                                                  Margin="0 20 0 0">
-                                        </TextBox>
-                                        <DatePicker x:Name="dtdFechaAbono" 
+                                                <TextBox.Style>
+                                                    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+                                                        <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True"></Setter>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="False">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="False" />
+                                                            </Trigger>
+                                                            <Trigger Property="Controls:TextBoxHelper.HasText" Value="True">
+                                                                <Setter Property="Controls:TextBoxHelper.ClearTextButton" Value="True" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                                <TextBox.Text>
+                                                    <Binding Path="Valor" Mode="TwoWay" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" 
+                                                          ValidatesOnExceptions="True"
+                                                          UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <ExceptionValidationRule/>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>
+                                            </TextBox>
+                                            <DatePicker x:Name="dtdFechaAbono" 
                                                     SelectedDate="{x:Static sys:DateTime.Now}" 
                                                     SelectedDateFormat="Long"
                                                     IsEnabled="False"
@@ -184,8 +206,8 @@
                                                     VerticalAlignment="Top" 
                                                     Height="42"/>
 
-                                        <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                                            <Button x:Name="btnGuardar"  
+                                            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                                                <Button x:Name="btnGuardar"  
                                                     HorizontalAlignment="Left" 
                                                     VerticalAlignment="Center"
                                                     Height="35"
@@ -194,8 +216,8 @@
                                                     Style="{StaticResource AccentedSquareButtonStyle}"
                                                     Click="btnGuardar_Click"
                                                     >
-                                            </Button>
-                                            <Button x:Name="btnCancelar"  
+                                                </Button>
+                                                <Button x:Name="btnCancelar"  
                                                    HorizontalAlignment="Left" 
                                                    VerticalAlignment="Center"
                                                    Margin="10 0 0 0" 
@@ -206,11 +228,12 @@
                                                    Content="Cancelar"
                                                    Click="btnCancelar_Click"
                                                  >
-                                            </Button>
+                                                </Button>
+
+                                            </StackPanel>
 
                                         </StackPanel>
-
-                                    </StackPanel>
+                                    </AdornerDecorator>
                                 </TabItem>
 
                             </TabControl>
@@ -255,7 +278,6 @@
                                                    Margin="0,20,0,0"  
                                                    VerticalAlignment="Top" 
                                                    FontSize="40" 
-                                                   FontWeight="Light"
                                                    Foreground="CornflowerBlue"
                                                    Text="Andres Felipe"
                                                    />
@@ -267,7 +289,7 @@
                                                        Text="N° Factura"
                                                        DockPanel.Dock="Left"
                                                        />
-                                            <TextBlock x:Name="lblFecha"  Margin="100,20,0,0" 
+                                            <TextBlock x:Name="lblFecha"  Margin="90,20,0,0" 
                                                        VerticalAlignment="Top" Height="42" 
                                                        FontSize="30" Foreground="Gray" 
                                                        Text="Fecha "
@@ -277,15 +299,15 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock x:Name="lblFacturaDetalleCompra"  Margin="0,0,0,0" 
                                                        VerticalAlignment="Top" Height="42" 
-                                                       FontSize="30" Foreground="#FF92C6F9" 
+                                                       FontSize="30" Foreground="CornflowerBlue" 
                                                        Text="2405"
-                                                       Width="238"
+                                                       Width="228"
                                                        FontFamily="Arial Rounded MT Bold"
                                                        />
 
                                             <TextBlock x:Name="lblFechaDetalleCompra"   
                                                        VerticalAlignment="Top" Height="42"
-                                                       FontSize="30" Foreground="#FF92C6F9"
+                                                       FontSize="30" Foreground="CornflowerBlue"
                                                        Text="Ene. 31, 2106"
                                                        FontFamily="Arial Rounded MT Bold"
                                                        />

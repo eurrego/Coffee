@@ -25,12 +25,15 @@
 
     <StackPanel Orientation="Vertical" Margin="10 0 0 0" Background="White">
         <TabControl>
-            <TabItem  Header="Ventas" Controls:ControlsHelper.HeaderFontSize="40" GotFocus="TabItem_GotFocus">
+            <TabItem  Header="Ventas" Controls:ControlsHelper.HeaderFontSize="40" >
                 <DockPanel>
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
-                            <TabItem x:Name="tabRegistroVentas" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabRegistroVentas_IsVisibleChanged" >
+                            <TabItem x:Name="tabRegistroVentas" Header="REGISTRO" Controls:ControlsHelper.HeaderFontSize="20" Selector.Selected="tabRegistroVentas_Selected">
                                 <ContentControl x:Name="contentRegistroVenta"></ContentControl>
+                            </TabItem>
+                            <TabItem x:Name="tabConsultarVentas" Header="CONSULTAR" Controls:ControlsHelper.HeaderFontSize="20" Selector.Selected="tabConsultarVentas_Selected">
+                                <ContentControl x:Name="contentConsultarVenta"></ContentControl>
                             </TabItem>
 
                         </TabControl>

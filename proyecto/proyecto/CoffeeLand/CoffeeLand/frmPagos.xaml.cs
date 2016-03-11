@@ -25,11 +25,28 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmPagos : UserControl
     {
+
+        #region Singleton
+        private static frmPagos instance;
+
+        public static frmPagos GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new frmPagos();
+            }
+
+            return instance;
+        }
+        #endregion
+
+        int ingreso = 0;
         DataTable auxiliar = new DataTable();
 
         public frmPagos()
         {
             InitializeComponent();
+            instance = this;
             tamanioPantalla();
         }
 
@@ -61,21 +78,35 @@ namespace CoffeeLand
 
         private void cmbTipoEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-         
 
-            if (cmbTipoEmpleado.SelectedIndex == 0)
+            if (ingreso == 0)
             {
-                tblPagos.ItemsSource = null;
-                tblPagos.Items.Refresh();
-                pnlData.Visibility = Visibility.Collapsed;
-                pnlInicio.Visibility = Visibility.Visible;
-                pnlSinRegistros.Visibility = Visibility.Collapsed;
-          
-
-                //btnAbonos.IsEnabled = false;
-                //btnGuardar.IsEnabled = false;
+                if (cmbTipoEmpleado.SelectedIndex == 0)
+                {
+                    tblPagos.ItemsSource = null;
+                    tblPagos.Items.Refresh();
+                    pnlData.Visibility = Visibility.Collapsed;
+                    pnlInicio.Visibility = Visibility.Visible;
+                    pnlSinRegistros.Visibility = Visibility.Collapsed;
+                    ingreso = 1;
+                }
             }
-            else if (cmbTipoEmpleado.SelectedIndex == 1)//consultar persona permanente
+            else
+            {
+                if (cmbTipoEmpleado.SelectedIndex == 0)
+                {
+                    tblPagos.ItemsSource = null;
+                    tblPagos.Items.Refresh();
+                    pnlData.Visibility = Visibility.Collapsed;
+                    pnlInicio.Visibility = Visibility.Visible;
+                    pnlSinRegistros.Visibility = Visibility.Collapsed;
+                    btnPagar.Visibility = Visibility.Collapsed;
+                }
+            }
+
+
+     
+            if (cmbTipoEmpleado.SelectedIndex == 1)//consultar persona permanente
             {
                 auxiliar.Reset();
                 auxiliar.Columns.Add("DocumentoPersona");
@@ -92,6 +123,8 @@ namespace CoffeeLand
                     pnlSinRegistros.Visibility = Visibility.Collapsed;
                     lblTotal.Text = "$0";
                     lblTitleTipoPago.Text = "Empleado Permanente";
+                    columnDetalle.Header = "Asignar Pago";
+                    btnPagar.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -99,6 +132,7 @@ namespace CoffeeLand
                     pnlInicio.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Visible;
                     lblTotal.Text = "$0";
+                    btnPagar.Visibility = Visibility.Collapsed;
                 }
 
             }
@@ -123,12 +157,16 @@ namespace CoffeeLand
                     pnlData.Visibility = Visibility.Visible;
                     pnlInicio.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Collapsed;
+                    columnDetalle.Header = "Detalle";
+                    btnPagar.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     pnlData.Visibility = Visibility.Collapsed;
+                    pnlInicio.Visibility = Visibility.Collapsed;
                     pnlSinRegistros.Visibility = Visibility.Visible;
                     lblTotal.Text = "$0";
+                    btnPagar.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -251,6 +289,15 @@ namespace CoffeeLand
         {
             tabAsignar.Visibility = Visibility.Collapsed;
             tabBuscar.Focus(); 
+        }
+
+        private void btnOcultar_Click(object sender, RoutedEventArgs e)
+        {
+            tabAsignar.Visibility = Visibility.Collapsed;
+            tabBuscar.Focus();
+            tabInicio.Focus();
+            cmbTipoEmpleado.SelectedIndex = 0;
+            lblTotal.Text = "$0";
         }
     }
 }

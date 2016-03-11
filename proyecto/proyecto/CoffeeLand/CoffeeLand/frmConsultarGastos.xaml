@@ -20,8 +20,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <validator:CharToStringConverter x:Key="CharToStringConverter"/>
-            <validator:StringToCapitalsConverter x:Key="StringToCapitalsConverter"/>
-            <validator:StringFirstLetterToUpper x:Key="StringFirstLetterToUpper"/>
 
             <Style x:Key="CleanMetroStatusBarSeparator"
                    BasedOn="{StaticResource MetroStatusBarSeparator}"
@@ -54,8 +52,8 @@
                                       ScrollViewer.CanContentScroll="True"
                                       >
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="columnNombreConcepto" Binding="{Binding NombreConcepto,  Converter={StaticResource StringToCapitalsConverter}}"  Header="Concepto" Width="200" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnDescripcion" Binding="{Binding Descripcion, Converter={StaticResource StringFirstLetterToUpper}}"  Header="Descripción" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnNombreConcepto" Binding="{Binding NombreConcepto}"  Header="Concepto" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnDescripcion" Binding="{Binding Descripcion}"  Header="Descripción" Width="150" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="100" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnValor"  Binding="{Binding Valor,StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
                         </DataGrid.Columns>

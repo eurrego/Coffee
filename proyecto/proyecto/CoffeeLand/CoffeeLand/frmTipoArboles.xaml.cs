@@ -63,7 +63,6 @@ namespace CoffeeLand
             pnlContainer.Width = anchoContainer;
 
             tblTipoArbol.Height = height - 285;
-            tblTipoArbolesIhhabilitados.Height = height - 285;
         }
 
         //mostrar
@@ -75,53 +74,18 @@ namespace CoffeeLand
             {
                 pnlHabilitados.Visibility = Visibility.Visible;
                 pnlSinRegistros.Visibility = Visibility.Collapsed;
-                pnlInhabilitados.Visibility = Visibility.Collapsed;
-                lblPosicion.Text = "HABILITADOS";
-                lblPosicion.Foreground = Brushes.Green;
             }
             else
             {
                 lblSinRegistros.Text = "registrados o habilitados.";
                 pnlSinRegistros.Visibility = Visibility.Visible;
                 pnlHabilitados.Visibility = Visibility.Collapsed;
-                pnlInhabilitados.Visibility = Visibility.Collapsed;
-                lblPosicion.Text = "";
             }
-
-            pnlRegistrosInhabilitados.Background = Brushes.LightGray;
-            pnlRegistrosHabilitados.Background = Brushes.Silver;
 
             CantidadRegistros();
-            lblActivos.Text = (MTipoArbol.GetInstance().ConsultarInactivos().Count).ToString();
         }
 
-        //mostrar
-        public void MostrarInhabilitado()
-        {
-            tblTipoArbolesIhhabilitados.ItemsSource = MTipoArbol.GetInstance().ConsultarInactivos();
 
-            if (tblTipoArbolesIhhabilitados.Items.Count != 0)
-            {
-                pnlInhabilitados.Visibility = Visibility.Visible;
-                pnlHabilitados.Visibility = Visibility.Collapsed;
-                pnlSinRegistros.Visibility = Visibility.Collapsed;
-                lblPosicion.Text = "INHABILITADOS";
-                lblPosicion.Foreground = Brushes.Crimson;
-            }
-            else
-            {
-                lblSinRegistros.Text = "Inhabilitados";
-                pnlSinRegistros.Visibility = Visibility.Visible;
-                pnlHabilitados.Visibility = Visibility.Collapsed;
-                pnlInhabilitados.Visibility = Visibility.Collapsed;
-                lblPosicion.Text = "";
-            }
-
-            pnlRegistrosHabilitados.Background = Brushes.LightGray;
-            pnlRegistrosInhabilitados.Background = Brushes.Silver;
-            CantidadRegistros();
-            CantidadRegistrosInhabilitados();
-        }
 
         //Método para Buscar por nombre
         private void BuscarNombre()
@@ -130,22 +94,12 @@ namespace CoffeeLand
             CantidadRegistros();
         }
 
-        //Método para Buscar por nombre concepto Inhabilitado
-        private void BuscarNombreConceptoInhabilitado()
-        {
-            tblTipoArbolesIhhabilitados.ItemsSource = MTipoArbol.GetInstance().ConsultarParametroInhabilitado(txtBuscarNombre.Text);
-            CantidadRegistrosInhabilitados();
-        }
 
         private void CantidadRegistros()
         {
             lblRegistros.Text = tblTipoArbol.Items.Count.ToString();
         }
 
-        private void CantidadRegistrosInhabilitados()
-        {
-            lblActivos.Text = tblTipoArbolesIhhabilitados.Items.Count.ToString();
-        }
 
         // Validación de campos
         private bool validarCampos()
@@ -214,26 +168,30 @@ namespace CoffeeLand
                     }
                 }
             }
-            else if (IsValid(txtNombre) && IsValid(txtDescripcion))
+            else if (validarCampos())
             {
-                rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, Convert.ToInt32(txtId.Text), Convert.ToInt32(txtTiempoProduccion.Text), 2).ToString();
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblTipoArbol.IsEnabled = true;
-
-                if (pnlResultados.IsVisible)
+                if (IsValid(txtNombre) && IsValid(txtDescripcion) & IsValid(txtTiempoProduccion))
                 {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
-                }
 
-                frmArboles.GetInstance().mostrarTipoArbol();
+                    rpta = MTipoArbol.GetInstance().registrarTipoArbol(txtNombre.Text, txtDescripcion.Text, Convert.ToInt32(txtId.Text), Convert.ToInt32(txtTiempoProduccion.Text), 2).ToString();
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblTipoArbol.IsEnabled = true;
+
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
+
+                    frmArboles.GetInstance().mostrarTipoArbol();
+                }
             }
         }
 
@@ -311,58 +269,6 @@ namespace CoffeeLand
 
         }
 
-        private void btnInhabilitados_Click(object sender, RoutedEventArgs e)
-        {
-            MostrarInhabilitado();
-            pnlRegistrosHabilitados.Background = Brushes.LightGray;
-            pnlRegistrosInhabilitados.Background = Brushes.Silver;
-        }
-
-        private void btnHabilitados_Click(object sender, RoutedEventArgs e)
-        {
-            Mostrar();
-            pnlRegistrosInhabilitados.Background = Brushes.LightGray;
-            pnlRegistrosHabilitados.Background = Brushes.Silver;
-        }
-
-        private async void btnHabilitar_Click(object sender, RoutedEventArgs e)
-        {
-
-            TipoArbol item = tblTipoArbolesIhhabilitados.SelectedItem as TipoArbol;
-
-            byte id = item.idTipoArbol;
-            string nombre = item.NombreTipoArbol;
-            string descripcion = item.Descripcion;
-            byte tiempoProduccion = item.TiempoProduccion;
-
-            var mySettings = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-            };
-
-            var result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea Habilitar el Registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-            if (result.Equals(MessageDialogResult.Affirmative))
-            {
-                string rpta = "";
-
-                rpta = MTipoArbol.GetInstance().registrarTipoArbol(nombre, descripcion, id, tiempoProduccion, 4).ToString();
-                mensajeInformacion(rpta);
-
-                if (pnlResultados.IsVisible)
-                {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    MostrarInhabilitado();
-                    Mostrar();
-                }
-                frmArboles.GetInstance().mostrarTipoArbol();
-            }
-        }
-
         public ICommand textBoxButtonCmd => new RelayCommand(ExecuteSearch);
 
         private void ExecuteSearch(object o)
@@ -371,20 +277,7 @@ namespace CoffeeLand
             {
                 if (tblTipoArbol.IsVisible)
                 {
-                    btnHabilitados.IsEnabled = false;
-                    btnInhabilitados.IsEnabled = false;
-
                     BuscarNombre();
-                    lblBusqueda.Text = txtBuscarNombre.Text.ToUpper();
-                    pnlResultados.Visibility = Visibility.Visible;
-                    txtBuscarNombre.Text = string.Empty;
-                }
-                else if (tblTipoArbolesIhhabilitados.IsVisible)
-                {
-                    btnHabilitados.IsEnabled = false;
-                    btnInhabilitados.IsEnabled = false;
-
-                    BuscarNombreConceptoInhabilitado();
                     lblBusqueda.Text = txtBuscarNombre.Text.ToUpper();
                     pnlResultados.Visibility = Visibility.Visible;
                     txtBuscarNombre.Text = string.Empty;
@@ -418,13 +311,9 @@ namespace CoffeeLand
 
         private void limpiarPantalla()
         {
-            btnHabilitados.IsEnabled = true;
-            btnInhabilitados.IsEnabled = true;
-
             tabBuscar.Focus();
             pnlResultados.Visibility = Visibility.Collapsed;
             lblBusqueda.Text = string.Empty;
-            MostrarInhabilitado();
             Mostrar();
         }
     }

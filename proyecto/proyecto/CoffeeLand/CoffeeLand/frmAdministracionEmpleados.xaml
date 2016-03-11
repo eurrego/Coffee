@@ -27,8 +27,8 @@
         <TabControl>
             <TabItem  Header="Prestamos" Controls:ControlsHelper.HeaderFontSize="40">
                 <TabControl Margin="0 -10 0 0" >
-                    <TabItem x:Name="tabRegistroPrestamos" Header="" Controls:ControlsHelper.HeaderFontSize="20" >
-                      <local:frmPrestamosEmpleados/>
+                    <TabItem x:Name="tabRegistroPrestamos" Header="" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabRegistroPrestamos_IsVisibleChanged" >
+                        <ContentControl x:Name="contentPrestamos"></ContentControl>
                     </TabItem>
                 </TabControl>
             </TabItem>
@@ -36,7 +36,9 @@
                 <DockPanel>
                     <Grid VerticalAlignment="Top" DockPanel.Dock="Left" >
                         <TabControl Margin="0 -10 0 0" >
-                            <local:frmPagos></local:frmPagos>
+                            <TabItem x:Name="tabPagos" Header="" Controls:ControlsHelper.HeaderFontSize="20" IsVisibleChanged="tabPagos_IsVisibleChanged" >
+                                <ContentControl x:Name="contentPagos"></ContentControl>
+                            </TabItem>
                         </TabControl>
                     </Grid>
                 </DockPanel>

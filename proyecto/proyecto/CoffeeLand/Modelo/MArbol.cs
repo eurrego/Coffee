@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,14 +119,44 @@ namespace Modelo
             }
         }
 
-        public string gestionArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha, int idMovimiento, int opcion)
-        {
 
+        public List<Labor_Lote> ConsultarLabor(int idLote)
+        {
             using (var entity = new DBFincaEntities())
             {
-                var rpta = entity.gestionArboles(idLote, idTipoArbol, cantidad, fecha, idMovimiento, opcion).First();
-                return rpta.Mensaje;
+                var query = from c in entity.Labor_Lote
+                            where c.idLote == idLote && c.Labor.ModificaArboles == true
+                            select c;
+
+                return query.ToList();
             }
+        }
+
+        public string gestionArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha, int idMovimiento, int opcion)
+        {
+            try
+            {
+                using (var entity = new DBFincaEntities())
+                {
+                    var rpta = entity.gestionArboles(idLote, idTipoArbol, cantidad, fecha, idMovimiento, opcion).First();
+                    return rpta.Mensaje;
+                }
+            }
+            catch (Exception ex)
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
+
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+                return "Ha ocurrido un error inesperado, consulte con el administrador del sistema";
+            }
+          
         }
     }
 }

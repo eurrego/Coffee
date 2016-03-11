@@ -211,23 +211,26 @@ namespace CoffeeLand
                     }
                 }
             }
-            else if (IsValid(txtNombre) && IsValid(txtDescripcion))
+            else if (validarCampos())
             {
-                rpta = MProducto.GetInstance().GestionProducto(txtNombre.Text, txtDescripcion.Text, Convert.ToByte(txtId.Text), 2).ToString();
-                mensajeInformacion(rpta);
-                Limpiar();
-                tabBuscar.IsEnabled = true;
-                tabNuevo.Header = "NUEVO";
-                tabBuscar.Focus();
-                tblProductos.IsEnabled = true;
+                if (IsValid(txtNombre) && IsValid(txtDescripcion))
+                {
+                    rpta = MProducto.GetInstance().GestionProducto(txtNombre.Text, txtDescripcion.Text, Convert.ToByte(txtId.Text), 2).ToString();
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                    tabBuscar.IsEnabled = true;
+                    tabNuevo.Header = "NUEVO";
+                    tabBuscar.Focus();
+                    tblProductos.IsEnabled = true;
 
-                if (pnlResultados.IsVisible)
-                {
-                    limpiarPantalla();
-                }
-                else
-                {
-                    Mostrar();
+                    if (pnlResultados.IsVisible)
+                    {
+                        limpiarPantalla();
+                    }
+                    else
+                    {
+                        Mostrar();
+                    }
                 }
             }
         }

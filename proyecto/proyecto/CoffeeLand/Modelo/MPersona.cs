@@ -92,7 +92,6 @@ namespace Modelo
                 catch (Exception ex)
                 {
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
                     string filePath = @""+ path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))

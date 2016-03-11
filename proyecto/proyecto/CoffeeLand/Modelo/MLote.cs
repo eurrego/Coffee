@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modelo.Format;
 
 
 namespace Modelo
@@ -50,6 +51,18 @@ namespace Modelo
             }
         }
 
+        public List<Arboles> ConsultarArboles(int idLote)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Arboles
+                            where c.idLote == idLote 
+                            select c;
+                return query.ToList();
+            }
+        }
+
         public List<Lote> ConsultarParametroLote(string parametro)
         {
             using (var entity = new DBFincaEntities())
@@ -82,12 +95,13 @@ namespace Modelo
             {
                 try
                 {
-                    var rpta = entity.gestionLotes(NombreLote.ToUpper(), observaciones.ToUpper(), cuadras, idLote, opcion).First();
+                    var rpta = entity.gestionLotes(Converter.GetInstance().StringToCapitalsConverter(NombreLote), Converter.GetInstance().StringFirtsLetterToUpper(observaciones), cuadras, idLote, opcion).First();
                     return rpta.Mensaje;
                 }
                 catch (Exception ex)
                 {
-                    string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
                     using (StreamWriter writer = new StreamWriter(filePath, true))
                     {

@@ -250,9 +250,9 @@ namespace CoffeeLand
                     }
                 }
             }
-            else
+            else if (validarCampos())
             {
-                if (validarCampos())
+                if (IsValid(txtNombre) && IsValid(txtTelefono) && IsValid(txtDocumento))
                 {
                     rpta = MPersona.GetInstance().GestionPersona(txtNombre.Text, Convert.ToString(cmbGenero.SelectedItem), txtTelefono.Text, Convert.ToDateTime(dtdFechaNacimiento.SelectedDate), Convert.ToInt32(txtId.Text), 2, Convert.ToString(cmbTipoDocumento.SelectedItem), Convert.ToString(cmbTipoContrato.SelectedItem));
                     mensajeInformacion(rpta);

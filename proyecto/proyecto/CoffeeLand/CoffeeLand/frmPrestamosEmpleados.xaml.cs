@@ -203,6 +203,16 @@ namespace CoffeeLand
             return validacion;
         }
 
+        public static bool IsValid(DependencyObject parent)
+        {
+            if (Validation.GetHasError(parent))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
 
@@ -210,11 +220,14 @@ namespace CoffeeLand
 
             if (validarCampos())
             {
-                rpta = MPrestamosEmpleados.GetInstance().insercionDeudaEmpleado(cmbEmpleado.SelectedValue.ToString(), Convert.ToDecimal(txtValor.Text), Convert.ToDateTime(dtdFecha.SelectedDate), txtDescripcion.Text).ToString();
-                tabBuscar.IsEnabled = true;
-                tabBuscar.Focus();
-                mensajeInformacion(rpta);
-                Limpiar();
+                if (IsValid(txtValor) && IsValid(txtDescripcion))
+                {
+                    rpta = MPrestamosEmpleados.GetInstance().insercionDeudaEmpleado(cmbEmpleado.SelectedValue.ToString(), Convert.ToDecimal(txtValor.Text), Convert.ToDateTime(dtdFecha.SelectedDate), txtDescripcion.Text).ToString();
+                    tabBuscar.IsEnabled = true;
+                    tabBuscar.Focus();
+                    mensajeInformacion(rpta);
+                    Limpiar();
+                }
             }
             MostrarDeudas();
             mostrarMovimiento();
@@ -236,77 +249,80 @@ namespace CoffeeLand
 
             if (txtAbono.Text != string.Empty)
             {
-                decimal valor = Convert.ToDecimal(txtAbono.Text);
+                if (IsValid(txtAbono))
+                {
+                    decimal valor = Convert.ToDecimal(txtAbono.Text);
 
-                if (Convert.ToInt32(deudaTotal()) < Convert.ToInt32(valor))
-                {
-                    mensajeError("El valor del Abono no debe superar el total del Prestamo");
-                    txtAbono.Text = string.Empty;
-                }
-                else
-                {
-                    while (valor != 0)
+                    if (Convert.ToInt32(deudaTotal()) < Convert.ToInt32(valor))
                     {
-                        DateTime newDate = DateTime.Now;
-                        int idDeuda = 0;
-                        decimal valorTotal = 0;
-
-                        for (int i = 0; i < tblPrestamos.Items.Count; i++)
-                        {
-                            tblPrestamos.SelectedIndex = i;
-                            DeudaPersona item = tblPrestamos.SelectedItem as DeudaPersona;
-
-                            var fecha = item.Fecha;
-
-                            TimeSpan ts = newDate - fecha;
-
-                            if (ts.Days > 0)
-                            {
-                                newDate = fecha;
-                                idDeuda = item.idDeudaPersona;
-                                valorTotal = item.Valor;
-                            }
-                            else if (ts.Days == 0)
-                            {
-                                newDate = fecha;
-                                idDeuda = item.idDeudaPersona;
-                                valorTotal = item.Valor;
-                            }
-                        }
-
-                        if (valor == valorTotal)
-                        {
-                            rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valor, DateTime.Now, idDeuda, 1);
-                            valor = 0;
-                        }
-                        else if (valorTotal > valor)
-                        {
-                            rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valor, DateTime.Now, idDeuda, 2);
-                            valor = 0;
-                        }
-                        else if (valorTotal < valor)
-                        {
-                            rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valorTotal, DateTime.Now, idDeuda, 3);
-                            valor = valor - valorTotal;
-                        }
-
-                        Limpiar();
-                        MostrarDeudas();
-                        mostrarMovimiento();
+                        mensajeError("El valor del Abono no debe superar el total del Prestamo");
+                        txtAbono.Text = string.Empty;
                     }
-                    mensajeInformacion(rpta);
-
-                    tabBuscar.Focus();
-                    if (tblPrestamos.Items.Count == 0)
+                    else
                     {
-                        lblSuperior.Text = "Este empleado no tiene";
-                        lblInferior.Text = "deudas pendientes";
-                        pnlInicio.Visibility = Visibility.Visible;
-                        pnlData.Visibility = Visibility.Collapsed;
-                        tabNuevo.Visibility = Visibility.Visible;
-                        tabAbono.Visibility = Visibility.Collapsed;
-                        btnAbono.Visibility = Visibility.Collapsed;
-                        btnNuevo.Visibility = Visibility.Visible;
+                        while (valor != 0)
+                        {
+                            DateTime newDate = DateTime.Now;
+                            int idDeuda = 0;
+                            decimal valorTotal = 0;
+
+                            for (int i = 0; i < tblPrestamos.Items.Count; i++)
+                            {
+                                tblPrestamos.SelectedIndex = i;
+                                DeudaPersona item = tblPrestamos.SelectedItem as DeudaPersona;
+
+                                var fecha = item.Fecha;
+
+                                TimeSpan ts = newDate - fecha;
+
+                                if (ts.Days > 0)
+                                {
+                                    newDate = fecha;
+                                    idDeuda = item.idDeudaPersona;
+                                    valorTotal = item.Valor;
+                                }
+                                else if (ts.Days == 0)
+                                {
+                                    newDate = fecha;
+                                    idDeuda = item.idDeudaPersona;
+                                    valorTotal = item.Valor;
+                                }
+                            }
+
+                            if (valor == valorTotal)
+                            {
+                                rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valor, DateTime.Now, idDeuda, 1);
+                                valor = 0;
+                            }
+                            else if (valorTotal > valor)
+                            {
+                                rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valor, DateTime.Now, idDeuda, 2);
+                                valor = 0;
+                            }
+                            else if (valorTotal < valor)
+                            {
+                                rpta = MPrestamosEmpleados.GetInstance().insercionAbonoDeuda(valorTotal, DateTime.Now, idDeuda, 3);
+                                valor = valor - valorTotal;
+                            }
+
+                            Limpiar();
+                            MostrarDeudas();
+                            mostrarMovimiento();
+                        }
+                        mensajeInformacion(rpta);
+
+                        tabBuscar.Focus();
+                        if (tblPrestamos.Items.Count == 0)
+                        {
+                            lblSuperior.Text = "Este empleado no tiene";
+                            lblInferior.Text = "deudas pendientes";
+                            pnlInicio.Visibility = Visibility.Visible;
+                            pnlData.Visibility = Visibility.Collapsed;
+                            tabNuevo.Visibility = Visibility.Visible;
+                            tabAbono.Visibility = Visibility.Collapsed;
+                            btnAbono.Visibility = Visibility.Collapsed;
+                            btnNuevo.Visibility = Visibility.Visible;
+                        }
                     }
                 }
             }

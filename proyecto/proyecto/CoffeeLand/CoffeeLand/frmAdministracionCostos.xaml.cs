@@ -58,5 +58,17 @@ namespace CoffeeLand
             contentRegistroGasto.Content = miGasto;
 
         }
+
+        private void tabConsulta_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            frmEstadoCuenta misCuentas = new frmEstadoCuenta();
+            contentCuentas.Content = misCuentas;
+        }
+
+        private void TabItem_Selected(object sender, RoutedEventArgs e)
+        {
+            frmExistencias misExistencias = new frmExistencias();
+            contentExistencias.Content = misExistencias;
+        }
     }
 }

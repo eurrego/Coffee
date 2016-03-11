@@ -58,6 +58,7 @@ namespace CoffeeLand
             tamanioPAntalla();
             MainContainer.Content = miInicio;
             lblTitulo.Text = "Inicio";
+           
         }
 
         private void tamanioPAntalla()
@@ -77,9 +78,20 @@ namespace CoffeeLand
             tblUsuariosIhhabilitados.Height = height - 285;
         }
 
+        private void AccesoRol()
+        {
+            if (MUsuario.GetInstance().rol == "Empleado")
+            {
+                MenuVentas.Visibility = Visibility.Collapsed;
+                MenuReportes.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
         private void btnMenu_Click(object sender, RoutedEventArgs e)
         {
             Menu.IsOpen = true;
+            AccesoRol();
         }
 
         private void btnInicio_Click(object sender, RoutedEventArgs e)
@@ -87,6 +99,7 @@ namespace CoffeeLand
             lblTitulo.Text = "Inicio";
             MainContainer.Content = miInicio;
             Menu.IsOpen = false;
+            frmInicio.GetInstance().mostrar();
         }
 
         private void btnGestionTerrenos_Click(object sender, RoutedEventArgs e)
@@ -425,55 +438,63 @@ namespace CoffeeLand
             }
             else
             {
-                if (txtContrasena.Password == txtConfirmarContrasena.Password)
+                if (validarCampos())
                 {
-
-                    if (verificarRol())
+                    if (IsValid(txtUsuario) && IsValid(txtRespuesta) && IsValid(txtContrasena) && IsValid(txtConfirmarContrasena))
                     {
-                        rpta = MUsuario.GetInstance().GestionUsuario(Convert.ToInt32(txtId.Text), txtUsuario.Text, Convert.ToString(cmbRol.SelectedItem), Encriptar(txtContrasena.Password.ToString()), Convert.ToString(cmbPregunta.SelectedItem), txtRespuesta.Text, 2);
-                        mensajeInformacion(rpta);
 
-                        if (lblIdUser.Text == txtId.Text)
+
+                        if (txtContrasena.Password == txtConfirmarContrasena.Password)
                         {
-                            MUsuario.GetInstance().rol = Convert.ToString(cmbRol.SelectedItem);
 
-                            if (MUsuario.GetInstance().rol == "Empleado")
+                            if (verificarRol())
                             {
-                                frmUsuario.IsOpen = false;
-                                btnMenu.Visibility = Visibility.Visible;
-                                lblTitulo.Visibility = Visibility.Visible;
-                                frmUsuario.IsPinned = false;
+                                rpta = MUsuario.GetInstance().GestionUsuario(Convert.ToInt32(txtId.Text), txtUsuario.Text, Convert.ToString(cmbRol.SelectedItem), Encriptar(txtContrasena.Password.ToString()), Convert.ToString(cmbPregunta.SelectedItem), txtRespuesta.Text, 2);
+                                mensajeInformacion(rpta);
+
+                                if (lblIdUser.Text == txtId.Text)
+                                {
+                                    MUsuario.GetInstance().rol = Convert.ToString(cmbRol.SelectedItem);
+
+                                    if (MUsuario.GetInstance().rol == "Empleado")
+                                    {
+                                        frmUsuario.IsOpen = false;
+                                        btnMenu.Visibility = Visibility.Visible;
+                                        lblTitulo.Visibility = Visibility.Visible;
+                                        frmUsuario.IsPinned = false;
+                                    }
+                                }
+
+                                Limpiar();
+                                tabBuscar.IsEnabled = true;
+                                tabNuevo.Header = "NUEVO";
+                                tabBuscar.Focus();
+                                tblUsuarios.IsEnabled = true;
+
+                                if (pnlResultados.IsVisible)
+                                {
+                                    limpiarPantalla();
+                                }
+                                else
+                                {
+                                    Mostrar();
+                                }
                             }
-                        }
-
-                        Limpiar();
-                        tabBuscar.IsEnabled = true;
-                        tabNuevo.Header = "NUEVO";
-                        tabBuscar.Focus();
-                        tblUsuarios.IsEnabled = true;
-
-                        if (pnlResultados.IsVisible)
-                        {
-                            limpiarPantalla();
+                            else
+                            {
+                                mensajeError("No se puede cambiar el rol, siempre debe existir un usuario con rol de administrador");
+                                Limpiar();
+                                tabBuscar.IsEnabled = true;
+                                tabBuscar.Focus();
+                                tabNuevo.Header = "NUEVO";
+                                tblUsuarios.IsEnabled = true;
+                            }
                         }
                         else
                         {
-                            Mostrar();
+                            mensajeError("Las contraseñas no coinciden");
                         }
                     }
-                    else
-                    {
-                        mensajeError("No se puede cambiar el rol, siempre debe existir un usuario con rol de administrador");
-                        Limpiar();
-                        tabBuscar.IsEnabled = true;
-                        tabBuscar.Focus();
-                        tabNuevo.Header = "NUEVO";
-                        tblUsuarios.IsEnabled = true;
-                    }
-                }
-                else
-                {
-                    mensajeError("Las contraseñas no coinciden");
                 }
             }
         }
@@ -786,9 +807,9 @@ namespace CoffeeLand
 
         private void cmbRol_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbRol.SelectedIndex > 0 )
+            if (cmbRol.SelectedIndex > 0)
             {
-                
+
             }
         }
     }

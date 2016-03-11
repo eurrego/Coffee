@@ -67,17 +67,80 @@ namespace Modelo
         }
 
         public decimal ConsultarProduccion()
-
         {
             using (var entity = new DBFincaEntities())
             {
 
                 var query = entity.Consultasproduccion().First();
+                decimal? valor = query.Cargas;
 
-                return query.Cargas.Value;
+                if (valor == null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return query.Cargas.Value;
+                }
 
             }
         }
+
+        public object ConsultarVentas()
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.Venta
+                            join p in entity.Producto on c.idProducto equals p.idProducto
+                            group c by new
+                            {
+                                p.NombreProducto,
+                                c.Fecha,
+                                c.PrecioCarga,
+                                c.CantidadCargas
+
+                            } into result
+                            select new
+                            {
+                                NombreProducto = result.Key.NombreProducto,
+                                Fecha = result.Key.Fecha,
+                                PrecioCarga = result.Key.PrecioCarga,
+                                CantidadCargas = result.Key.CantidadCargas,
+                                Total = result.Sum(m => m.PrecioCarga * m.CantidadCargas)
+                            };
+                return query.ToList();
+            }
+        }
+
+        public object ConsultaVentasFecha(DateTime parametroInicial, DateTime parametroFinal)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from v in entity.Venta
+                            join c in entity.Producto on v.idProducto equals c.idProducto
+                            where v.Fecha >= parametroInicial && v.Fecha <= parametroFinal
+                            group v by new
+                            {
+                                c.NombreProducto,
+                                v.Fecha,
+                                v.PrecioCarga,
+                                v.CantidadCargas
+
+                            } into result
+                            select new
+                            {
+                                NombreProducto = result.Key.NombreProducto,
+                                Fecha = result.Key.Fecha,
+                                PrecioCarga = result.Key.PrecioCarga,
+                                CantidadCargas = result.Key.CantidadCargas,
+                                Total = result.Sum(m => m.PrecioCarga * m.CantidadCargas)
+                            };
+
+                return query.ToList();
+            }
+        }
+
 
 
         public void GestionVenta(int nit, DateTime fecha, int numeroFactura, int idProducto, decimal PrecioCarga, decimal CantidadCargas, decimal PrecioBeneficio)

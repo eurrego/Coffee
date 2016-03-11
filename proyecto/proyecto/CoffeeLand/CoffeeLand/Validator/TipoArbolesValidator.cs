@@ -85,6 +85,14 @@ namespace CoffeeLand.Validator
                         }
                         break;
                     case "TiempoProduccion":
+
+                        int tiempo = 0;
+
+                        if (tiempoProduccion != string.Empty)
+                        {
+                            tiempo = Convert.ToInt32(tiempoProduccion);
+                        }
+
                         if (string.IsNullOrEmpty(tiempoProduccion))
                         {
                             result = "El campo es obligatorio.";
@@ -95,9 +103,16 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (tiempoProduccion.Equals("0"))
+                            else
                             {
-                                result = "El valor no puede ser cero";
+                                if (tiempoProduccion.Equals("0"))
+                                {
+                                    result = "El valor no puede ser cero";
+                                }
+                                else if (tiempo > 254)
+                                {
+                                    result = "El tiempo de producción debe ser menor de 254 meses";
+                                }         
                             }
                         }
                         break;
