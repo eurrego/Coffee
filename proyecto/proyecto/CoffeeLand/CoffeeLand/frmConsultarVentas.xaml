@@ -43,7 +43,7 @@
                 </Grid>
 
                 <Grid x:Name="pnlData" Visibility="Visible"  Margin="20 30 0 25" >
-                    <DataGrid x:Name="tblGastos" 
+                    <DataGrid x:Name="tblVentas" 
                                       HeadersVisibility="All"
                                       SelectionUnit="FullRow"
                                       CanUserAddRows="False" 
@@ -52,10 +52,11 @@
                                       ScrollViewer.CanContentScroll="True"
                                       >
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="columnNombreConcepto" Binding="{Binding NombreConcepto}"  Header="Concepto" Width="200" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnDescripcion" Binding="{Binding Descripcion}"  Header="Descripción" Width="150" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="100" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnValor"  Binding="{Binding Valor,StringFormat={}{0:c}}" Header="Valor" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding NombreProducto}"  Header="Producto" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="120" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding PrecioCarga,StringFormat={}{0:c}}" Header="Precio Carga" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding CantidadCargas, StringFormat={}{0:n}}" Header="cantidad" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Total,StringFormat={}{0:c}}" Header="Total" Width="120" IsReadOnly="True"/>
                         </DataGrid.Columns>
                         <DataGrid.Style>
                             <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">

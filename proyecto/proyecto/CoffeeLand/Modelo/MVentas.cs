@@ -109,9 +109,35 @@ namespace Modelo
                                 CantidadCargas = result.Key.CantidadCargas,
                                 Total = result.Sum(m => m.PrecioCarga * m.CantidadCargas)
                             };
+                return query.ToList();
+            }
+        }
+
+        public object ConsultaVentasFecha(DateTime parametroInicial, DateTime parametroFinal)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from v in entity.Venta
+                            join c in entity.Producto on v.idProducto equals c.idProducto
+                            where v.Fecha >= parametroInicial && v.Fecha <= parametroFinal
+                            group v by new
+                            {
+                                c.NombreProducto,
+                                v.Fecha,
+                                v.PrecioCarga,
+                                v.CantidadCargas
+
+                            } into result
+                            select new
+                            {
+                                NombreProducto = result.Key.NombreProducto,
+                                Fecha = result.Key.Fecha,
+                                PrecioCarga = result.Key.PrecioCarga,
+                                CantidadCargas = result.Key.CantidadCargas,
+                                Total = result.Sum(m => m.PrecioCarga * m.CantidadCargas)
+                            };
 
                 return query.ToList();
-
             }
         }
 
