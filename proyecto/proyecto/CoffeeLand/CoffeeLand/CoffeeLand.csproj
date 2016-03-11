@@ -124,6 +124,9 @@
     <Compile Include="frmEstadoCuenta.xaml.cs">
       <DependentUpon>frmEstadoCuenta.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmExistencias.xaml.cs">
+      <DependentUpon>frmExistencias.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmGastos.xaml.cs">
       <DependentUpon>frmGastos.xaml</DependentUpon>
     </Compile>
@@ -332,6 +335,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmEstadoCuenta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmExistencias.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

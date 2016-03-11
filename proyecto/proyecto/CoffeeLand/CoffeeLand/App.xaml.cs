@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modelo;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -29,6 +30,12 @@ namespace CoffeeLand
             {
                 // aqui cambio el procedimiento para cerrar la aplicación al cerrar el MainWindow.
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+                if (MUsuario.GetInstance().rol == "Empleado")
+                {
+                    frmInicio.GetInstance().btnActualizar.Visibility = Visibility.Collapsed;
+                    frmInicio.GetInstance().btnUpdate.Visibility = Visibility.Collapsed;
+                }
                 principal.Show(); // inicia la aplicación.
             }
         }

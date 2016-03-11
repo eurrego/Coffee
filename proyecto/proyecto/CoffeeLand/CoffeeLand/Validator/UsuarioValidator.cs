@@ -64,19 +64,11 @@ namespace CoffeeLand.Validator
                         {
                             result = "El campo es obligatorio.";
                         }
-                        else
+                        else if (usuario.Length > 15)
                         {
-                            if (!letras.IsMatch(usuario))
-                            {
-                                result = "El campo solo acepta letras.";
-                            }
-                            else
-                            {
-                                if (usuario.Length > 45)
-                                {
-                                    result = "El nombre debe ser menor que 45 caracteres.";
-                                }
-                            }
+
+                            result = "El nombre de usuario debe ser menor que 15 caracteres.";
+
                         }
                         break;
 
@@ -87,9 +79,9 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                            if (contrasena.Length > 10)
+                            if (contrasena.Length > 40)
                             {
-                                result = "La contraseña debe ser menor que 10 caracteres.";
+                                result = "La contraseña debe ser menor que 40 caracteres.";
                             }
                         }
                         break;
@@ -104,9 +96,9 @@ namespace CoffeeLand.Validator
                             {
                                 result = "La contraseñas no coinciden";
                             }
-                            else if (confirmarContrasena.Length >10)
+                            else if (confirmarContrasena.Length > 40)
                             {
-                                result = "La contraseña debe ser menor que 10 caracteres.";
+                                result = "La contraseña debe ser menor que 40 caracteres.";
                             }
                         }
                         break;
@@ -117,10 +109,10 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                                if (respuesta.Length > 45)
-                                {
-                                    result = "La respuesta debe ser menor que 45 caracteres.";
-                                }
+                            if (respuesta.Length > 30)
+                            {
+                                result = "La respuesta debe ser menor que 30 caracteres.";
+                            }
 
                         }
                         break;
