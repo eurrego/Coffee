@@ -69,7 +69,18 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreCommand(command, datos);
         }
 
-      
+        public virtual int SP_InsertMovimientoArbloes(DataTable dtDatos)
+        {
+            var datos = new SqlParameter("dtMovimientoArboles", SqlDbType.Structured);
+            datos.Value = dtDatos;
+            datos.TypeName = "dbo.MovimientoArboles";
+
+            string command = "EXEC insertarMovimentoArboles @dtMovimientoArboles";
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreCommand(command, datos);
+        }
+
+
 
     }
 }

@@ -10,12 +10,12 @@ namespace CoffeeLand.Validator
 {
     public class TerrenosValidator : IDataErrorInfo
     {
-        private string cantidad = string.Empty;
+        private string cantidadInsumo = string.Empty;
 
-        public string Cantidad
+        public string CantidadInsumo
         {
-            get { return cantidad; }
-            set { cantidad = value; }
+            get { return cantidadInsumo; }
+            set { cantidadInsumo = value; }
         }
 
         private string cantidadEmpleados = string.Empty;
@@ -33,6 +33,15 @@ namespace CoffeeLand.Validator
             get { return valor; }
             set { valor = value; }
         }
+
+        private string cantidadArbolesAModificar = string.Empty;
+
+        public string CantidadArbolesAModificar
+        {
+            get { return cantidadArbolesAModificar; }
+            set { cantidadArbolesAModificar = value; }
+        }
+
 
         public string Error
         {
@@ -52,18 +61,18 @@ namespace CoffeeLand.Validator
                 switch (name)
                 {
 
-                    case "Cantidad":
-                        if (string.IsNullOrEmpty(cantidad))
+                    case "CantidadInsumo":
+                        if (string.IsNullOrEmpty(cantidadInsumo))
                         {
                             result = "El campo es obligatorio.";
                         }
                         else
                         {
-                            if (!numeros.IsMatch(cantidad))
+                            if (!numeros.IsMatch(cantidadInsumo))
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (cantidad.Equals("0"))
+                            else if (cantidadInsumo.Equals("0"))
                             {
                                 result = "La cantidad no puede ser cero";
                             }
@@ -100,6 +109,24 @@ namespace CoffeeLand.Validator
                             else if (valor.Equals("0"))
                             {
                                 result = "El valor no puede ser cero";
+                            }
+                        }
+                        break;
+
+                    case "CantidadArbolesAModificar":
+                        if (string.IsNullOrEmpty(cantidadArbolesAModificar))
+                        {
+                            result = "El campo es obligatorio.";
+                        }
+                        else
+                        {
+                            if (!numeros.IsMatch(cantidadArbolesAModificar))
+                            {
+                                result = "El campo solo acepta números.";
+                            }
+                            else if (cantidadArbolesAModificar.Equals("0"))
+                            {
+                                result = "La cantidad no puede ser cero";
                             }
                         }
                         break;

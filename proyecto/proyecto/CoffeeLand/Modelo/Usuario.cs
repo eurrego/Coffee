@@ -17,9 +17,9 @@ namespace Modelo
         public short idUsuario { get; set; }
         public string Nickname { get; set; }
         public string Rol { get; set; }
+        public string Contrasena { get; set; }
         public string PreguntaSeguridad { get; set; }
         public string Respuesta { get; set; }
         public string EstadoUsuario { get; set; }
-        public string Contrasena { get; set; }
     }
 }

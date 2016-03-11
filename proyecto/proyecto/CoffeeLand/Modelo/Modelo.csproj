@@ -85,6 +85,12 @@
     <Compile Include="Concepto.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
+    <Compile Include="consultarMovimientosArboles_Result.cs">
+      <DependentUpon>DBFinca.tt</DependentUpon>
+    </Compile>
+    <Compile Include="consultarMovimientosArboles_Result1.cs">
+      <DependentUpon>DBFinca.tt</DependentUpon>
+    </Compile>
     <Compile Include="Consultasproduccion_Result.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
@@ -109,13 +115,7 @@
     <Compile Include="Departamento.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
-    <Compile Include="DetalleSalario1_Result.cs">
-      <DependentUpon>DBFinca.tt</DependentUpon>
-    </Compile>
     <Compile Include="DetalleSalario_Result.cs">
-      <DependentUpon>DBFinca.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DetalleSalario_Result1.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
     <Compile Include="DeudaPersona.cs">
@@ -128,9 +128,6 @@
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
     <Compile Include="Format\Converter.cs" />
-    <Compile Include="gestionArboles2_Result.cs">
-      <DependentUpon>DBFinca.tt</DependentUpon>
-    </Compile>
     <Compile Include="gestionArboles_Result.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
@@ -196,9 +193,6 @@
     <Compile Include="MInsumo.cs" />
     <Compile Include="MLabores.cs" />
     <Compile Include="MLote.cs" />
-    <Compile Include="ModificarFinca_Result.cs">
-      <DependentUpon>DBFinca.tt</DependentUpon>
-    </Compile>
     <Compile Include="MovimientoProduccion.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
@@ -266,19 +260,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="DBFinca.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBFinca.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="DBFinca.edmx.diagram">
       <DependentUpon>DBFinca.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DBFinca.Context.tt">
@@ -292,10 +287,6 @@
       <LastGenOutput>DBFinca.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

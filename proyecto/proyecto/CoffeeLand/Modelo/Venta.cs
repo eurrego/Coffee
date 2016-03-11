@@ -17,8 +17,8 @@ namespace Modelo
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Venta()
         {
-            this.MovimientoProduccion = new HashSet<MovimientoProduccion>();
             this.CostoBeneficio = new HashSet<CostoBeneficio>();
+            this.MovimientoProduccion = new HashSet<MovimientoProduccion>();
         }
     
         public int idVenta { get; set; }
@@ -28,9 +28,9 @@ namespace Modelo
         public decimal CantidadCargas { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CostoBeneficio> CostoBeneficio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovimientoProduccion> MovimientoProduccion { get; set; }
         public virtual Producto Producto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CostoBeneficio> CostoBeneficio { get; set; }
     }
 }

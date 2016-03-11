@@ -23,13 +23,13 @@ namespace Modelo
         }
     
         public string DocumentoPersona { get; set; }
+        public string TipoDocumento { get; set; }
+        public string TipoContratoPersona { get; set; }
         public string NombrePersona { get; set; }
         public string Genero { get; set; }
         public string Telefono { get; set; }
         public System.DateTime FechaNacimineto { get; set; }
         public string EstadoPersona { get; set; }
-        public string TipoDocumento { get; set; }
-        public string TipoContratoPersona { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeudaPersona> DeudaPersona { get; set; }

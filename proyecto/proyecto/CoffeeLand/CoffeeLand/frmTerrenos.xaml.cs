@@ -41,13 +41,19 @@ namespace CoffeeLand
 
         #endregion
 
-        public static DataTable dt;
-        public static DataTable dt1;
+        private static DataTable dtInsumo;
+        private static DataTable dtPersona;
+        private static DataTable dtArboles;
+        private static DataTable dtMovimientoArboles;
 
-        int init = 0;
-        int init1 = 0;
+        int initInsumo = 0;
+        int initPersona = 0;
+        int initArboles = 0;
+        int initMovimientoArboles = 0;
         int index = -1;
         int cantidadArboles = 0;
+
+        consultarMovimientosArboles_Result1 item;
 
         bool validacion = false;
 
@@ -121,7 +127,7 @@ namespace CoffeeLand
             switch (opc)
             {
                 case 1:
-                    if (cmbTipoPago.SelectedIndex == 0 || dtdFechaLabor.SelectedDate == null || lblLabores.Text.Equals("Seleccione un"))
+                    if (cmbTipoPago.SelectedIndex == 0 || dtdFechaLabor.SelectedDate == null || lblLabores.Text.Equals("Seleccione una"))
                     {
                         mensajeError("Debe Ingresar todos los Campos");
                         validacion = false;
@@ -216,31 +222,57 @@ namespace CoffeeLand
             {
                 case 1:
 
-                    if (init == 0)
+                    if (initInsumo == 0)
                     {
-                        dt = new DataTable();
-                        dt.Columns.Add("idLabor_Lote");
-                        dt.Columns.Add("IdInsumo");
-                        dt.Columns.Add("Cantidad");
-                        dt.Columns.Add("Precio");
-                        dt.Columns.Add("NombreInsumo");
-                        init++;
+                        dtInsumo = new DataTable();
+                        dtInsumo.Columns.Add("idLabor_Lote");
+                        dtInsumo.Columns.Add("IdInsumo");
+                        dtInsumo.Columns.Add("Cantidad");
+                        dtInsumo.Columns.Add("Precio");
+                        dtInsumo.Columns.Add("NombreInsumo");
+                        initInsumo++;
                     }
                     break;
 
                 case 2:
 
-                    if (init1 == 0)
+                    if (initPersona == 0)
                     {
-                        dt1 = new DataTable();
-                        dt1.Columns.Add("DocumentoPersona");
-                        dt1.Columns.Add("idLabor_Lote");
-                        dt1.Columns.Add("Cantidad");
-                        dt1.Columns.Add("Valor");
-                        dt1.Columns.Add("NombrePersona");
+                        dtPersona = new DataTable();
+                        dtPersona.Columns.Add("DocumentoPersona");
+                        dtPersona.Columns.Add("idLabor_Lote");
+                        dtPersona.Columns.Add("Cantidad");
+                        dtPersona.Columns.Add("Valor");
+                        dtPersona.Columns.Add("NombrePersona");
 
-                        init1++;
+                        initPersona++;
                     }
+                    break;
+
+                case 3:
+
+                    if (initArboles == 0)
+                    {
+                        dtArboles = new DataTable();
+                        dtArboles.Columns.Add("idMovimientosArboles");
+                        dtArboles.Columns.Add("NombreTipoArbol");
+                        dtArboles.Columns.Add("Cantidad");
+                        dtArboles.Columns.Add("Fecha");
+                        initArboles++;
+                    }
+                    break;
+                case 4:
+                    if (initMovimientoArboles == 0)
+                    {
+                        dtMovimientoArboles = new DataTable();
+                        dtMovimientoArboles.Columns.Add("idMovimiento");
+                        dtMovimientoArboles.Columns.Add("idArbol");
+                        dtMovimientoArboles.Columns.Add("NombreArbol");
+                        dtMovimientoArboles.Columns.Add("Cantidad");
+                        dtMovimientoArboles.Columns.Add("Fecha", typeof(DateTime));
+                        initMovimientoArboles++;
+                    }
+
                     break;
             }
         }
@@ -304,7 +336,7 @@ namespace CoffeeLand
         {
             if (Validar(1))
             {
-             
+
                 Labor item = tblLabores.SelectedItem as Labor;
 
                 if (item.ModificaArboles && cmbTipoPago.SelectedItem.Equals("Contrato") || item.NombreLabor.Equals("Recoleccion") && cmbTipoPago.SelectedItem.Equals("Contrato"))
@@ -332,8 +364,8 @@ namespace CoffeeLand
                         tabEmpleados.Focus();
                         btnEmpleado.IsChecked = true;
                     }
-                   
-                   
+
+
                 }
                 else if (item.NombreLabor.Equals("Recoleccion"))
                 {
@@ -345,9 +377,9 @@ namespace CoffeeLand
                     mensajeError("La labor modifica el tipo de árbol, por lo tanto el tipo de pago solo puede ser por contrato");
                 }
 
-              
 
-                
+
+
             }
         }
 
@@ -390,12 +422,12 @@ namespace CoffeeLand
                 {
                     for (int i = 0; i < tblInsumos.Items.Count; i++)
                     {
-                        int id = Convert.ToInt32(dt.Rows[i].ItemArray[1]);
+                        int id = Convert.ToInt32(dtInsumo.Rows[i].ItemArray[1]);
                         int idCmb = Convert.ToInt32(cmbInsumo.SelectedValue);
 
                         if (idCmb == id)
                         {
-                            cantidad += Convert.ToInt32(dt.Rows[i].ItemArray[2]);
+                            cantidad += Convert.ToInt32(dtInsumo.Rows[i].ItemArray[2]);
                         }
                     }
 
@@ -428,14 +460,37 @@ namespace CoffeeLand
 
                     if (int.Parse(lblStock.Text) >= int.Parse(txtCantidadInsumo.Text))
                     {
-                        dt.Rows.Add(null, cmbInsumo.SelectedValue, txtCantidadInsumo.Text, insumo.PrecioPromedio, cmbInsumo.Text);
+                        int indexrow = -1;
+                        long CantidadInsumo = 0;
 
-                        tblInsumos.ItemsSource = dt.DefaultView;
+                        for (int i = 0; i < dtInsumo.Rows.Count; i++)
+                        {
+                            if (Convert.ToInt64(dtInsumo.Rows[i].ItemArray[1]) == Convert.ToInt64(insumo.idInsumo))
+                            {
+                                CantidadInsumo += Convert.ToInt64(dtInsumo.Rows[i].ItemArray[2]) + Convert.ToInt64(txtCantidadInsumo.Text);
+                                indexrow = i;
+                                break;
+                            }
+
+                        }
+
+                        if (indexrow != -1)
+                        {
+                            dtInsumo.Rows.Add(null, cmbInsumo.SelectedValue, CantidadInsumo, insumo.PrecioPromedio, cmbInsumo.Text);
+                            dtInsumo.Rows[indexrow].Delete();
+                        }
+                        else
+                        {
+                            dtInsumo.Rows.Add(null, cmbInsumo.SelectedValue, txtCantidadInsumo.Text, insumo.PrecioPromedio, cmbInsumo.Text);
+                        }
+
+
+                        tblInsumos.ItemsSource = dtInsumo.DefaultView;
 
                         pnlInicio.Visibility = Visibility.Collapsed;
                         pnlData.Visibility = Visibility.Visible;
                         limpiarCampos(2);
-                        
+
                     }
                     else
                     {
@@ -460,7 +515,7 @@ namespace CoffeeLand
         {
             if (tblInsumos.Items.Count != 0)
             {
-                dt.Clear();
+                dtInsumo.Clear();
                 limpiarCampos(2);
                 pnlData.Visibility = Visibility.Collapsed;
                 pnlInicio.Visibility = Visibility.Visible;
@@ -476,21 +531,21 @@ namespace CoffeeLand
         private void btnModificarInsumo_Click(object sender, RoutedEventArgs e)
         {
             index = tblInsumos.SelectedIndex;
-            cmbInsumo.Text = dt.Rows[index].ItemArray[4].ToString();
-            txtCantidadInsumo.Text = dt.Rows[index].ItemArray[2].ToString();
+            cmbInsumo.Text = dtInsumo.Rows[index].ItemArray[4].ToString();
+            txtCantidadInsumo.Text = dtInsumo.Rows[index].ItemArray[2].ToString();
 
-            dt.Rows[index].Delete();
+            dtInsumo.Rows[index].Delete();
 
             var cantidad = 0;
 
             for (int i = 0; i < tblInsumos.Items.Count; i++)
             {
-                int id = Convert.ToInt32(dt.Rows[i].ItemArray[1]);
+                int id = Convert.ToInt32(dtInsumo.Rows[i].ItemArray[1]);
                 int idCmb = Convert.ToInt32(cmbInsumo.SelectedValue);
 
                 if (idCmb == id)
                 {
-                    cantidad += Convert.ToInt32(dt.Rows[i].ItemArray[2]);
+                    cantidad += Convert.ToInt32(dtInsumo.Rows[i].ItemArray[2]);
                 }
             }
 
@@ -508,7 +563,7 @@ namespace CoffeeLand
         private void btnInhabilitarInsumo_Click(object sender, RoutedEventArgs e)
         {
             index = tblInsumos.SelectedIndex;
-            dt.Rows[index].Delete();
+            dtInsumo.Rows[index].Delete();
             index = -1;
             limpiarCampos(2);
 
@@ -542,20 +597,60 @@ namespace CoffeeLand
                 if (IsValid(txtCantidadProductividad) && IsValid(txtValorProductividad))
                 {
                     crearTabla(2);
-                    dt1.Rows.Add(cmbEmpleado.SelectedValue, null, int.Parse(txtCantidadProductividad.Text), int.Parse(txtValorProductividad.Text), cmbEmpleado.Text);
 
-                    tblProductividad.ItemsSource = dt1.DefaultView;
+                    int indexrow = -1;
+                    long ProductividadEmpleado = 0;
+                    int ValorDiferenteEmpleado = 0;
+
+                    for (int i = 0; i < dtPersona.Rows.Count; i++)
+                    {
+
+                        if (Convert.ToInt64(dtPersona.Rows[i].ItemArray[0]) == Convert.ToInt64(cmbEmpleado.SelectedValue))
+                        {
+
+                            if (Convert.ToInt64(dtPersona.Rows[i].ItemArray[3]) == Convert.ToInt64(txtValorProductividad.Text))
+                            {
+                                ProductividadEmpleado += Convert.ToInt64(dtPersona.Rows[i].ItemArray[2]) + Convert.ToInt64(txtCantidadProductividad.Text);
+                                indexrow = i;
+                                break;
+                            }
+                            else
+                            {
+                                mensajeError("No puede agregar el mismo empleado con diferente valor de pago");
+                                ValorDiferenteEmpleado++;
+                            }
+                        }
+
+                    }
+
+                    if (indexrow != -1)
+                    {
+                        dtPersona.Rows[indexrow].Delete();
+                        dtPersona.Rows.Add(cmbEmpleado.SelectedValue, null, ProductividadEmpleado, Convert.ToInt64(txtValorProductividad.Text), cmbEmpleado.Text);
+                        limpiarCampos(3);
+                    }
+                    else
+                    {
+                        if (ValorDiferenteEmpleado == 0)
+                        {
+                            dtPersona.Rows.Add(cmbEmpleado.SelectedValue, null, Convert.ToInt64(txtCantidadProductividad.Text), Convert.ToInt64(txtValorProductividad.Text), cmbEmpleado.Text);
+                            limpiarCampos(3);
+                        }
+
+                    }
+
+                    tblProductividad.ItemsSource = dtPersona.DefaultView;
 
                     pnlInicioEmpleados.Visibility = Visibility.Collapsed;
                     pnlDataEmpleados.Visibility = Visibility.Visible;
 
-                    limpiarCampos(3);
 
-                    if (cmbTipoPago.SelectedItem.Equals( "Jornal"))
+
+                    if (cmbTipoPago.SelectedItem.Equals("Jornal"))
                     {
                         txtCantidadProductividad.Text = "1";
                     }
-      
+
                 }
             }
         }
@@ -563,19 +658,27 @@ namespace CoffeeLand
         private void btnInhabilitarProductividadEmpleado_Click(object sender, RoutedEventArgs e)
         {
             index = tblProductividad.SelectedIndex;
-            dt1.Rows[index].Delete();
+            dtPersona.Rows[index].Delete();
             index = -1;
+
+
+            if (dtPersona.Rows.Count == 0)
+            {
+                pnlDataEmpleados.Visibility = Visibility.Collapsed;
+                pnlInicioEmpleados.Visibility = Visibility.Visible;
+            }
+
 
         }
         private void btnModificarProductividadEmpleado_Click(object sender, RoutedEventArgs e)
         {
             CantidadProductividad();
             index = tblProductividad.SelectedIndex;
-            cmbEmpleado.Text = dt1.Rows[index].ItemArray[4].ToString();
-            txtCantidadProductividad.Text = dt1.Rows[index].ItemArray[2].ToString();
-            txtValorProductividad.Text = dt1.Rows[index].ItemArray[3].ToString();
+            cmbEmpleado.Text = dtPersona.Rows[index].ItemArray[4].ToString();
+            txtCantidadProductividad.Text = dtPersona.Rows[index].ItemArray[2].ToString();
+            txtValorProductividad.Text = dtPersona.Rows[index].ItemArray[3].ToString();
 
-            dt1.Rows[index].Delete();
+            dtPersona.Rows[index].Delete();
         }
 
         public void CantidadProductividad()
@@ -616,7 +719,7 @@ namespace CoffeeLand
                 mensajeError("No debe tener insumos agregados");
             }
 
-            
+
         }
 
         private void btnAtrasEmpleadosInsumos_Click(object sender, RoutedEventArgs e)
@@ -655,7 +758,7 @@ namespace CoffeeLand
         {
             if (tblProductividad.Items.Count != 0)
             {
-                dt1.Clear();
+                dtPersona.Clear();
 
                 limpiarCampos(3);
 
@@ -693,21 +796,57 @@ namespace CoffeeLand
                 {
                     MTerrenos itemTerrenos = tblLotes.SelectedItem as MTerrenos;
                     cantidadArboles = 0;
-                    foreach (DataRow itemCantidad in dt1.Rows)
+                    foreach (DataRow itemCantidad in dtPersona.Rows)
                     {
                         cantidadArboles += int.Parse(itemCantidad["Cantidad"].ToString());
                     }
-                    
-                    txtArbolesModicacion.IsEnabled = false;
-                    txtArbolesModicacion.Text = string.Format("{0:0,0}", cantidadArboles); 
 
-                    cmbTipoArbolLote.ItemsSource = MTerrenos.GetInstance().LaborModificaArbol(Convert.ToInt32(itemTerrenos.Id)) as IEnumerable;
-                    cmbTipoArbolModificar.ItemsSource = MTerrenos.GetInstance().ConsultarTipoArboles();
-                  
-                    btnArboles.IsChecked = true;
-                    tabArboles.Focus();
+                    if (item.NombreLabor.Equals("Siembra"))
+                    {
+                        var mySettings = new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = "Aceptar",
+                            NegativeButtonText = "Cancelar",
 
-                  
+                        };
+
+                        MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea guardar el registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+
+                        if (result != MessageDialogResult.Negative)
+                        {
+                            try
+                            {
+                                var itemlote = tblLotes.SelectedItem as MTerrenos;
+                                GuardarDatos();
+                                int almacigo = MTerrenos.GetInstance().ConsultarAlmacigo();
+                                MTerrenos.GetInstance().MovimientoArboles(short.Parse(itemlote.Id.ToString()), Convert.ToByte(almacigo), cantidadArboles, Convert.ToDateTime(dtdFechaLabor.SelectedDate));
+                                MTerrenos.GetInstance().ActualizarCantidadArboles();
+                                mensajeInformacion("Registro exitoso");
+
+                                volverInicio();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        txtArbolesModicacion.IsEnabled = false;
+                        txtArbolesModicacion.Text = cantidadArboles.ToString();
+
+                        cmbTipoArbolLote.ItemsSource = MTerrenos.GetInstance().LaborModificaArbol(Convert.ToInt32(itemTerrenos.Id)) as IEnumerable;
+                        cmbTipoArbolModificar.ItemsSource = MTerrenos.GetInstance().ConsultarTipoArboles();
+
+                        btnArboles.IsChecked = true;
+                        tabArboles.Focus();
+
+                    }
+
+
+
                 }
                 else
                 {
@@ -723,7 +862,7 @@ namespace CoffeeLand
                     if (result != MessageDialogResult.Negative)
                     {
                         try
-                        {                         
+                        {
 
                             GuardarDatos();
                             mensajeInformacion("Registro exitoso");
@@ -740,24 +879,45 @@ namespace CoffeeLand
 
         private void cmbTipoArbolLote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            Insumo insumo = cmbInsumo.SelectedItem as Insumo;
+
             if (cmbTipoArbolLote.SelectedIndex != 0)
             {
-                tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarTiposArboles( Convert.ToInt32(cmbTipoArbolLote.SelectedValue)) as IEnumerable;
 
+                tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarTiposArboles(Convert.ToInt32(cmbTipoArbolLote.SelectedValue)) as IEnumerable;
                 if (tblArboles.Items.Count != 0)
                 {
                     pnlDataArboles.Visibility = Visibility.Visible;
                     pnlInicioArboles.Visibility = Visibility.Collapsed;
                     pnlArbolesSinRegistros.Visibility = Visibility.Collapsed;
                     btnSiguienteArboles.IsEnabled = true;
+
+                    crearTabla(4);
+                    if (dtMovimientoArboles.Rows.Count != 0)
+                    {
+                        foreach (consultarMovimientosArboles_Result1 item in tblArboles.Items)
+                        {
+
+                            for (int i = 0; i < dtMovimientoArboles.Rows.Count; i++)
+                            {
+                                if (item.idMovimientosArboles == int.Parse(dtMovimientoArboles.Rows[i].ItemArray[0].ToString()))
+                                {
+                                    item.Cantidad = item.Cantidad - Convert.ToInt32(dtMovimientoArboles.Rows[i].ItemArray[3]);
+
+                                }
+
+                            }
+
+                        }
+
+
+                    }
+
+
                 }
-                else
-                {
-                    pnlDataArboles.Visibility = Visibility.Collapsed;
-                    pnlInicioArboles.Visibility = Visibility.Collapsed;
-                    pnlArbolesSinRegistros.Visibility = Visibility.Visible;
-                    btnSiguienteArboles.IsEnabled = false;
-                }
+
+
             }
             else
             {
@@ -767,73 +927,17 @@ namespace CoffeeLand
                 btnSiguienteArboles.IsEnabled = false;
             }
 
-
-           
-
-
-            //if (cmbTipoArbolLote.SelectedIndex != 0)
-            //{
-            //    MTerrenos item = tblLotes.SelectedItem as MTerrenos;
-
-            //    if (cmbTipoArbolLote.SelectedIndex != 1)
-            //    {
-            //        var cantidad = MTerrenos.GetInstance().cantidadArbolesLote(int.Parse(cmbTipoArbolLote.SelectedValue.ToString()), Convert.ToInt32(item.Id));
-            //        txtCantidadArbolesLotes.Text = cantidad.ToString();
-            //    }
-
-            //}
-            //else
-            //{
-            //    txtCantidadArbolesLotes.Text = "0";
-            //}
         }
 
         private async void btnSguientearboles_Click(object sender, RoutedEventArgs e)
         {
             var item = tblLotes.SelectedItem as MTerrenos;
 
-            if (cmbTipoArbolLote.SelectedIndex == 1)
+            int CantidadArbolesAModificar = txtArbolesModicacion.Text == null ? 0 : int.Parse(txtArbolesModicacion.Text);
+            if (CantidadArbolesAModificar == 0)
             {
 
-                var tipoArbolCambiar = cmbTipoArbolModificar.SelectedItem as TipoArbol;
-                if (tipoArbolCambiar.NombreTipoArbol.Equals("ALMACIGO"))
-                {
-                    var mySettings = new MetroDialogSettings()
-                    {
-                        AffirmativeButtonText = "Aceptar",
-                        NegativeButtonText = "Cancelar",
 
-                    };
-
-                    MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea guardar el registro?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
-
-                    if (result != MessageDialogResult.Negative)
-                    {
-                        try
-                        {
-                            GuardarDatos();
-                            MTerrenos.GetInstance().MovimientoArboles(short.Parse(item.Id.ToString()), byte.Parse(tipoArbolCambiar.idTipoArbol.ToString()), cantidadArboles, Convert.ToDateTime(dtdFechaLabor.SelectedDate), 0, "Entrada", 1);
-                            mensajeInformacion("Registro exitoso");
-                            volverInicio();
-
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
-                 
-                    
-
-                }
-                else
-                {
-                    mensajeError("Si desea realizar una nueva siembra,debe selecionar el tipo de árbol almacigo");
-                }
-
-            }
-            else
-            {
                 var mySettings = new MetroDialogSettings()
                 {
                     AffirmativeButtonText = "Aceptar",
@@ -847,11 +951,35 @@ namespace CoffeeLand
                 {
                     try
                     {
-                        
-                        MTerrenos.GetInstance().MovimientoArboles(short.Parse(item.Id.ToString()), byte.Parse(cmbTipoArbolModificar.SelectedValue.ToString()), cantidadArboles, Convert.ToDateTime(dtdFechaLabor.SelectedDate), 0, "Entrada", 1);
-                        GuardarDatos();
-                        mensajeInformacion("Registro exitoso");
-                        volverInicio();
+                        Labor itemLabor = tblLabores.SelectedItem as Labor;
+                        if (itemLabor.NombreLabor.Equals("Eliminación"))
+                        {
+                            MTerrenos.GetInstance().InsertarMovimientoArbloes(dtMovimientoArboles);
+                            MTerrenos.GetInstance().ActualizarCantidadArboles();
+                            GuardarDatos();
+                            mensajeInformacion("Registro exitoso");
+                            dtMovimientoArboles.Clear();
+                            volverInicio();
+                        }
+                        else
+                        {
+                            int cantidadTotalMovimiento = 0;
+
+                            for (int i = 0; i < dtMovimientoArboles.Rows.Count; i++)
+                            {
+                                cantidadTotalMovimiento += Convert.ToInt32(dtMovimientoArboles.Rows[i].ItemArray[3]);
+                            }
+
+                            MTerrenos.GetInstance().InsertarMovimientoArbloes(dtMovimientoArboles);
+                            MTerrenos.GetInstance().MovimientoArboles(short.Parse(item.Id.ToString()), byte.Parse(cmbTipoArbolModificar.SelectedValue.ToString()), cantidadTotalMovimiento, Convert.ToDateTime(dtdFechaLabor.SelectedDate));
+                            MTerrenos.GetInstance().ActualizarCantidadArboles();
+                            GuardarDatos();
+                            mensajeInformacion("Registro exitoso");
+                            dtMovimientoArboles.Clear();
+                            volverInicio();
+
+                        }
+
 
                     }
                     catch (Exception ex)
@@ -861,15 +989,12 @@ namespace CoffeeLand
                 }
 
             }
-            
+            else
+            {
+                mensajeError("No puede puede guarda hasta que los arboles a modificar este en 0");
+            }
         }
 
-        public async void registroConModificacionTipoArbol()
-        {
-
-           
-
-        }
 
 
         public void volverInicio()
@@ -899,65 +1024,210 @@ namespace CoffeeLand
 
             string Idlabor_lote = MTerrenos.GetInstance().asociarLaborLote(Convert.ToInt32(itemLabor.idLabor), Convert.ToInt32(itemLotes.Id), Convert.ToDateTime(dtdFechaLabor.SelectedDate)).ToString();
 
-            foreach (DataRow itemEmpleado in dt1.Rows)
+            foreach (DataRow itemEmpleado in dtPersona.Rows)
             {
                 itemEmpleado["IdLabor_Lote"] = int.Parse(Idlabor_lote);
             }
 
-            if (dt != null)
+            if (dtInsumo != null)
             {
-                foreach (DataRow itemInsumo in dt.Rows)
+                foreach (DataRow itemInsumo in dtInsumo.Rows)
                 {
                     itemInsumo["IdLabor_Lote"] = int.Parse(Idlabor_lote);
                 }
 
-                dt.Columns.Remove("NombreInsumo");
-                MTerrenos.GetInstance().asociarInsumoLaborLote(dt);
-                dt.Clear();
-                dt.Columns.Add("NombreInsumo");
+                dtInsumo.Columns.Remove("NombreInsumo");
+                MTerrenos.GetInstance().asociarInsumoLaborLote(dtInsumo);
+                dtInsumo.Clear();
+                dtInsumo.Columns.Add("NombreInsumo");
             }
 
 
-            dt1.Columns.Remove("NombrePersona");
+            dtPersona.Columns.Remove("NombrePersona");
 
-            MTerrenos.GetInstance().salarioEmpleado(dt1);
+            MTerrenos.GetInstance().salarioEmpleado(dtPersona);
 
 
             if (lblLabores.Text.Equals("Recoleccion"))
             {
                 int cantidad = 0;
-                foreach (DataRow itemCantidad in dt1.Rows)
+                foreach (DataRow itemCantidad in dtPersona.Rows)
                 {
                     cantidad += int.Parse(itemCantidad["Cantidad"].ToString());
                 }
 
                 MTerrenos.GetInstance().registrarProduccion(Convert.ToInt32(itemLotes.Id), Convert.ToDateTime(dtdFechaLabor.ToString()), cantidad);
             }
-            dt1.Columns.Add("NombrePersona");
-            dt1.Clear();
+            dtPersona.Columns.Add("NombrePersona");
+            dtPersona.Clear();
             mostrar();
         }
 
         private void btnAtrasArboles_Click(object sender, RoutedEventArgs e)
         {
-            limpiarCampos(4);
-            tabEmpleados.Focus();
-            btnArboles.IsChecked = false;
+
+            if (tblMovimientoArboles.Items.Count == 0)
+            {
+                limpiarCampos(4);
+                tabEmpleados.Focus();
+                btnArboles.IsChecked = false;
+            }
+            else
+            {
+                mensajeError("No pueden haber registros en la tabla de movimiento de los árboles ");
+            }
         }
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            tblMovimientoArboles.Visibility = Visibility.Visible;
+            Labor itemLabor = tblLabores.SelectedItem as Labor;
+            item = tblArboles.SelectedItem as consultarMovimientosArboles_Result1;
+            if (cmbTipoArbolModificar.Text != cmbTipoArbolLote.Text || itemLabor.NombreLabor.Equals("Eliminación"))
+            {
+
+                if (cmbTipoArbolModificar.SelectedIndex != 0 && txtCantidadArbolesAModificar.Text != "" || itemLabor.NombreLabor.Equals("Eliminación"))
+                {
+
+                    int CantidadArbolesAModificar = txtCantidadArbolesAModificar.Text == "" ? 0 : int.Parse(txtCantidadArbolesAModificar.Text);
+
+
+                    if (CantidadArbolesAModificar <= cantidadArboles)
+                    {
+
+                        if (CantidadArbolesAModificar <= item.Cantidad)
+                        {
+                            int cantidadTotalArboles = 0;
+                            int indexRow = -1;
+                            for (int i = 0; i < dtMovimientoArboles.Rows.Count; i++)
+                            {
+                                if (Convert.ToInt32(dtMovimientoArboles.Rows[i].ItemArray[0]) == Convert.ToInt32(item.idMovimientosArboles))
+                                {
+                                    cantidadTotalArboles += Convert.ToInt32(dtMovimientoArboles.Rows[i].ItemArray[3]);
+                                    indexRow = i;
+                                    break;
+                                }
+                            }
+
+                            if (indexRow != -1)
+                            {
+                                dtMovimientoArboles.Rows[indexRow].Delete();
+                            }
+
+                            item.Cantidad = item.Cantidad - CantidadArbolesAModificar;
+
+                            tblArboles.Items.Refresh();
+
+                            dtMovimientoArboles.Rows.Add(item.idMovimientosArboles, cmbTipoArbolModificar.SelectedValue.ToString(), item.NombreTipoArbol, (CantidadArbolesAModificar + cantidadTotalArboles), Convert.ToDateTime(dtdFechaLabor.SelectedDate));
+
+
+                            cantidadArboles = cantidadArboles - CantidadArbolesAModificar;
+                            txtArbolesModicacion.Text = cantidadArboles.ToString();
+                            tblMovimientoArboles.ItemsSource = dtMovimientoArboles.DefaultView;
+                            tabNuevoArboles.Focus();
+                            txtCantidadArbolesAModificar.Text = string.Empty;
+                            tblArboles.IsEnabled = true;
+
+                        }
+                        else
+                        {
+                            mensajeError("La cantidad de arboles que ingreso no puede ser superior a la cantidad que ha seleccionado");
+                        }
+
+                    }
+                    else
+                    {
+                        mensajeError("La cantidad de arboles que ingreso no puede ser mayor a la cantidad a modificar");
+                    }
+
+                }
+
+                else
+                {
+                    mensajeError("Debe ingresar todos los campos");
+                }
+            }
+            else
+            {
+                mensajeError("Debe seleccionar un estado de los árboles diferente");
+            }
         }
 
         private void btnSeleccionar_Click(object sender, RoutedEventArgs e)
         {
+            item = tblArboles.SelectedItem as consultarMovimientosArboles_Result1;
+
+            if (tblMovimientoArboles.Items.Count != 0)
+            {
+                cmbTipoArbolModificar.IsEnabled = false;
+
+            }
+            else
+            {
+                cmbTipoArbolModificar.IsEnabled = true;
+            }
+
+            Labor itemLabor = tblLabores.SelectedItem as Labor;
+            if (itemLabor.NombreLabor.Equals("Eliminación"))
+            {
+                cmbTipoArbolModificar.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                cmbTipoArbolModificar.Visibility = Visibility.Visible;
+
+            }
+
+            tblArboles.IsEnabled = false;
+
             tabSeleccionar.Focus();
         }
 
         private void btnatras_Click_1(object sender, RoutedEventArgs e)
         {
+            txtCantidadArbolesAModificar.Text = string.Empty;
+            tblArboles.IsEnabled = true;
             tabNuevoArboles.Focus();
+        }
+
+        private void btnEliminarAlborModificar_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            index = tblMovimientoArboles.SelectedIndex;
+
+            cantidadArboles += Convert.ToInt32(dtMovimientoArboles.Rows[index].ItemArray[3]);
+            txtArbolesModicacion.Text = cantidadArboles.ToString();
+
+
+
+
+
+            if (dtMovimientoArboles.Rows.Count != 0)
+            {
+                foreach (consultarMovimientosArboles_Result1 item in tblArboles.Items)
+                {
+                    if (Convert.ToInt32(item.idMovimientosArboles) == int.Parse(dtMovimientoArboles.Rows[index].ItemArray[0].ToString()))
+                    {
+                        item.Cantidad = item.Cantidad + Convert.ToInt32(dtMovimientoArboles.Rows[index].ItemArray[3]);
+
+                    }
+
+                }
+
+                tblArboles.Items.Refresh();
+                dtMovimientoArboles.Rows[index].Delete();
+            }
+
+            if (tblMovimientoArboles.Items.Count == 0)
+            {
+                tblArboles.IsEnabled = true;
+                tabNuevoArboles.Focus();
+                tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarTiposArboles(Convert.ToInt32(cmbTipoArbolLote.SelectedValue)) as IEnumerable;
+                txtCantidadArbolesAModificar.Text = string.Empty;
+
+            }
+
         }
     }
 }

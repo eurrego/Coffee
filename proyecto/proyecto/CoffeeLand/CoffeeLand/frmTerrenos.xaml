@@ -497,7 +497,7 @@
                                                         </Style>
                                                     </TextBox.Style>
                                                     <TextBox.Text>
-                                                        <Binding Path="Cantidad" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                        <Binding Path="CantidadInsumo" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                          UpdateSourceTrigger="PropertyChanged">
                                                             <Binding.ValidationRules>
                                                                 <ExceptionValidationRule/>
@@ -861,6 +861,7 @@
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding NombreTipoArbol}" Header="Árbol" Width="200" IsReadOnly="True"/>
                                             <DataGridTextColumn   Binding="{Binding Cantidad}"  Header="Cantidad" Width="100" IsReadOnly="True" />
+
                                             <DataGridTemplateColumn Header="Fecha Movimiento"  Width="200" IsReadOnly ="False">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -868,7 +869,6 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-
                                             <DataGridTemplateColumn Width="110" Header="Seleccionar" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -994,7 +994,7 @@
                                                        Height="35"
                                                        Width="100"
                                                        Style="{StaticResource AccentedSquareButtonStyle}"
-                                                       Content="Siguiente"
+                                                       Content="Guardar"
                                                        Controls:ButtonHelper.PreserveTextCase="True"
                                                        Click="btnSguientearboles_Click"
                                                        >
@@ -1028,19 +1028,18 @@
 
                                                 <ComboBox x:Name="cmbTipoArbolModificar"
                             	                                  DisplayMemberPath="NombreTipoArbol" 
-                            	                                  SelectedValuePath="idTIpoArbol"
+                            	                                  SelectedValuePath="idTipoArbol"
                             	                                  Margin="0 0 0 0" VerticalAlignment="Top"
                             	                                  Height="42"
                             	                                  SelectedIndex="0"
-                                                                  SelectionChanged="cmbTipoArbolLote_SelectionChanged"
                                                                    />
 
-                                                <TextBox x:Name="txtCantidadArbolesLotes" 
+                                                <TextBox x:Name="txtCantidadArbolesAModificar" 
                                                                 Margin="0 20 0 0"
                             	                                Controls:TextBoxHelper.Watermark="Cantidad" 
                                                                 Controls:TextBoxHelper.UseFloatingWatermark="True"
                             	                                Height="42" 
-                                                                IsEnabled="False"
+                                                                IsEnabled="True"
                                                                 >
                                                     <TextBox.Style>
                                                         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
@@ -1056,7 +1055,7 @@
                                                         </Style>
                                                     </TextBox.Style>
                                                     <TextBox.Text>
-                                                        <Binding Path="CantidadEmpleado" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
+                                                        <Binding Path="CantidadArbolesAModificar" Source="{StaticResource Validator}" ValidatesOnDataErrors="True" ValidatesOnExceptions="True"
                                                                          UpdateSourceTrigger="PropertyChanged">
                                                             <Binding.ValidationRules>
                                                                 <ExceptionValidationRule/>
@@ -1086,7 +1085,7 @@
                                                            Height="35"
                                                            Width="100"
                                                            Style="{StaticResource AccentedSquareButtonStyle}"
-                                                           Content="Agregar"
+                                                           Content="Cancelar"
                                                            Controls:ButtonHelper.PreserveTextCase="True"
                                                         Click="btnatras_Click_1"
                                                            >
@@ -1108,17 +1107,24 @@
                                                           Visibility="Visible"
                                                         >
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="IdMovimiento" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
-                                                    <DataGridTextColumn Header="idArbol" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
-                                                    <DataGridTextColumn Header="Árbol" Width="150" IsReadOnly="True"/>
-                                                    <DataGridTextColumn   Header="Cantidad" Width="150" IsReadOnly="True" />
+                                                    <DataGridTextColumn Header="idMovimiento" Binding="{Binding idMovimiento}" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="idArbol" Binding="{Binding idArbol}" Width="100" Visibility="Collapsed" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="NombreArbol" Binding="{Binding NombreArbol}" Width="150" IsReadOnly="True"/>
+                                                    <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" Width="150" IsReadOnly="True" />
+                                                    <DataGridTemplateColumn Header="Fecha" Width="130" IsReadOnly ="False">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <DatePicker SelectedDate="{Binding Fecha}" IsEnabled="False"/>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
 
 
                                                     <DataGridTemplateColumn Width="110" Header="Eliminar" >
                                                         <DataGridTemplateColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <Button x:Name="btnSeleccionar"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"
-                                                                Visibility="Hidden">
+                                                                <Button x:Name="btnEliminarAlborModificar" Click="btnEliminarAlborModificar_Click"  Width="40" Height="40" Style="{DynamicResource MetroCircleButtonStyle}" BorderThickness="0"
+                                                                Visibility="Visible">
                                                                     <Rectangle Width="10" Height="10" Fill="{DynamicResource BlackBrush}">
                                                                         <Rectangle.OpacityMask>
                                                                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_delete}"/>

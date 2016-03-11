@@ -193,7 +193,6 @@
           <Property Name="idArboles" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Cantidad" Type="int" Nullable="false" />
-          <Property Name="TipoMovimiento" Type="varchar" MaxLength="7" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -250,7 +249,7 @@
           <Key>
             <PropertyRef Name="idRegistroPago" />
           </Key>
-          <Property Name="idRegistroPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRegistroPago" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="RegistroPagoSalario">
@@ -268,7 +267,7 @@
           <Property Name="idSalarioPersonaPermanente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DocumentoPersona" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Valor" Type="money" Nullable="false" />
-          <Property Name="idRegistroPago" Type="int" />
+          <Property Name="IdRegistroPago" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SalarioPersonaTemporal">
           <Key>
@@ -610,6 +609,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RegistroPagoSalario_idSalarioPersonaTemporal">
+          <End Role="SalarioPersonaTemporal" Type="Self.SalarioPersonaTemporal" Multiplicity="0..1" />
+          <End Role="RegistroPagoSalario" Type="Self.RegistroPagoSalario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalarioPersonaTemporal">
+              <PropertyRef Name="idSalarioPersonaTemporal" />
+            </Principal>
+            <Dependent Role="RegistroPagoSalario">
+              <PropertyRef Name="idSalarioPersonaTemporal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RegistroPagoSalario_RegistroPago">
           <End Role="RegistroPago" Type="Self.RegistroPago" Multiplicity="1" />
           <End Role="RegistroPagoSalario" Type="Self.RegistroPagoSalario" Multiplicity="*" />
@@ -619,18 +630,6 @@
             </Principal>
             <Dependent Role="RegistroPagoSalario">
               <PropertyRef Name="idRegistroPago" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RegistroPagoSalario_SalarioPersonaTemporal">
-          <End Role="SalarioPersonaTemporal" Type="Self.SalarioPersonaTemporal" Multiplicity="0..1" />
-          <End Role="RegistroPagoSalario" Type="Self.RegistroPagoSalario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalarioPersonaTemporal">
-              <PropertyRef Name="idSalarioPersonaTemporal" />
-            </Principal>
-            <Dependent Role="RegistroPagoSalario">
-              <PropertyRef Name="idSalarioPersonaTemporal" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -647,14 +646,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SalarioPersonaPermanente_RegistroPago">
-          <End Role="RegistroPago" Type="Self.RegistroPago" Multiplicity="0..1" />
+          <End Role="RegistroPago" Type="Self.RegistroPago" Multiplicity="1" />
           <End Role="SalarioPersonaPermanente" Type="Self.SalarioPersonaPermanente" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RegistroPago">
               <PropertyRef Name="idRegistroPago" />
             </Principal>
             <Dependent Role="SalarioPersonaPermanente">
-              <PropertyRef Name="idRegistroPago" />
+              <PropertyRef Name="IdRegistroPago" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -700,6 +699,7 @@
           <Parameter Name="fecha" Type="datetime" Mode="In" />
           <Parameter Name="Total" Type="money" Mode="In" />
         </Function>
+        <Function Name="ActializarCantidadArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="asociarLaborLote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idLabor" Type="int" Mode="In" />
           <Parameter Name="idLote" Type="int" Mode="In" />
@@ -707,6 +707,9 @@
         </Function>
         <Function Name="ComprasProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nit" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="consultarMovimientosArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idArbol" Type="int" Mode="In" />
         </Function>
         <Function Name="Consultasproduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="DetalleSalario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -725,9 +728,6 @@
           <Parameter Name="idTipoArbol" Type="tinyint" Mode="In" />
           <Parameter Name="cantidad" Type="int" Mode="In" />
           <Parameter Name="fecha" Type="datetime" Mode="In" />
-          <Parameter Name="idMovimiento" Type="int" Mode="In" />
-          <Parameter Name="tipoMovimiento" Type="varchar" Mode="In" />
-          <Parameter Name="opcion" Type="int" Mode="In" />
         </Function>
         <Function Name="gestionConcepto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NombreConcepto" Type="varchar" Mode="In" />
@@ -827,8 +827,6 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="descripcion" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="InsercionInsumoLaborLote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="InsertarDetalleCompra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="ModificarFinca" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nombreFinca" Type="varchar" Mode="In" />
           <Parameter Name="Propietario" Type="varchar" Mode="In" />
@@ -850,7 +848,6 @@
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="cantidad" Type="int" Mode="In" />
         </Function>
-        <Function Name="SP_InsertMultiplesGastos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="VentaProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cantidad" Type="decimal" Mode="In" />
         </Function>
@@ -983,12 +980,12 @@
             <End Role="Lote" EntitySet="Lote" />
             <End Role="Produccion" EntitySet="Produccion" />
           </AssociationSet>
-          <AssociationSet Name="FK_RegistroPagoSalario_RegistroPago" Association="Self.FK_RegistroPagoSalario_RegistroPago">
-            <End Role="RegistroPago" EntitySet="RegistroPago" />
+          <AssociationSet Name="FK_RegistroPagoSalario_idSalarioPersonaTemporal" Association="Self.FK_RegistroPagoSalario_idSalarioPersonaTemporal">
+            <End Role="SalarioPersonaTemporal" EntitySet="SalarioPersonaTemporal" />
             <End Role="RegistroPagoSalario" EntitySet="RegistroPagoSalario" />
           </AssociationSet>
-          <AssociationSet Name="FK_RegistroPagoSalario_SalarioPersonaTemporal" Association="Self.FK_RegistroPagoSalario_SalarioPersonaTemporal">
-            <End Role="SalarioPersonaTemporal" EntitySet="SalarioPersonaTemporal" />
+          <AssociationSet Name="FK_RegistroPagoSalario_RegistroPago" Association="Self.FK_RegistroPagoSalario_RegistroPago">
+            <End Role="RegistroPago" EntitySet="RegistroPago" />
             <End Role="RegistroPagoSalario" EntitySet="RegistroPagoSalario" />
           </AssociationSet>
           <AssociationSet Name="FK_SalarioPersonaPermanente_Persona" Association="Self.FK_SalarioPersonaPermanente_Persona">
@@ -1070,7 +1067,7 @@
           <NavigationProperty Name="AbonoCompra" Relationship="Self.FK_AbonoCompra_Compra" FromRole="Compra" ToRole="AbonoCompra" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Compra_Proveedor" FromRole="Compra" ToRole="Proveedor" />
           <NavigationProperty Name="Compra_Insumo" Relationship="Self.FK_CompraInsumo_Compra" FromRole="Compra" ToRole="Compra_Insumo" />
-          <NavigationProperty Name="CostoBeneficio" Relationship="DBFincaModel.FK_CostoBeneficio_Compra" FromRole="Compra" ToRole="CostoBeneficio" />
+          <NavigationProperty Name="CostoBeneficio" Relationship="Self.FK_CostoBeneficio_Compra" FromRole="Compra" ToRole="CostoBeneficio" />
         </EntityType>
         <EntityType Name="Compra_Insumo">
           <Key>
@@ -1093,6 +1090,18 @@
           <Property Name="Descripcion" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EstadoConcepto" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Egreso" Relationship="Self.FK_Egreso_Concepto" FromRole="Concepto" ToRole="Egreso" />
+        </EntityType>
+        <EntityType Name="CostoBeneficio">
+          <Key>
+            <PropertyRef Name="idCostoBeneficio" />
+          </Key>
+          <Property Name="idCostoBeneficio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idVenta" Type="Int32" />
+          <Property Name="idCompra" Type="Int32" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EstadoCuenta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Compra" Relationship="Self.FK_CostoBeneficio_Compra" FromRole="CostoBeneficio" ToRole="Compra" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_CostoBeneficio_Venta" FromRole="CostoBeneficio" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Departamento">
           <Key>
@@ -1138,9 +1147,9 @@
           <Property Name="idMunicipio" Type="Int16" Nullable="false" />
           <Property Name="Vereda" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cuadras" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Municipio" Relationship="Self.FK_Finca_Municipio" FromRole="Finca" ToRole="Municipio" />
           <NavigationProperty Name="Lote" Relationship="Self.FK_Lote_Finca" FromRole="Finca" ToRole="Lote" />
-          <Property Name="Cuadras" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Insumo">
           <Key>
@@ -1231,7 +1240,6 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Arboles" Relationship="Self.FK_MovimientosArboles_Arboles" FromRole="MovimientosArboles" ToRole="Arboles" />
-          <Property Name="TipoMovimiento" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Municipio">
           <Key>
@@ -1248,6 +1256,8 @@
             <PropertyRef Name="DocumentoPersona" />
           </Key>
           <Property Name="DocumentoPersona" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoDocumento" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoContratoPersona" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NombrePersona" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
@@ -1256,8 +1266,6 @@
           <NavigationProperty Name="DeudaPersona" Relationship="Self.FK_DeudaPersona_Persona" FromRole="Persona" ToRole="DeudaPersona" />
           <NavigationProperty Name="SalarioPersonaPermanente" Relationship="Self.FK_SalarioPersonaPermanente_Persona" FromRole="Persona" ToRole="SalarioPersonaPermanente" />
           <NavigationProperty Name="SalarioPersonaTemporal" Relationship="Self.FK_SalarioPersonaTemporal_Persona" FromRole="Persona" ToRole="SalarioPersonaTemporal" />
-          <Property Name="TipoDocumento" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="TipoContratoPersona" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Produccion">
           <Key>
@@ -1300,7 +1308,7 @@
           <Property Name="idRegistroPago" Type="Int32" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="RegistroPagoSalario" Relationship="Self.FK_RegistroPagoSalario_RegistroPago" FromRole="RegistroPago" ToRole="RegistroPagoSalario" />
-          <NavigationProperty Name="SalarioPersonaPermanente1" Relationship="DBFincaModel.FK_SalarioPersonaPermanente_RegistroPago1" FromRole="RegistroPago" ToRole="SalarioPersonaPermanente" />
+          <NavigationProperty Name="SalarioPersonaPermanente" Relationship="Self.FK_SalarioPersonaPermanente_RegistroPago" FromRole="RegistroPago" ToRole="SalarioPersonaPermanente" />
         </EntityType>
         <EntityType Name="RegistroPagoSalario">
           <Key>
@@ -1319,9 +1327,9 @@
           <Property Name="idSalarioPersonaPermanente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DocumentoPersona" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Valor" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IdRegistroPago" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Persona" Relationship="Self.FK_SalarioPersonaPermanente_Persona" FromRole="SalarioPersonaPermanente" ToRole="Persona" />
-          <Property Name="idRegistroPago" Type="Int32" />
-          <NavigationProperty Name="RegistroPago" Relationship="DBFincaModel.FK_SalarioPersonaPermanente_RegistroPago1" FromRole="SalarioPersonaPermanente" ToRole="RegistroPago" />
+          <NavigationProperty Name="RegistroPago" Relationship="Self.FK_SalarioPersonaPermanente_RegistroPago" FromRole="SalarioPersonaPermanente" ToRole="RegistroPago" />
         </EntityType>
         <EntityType Name="SalarioPersonaTemporal">
           <Key>
@@ -1345,8 +1353,8 @@
           <Property Name="NombreTipoArbol" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EstadoTipoArbol" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Arboles" Relationship="Self.FK_Arboles_TipoArbol" FromRole="TipoArbol" ToRole="Arboles" />
           <Property Name="TiempoProduccion" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Arboles" Relationship="Self.FK_Arboles_TipoArbol" FromRole="TipoArbol" ToRole="Arboles" />
         </EntityType>
         <EntityType Name="TipoInsumo">
           <Key>
@@ -1358,6 +1366,18 @@
           <Property Name="EstadoTipoInsumo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Insumo" Relationship="Self.FK_Insumo_TipoInsumo" FromRole="TipoInsumo" ToRole="Insumo" />
         </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nickname" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rol" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PreguntaSeguridad" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Respuesta" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstadoUsuario" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
         <EntityType Name="Venta">
           <Key>
             <PropertyRef Name="idVenta" />
@@ -1367,9 +1387,9 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PrecioCarga" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="CantidadCargas" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="CostoBeneficio" Relationship="Self.FK_CostoBeneficio_Venta" FromRole="Venta" ToRole="CostoBeneficio" />
           <NavigationProperty Name="MovimientoProduccion" Relationship="Self.FK_MovimientoProduccion_Venta" FromRole="Venta" ToRole="MovimientoProduccion" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Venta_Producto" FromRole="Venta" ToRole="Producto" />
-          <NavigationProperty Name="CostoBeneficio" Relationship="DBFincaModel.FK_CostoBeneficio_Venta" FromRole="Venta" ToRole="CostoBeneficio" />
         </EntityType>
         <Association Name="FK_AbonoCompra_Compra">
           <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
@@ -1467,6 +1487,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CostoBeneficio_Compra">
+          <End Role="Compra" Type="Self.Compra" Multiplicity="0..1" />
+          <End Role="CostoBeneficio" Type="Self.CostoBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Compra">
+              <PropertyRef Name="idCompra" />
+            </Principal>
+            <Dependent Role="CostoBeneficio">
+              <PropertyRef Name="idCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AbonoCompra_Insumo">
           <End Role="Insumo" Type="Self.Insumo" Multiplicity="1" />
           <End Role="Compra_Insumo" Type="Self.Compra_Insumo" Multiplicity="*" />
@@ -1488,6 +1520,18 @@
             </Principal>
             <Dependent Role="Egreso">
               <PropertyRef Name="idConcepto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CostoBeneficio_Venta">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="CostoBeneficio" Type="Self.CostoBeneficio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="idVenta" />
+            </Principal>
+            <Dependent Role="CostoBeneficio">
+              <PropertyRef Name="idVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1695,6 +1739,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalarioPersonaPermanente_RegistroPago">
+          <End Role="RegistroPago" Type="Self.RegistroPago" Multiplicity="1" />
+          <End Role="SalarioPersonaPermanente" Type="Self.SalarioPersonaPermanente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistroPago">
+              <PropertyRef Name="idRegistroPago" />
+            </Principal>
+            <Dependent Role="SalarioPersonaPermanente">
+              <PropertyRef Name="IdRegistroPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RegistroPagoSalario_idSalarioPersonaTemporal">
           <End Role="SalarioPersonaTemporal" Type="Self.SalarioPersonaTemporal" Multiplicity="0..1" />
           <End Role="RegistroPagoSalario" Type="Self.RegistroPagoSalario" Multiplicity="*" />
@@ -1715,6 +1771,7 @@
           <EntitySet Name="Compra" EntityType="Self.Compra" />
           <EntitySet Name="Compra_Insumo" EntityType="Self.Compra_Insumo" />
           <EntitySet Name="Concepto" EntityType="Self.Concepto" />
+          <EntitySet Name="CostoBeneficio" EntityType="Self.CostoBeneficio" />
           <EntitySet Name="Departamento" EntityType="Self.Departamento" />
           <EntitySet Name="DeudaPersona" EntityType="Self.DeudaPersona" />
           <EntitySet Name="Egreso" EntityType="Self.Egreso" />
@@ -1737,6 +1794,7 @@
           <EntitySet Name="SalarioPersonaTemporal" EntityType="Self.SalarioPersonaTemporal" />
           <EntitySet Name="TipoArbol" EntityType="Self.TipoArbol" />
           <EntitySet Name="TipoInsumo" EntityType="Self.TipoInsumo" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="Venta" EntityType="Self.Venta" />
           <AssociationSet Name="FK_AbonoCompra_Compra" Association="Self.FK_AbonoCompra_Compra">
             <End Role="Compra" EntitySet="Compra" />
@@ -1770,6 +1828,10 @@
             <End Role="Compra" EntitySet="Compra" />
             <End Role="Compra_Insumo" EntitySet="Compra_Insumo" />
           </AssociationSet>
+          <AssociationSet Name="FK_CostoBeneficio_Compra" Association="Self.FK_CostoBeneficio_Compra">
+            <End Role="Compra" EntitySet="Compra" />
+            <End Role="CostoBeneficio" EntitySet="CostoBeneficio" />
+          </AssociationSet>
           <AssociationSet Name="FK_AbonoCompra_Insumo" Association="Self.FK_AbonoCompra_Insumo">
             <End Role="Insumo" EntitySet="Insumo" />
             <End Role="Compra_Insumo" EntitySet="Compra_Insumo" />
@@ -1777,6 +1839,10 @@
           <AssociationSet Name="FK_Egreso_Concepto" Association="Self.FK_Egreso_Concepto">
             <End Role="Concepto" EntitySet="Concepto" />
             <End Role="Egreso" EntitySet="Egreso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CostoBeneficio_Venta" Association="Self.FK_CostoBeneficio_Venta">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="CostoBeneficio" EntitySet="CostoBeneficio" />
           </AssociationSet>
           <AssociationSet Name="FK_Municipio_Departamento" Association="Self.FK_Municipio_Departamento">
             <End Role="Departamento" EntitySet="Departamento" />
@@ -1846,15 +1912,33 @@
             <End Role="RegistroPago" EntitySet="RegistroPago" />
             <End Role="RegistroPagoSalario" EntitySet="RegistroPagoSalario" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalarioPersonaPermanente_RegistroPago" Association="Self.FK_SalarioPersonaPermanente_RegistroPago">
+            <End Role="RegistroPago" EntitySet="RegistroPago" />
+            <End Role="SalarioPersonaPermanente" EntitySet="SalarioPersonaPermanente" />
+          </AssociationSet>
           <AssociationSet Name="FK_RegistroPagoSalario_idSalarioPersonaTemporal" Association="Self.FK_RegistroPagoSalario_idSalarioPersonaTemporal">
             <End Role="SalarioPersonaTemporal" EntitySet="SalarioPersonaTemporal" />
             <End Role="RegistroPagoSalario" EntitySet="RegistroPagoSalario" />
           </AssociationSet>
+          <FunctionImport Name="AbonoCompraProveedor" ReturnType="Collection(DBFincaModel.AbonoCompraProveedor_Result)">
+            <Parameter Name="idCompra" Mode="In" Type="Int32" />
+            <Parameter Name="valor" Mode="In" Type="Decimal" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ActializarCantidadArboles" />
           <FunctionImport Name="asociarLaborLote" ReturnType="Collection(DBFincaModel.asociarLaborLote_Result)">
             <Parameter Name="idLabor" Mode="In" Type="Int32" />
             <Parameter Name="idLote" Mode="In" Type="Int32" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="ComprasProveedor" ReturnType="Collection(DBFincaModel.ComprasProveedor_Result1)">
+          <Parameter Name="nit" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="consultarMovimientosArboles" ReturnType="Collection(DBFincaModel.consultarMovimientosArboles_Result1)">
+          <Parameter Name="idArbol" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Consultasproduccion" ReturnType="Collection(DBFincaModel.Consultasproduccion_Result)" />
           <FunctionImport Name="gestionArboles" ReturnType="Collection(DBFincaModel.gestionArboles_Result)">
             <Parameter Name="idLote" Mode="In" Type="Int16" />
             <Parameter Name="idTipoArbol" Mode="In" Type="Byte" />
@@ -1863,14 +1947,11 @@
             <Parameter Name="idMovimiento" Mode="In" Type="Int32" />
             <Parameter Name="opcion" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="gestionArboles2" ReturnType="Collection(DBFincaModel.gestionArboles2_Result)">
+          <FunctionImport Name="gestionArboles2" ReturnType="Collection(String)">
             <Parameter Name="idLote" Mode="In" Type="Int16" />
             <Parameter Name="idTipoArbol" Mode="In" Type="Byte" />
             <Parameter Name="cantidad" Mode="In" Type="Int32" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="idMovimiento" Mode="In" Type="Int32" />
-            <Parameter Name="tipoMovimiento" Mode="In" Type="String" />
-            <Parameter Name="opcion" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="gestionConcepto" ReturnType="Collection(DBFincaModel.gestionConcepto_Result)">
             <Parameter Name="NombreConcepto" Mode="In" Type="String" />
@@ -1939,6 +2020,24 @@
             <Parameter Name="idTipoInsumo" Mode="In" Type="Int32" />
             <Parameter Name="opc" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GestionUsuario" ReturnType="Collection(DBFincaModel.GestionUsuario_Result)">
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="nickName" Mode="In" Type="String" />
+            <Parameter Name="rol" Mode="In" Type="String" />
+            <Parameter Name="contrasena" Mode="In" Type="String" />
+            <Parameter Name="preguntaSeguridad" Mode="In" Type="String" />
+            <Parameter Name="respuesta" Mode="In" Type="String" />
+            <Parameter Name="opc" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GestionVenta">
+            <Parameter Name="nit" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
+            <Parameter Name="idProducto" Mode="In" Type="Int32" />
+            <Parameter Name="PrecioCarga" Mode="In" Type="Decimal" />
+            <Parameter Name="CantidadCargas" Mode="In" Type="Decimal" />
+            <Parameter Name="PrecioBeneficio" Mode="In" Type="Decimal" />
+          </FunctionImport>
           <FunctionImport Name="insercionAbonoDeuda" ReturnType="Collection(DBFincaModel.insercionAbonoDeuda_Result)">
             <Parameter Name="valor" Mode="In" Type="Decimal" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
@@ -1951,62 +2050,7 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="descripcion" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="InsercionInsumoLaborLote" />
-          <FunctionImport Name="registroProduccion">
-            <Parameter Name="idLote" Mode="In" Type="Int32" />
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="cantidad" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SalariosEmpleados" />
-          <FunctionImport Name="SP_InsertMultiplesGastos" />
-          <EntitySet Name="CostoBeneficio" EntityType="DBFincaModel.CostoBeneficio" />
-          <EntitySet Name="Usuario" EntityType="DBFincaModel.Usuario" />
-          <AssociationSet Name="FK_CostoBeneficio_Compra" Association="DBFincaModel.FK_CostoBeneficio_Compra">
-            <End Role="Compra" EntitySet="Compra" />
-            <End Role="CostoBeneficio" EntitySet="CostoBeneficio" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CostoBeneficio_Venta" Association="DBFincaModel.FK_CostoBeneficio_Venta">
-            <End Role="Venta" EntitySet="Venta" />
-            <End Role="CostoBeneficio" EntitySet="CostoBeneficio" />
-          </AssociationSet>
-          <FunctionImport Name="AbonoCompraProveedor" ReturnType="Collection(DBFincaModel.AbonoCompraProveedor_Result)">
-            <Parameter Name="idCompra" Mode="In" Type="Int32" />
-            <Parameter Name="valor" Mode="In" Type="Decimal" />
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="Total" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="ComprasProveedor" ReturnType="Collection(DBFincaModel.ComprasProveedor_Result1)">
-          <Parameter Name="nit" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="InsertarDetalleCompra" />
-          <FunctionImport Name="RegistrarCompra" ReturnType="Collection(DBFincaModel.RegistrarCompra_Result)">
-            <Parameter Name="nit" Mode="In" Type="String" />
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Consultasproduccion" ReturnType="Collection(DBFincaModel.Consultasproduccion_Result)" />
-          <FunctionImport Name="GestionVenta">
-            <Parameter Name="nit" Mode="In" Type="Int32" />
-            <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
-            <Parameter Name="idProducto" Mode="In" Type="Int32" />
-            <Parameter Name="PrecioCarga" Mode="In" Type="Decimal" />
-            <Parameter Name="CantidadCargas" Mode="In" Type="Decimal" />
-            <Parameter Name="PrecioBeneficio" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="VentaProduccion" ReturnType="Collection(DBFincaModel.VentaProduccion_Result)">
-          <Parameter Name="Cantidad" Mode="In" Type="Decimal" />
-          </FunctionImport>
-          <FunctionImport Name="GestionUsuario" ReturnType="Collection(DBFincaModel.GestionUsuario_Result)">
-            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="nickName" Mode="In" Type="String" />
-            <Parameter Name="rol" Mode="In" Type="String" />
-            <Parameter Name="contrasena" Mode="In" Type="String" />
-            <Parameter Name="preguntaSeguridad" Mode="In" Type="String" />
-            <Parameter Name="respuesta" Mode="In" Type="String" />
-            <Parameter Name="opc" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="ModificarFinca" ReturnType="Collection(DBFincaModel.ModificarFinca_Result)">
+          <FunctionImport Name="ModificarFinca" ReturnType="Collection(String)">
             <Parameter Name="nombreFinca" Mode="In" Type="String" />
             <Parameter Name="Propietario" Mode="In" Type="String" />
             <Parameter Name="idMunicipio" Mode="In" Type="Int32" />
@@ -2017,28 +2061,59 @@
           <FunctionImport Name="PagosPersona" ReturnType="Collection(DBFincaModel.PagosPersona_Result)">
           <Parameter Name="opcionPago" Mode="In" Type="Int32" />
           </FunctionImport>
-          <AssociationSet Name="FK_SalarioPersonaPermanente_RegistroPago1" Association="DBFincaModel.FK_SalarioPersonaPermanente_RegistroPago1">
-            <End Role="RegistroPago" EntitySet="RegistroPago" />
-            <End Role="SalarioPersonaPermanente" EntitySet="SalarioPersonaPermanente" />
-          </AssociationSet>
-          <FunctionImport Name="DetalleSalario" ReturnType="Collection(DBFincaModel.DetalleSalario_Result1)">
+          <FunctionImport Name="RegistrarCompra" ReturnType="Collection(DBFincaModel.RegistrarCompra_Result)">
+            <Parameter Name="nit" Mode="In" Type="String" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="registroProduccion">
+            <Parameter Name="idLote" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="VentaProduccion" ReturnType="Collection(DBFincaModel.VentaProduccion_Result)">
+          <Parameter Name="Cantidad" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="DetalleSalario" ReturnType="Collection(DBFincaModel.DetalleSalario_Result)">
           <Parameter Name="cedula" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Insercion_RegistroPago_SalarioPersonaTemporal" />
         </EntityContainer>
-        <ComplexType Name="asociarLaborLote_Result">
-          <Property Type="String" Name="mensaje" Nullable="true" MaxLength="50" />
+        <ComplexType Name="ComprasProveedor_Result">
+          <Property Type="Int32" Name="idCompra" Nullable="false" />
+          <Property Type="Decimal" Name="total" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="adeuda" Nullable="true" Precision="19" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="consultarMovimientosArboles_Result">
+          <Property Type="Int32" Name="idMovimientosArboles" Nullable="false" />
+          <Property Type="String" Name="NombreTipoArbol" Nullable="false" MaxLength="45" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="PagosPersona_Result">
+          <Property Type="String" Name="DocumentoPersona" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Valor_a_pagar" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Valor_Deuda" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="gestionArboles_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="gestionArboles2_Result">
+        <ComplexType Name="RegistrarCompra_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="gestionConcepto_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="AbonoCompraProveedor_Result">
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+        </ComplexType>
         <ComplexType Name="gestionInsumo_Result">
+          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="gestionLabor_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="gestionLotes_Result">
@@ -2059,72 +2134,20 @@
         <ComplexType Name="gestionTipoInsumo_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="insercionAbonoDeuda_Result">
+        <ComplexType Name="GestionUsuario_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="insercionDeudaEmpleado_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <EntityType Name="CostoBeneficio">
-          <Key>
-            <PropertyRef Name="idCostoBeneficio" />
-          </Key>
-          <Property Name="idCostoBeneficio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idVenta" Type="Int32" />
-          <Property Name="idCompra" Type="Int32" />
-          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="EstadoCuenta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="Compra" Relationship="DBFincaModel.FK_CostoBeneficio_Compra" FromRole="CostoBeneficio" ToRole="Compra" />
-          <NavigationProperty Name="Venta" Relationship="DBFincaModel.FK_CostoBeneficio_Venta" FromRole="CostoBeneficio" ToRole="Venta" />
-        </EntityType>
-        <EntityType Name="Usuario">
-          <Key>
-            <PropertyRef Name="idUsuario" />
-          </Key>
-          <Property Name="idUsuario" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nickname" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Rol" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="PreguntaSeguridad" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="Respuesta" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoUsuario" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Contrasena" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_CostoBeneficio_Compra">
-          <End Type="DBFincaModel.Compra" Role="Compra" Multiplicity="0..1" />
-          <End Type="DBFincaModel.CostoBeneficio" Role="CostoBeneficio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Compra">
-              <PropertyRef Name="idCompra" />
-            </Principal>
-            <Dependent Role="CostoBeneficio">
-              <PropertyRef Name="idCompra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CostoBeneficio_Venta">
-          <End Type="DBFincaModel.Venta" Role="Venta" Multiplicity="0..1" />
-          <End Type="DBFincaModel.CostoBeneficio" Role="CostoBeneficio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Venta">
-              <PropertyRef Name="idVenta" />
-            </Principal>
-            <Dependent Role="CostoBeneficio">
-              <PropertyRef Name="idVenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="ComprasProveedor_Result">
-          <Property Type="Int32" Name="idCompra" Nullable="false" />
-          <Property Type="Decimal" Name="total" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="adeuda" Nullable="true" Precision="19" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="RegistrarCompra_Result">
+        <ComplexType Name="insercionAbonoDeuda_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="AbonoCompraProveedor_Result">
-          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+        <ComplexType Name="asociarLaborLote_Result">
+          <Property Type="String" Name="mensaje" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="VentaProduccion_Result">
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="16" />
         </ComplexType>
         <ComplexType Name="ComprasProveedor_Result1">
           <Property Type="Int32" Name="idCompra" Nullable="false" />
@@ -2133,26 +2156,8 @@
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
           <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="gestionLabor_Result">
-          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="Consultasproduccion_Result">
           <Property Type="Decimal" Name="Cargas" Nullable="true" Precision="10" Scale="2" />
-        </ComplexType>
-        <ComplexType Name="VentaProduccion_Result">
-          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="16" />
-        </ComplexType>
-        <ComplexType Name="GestionUsuario_Result">
-          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="ModificarFinca_Result">
-          <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="PagosPersona_Result">
-          <Property Type="String" Name="DocumentoPersona" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="Valor_a_pagar" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="Valor_Deuda" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="DetalleSalario_Result">
           <Property Type="String" Name="NombreLabor" Nullable="false" MaxLength="25" />
@@ -2161,31 +2166,11 @@
           <Property Type="Decimal" Name="Valor" Nullable="false" Precision="19" />
           <Property Type="Decimal" Name="subtotal" Nullable="true" Precision="19" />
         </ComplexType>
-        <Association Name="FK_SalarioPersonaPermanente_RegistroPago1">
-          <End Type="DBFincaModel.RegistroPago" Role="RegistroPago" Multiplicity="0..1" />
-          <End Type="DBFincaModel.SalarioPersonaPermanente" Role="SalarioPersonaPermanente" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="RegistroPago">
-              <PropertyRef Name="idRegistroPago" />
-            </Principal>
-            <Dependent Role="SalarioPersonaPermanente">
-              <PropertyRef Name="idRegistroPago" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="DetalleSalario1_Result">
-          <Property Type="String" Name="NombreLabor" Nullable="false" MaxLength="25" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+        <ComplexType Name="consultarMovimientosArboles_Result1">
+          <Property Type="Int32" Name="idMovimientosArboles" Nullable="false" />
+          <Property Type="String" Name="NombreTipoArbol" Nullable="false" MaxLength="45" />
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
-          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="subtotal" Nullable="true" Precision="19" />
-        </ComplexType>
-        <ComplexType Name="DetalleSalario_Result1">
-          <Property Type="String" Name="NombreLabor" Nullable="false" MaxLength="25" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Int32" Name="Cantidad" Nullable="false" />
-          <Property Type="Decimal" Name="Valor" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="subtotal" Nullable="true" Precision="19" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2265,6 +2250,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CostoBeneficio">
+            <EntityTypeMapping TypeName="DBFincaModel.CostoBeneficio">
+              <MappingFragment StoreEntitySet="CostoBeneficio">
+                <ScalarProperty Name="idCostoBeneficio" ColumnName="idCostoBeneficio" />
+                <ScalarProperty Name="idVenta" ColumnName="idVenta" />
+                <ScalarProperty Name="idCompra" ColumnName="idCompra" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="EstadoCuenta" ColumnName="EstadoCuenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Departamento">
             <EntityTypeMapping TypeName="DBFincaModel.Departamento">
               <MappingFragment StoreEntitySet="Departamento">
@@ -2300,13 +2296,13 @@
           <EntitySetMapping Name="Finca">
             <EntityTypeMapping TypeName="DBFincaModel.Finca">
               <MappingFragment StoreEntitySet="Finca">
-                <ScalarProperty Name="Cuadras" ColumnName="Cuadras" />
                 <ScalarProperty Name="idFinca" ColumnName="idFinca" />
                 <ScalarProperty Name="NombreFinca" ColumnName="NombreFinca" />
                 <ScalarProperty Name="Propietario" ColumnName="Propietario" />
                 <ScalarProperty Name="idMunicipio" ColumnName="idMunicipio" />
                 <ScalarProperty Name="Vereda" ColumnName="Vereda" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cuadras" ColumnName="Cuadras" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2383,7 +2379,6 @@
           <EntitySetMapping Name="MovimientosArboles">
             <EntityTypeMapping TypeName="DBFincaModel.MovimientosArboles">
               <MappingFragment StoreEntitySet="MovimientosArboles">
-                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
                 <ScalarProperty Name="idMovimientosArboles" ColumnName="idMovimientosArboles" />
                 <ScalarProperty Name="idArboles" ColumnName="idArboles" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -2403,9 +2398,9 @@
           <EntitySetMapping Name="Persona">
             <EntityTypeMapping TypeName="DBFincaModel.Persona">
               <MappingFragment StoreEntitySet="Persona">
-                <ScalarProperty Name="TipoContratoPersona" ColumnName="TipoContratoPersona" />
-                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
                 <ScalarProperty Name="DocumentoPersona" ColumnName="DocumentoPersona" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="TipoContratoPersona" ColumnName="TipoContratoPersona" />
                 <ScalarProperty Name="NombrePersona" ColumnName="NombrePersona" />
                 <ScalarProperty Name="Genero" ColumnName="Genero" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
@@ -2467,10 +2462,10 @@
           <EntitySetMapping Name="SalarioPersonaPermanente">
             <EntityTypeMapping TypeName="DBFincaModel.SalarioPersonaPermanente">
               <MappingFragment StoreEntitySet="SalarioPersonaPermanente">
-                <ScalarProperty Name="idRegistroPago" ColumnName="idRegistroPago" />
                 <ScalarProperty Name="idSalarioPersonaPermanente" ColumnName="idSalarioPersonaPermanente" />
                 <ScalarProperty Name="DocumentoPersona" ColumnName="DocumentoPersona" />
                 <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="IdRegistroPago" ColumnName="IdRegistroPago" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2489,11 +2484,11 @@
           <EntitySetMapping Name="TipoArbol">
             <EntityTypeMapping TypeName="DBFincaModel.TipoArbol">
               <MappingFragment StoreEntitySet="TipoArbol">
-                <ScalarProperty Name="TiempoProduccion" ColumnName="TiempoProduccion" />
                 <ScalarProperty Name="idTipoArbol" ColumnName="idTipoArbol" />
                 <ScalarProperty Name="NombreTipoArbol" ColumnName="NombreTipoArbol" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="EstadoTipoArbol" ColumnName="EstadoTipoArbol" />
+                <ScalarProperty Name="TiempoProduccion" ColumnName="TiempoProduccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2504,6 +2499,19 @@
                 <ScalarProperty Name="NombreTipoInsumo" ColumnName="NombreTipoInsumo" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="EstadoTipoInsumo" ColumnName="EstadoTipoInsumo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="DBFincaModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Rol" ColumnName="Rol" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="PreguntaSeguridad" ColumnName="PreguntaSeguridad" />
+                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
+                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2518,10 +2526,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AbonoCompraProveedor" FunctionName="DBFincaModel.Store.AbonoCompraProveedor" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.AbonoCompraProveedor_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ActializarCantidadArboles" FunctionName="DBFincaModel.Store.ActializarCantidadArboles" />
           <FunctionImportMapping FunctionImportName="asociarLaborLote" FunctionName="DBFincaModel.Store.asociarLaborLote" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.asociarLaborLote_Result">
                 <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ComprasProveedor" FunctionName="DBFincaModel.Store.ComprasProveedor">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.ComprasProveedor_Result1">
+                <ScalarProperty Name="idCompra" ColumnName="idCompra" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="adeuda" ColumnName="adeuda" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="consultarMovimientosArboles" FunctionName="DBFincaModel.Store.consultarMovimientosArboles">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.consultarMovimientosArboles_Result1">
+                <ScalarProperty Name="idMovimientosArboles" ColumnName="idMovimientosArboles" />
+                <ScalarProperty Name="NombreTipoArbol" ColumnName="NombreTipoArbol" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Consultasproduccion" FunctionName="DBFincaModel.Store.Consultasproduccion" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.Consultasproduccion_Result">
+                <ScalarProperty Name="Cargas" ColumnName="Cargas" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2532,13 +2576,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="gestionArboles2" FunctionName="DBFincaModel.Store.gestionArboles2" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.gestionArboles2_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="gestionArboles2" FunctionName="DBFincaModel.Store.gestionArboles2" />
           <FunctionImportMapping FunctionImportName="gestionConcepto" FunctionName="DBFincaModel.Store.gestionConcepto" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.gestionConcepto_Result">
@@ -2602,6 +2640,14 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GestionUsuario" FunctionName="DBFincaModel.Store.GestionUsuario" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.GestionUsuario_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GestionVenta" FunctionName="DBFincaModel.Store.GestionVenta" />
           <FunctionImportMapping FunctionImportName="insercionAbonoDeuda" FunctionName="DBFincaModel.Store.insercionAbonoDeuda" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.insercionAbonoDeuda_Result">
@@ -2616,88 +2662,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InsercionInsumoLaborLote" FunctionName="DBFincaModel.Store.InsercionInsumoLaborLote" />
-          <FunctionImportMapping FunctionImportName="registroProduccion" FunctionName="DBFincaModel.Store.registroProduccion" />
-          <FunctionImportMapping FunctionImportName="SP_InsertMultiplesGastos" FunctionName="DBFincaModel.Store.SP_InsertMultiplesGastos" />
-          <EntitySetMapping Name="CostoBeneficio">
-            <EntityTypeMapping TypeName="DBFincaModel.CostoBeneficio">
-              <MappingFragment StoreEntitySet="CostoBeneficio">
-                <ScalarProperty Name="EstadoCuenta" ColumnName="EstadoCuenta" />
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="idCompra" ColumnName="idCompra" />
-                <ScalarProperty Name="idVenta" ColumnName="idVenta" />
-                <ScalarProperty Name="idCostoBeneficio" ColumnName="idCostoBeneficio" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Usuario">
-            <EntityTypeMapping TypeName="DBFincaModel.Usuario">
-              <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-                <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
-                <ScalarProperty Name="Respuesta" ColumnName="Respuesta" />
-                <ScalarProperty Name="PreguntaSeguridad" ColumnName="PreguntaSeguridad" />
-                <ScalarProperty Name="Rol" ColumnName="Rol" />
-                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
-                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AbonoCompraProveedor" FunctionName="DBFincaModel.Store.AbonoCompraProveedor" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.AbonoCompraProveedor_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ComprasProveedor" FunctionName="DBFincaModel.Store.ComprasProveedor">
-          <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.ComprasProveedor_Result1">
-                <ScalarProperty Name="idCompra" ColumnName="idCompra" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="adeuda" ColumnName="adeuda" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="InsertarDetalleCompra" FunctionName="DBFincaModel.Store.InsertarDetalleCompra" />
-          <FunctionImportMapping FunctionImportName="RegistrarCompra" FunctionName="DBFincaModel.Store.RegistrarCompra" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.RegistrarCompra_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Consultasproduccion" FunctionName="DBFincaModel.Store.Consultasproduccion" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.Consultasproduccion_Result">
-                <ScalarProperty Name="Cargas" ColumnName="Cargas" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GestionVenta" FunctionName="DBFincaModel.Store.GestionVenta" />
-          <FunctionImportMapping FunctionImportName="VentaProduccion" FunctionName="DBFincaModel.Store.VentaProduccion" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.VentaProduccion_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GestionUsuario" FunctionName="DBFincaModel.Store.GestionUsuario" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.GestionUsuario_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ModificarFinca" FunctionName="DBFincaModel.Store.ModificarFinca" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.ModificarFinca_Result">
-                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ModificarFinca" FunctionName="DBFincaModel.Store.ModificarFinca" />
           <FunctionImportMapping FunctionImportName="PagosPersona" FunctionName="DBFincaModel.Store.PagosPersona">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.PagosPersona_Result">
@@ -2708,9 +2673,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarCompra" FunctionName="DBFincaModel.Store.RegistrarCompra" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.RegistrarCompra_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="registroProduccion" FunctionName="DBFincaModel.Store.registroProduccion" />
+          <FunctionImportMapping FunctionImportName="VentaProduccion" FunctionName="DBFincaModel.Store.VentaProduccion" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DBFincaModel.VentaProduccion_Result">
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DetalleSalario" FunctionName="DBFincaModel.Store.DetalleSalario">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="DBFincaModel.DetalleSalario_Result1">
+              <ComplexTypeMapping TypeName="DBFincaModel.DetalleSalario_Result">
                 <ScalarProperty Name="NombreLabor" ColumnName="NombreLabor" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />

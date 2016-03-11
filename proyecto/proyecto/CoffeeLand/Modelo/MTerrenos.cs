@@ -146,7 +146,7 @@ namespace Modelo
                 };
 
                 var query = lista.Union(from c in entity.Insumo
-                                        where c.EstadoInsumo == "A"
+                                        where c.EstadoInsumo == "A" && c.CantidadExistente != 0
                                         select c);
                 return query.ToList();
             }
@@ -175,16 +175,11 @@ namespace Modelo
 
         }
 
-        public object ConsultarTiposArboles(int idArboles)
+        public List<consultarMovimientosArboles_Result1> ConsultarTiposArboles(int idArboles)
         {
             using (var entity = new DBFincaEntities())
             {
-                var query = from c in entity.MovimientosArboles
-                            join a in entity.Arboles on c.idArboles equals a.idArboles
-                            join t in entity.TipoArbol on a.idTIpoArbol equals t.idTipoArbol
-                            where t.EstadoTipoArbol == "A" && c.idArboles == idArboles
-                            select new { t.NombreTipoArbol, c.Fecha, c.Cantidad };
-
+                var query = entity.consultarMovimientosArboles(idArboles);
                 return query.ToList();
             }
 
@@ -250,12 +245,12 @@ namespace Modelo
 
         }
 
-        public string MovimientoArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha, int idMovimiento, string tipoMovimiento, int opcion)
+        public string MovimientoArboles(short idLote, byte idTipoArbol, int cantidad, DateTime fecha)
         {
             using (var entity = new DBFincaEntities())
             {
 
-                var rpta = entity.gestionArboles2(idLote, idTipoArbol, cantidad, fecha, idMovimiento, tipoMovimiento, opcion);
+                var rpta = entity.gestionArboles2(idLote, idTipoArbol, cantidad, fecha);
                 return rpta.ToString();
             }
         }
@@ -270,7 +265,7 @@ namespace Modelo
                     {
                         idTipoArbol= 0,
                         NombreTipoArbol = "Seleccione árbol"
-                        
+
                     }
                 };
 
@@ -297,10 +292,48 @@ namespace Modelo
                 };
 
                 var query = lista.Union((from c in entity.TipoArbol
+                                         where c.NombreTipoArbol != "Almacigo"
                                          select c));
                 return query.ToList();
             }
 
+        }
+
+        public void InsertarMovimientoArbloes(DataTable dtMovimiento)
+
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                entity.SP_InsertMovimientoArbloes(dtMovimiento);
+
+            }
+        }
+
+        public int ConsultarAlmacigo()
+        {
+
+            using (var enity = new DBFincaEntities())
+            {
+
+                var query = from c in enity.TipoArbol
+                            where c.NombreTipoArbol == "Almacigo"
+                            select c.idTipoArbol;
+
+                return query.First();
+
+            }
+
+        }
+
+        public void ActualizarCantidadArboles()
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+
+                entity.ActializarCantidadArboles();
+            }
         }
 
     }

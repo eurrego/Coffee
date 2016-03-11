@@ -11,12 +11,11 @@ namespace Modelo
 {
     using System;
     
-    public partial class DetalleSalario_Result1
+    public partial class consultarMovimientosArboles_Result1
     {
-        public string NombreLabor { get; set; }
-        public System.DateTime Fecha { get; set; }
+        public int idMovimientosArboles { get; set; }
+        public string NombreTipoArbol { get; set; }
         public int Cantidad { get; set; }
-        public decimal Valor { get; set; }
-        public Nullable<decimal> subtotal { get; set; }
+        public System.DateTime Fecha { get; set; }
     }
 }

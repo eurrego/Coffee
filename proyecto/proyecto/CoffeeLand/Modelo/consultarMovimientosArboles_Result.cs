@@ -11,8 +11,11 @@ namespace Modelo
 {
     using System;
     
-    public partial class gestionArboles2_Result
+    public partial class consultarMovimientosArboles_Result
     {
-        public string Mensaje { get; set; }
+        public int idMovimientosArboles { get; set; }
+        public string NombreTipoArbol { get; set; }
+        public int Cantidad { get; set; }
+        public System.DateTime Fecha { get; set; }
     }
 }
