@@ -248,7 +248,7 @@ namespace CoffeeLand
                 {
                     auxiliar.Columns.Remove("NOMBRE");
                     auxiliar.Columns.Remove("VALOR DEUDA");
-                    auxiliar.Columns.Remove("DETALLE PAGO");
+                    auxiliar.Columns.Remove("ASIGNAR PAGO");
                     MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 1);
 
                     tblPagos.ItemsSource = null;
@@ -263,7 +263,7 @@ namespace CoffeeLand
                 auxiliar.Columns.Remove("NOMBRE");
                 auxiliar.Columns.Remove("VALOR A PAGAR");
                 auxiliar.Columns.Remove("VALOR DEUDA");
-                auxiliar.Columns.Remove("DETALLE PAGO");
+                auxiliar.Columns.Remove("DETALLE");
                 MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 2);
 
                 tblPagos.ItemsSource = null;

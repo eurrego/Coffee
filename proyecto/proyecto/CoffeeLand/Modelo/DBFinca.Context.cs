@@ -619,5 +619,10 @@ namespace Modelo
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insercion_RegistroPago_SalarioPersonaTemporal");
         }
+    
+        public virtual int Insercion_RegistroPago_SalarioPersonaPermanente()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Insercion_RegistroPago_SalarioPersonaPermanente");
+        }
     }
 }

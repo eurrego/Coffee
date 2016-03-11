@@ -814,6 +814,7 @@
           <Parameter Name="CantidadCargas" Type="decimal" Mode="In" />
           <Parameter Name="PrecioBeneficio" Type="money" Mode="In" />
         </Function>
+        <Function Name="Insercion_RegistroPago_SalarioPersonaPermanente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Insercion_RegistroPago_SalarioPersonaTemporal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="insercionAbonoDeuda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="valor" Type="money" Mode="In" />
@@ -2078,6 +2079,7 @@
           <Parameter Name="cedula" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Insercion_RegistroPago_SalarioPersonaTemporal" />
+          <FunctionImport Name="Insercion_RegistroPago_SalarioPersonaPermanente" />
         </EntityContainer>
         <ComplexType Name="ComprasProveedor_Result">
           <Property Type="Int32" Name="idCompra" Nullable="false" />
@@ -2700,6 +2702,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Insercion_RegistroPago_SalarioPersonaTemporal" FunctionName="DBFincaModel.Store.Insercion_RegistroPago_SalarioPersonaTemporal" />
+          <FunctionImportMapping FunctionImportName="Insercion_RegistroPago_SalarioPersonaPermanente" FunctionName="DBFincaModel.Store.Insercion_RegistroPago_SalarioPersonaPermanente" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
