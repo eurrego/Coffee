@@ -481,5 +481,11 @@ namespace CoffeeLand
             btnAtras.IsEnabled = true;
             tabProveedor.Focus();
         }
+
+        private void cmbInsumo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = cmbInsumo.SelectedItem as Insumo;
+            txtUnidad.Text = item.UnidadMedida.ToString();
+        }
     }
 }
