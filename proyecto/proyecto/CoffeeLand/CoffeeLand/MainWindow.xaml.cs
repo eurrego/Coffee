@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Modelo;
 using CoffeeLand.Validator;
-using System.Collections;
 using Microsoft.Win32;
+using System.Data.SqlClient;
+using System.Data;
+using System.IO;
 
 namespace CoffeeLand
 {
@@ -816,6 +811,11 @@ namespace CoffeeLand
 
         private async void btnExportar_Click(object sender, RoutedEventArgs e)
         {
+           
+
+
+
+
             var mySettings = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Aceptar",
@@ -835,6 +835,7 @@ namespace CoffeeLand
 
         private void btnImportar_Click(object sender, RoutedEventArgs e)
         {
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Archivo .Bak|*.Bak";
             openFileDialog.Title = "Importar Datos";
@@ -844,8 +845,43 @@ namespace CoffeeLand
 
             if (ruta != string.Empty)
             {
-                MUsuario.GetInstance().Importar(ruta);
-                
+                string str = string.Empty;
+
+                string datosConexion = "Data Source=localhost;"+"Initial Catalog=master;Integrated Security=true;";
+                SqlConnection myConn = new SqlConnection();
+                myConn.ConnectionString = datosConexion;
+
+                str = "RESTORE DATABASE DBFinca FROM DISK = " + ruta;
+
+                try
+                {
+                    SqlCommand myCommand = new SqlCommand(str, myConn);
+                    myConn.Open();
+                    myCommand.ExecuteNonQuery();
+                    mensajeInformacion("Imporatación exitosa");
+                }
+                catch (Exception ex)
+                {
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
+
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                    }
+
+                    mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                }
+                finally
+                {
+                    if (myConn.State == ConnectionState.Open)
+                    {
+                        myConn.Close();
+                    }
+                }
+
             }
 
         }
