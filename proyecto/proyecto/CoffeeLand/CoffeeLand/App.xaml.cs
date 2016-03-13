@@ -35,6 +35,7 @@ namespace CoffeeLand
                 {
                     frmInicio.GetInstance().btnActualizar.Visibility = Visibility.Collapsed;
                     frmInicio.GetInstance().btnUpdate.Visibility = Visibility.Collapsed;
+                    frmInicio.GetInstance().txtUpdate.Visibility = Visibility.Collapsed;
                 }
                 principal.Show(); // inicia la aplicación.
             }

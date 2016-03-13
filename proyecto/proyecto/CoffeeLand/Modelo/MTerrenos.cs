@@ -322,7 +322,7 @@ namespace Modelo
                     new TipoArbol
                     {
                         idTipoArbol = 0,
-                        NombreTipoArbol = "Tipos Arboles",
+                        NombreTipoArbol = "Seleccione un Tipo  de árbol...",
                     }
                 };
 

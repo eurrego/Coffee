@@ -81,7 +81,7 @@
                     <StackPanel x:Name="pnlSinRegistros" Orientation="Vertical" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="20 70 0 0" Text="No tiene " FontSize="50" FontWeight="Light" />
-                            <TextBlock Margin="0 70 0 0" Text="insumos" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                            <TextBlock Margin="0 70 0 0" Text="Existencias" FontSize="50" FontWeight="Regular"  ></TextBlock>
                         </StackPanel>
                         <TextBlock x:Name="lblSinRegistros" Margin="20 0 0 0" Text="" FontSize="50" FontWeight="Light" />
                     </StackPanel>

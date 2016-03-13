@@ -215,7 +215,7 @@
                                     </Viewbox>
                                 </Button>
 
-                                <TextBlock  Margin="200,-5,0,0"  
+                                <TextBlock x:Name="txtUpdate" Margin="200,-5,0,0"  
                                                 VerticalAlignment="Top" 
                                                 HorizontalAlignment="Left"
                                                 FontSize="20" 

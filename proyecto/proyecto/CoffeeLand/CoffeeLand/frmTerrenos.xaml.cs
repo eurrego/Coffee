@@ -18,6 +18,7 @@ using System.Globalization;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System.Data;
+using System.IO;
 
 namespace CoffeeLand
 {
@@ -98,6 +99,7 @@ namespace CoffeeLand
             pnlContainerInsumos.Width = width / 2;
             pnlContainerEmpleados.Width = width / 2;
             pnlContainerArboles.Width = anchoContainer;
+            pnlContainerModificarArboles.Width = anchoContainer;
 
             tblLotes.Height = height - 285;
             columnLote.Width = anchoContainer - 70;
@@ -107,6 +109,7 @@ namespace CoffeeLand
             tblProductividad.Height = height - 285;
             tblProductividad.Height = height - 285;
             tblArboles.Height = height - 285;
+            tblMovimientoArboles.Height = height - 285;
 
         }
 
@@ -188,7 +191,7 @@ namespace CoffeeLand
                 case 1:
                     cmbTipoPago.SelectedIndex = 0;
                     dtdFechaLabor.SelectedDate = null;
-                    lblLabores.Text = "Seleccione un";
+                    lblLabores.Text = "Seleccione una";
                     lblInicioLabores.Visibility = Visibility.Visible;
                     tblLabores.SelectedItem = null;
                     break;
@@ -206,6 +209,7 @@ namespace CoffeeLand
                     cmbTipoArbolLote.SelectedIndex = 0;
                     cmbTipoArbolModificar.SelectedIndex = 0;
                     txtArbolesModicacion.Text = "0";
+                    txtArbolesModicacionFinal.Text = "0";
 
                     break;
 
@@ -339,7 +343,7 @@ namespace CoffeeLand
 
                 Labor item = tblLabores.SelectedItem as Labor;
 
-                if (item.ModificaArboles && cmbTipoPago.SelectedItem.Equals("Contrato") || item.NombreLabor.Equals("Recoleccion") && cmbTipoPago.SelectedItem.Equals("Contrato"))
+                if (item.ModificaArboles && cmbTipoPago.SelectedItem.Equals("Contrato") || item.NombreLabor.Equals("Recolección") && cmbTipoPago.SelectedItem.Equals("Contrato"))
                 {
                     if (item.RequiereInsumo)
                     {
@@ -352,7 +356,7 @@ namespace CoffeeLand
                         btnEmpleado.IsChecked = true;
                     }
                 }
-                else if (!item.ModificaArboles && !item.NombreLabor.Equals("Recoleccion"))
+                else if (!item.ModificaArboles && !item.NombreLabor.Equals("Recolección"))
                 {
                     if (item.RequiereInsumo)
                     {
@@ -367,9 +371,9 @@ namespace CoffeeLand
 
 
                 }
-                else if (item.NombreLabor.Equals("Recoleccion"))
+                else if (item.NombreLabor.Equals("Recolección"))
                 {
-                    mensajeError("Esta labor indica la producción por lote,por lo tanto el tipo de pago solo puede ser por contrato");
+                    mensajeError("Esta labor indica la producción por lote, por lo tanto el tipo de pago solo puede ser por contrato");
 
                 }
                 else
@@ -616,7 +620,7 @@ namespace CoffeeLand
                             }
                             else
                             {
-                                mensajeError("No puede agregar el mismo empleado con diferente valor de pago");
+                                mensajeError("No puede agregar el mismo empleado con diferentes valores");
                                 ValorDiferenteEmpleado++;
                             }
                         }
@@ -827,7 +831,17 @@ namespace CoffeeLand
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(ex.Message);
+                                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                                string filePath = @"" + path + "\\LogCo.txt";
+
+                                using (StreamWriter writer = new StreamWriter(filePath, true))
+                                {
+                                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                                }
+
+                                mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                             }
                         }
 
@@ -836,6 +850,7 @@ namespace CoffeeLand
                     {
                         txtArbolesModicacion.IsEnabled = false;
                         txtArbolesModicacion.Text = cantidadArboles.ToString();
+                        txtArbolesModicacionFinal.Text = cantidadArboles.ToString();
 
                         cmbTipoArbolLote.ItemsSource = MTerrenos.GetInstance().LaborModificaArbol(Convert.ToInt32(itemTerrenos.Id)) as IEnumerable;
                         cmbTipoArbolModificar.ItemsSource = MTerrenos.GetInstance().ConsultarTipoArboles();
@@ -870,7 +885,17 @@ namespace CoffeeLand
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string filePath = @"" + path + "\\LogCo.txt";
+
+                            using (StreamWriter writer = new StreamWriter(filePath, true))
+                            {
+                                writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                                   "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                                writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                            }
+
+                            mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                         }
                     }
                 }
@@ -937,7 +962,6 @@ namespace CoffeeLand
             if (CantidadArbolesAModificar == 0)
             {
 
-
                 var mySettings = new MetroDialogSettings()
                 {
                     AffirmativeButtonText = "Aceptar",
@@ -984,14 +1008,24 @@ namespace CoffeeLand
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                        string filePath = @"" + path + "\\LogCo.txt";
+
+                        using (StreamWriter writer = new StreamWriter(filePath, true))
+                        {
+                            writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                               "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                            writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                        }
+
+                        mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                     }
                 }
 
             }
             else
             {
-                mensajeError("No puede puede guarda hasta que los arboles a modificar este en 0");
+                mensajeError("No puede puede guardar hasta que los árboles a modificar esten en cero");
             }
         }
 
@@ -1048,7 +1082,7 @@ namespace CoffeeLand
             MTerrenos.GetInstance().salarioEmpleado(dtPersona);
 
 
-            if (lblLabores.Text.Equals("Recoleccion"))
+            if (lblLabores.Text.Equals("Recolección"))
             {
                 int cantidad = 0;
                 foreach (DataRow itemCantidad in dtPersona.Rows)
@@ -1074,7 +1108,7 @@ namespace CoffeeLand
             }
             else
             {
-                mensajeError("No pueden haber registros en la tabla de movimiento de los árboles ");
+                mensajeError("No pueden haber registros agregados en la tabla de movimiento de los árboles ");
             }
         }
 
@@ -1097,6 +1131,7 @@ namespace CoffeeLand
                         if (CantidadArbolesAModificar <= item.Cantidad)
                         {
                             int cantidadTotalArboles = 0;
+                            int totalArboles = 0;
                             int indexRow = -1;
                             for (int i = 0; i < dtMovimientoArboles.Rows.Count; i++)
                             {
@@ -1113,30 +1148,37 @@ namespace CoffeeLand
                                 dtMovimientoArboles.Rows[indexRow].Delete();
                             }
 
+                            totalArboles = item.Cantidad - CantidadArbolesAModificar;
                             item.Cantidad = item.Cantidad - CantidadArbolesAModificar;
+                             
 
                             tblArboles.Items.Refresh();
 
                             dtMovimientoArboles.Rows.Add(item.idMovimientosArboles, cmbTipoArbolModificar.SelectedValue.ToString(), item.NombreTipoArbol, (CantidadArbolesAModificar + cantidadTotalArboles), Convert.ToDateTime(dtdFechaLabor.SelectedDate));
 
-
+                            pnlDataModificarArboles.Visibility = Visibility.Visible;
+                            pnlInicioModificarArboles.Visibility = Visibility.Collapsed;
                             cantidadArboles = cantidadArboles - CantidadArbolesAModificar;
                             txtArbolesModicacion.Text = cantidadArboles.ToString();
+                            txtArbolesModicacionFinal.Text = cantidadArboles.ToString();
+                            lblArbolesExistentes.Text = totalArboles.ToString();
                             tblMovimientoArboles.ItemsSource = dtMovimientoArboles.DefaultView;
                             tabNuevoArboles.Focus();
                             txtCantidadArbolesAModificar.Text = string.Empty;
                             tblArboles.IsEnabled = true;
+                            
+
 
                         }
                         else
                         {
-                            mensajeError("La cantidad de arboles que ingreso no puede ser superior a la cantidad que ha seleccionado");
+                            mensajeError("La cantidad de árboles que ingreso no puede ser superior a la cantidad que ha seleccionado");
                         }
 
                     }
                     else
                     {
-                        mensajeError("La cantidad de arboles que ingreso no puede ser mayor a la cantidad a modificar");
+                        mensajeError("La cantidad de árboles que ingreso no puede ser mayor a la cantidad a modificar");
                     }
 
                 }
@@ -1148,7 +1190,7 @@ namespace CoffeeLand
             }
             else
             {
-                mensajeError("Debe seleccionar un estado de los árboles diferente");
+                mensajeError("Debe seleccionar un tipo de árbol diferente, ya que no puede pasar al mismo tipo");
             }
         }
 
@@ -1159,49 +1201,54 @@ namespace CoffeeLand
             if (tblMovimientoArboles.Items.Count != 0)
             {
                 cmbTipoArbolModificar.IsEnabled = false;
-
+                pnlDataModificarArboles.Visibility = Visibility.Visible;
+                pnlInicioModificarArboles.Visibility = Visibility.Collapsed;
             }
             else
             {
                 cmbTipoArbolModificar.IsEnabled = true;
+                pnlDataModificarArboles.Visibility = Visibility.Collapsed;
+                pnlInicioModificarArboles.Visibility = Visibility.Visible;
             }
 
             Labor itemLabor = tblLabores.SelectedItem as Labor;
             if (itemLabor.NombreLabor.Equals("Eliminación"))
             {
                 cmbTipoArbolModificar.Visibility = Visibility.Collapsed;
-
             }
             else
             {
                 cmbTipoArbolModificar.Visibility = Visibility.Visible;
-
             }
 
             tblArboles.IsEnabled = false;
 
+            lblArbolSeleccionado.Text = item.NombreTipoArbol;
+            lblArbolesExistentes.Text = item.Cantidad.ToString();
             tabSeleccionar.Focus();
         }
 
         private void btnatras_Click_1(object sender, RoutedEventArgs e)
         {
-            txtCantidadArbolesAModificar.Text = string.Empty;
-            tblArboles.IsEnabled = true;
-            tabNuevoArboles.Focus();
+            if (txtArbolesModicacionFinal.Text.Equals("0"))
+            {
+                mensajeError("Los árboles a modificar han llegado a cero, debe eliminar un registro");
+            }
+            else
+            {
+                //txtCantidadArbolesAModificar.Text = string.Empty;
+                tblArboles.IsEnabled = true;
+                tabArboles.Focus();
+            }
         }
 
         private void btnEliminarAlborModificar_Click(object sender, RoutedEventArgs e)
         {
-
-
             index = tblMovimientoArboles.SelectedIndex;
 
             cantidadArboles += Convert.ToInt32(dtMovimientoArboles.Rows[index].ItemArray[3]);
             txtArbolesModicacion.Text = cantidadArboles.ToString();
-
-
-
-
+            txtArbolesModicacionFinal.Text = cantidadArboles.ToString(); 
 
             if (dtMovimientoArboles.Rows.Count != 0)
             {
@@ -1225,9 +1272,22 @@ namespace CoffeeLand
                 tabNuevoArboles.Focus();
                 tblArboles.ItemsSource = MTerrenos.GetInstance().ConsultarTiposArboles(Convert.ToInt32(cmbTipoArbolLote.SelectedValue)) as IEnumerable;
                 txtCantidadArbolesAModificar.Text = string.Empty;
-
+                pnlInicioModificarArboles.Visibility = Visibility.Visible;
+                pnlDataModificarArboles.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        private void btnAdelanteArboles_Click(object sender, RoutedEventArgs e)
+        {
+            if (tblMovimientoArboles.Items.Count != 0)
+            {
+                tabSeleccionar.Focus();
+            }
+            else
+            {
+                mensajeError("Debe seleccionar el árbol a modificar");
+            }
         }
     }
 }

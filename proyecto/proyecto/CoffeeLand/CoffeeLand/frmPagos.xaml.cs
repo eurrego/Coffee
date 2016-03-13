@@ -17,6 +17,7 @@ using Modelo;
 using System.Collections;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using System.IO;
 
 namespace CoffeeLand
 {
@@ -246,31 +247,70 @@ namespace CoffeeLand
 
                 if (val != "0")
                 {
+                    
+                    try
+                    {
+                        auxiliar.Columns.Remove("NOMBRE");
+                        auxiliar.Columns.Remove("VALOR DEUDA");
+                        auxiliar.Columns.Remove("ASIGNAR PAGO");
+                        MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 1);
+                        tblPagos.ItemsSource = null;
+                        tblPagos.Items.Refresh();
+                        cmbTipoEmpleado.SelectedIndex = 0;
+
+                        mensajeInformacion("Registro de pago exitoso.");
+                    }
+                    catch (Exception ex)
+                    {
+                        string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                        string filePath = @"" + path + "\\LogCo.txt";
+
+                        using (StreamWriter writer = new StreamWriter(filePath, true))
+                        {
+                            writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                               "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                            writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                        }
+
+                        mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                    }
+
+                  
+                }
+            }
+            else if (cmbTipoEmpleado.SelectedIndex.Equals(2))//persona temporal
+            {
+
+                try
+                {
                     auxiliar.Columns.Remove("NOMBRE");
+                    auxiliar.Columns.Remove("VALOR A PAGAR");
                     auxiliar.Columns.Remove("VALOR DEUDA");
-                    auxiliar.Columns.Remove("ASIGNAR PAGO");
-                    MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 1);
+                    auxiliar.Columns.Remove("DETALLE");
+
+                    MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 2);
 
                     tblPagos.ItemsSource = null;
                     tblPagos.Items.Refresh();
                     cmbTipoEmpleado.SelectedIndex = 0;
 
-                    mensajeError("Registro de pago exitoso.");
+                    mensajeInformacion("Registro de pago exitoso.");
                 }
-            }
-            else if (cmbTipoEmpleado.SelectedIndex.Equals(2))//persona temporal
-            {
-                auxiliar.Columns.Remove("NOMBRE");
-                auxiliar.Columns.Remove("VALOR A PAGAR");
-                auxiliar.Columns.Remove("VALOR DEUDA");
-                auxiliar.Columns.Remove("DETALLE");
-                MPagos.GetInstance().insertarMultiplesSalarios(auxiliar, 2);
+                catch (Exception ex)
+                {
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    string filePath = @"" + path + "\\LogCo.txt";
 
-                tblPagos.ItemsSource = null;
-                tblPagos.Items.Refresh();
-                cmbTipoEmpleado.SelectedIndex = 0;
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                    }
 
-                mensajeError("Registro de pago exitoso.");
+                    mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                }
+              
             }
         }
 

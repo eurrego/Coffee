@@ -40,7 +40,7 @@ namespace Modelo
         {
             var datos = new SqlParameter("DTsalario", SqlDbType.Structured);
             datos.Value = dtDatos;
-            datos.TypeName = "dbo.SalarioPeronaTemporal";
+            datos.TypeName = "dbo.SalarioPersonaTemporal";
 
             string command = "EXEC SalariosEmpleados @DTsalario";
 

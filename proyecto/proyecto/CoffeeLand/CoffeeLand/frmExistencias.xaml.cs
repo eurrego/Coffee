@@ -74,7 +74,7 @@ namespace CoffeeLand
             }
             else
             {
-                lblSinRegistros.Text = "registrados o habilitados.";
+                lblSinRegistros.Text = "disponibles.";
                 pnlSinRegistros.Visibility = Visibility.Visible;
                 pnlHabilitados.Visibility = Visibility.Collapsed;
             }
