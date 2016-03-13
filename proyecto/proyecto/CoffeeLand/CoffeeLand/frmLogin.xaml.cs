@@ -151,6 +151,8 @@ namespace CoffeeLand
 
         private void btnCerrar_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.MainWindow = this;
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Close();
         }
 

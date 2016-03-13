@@ -257,7 +257,7 @@ namespace CoffeeLand
                         tblPagos.ItemsSource = null;
                         tblPagos.Items.Refresh();
                         cmbTipoEmpleado.SelectedIndex = 0;
-
+                        lblTotal.Text = "$0";
                         mensajeInformacion("Registro de pago exitoso.");
                     }
                     catch (Exception ex)
@@ -293,7 +293,7 @@ namespace CoffeeLand
                     tblPagos.ItemsSource = null;
                     tblPagos.Items.Refresh();
                     cmbTipoEmpleado.SelectedIndex = 0;
-
+                    lblTotal.Text = "$0";
                     mensajeInformacion("Registro de pago exitoso.");
                 }
                 catch (Exception ex)
