@@ -841,12 +841,13 @@ namespace CoffeeLand
                                     writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
                                 }
 
-                                mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                                mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                             }
                         }
 
                     }
-                    else
+
+                    else if (itemTerrenos.Cantidad >= cantidadArboles)
                     {
                         txtArbolesModicacion.IsEnabled = false;
                         txtArbolesModicacion.Text = cantidadArboles.ToString();
@@ -859,6 +860,11 @@ namespace CoffeeLand
                         tabArboles.Focus();
 
                     }
+                    else
+                    {
+                        mensajeError("No puede modificar mas arboles de los que hay en el lote");
+                    }
+
 
 
 
@@ -895,7 +901,7 @@ namespace CoffeeLand
                                 writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
                             }
 
-                            mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                            mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                         }
                     }
                 }
@@ -1018,7 +1024,7 @@ namespace CoffeeLand
                             writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
                         }
 
-                        mensajeError( "Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                        mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                     }
                 }
 
@@ -1150,7 +1156,7 @@ namespace CoffeeLand
 
                             totalArboles = item.Cantidad - CantidadArbolesAModificar;
                             item.Cantidad = item.Cantidad - CantidadArbolesAModificar;
-                             
+
 
                             tblArboles.Items.Refresh();
 
@@ -1166,7 +1172,7 @@ namespace CoffeeLand
                             tabNuevoArboles.Focus();
                             txtCantidadArbolesAModificar.Text = string.Empty;
                             tblArboles.IsEnabled = true;
-                            
+
 
 
                         }
@@ -1248,7 +1254,7 @@ namespace CoffeeLand
 
             cantidadArboles += Convert.ToInt32(dtMovimientoArboles.Rows[index].ItemArray[3]);
             txtArbolesModicacion.Text = cantidadArboles.ToString();
-            txtArbolesModicacionFinal.Text = cantidadArboles.ToString(); 
+            txtArbolesModicacionFinal.Text = cantidadArboles.ToString();
 
             if (dtMovimientoArboles.Rows.Count != 0)
             {

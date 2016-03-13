@@ -226,14 +226,14 @@ namespace Modelo
 
         }
 
-        public object salarioEmpleado(DataTable tabla)
+        public void salarioEmpleado(DataTable tabla)
         {
             using (var entity = new DBFincaEntities())
             {
 
                 var rpta = entity.SP_SalariosEmpleados(tabla);
 
-                return rpta;
+                
             }
 
         }
