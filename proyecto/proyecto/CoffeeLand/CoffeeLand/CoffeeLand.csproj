@@ -112,6 +112,12 @@
     <Compile Include="frmConsultaCompras.xaml.cs">
       <DependentUpon>frmConsultaCompras.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmConsultaLabores.xaml.cs">
+      <DependentUpon>frmConsultaLabores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmConsultaProduccion.xaml.cs">
+      <DependentUpon>frmConsultaProduccion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmConsultarGastos.xaml.cs">
       <DependentUpon>frmConsultarGastos.xaml</DependentUpon>
     </Compile>
@@ -317,6 +323,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="frmConsultaCompras.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmConsultaLabores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frmConsultaProduccion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

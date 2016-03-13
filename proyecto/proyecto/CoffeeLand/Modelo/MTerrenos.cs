@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -368,6 +369,136 @@ namespace Modelo
             {
 
                 entity.ActializarCantidadArboles();
+            }
+        }
+
+        public object consultarProduccion( int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Produccion
+                            join l in entity.Lote on c.idLote equals l.idLote
+                            where c.idLote == idLote 
+                            select new
+                            {
+                                NombreLote = l.NombreLote,
+                                Fecha = c.Fecha,
+                                Cantidad = c.Cantidad
+                            };
+
+                return query.ToList();
+            }
+        }
+
+        public object ConsultaProduccionFecha(DateTime parametroInicial, DateTime parametroFinal, int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.Produccion
+                            join l in entity.Lote on c.idLote equals l.idLote
+                            where c.idLote == idLote  && c.Fecha >= parametroInicial && c.Fecha <= parametroFinal
+                            select new
+                            {
+                                NombreLote = l.NombreLote,
+                                Fecha = c.Fecha,
+                                Cantidad = c.Cantidad
+                            };
+
+                return query.ToList();
+            }
+        }
+
+        public object consultarLabores(int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from ll in entity.Labor_Lote
+                            join l in entity.Lote on ll.idLote equals l.idLote
+                            join la in entity.Labor on ll.idLabor equals la.idLabor
+                            where ll.idLote == idLote
+                            group ll  by new
+                            {
+                                l.NombreLote,
+                                la.NombreLabor,
+                                la.ModificaArboles,
+                                la.RequiereInsumo,
+                                ll.Fecha
+                                 
+                            } into result
+                            select new
+                            {
+                                NombreLote = result.Key.NombreLote,
+                                NombreLabor = result.Key.NombreLabor,
+                                Fecha = result.Key.Fecha,
+                                ModificaArboles = (result.Key.ModificaArboles == false ? false : true ),
+                                RequiereInsumo = (result.Key.RequiereInsumo == false ? false : true) 
+                            };
+
+                List<MLabores> list = new List<MLabores>() ;
+
+                foreach (var item in query)
+                {
+                    Type v = item.GetType();
+                    var nombreLote = v.GetProperty("NombreLote").GetValue(item).ToString();
+                    var nombreLabor = v.GetProperty("NombreLabor").GetValue(item).ToString();
+                    DateTime fecha = Convert.ToDateTime(v.GetProperty("Fecha").GetValue(item));
+                    var modificaArboles = v.GetProperty("ModificaArboles").GetValue(item);
+                    var requiereInsumo = v.GetProperty("RequiereInsumo").GetValue(item);
+
+                    list.Add( new MLabores { NombreLote = nombreLote, NombreLabor = nombreLabor, Fecha = fecha, ModificaArboles = Convert.ToBoolean(modificaArboles), RequiereInsumo = Convert.ToBoolean(requiereInsumo) } );
+                }
+
+
+                return list;
+            }
+        }
+
+
+        public object ConsultaLaboresFecha(DateTime parametroInicial, DateTime parametroFinal, int idLote)
+        {
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from ll in entity.Labor_Lote
+                            join l in entity.Lote on ll.idLote equals l.idLote
+                            join la in entity.Labor on ll.idLabor equals la.idLabor
+                            where ll.idLote == idLote && ll.Fecha >= parametroInicial && ll.Fecha <= parametroFinal
+                            group ll by new
+                            {
+                                l.NombreLote,
+                                la.NombreLabor,
+                                la.ModificaArboles,
+                                la.RequiereInsumo,
+                                ll.Fecha
+
+                            } into result
+                            select new
+                            {
+                                NombreLote = result.Key.NombreLote,
+                                NombreLabor = result.Key.NombreLabor,
+                                ModificaArboles = result.Key.ModificaArboles,
+                                RequiereInsumo = result.Key.RequiereInsumo,
+                                Fecha = result.Key.Fecha
+                            };
+
+                List<MLabores> list = new List<MLabores>();
+
+                foreach (var item in query)
+                {
+                    Type v = item.GetType();
+                    var nombreLote = v.GetProperty("NombreLote").GetValue(item).ToString();
+                    var nombreLabor = v.GetProperty("NombreLabor").GetValue(item).ToString();
+                    DateTime fecha = Convert.ToDateTime(v.GetProperty("Fecha").GetValue(item));
+                    var modificaArboles = v.GetProperty("ModificaArboles").GetValue(item);
+                    var requiereInsumo = v.GetProperty("RequiereInsumo").GetValue(item);
+
+                    list.Add(new MLabores { NombreLote = nombreLote, NombreLabor = nombreLabor, Fecha = fecha, ModificaArboles = Convert.ToBoolean(modificaArboles), RequiereInsumo = Convert.ToBoolean(requiereInsumo) });
+                }
+
+
+                return list;
             }
         }
 
