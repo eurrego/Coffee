@@ -1232,7 +1232,7 @@ namespace CoffeeLand
         {
             if (txtArbolesModicacionFinal.Text.Equals("0"))
             {
-                mensajeError("Los árboles a modificar han llegado a cero, debe eliminar un registro");
+                mensajeError("Los árboles a modificar han llegado a cero, si quiere volver atras debe eliminar un registro");
             }
             else
             {
