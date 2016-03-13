@@ -26,6 +26,50 @@ namespace Modelo
 
         #endregion
 
+        #region Propertys
+
+        private string nombreLote;
+
+        public string NombreLote
+        {
+            get { return nombreLote; }
+            set { nombreLote = value; }
+        }
+
+        private string nombreLabor;
+
+        public string NombreLabor
+        {
+            get { return nombreLabor; }
+            set { nombreLabor = value; }
+        }
+
+        private DateTime fecha;
+
+        public DateTime Fecha
+        {
+            get { return fecha; }
+            set { fecha = value; }
+        }
+
+        private bool modificaArboles;
+
+        public bool ModificaArboles
+        {
+            get { return modificaArboles; }
+            set { modificaArboles = value; }
+        }
+
+        private bool requiereInsumo;
+
+        public bool RequiereInsumo
+        {
+            get { return requiereInsumo; }
+            set { requiereInsumo = value; }
+        }
+
+
+        #endregion
 
         public List<Labor> consultarLabor()
         {

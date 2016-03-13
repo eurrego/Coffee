@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CoffeeLand.frmConsultarVentas"
+﻿<UserControl x:Class="CoffeeLand.frmConsultaProduccion"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -34,16 +34,22 @@
         <DockPanel  DockPanel.Dock="Top">
             <StackPanel x:Name="pnlContainer" Orientation="Vertical" DockPanel.Dock="Left">
 
-
-                <Grid x:Name="pnlInicio" Visibility="Collapsed" Margin="20 20 0 0" >
+                <Grid x:Name="pnlInicioPrincipal" Visibility="Visible" Margin="20 20 0 0" >
                     <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="lblSuperior" Margin="20 70 0 0" Text="No hay ventas " FontSize="50" FontWeight="Light" />
-                        <TextBlock x:Name="lblInferior" Margin="20 0 0 0" Text="registradas" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                        <TextBlock  Margin="20 70 0 0" Text="Seleccione un" FontSize="50" FontWeight="Light" />
+                        <TextBlock  Margin="20 0 0 0" Text="Lote" FontSize="50" FontWeight="Regular"  ></TextBlock>
                     </StackPanel>
                 </Grid>
 
-                <Grid x:Name="pnlData" Visibility="Visible"  Margin="20 30 0 25" >
-                    <DataGrid x:Name="tblVentas" 
+                <Grid x:Name="pnlInicio" Visibility="Collapsed" Margin="20 20 0 0" >
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="lblSuperior" Margin="20 70 0 0" Text="No hay producción " FontSize="50" FontWeight="Light" />
+                        <TextBlock x:Name="lblInferior" Margin="20 0 0 0" Text="registrada" FontSize="50" FontWeight="Regular"  ></TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="pnlData" Visibility="Collapsed"  Margin="20 30 0 25" >
+                    <DataGrid x:Name="tblProduccion" 
                                       HeadersVisibility="All"
                                       SelectionUnit="FullRow"
                                       CanUserAddRows="False" 
@@ -52,11 +58,9 @@
                                       ScrollViewer.CanContentScroll="True"
                                       >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding NombreProducto}"  Header="Producto" Width="150" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="120" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding PrecioCarga,StringFormat={}{0:c}}" Header="Precio Carga" Width="150" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding CantidadCargas, StringFormat={}{0:n}}" Header="cantidad" Width="100" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Total,StringFormat={}{0:c}}" Header="Total" Width="120" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding NombreLote}"  Header="Lote" Width="180" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="180" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Cantidad, StringFormat={}{0:n}}" Header="cantidad" Width="150" IsReadOnly="True"/>
                         </DataGrid.Columns>
                         <DataGrid.Style>
                             <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="{x:Type DataGrid}">
@@ -69,10 +73,20 @@
 
             <Separator Margin="25 50 0 0" Background="LightGray" Style="{StaticResource CleanMetroStatusBarSeparator}"></Separator>
 
-            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario" Margin="20 0 0 0">
+            <Grid DockPanel.Dock="Right" x:Name="pnlFormulario" Margin="20 0 30 0">
 
                 <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Background="White" Margin="20,0,20,0">
 
+
+                    <ComboBox x:Name="cmbLote"
+                              DisplayMemberPath="NombreLote"
+                    	      SelectedValuePath="idLote"
+                              Margin="0,20,0,0" VerticalAlignment="Top"
+                              IsSynchronizedWithCurrentItem="true" 
+                              Height="42"
+                              SelectedIndex="0"
+                              SelectionChanged="cmbLote_SelectionChanged"
+                              />
 
 
                     <GroupBox x:Name="gboxFiltrado" Header="FILTRADO" Margin="0 20 0 0" Visibility="Collapsed">
@@ -115,12 +129,12 @@
                                         Margin="0 30 0 0">
 
                             <TextBlock x:Name="lblTotal" 
-                                           FontSize="45" Text="$0"
-                                           HorizontalAlignment="Center"
+                                       FontSize="45" Text="0 Kg"
+                                       HorizontalAlignment="Center"
                                        FontFamily="Arial Rounded MT Bold" 
-                                           Foreground="Crimson"
-                                          Margin="0 20 0 0"
-                                           ></TextBlock>
+                                       Foreground="Crimson"
+                                       Margin="0 20 0 0"
+                                       ></TextBlock>
 
                             <TextBlock FontSize="15" 
                                            Margin="0 10 0 0"

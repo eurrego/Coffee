@@ -56,5 +56,23 @@ namespace CoffeeLand
             frmTerrenos misTerrenos = new frmTerrenos();
             contentRegistroTerrenos.Content = misTerrenos;
         }
+
+        private void tabProduccionTerrenos_Selected(object sender, RoutedEventArgs e)
+        {
+            frmConsultaProduccion miProduccion = new frmConsultaProduccion();
+            contentproduccionTerrenos.Content = miProduccion;
+        }
+
+        private void tabRegistroTerrenos_Selected(object sender, RoutedEventArgs e)
+        {
+            frmTerrenos misTerrenos = new frmTerrenos();
+            contentRegistroTerrenos.Content = misTerrenos;
+        }
+
+        private void tabLaboresTerrenos_Selected(object sender, RoutedEventArgs e)
+        {
+            frmConsultaLabores misLabores = new frmConsultaLabores();
+            contentLaboresTerrenos.Content = misLabores;
+        }
     }
 }
