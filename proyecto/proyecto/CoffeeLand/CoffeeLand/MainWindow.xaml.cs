@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using System.Data.SqlClient;
 using System.Data;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CoffeeLand
 {
@@ -811,10 +812,6 @@ namespace CoffeeLand
 
         private async void btnExportar_Click(object sender, RoutedEventArgs e)
         {
-           
-
-
-
 
             var mySettings = new MetroDialogSettings()
             {
@@ -823,67 +820,92 @@ namespace CoffeeLand
 
             };
 
-            MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea exportar todos Los datos?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+            MessageDialogResult result = await ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea exportar todos los datos?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
 
             if (result != MessageDialogResult.Negative)
             {
-                System.IO.Directory.CreateDirectory(@"C:" + "\\Backup");
+                Directory.CreateDirectory(@"C:" + "\\Backup");
                 var rpta = MUsuario.GetInstance().Exportar(@"C:" + "\\Backup");
                 mensajeInformacion(rpta);
             }
         }
 
-        private void btnImportar_Click(object sender, RoutedEventArgs e)
+        private async void btnImportar_Click(object sender, RoutedEventArgs e)
         {
-
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Archivo .Bak|*.Bak";
-            openFileDialog.Title = "Importar Datos";
-
-            openFileDialog.ShowDialog();
-            string ruta = openFileDialog.FileName;
-
-            if (ruta != string.Empty)
+            var mySettings = new MetroDialogSettings()
             {
-                string str = string.Empty;
+                AffirmativeButtonText = "Aceptar",
+                NegativeButtonText = "Cancelar",
 
-                string datosConexion = "Data Source=localhost;"+"Initial Catalog=master;Integrated Security=true;";
-                SqlConnection myConn = new SqlConnection();
-                myConn.ConnectionString = datosConexion;
+            };
 
-                str = "RESTORE DATABASE DBFinca FROM DISK = " + ruta;
+            MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea importar los datos?, al finalizar la aplicación se cerrara y tendra que iniciar sesión nuevamente", MessageDialogStyle.AffirmativeAndNegative, mySettings);
 
-                try
+            if (result != MessageDialogResult.Negative)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Archivo .Bak|*.Bak";
+                openFileDialog.Title = "Importar Datos";
+
+                openFileDialog.ShowDialog();
+                string ruta = openFileDialog.FileName;
+
+                var controller = await this.ShowProgressAsync("Espere un momento...", "Esto puede tardar un poco");
+                controller.SetIndeterminate();
+
+                if (ruta != string.Empty)
                 {
-                    SqlCommand myCommand = new SqlCommand(str, myConn);
-                    myConn.Open();
-                    myCommand.ExecuteNonQuery();
-                    mensajeInformacion("Imporatación exitosa");
-                }
-                catch (Exception ex)
-                {
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    string filePath = @"" + path + "\\LogCo.txt";
+                    string str = string.Empty;
+                    string kill = string.Empty;
+                    string off = string.Empty;
 
-                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    string connectionString = "Data Source=localhost;" + "Initial Catalog=master;Integrated Security=true;";
+
+                    str = "RESTORE DATABASE DBFinca FROM DISK = " + "'" + ruta + "' WITH REPLACE";
+                    kill = "ALTER DATABASE DBFinca SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
+                    off = " ALTER DATABASE DBFinca SET OFFLINE";
+
+                    using (SqlConnection myConn = new SqlConnection(connectionString))
                     {
-                        writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
-                           "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
-                        writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                        myConn.Open();
+                        SqlCommand myCommandKill = new SqlCommand(kill, myConn);
+                        SqlCommand myCommandOff = new SqlCommand(off, myConn);
+                        SqlCommand myCommand = new SqlCommand(str, myConn);
+                        myCommandKill.CommandTimeout = 180;
+                        myCommand.CommandTimeout = 180;
+                        myCommandOff.CommandTimeout = 180;
+
+                        try
+                        {  
+                            myCommandOff.ExecuteNonQuery();
+                            myCommandKill.ExecuteNonQuery();
+                            myCommand.ExecuteNonQuery();
+                            await controller.CloseAsync();
+                            mensajeInformacion("Importación exitosa");
+                        }
+                        catch (Exception ex)
+                        {
+                            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string filePath = @"" + path + "\\LogCo.txt";
+
+                            using (StreamWriter writer = new StreamWriter(filePath, true))
+                            {
+                                writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                                   "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                                writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                            }
+
+                            await controller.CloseAsync();
+                            mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+                        }
                     }
 
-                    mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
                 }
-                finally
+                else
                 {
-                    if (myConn.State == ConnectionState.Open)
-                    {
-                        myConn.Close();
-                    }
+                    await controller.CloseAsync();
                 }
-
             }
-
         }
     }
 }
