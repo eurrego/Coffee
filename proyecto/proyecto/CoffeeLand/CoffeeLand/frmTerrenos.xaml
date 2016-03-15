@@ -1111,16 +1111,28 @@
                                             <DockPanel>
                                                 <StackPanel DockPanel.Dock="Top">
 
-                                                    <TextBlock x:Name="lblArbolSeleccionado" 
-                                                   VerticalAlignment="Center" 
-                                                   FontSize="30" 
-                                                   FontWeight="SemiBold"
-                                                   Foreground="CornflowerBlue"
-                                                   />
+                                                    <DockPanel>
+                                                        <TextBlock x:Name="lblArbolSeleccionado" 
+                                                                       VerticalAlignment="Center" 
+                                                                       FontSize="30" 
+                                                                       FontWeight="SemiBold"
+                                                                       Foreground="CornflowerBlue"
+                                                                       />
+
+                                                        <TextBlock  VerticalAlignment="Center" 
+                                                               HorizontalAlignment="Right"
+                                                               FontSize="25" 
+                                                               Margin="0 0 0 0"
+                                                               Text="Labor"
+                                                               FontWeight="Light"
+                                                               Foreground="Gray"
+                                                               />
+                                                    </DockPanel>
+                                                   
 
                                                     <DockPanel >
 
-                                                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                                        <DockPanel  DockPanel.Dock="Left">
 
                                                             <TextBlock x:Name="lblExistencia" 
                                                                VerticalAlignment="Center" 
@@ -1146,7 +1158,17 @@
                                                                FontWeight="Bold"
                                                                Foreground="Gray" 
                                                                />
-                                                        </StackPanel>
+
+                                                            <TextBlock  x:Name="lblLaboresModifica"
+                                                                VerticalAlignment="Center" 
+                                                               HorizontalAlignment="Right"
+                                                               FontSize="25" 
+                                                               Margin="0 0 0 0"
+                                                               FontWeight="Bold"
+                                                               Text=""
+                                                               Foreground="CornflowerBlue"
+                                                               />
+                                                        </DockPanel>
 
                                                     </DockPanel>
 

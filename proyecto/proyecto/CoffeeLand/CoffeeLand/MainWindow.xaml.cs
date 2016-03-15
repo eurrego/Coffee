@@ -116,9 +116,14 @@ namespace CoffeeLand
 
         private void btnAdministracionVentas_Click(object sender, RoutedEventArgs e)
         {
+            frmVentas miVenta = new frmVentas();
+
             lblTitulo.Text = "Administración de Ventas";
             MainContainer.Content = misVentas;
             Menu.IsOpen = false;
+
+            frmAdministracionVentas.GetInstance().contentRegistroVenta.Content = miVenta;
+            
         }
 
         private void btnAdministracionEmpleados_Click(object sender, RoutedEventArgs e)
@@ -835,11 +840,12 @@ namespace CoffeeLand
             var mySettings = new MetroDialogSettings()
             {
                 AffirmativeButtonText = "Aceptar",
-                NegativeButtonText = "Cancelar",
-
+                NegativeButtonText = "Cancelar"
             };
 
-            MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "¿Realmente desea importar los datos?, al finalizar la aplicación se cerrara y tendra que iniciar sesión nuevamente", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+            var controller = await this.ShowProgressAsync("Espere un momento...", "Esto puede tardar un poco");
+
+            MessageDialogResult result = await((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("CoffeeLand", "La información sera reemplazada, perdera todos los datos que ingreso luego de la fecha de exportación, al finalizar la aplicación se cerrara y tendra que iniciar sesión nuevamente", MessageDialogStyle.AffirmativeAndNegative, mySettings);
 
             if (result != MessageDialogResult.Negative)
             {
@@ -850,20 +856,21 @@ namespace CoffeeLand
                 openFileDialog.ShowDialog();
                 string ruta = openFileDialog.FileName;
 
-                var controller = await this.ShowProgressAsync("Espere un momento...", "Esto puede tardar un poco");
-                controller.SetIndeterminate();
-
                 if (ruta != string.Empty)
                 {
                     string str = string.Empty;
                     string kill = string.Empty;
                     string off = string.Empty;
+                    string on = string.Empty;
+                    string multi = string.Empty;
 
                     string connectionString = "Data Source=localhost;" + "Initial Catalog=master;Integrated Security=true;";
 
                     str = "RESTORE DATABASE DBFinca FROM DISK = " + "'" + ruta + "' WITH REPLACE";
                     kill = "ALTER DATABASE DBFinca SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
-                    off = " ALTER DATABASE DBFinca SET OFFLINE";
+                    off = "ALTER DATABASE DBFinca SET OFFLINE";
+                    on = "ALTER DATABASE DBFinca SET ONLINE";
+                    multi = "ALTER DATABASE DBFinca SET MULTI_USER";
 
                     using (SqlConnection myConn = new SqlConnection(connectionString))
                     {
@@ -871,17 +878,52 @@ namespace CoffeeLand
                         SqlCommand myCommandKill = new SqlCommand(kill, myConn);
                         SqlCommand myCommandOff = new SqlCommand(off, myConn);
                         SqlCommand myCommand = new SqlCommand(str, myConn);
-                        myCommandKill.CommandTimeout = 180;
-                        myCommand.CommandTimeout = 180;
-                        myCommandOff.CommandTimeout = 180;
+                        SqlCommand myCommandOn = new SqlCommand(on, myConn);
+                        SqlCommand myCommandMulti = new SqlCommand(multi, myConn);
+
+                        myCommandKill.CommandTimeout = 6000;
+                        myCommand.CommandTimeout = 6000;
+                        myCommandOff.CommandTimeout = 6000;
+                        myCommandOn.CommandTimeout = 6000;
+                        myCommandMulti.CommandTimeout = 6000;
 
                         try
-                        {  
-                            myCommandOff.ExecuteNonQuery();
-                            myCommandKill.ExecuteNonQuery();
-                            myCommand.ExecuteNonQuery();
+                        {
+                            double i = 0.0;
+                            while (i <5.0)
+                            {
+                                double val = (i / 100.0) * 20.0;
+                                controller.SetProgress(val);
+                                controller.SetMessage("Espere un momento... Esto puede tardar un poco, paso:" + i + "...");
+
+                                if (i == 0.0)
+                                {
+                                    myCommandOff.ExecuteNonQuery();
+                                }
+                                else if (i == 1.0)
+                                {
+                                    myCommandKill.ExecuteNonQuery();
+                                }
+                                else if (i == 2.0)
+                                {
+                                    myCommand.ExecuteNonQuery();
+                                }
+                                else if (i == 3.0)
+                                {
+                                    myCommandOn.ExecuteNonQuery();
+                                }
+                                else if (i == 4.0)
+                                {
+                                    myCommandMulti.ExecuteNonQuery();
+                                }
+
+                                await Task.Delay(1000);
+                                i += 1.0;
+                            }
+
                             await controller.CloseAsync();
                             mensajeInformacion("Importación exitosa");
+                            Close();
                         }
                         catch (Exception ex)
                         {

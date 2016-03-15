@@ -342,46 +342,61 @@ namespace CoffeeLand
             {
 
                 Labor item = tblLabores.SelectedItem as Labor;
+                var itemlote = tblLotes.SelectedItem as MTerrenos;
 
-                if (item.ModificaArboles && cmbTipoPago.SelectedItem.Equals("Contrato") || item.NombreLabor.Equals("Recolección") && cmbTipoPago.SelectedItem.Equals("Contrato"))
+                if (item.NombreLabor.Equals("Recolección") && itemlote.Cantidad == 0)
                 {
-                    if (item.RequiereInsumo)
-                    {
-                        tabInsumo.Focus();
-                        btnInsumo.IsChecked = true;
-                    }
-                    else
-                    {
-                        tabEmpleados.Focus();
-                        btnEmpleado.IsChecked = true;
-                    }
-                }
-                else if (!item.ModificaArboles && !item.NombreLabor.Equals("Recolección"))
-                {
-                    if (item.RequiereInsumo)
-                    {
-                        tabInsumo.Focus();
-                        btnInsumo.IsChecked = true;
-                    }
-                    else
-                    {
-                        tabEmpleados.Focus();
-                        btnEmpleado.IsChecked = true;
-                    }
 
-
-                }
-                else if (item.NombreLabor.Equals("Recolección"))
-                {
-                    mensajeError("Esta labor indica la producción por lote, por lo tanto el tipo de pago solo puede ser por contrato");
-
+                    mensajeError("No se puede hacer una recolección, porque no hay arboles en el lote");
                 }
                 else
-                {
-                    mensajeError("La labor modifica el tipo de árbol, por lo tanto el tipo de pago solo puede ser por contrato");
+                {                    
+
+                    if (item.ModificaArboles && itemlote.Cantidad != 0 || !item.ModificaArboles || item.NombreLabor.Equals("Siembra"))
+                    {
+                        if (item.ModificaArboles && cmbTipoPago.SelectedItem.Equals("Contrato") || item.NombreLabor.Equals("Recolección") && cmbTipoPago.SelectedItem.Equals("Contrato"))
+                        {
+                            if (item.RequiereInsumo)
+                            {
+                                tabInsumo.Focus();
+                                btnInsumo.IsChecked = true;
+                            }
+                            else
+                            {
+                                tabEmpleados.Focus();
+                                btnEmpleado.IsChecked = true;
+                            }
+                        }
+                        else if (!item.ModificaArboles && !item.NombreLabor.Equals("Recolección"))
+                        {
+                            if (item.RequiereInsumo)
+                            {
+                                tabInsumo.Focus();
+                                btnInsumo.IsChecked = true;
+                            }
+                            else
+                            {
+                                tabEmpleados.Focus();
+                                btnEmpleado.IsChecked = true;
+                            }
+
+
+                        }
+                        else if (item.NombreLabor.Equals("Recolección"))
+                        {
+                            mensajeError("Esta labor indica la producción por lote, por lo tanto el tipo de pago solo puede ser por contrato");
+
+                        }
+                        else
+                        {
+                            mensajeError("La labor modifica el tipo de árbol, por lo tanto el tipo de pago solo puede ser por contrato");
+                        }
+                    }
+                    else
+                    {
+                        mensajeError("Esta labor modifica arboles y la cantidad de arboles del lote es cero");
+                    }
                 }
-
-
 
 
             }
@@ -400,6 +415,7 @@ namespace CoffeeLand
                 lblLaborInsumo.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
                 lblLaborempleado.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
                 lblLaborArboles.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
+                lblLaboresModifica.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(tolower);
 
                 lblInicioLabores.Visibility = Visibility.Hidden;
             }
@@ -1039,20 +1055,23 @@ namespace CoffeeLand
 
         public void volverInicio()
         {
-            tabLote.Focus();
-            btnEmpleado.IsChecked = false;
-            btnLabores.IsChecked = false;
-            btnInsumo.IsChecked = false;
-            btnArboles.IsChecked = false;
-            limpiarCampos(1);
-            limpiarCampos(2);
-            limpiarCampos(3);
-            atras();
-            tblLabores.SelectedItem = null;
-            pnlInicio.Visibility = Visibility.Visible;
-            pnlData.Visibility = Visibility.Collapsed;
-            pnlInicioEmpleados.Visibility = Visibility.Visible;
-            pnlDataEmpleados.Visibility = Visibility.Collapsed;
+            //tabLote.Focus();
+            //btnEmpleado.IsChecked = false;
+            //btnLabores.IsChecked = false;
+            //btnInsumo.IsChecked = false;
+            //btnArboles.IsChecked = false;
+            //limpiarCampos(1);
+            //limpiarCampos(2);
+            //limpiarCampos(3);
+            //atras();
+            //tblLabores.SelectedItem = null;
+            //pnlInicio.Visibility = Visibility.Visible;
+            //pnlData.Visibility = Visibility.Collapsed;
+            //pnlInicioEmpleados.Visibility = Visibility.Visible;
+            //pnlDataEmpleados.Visibility = Visibility.Collapsed;
+
+            frmTerrenos misTerrenos = new frmTerrenos();
+            frmGestionTerrenos.GetInstance().contentRegistroTerrenos.Content = misTerrenos;
         }
 
 

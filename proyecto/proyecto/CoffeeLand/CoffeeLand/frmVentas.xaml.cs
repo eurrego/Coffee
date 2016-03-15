@@ -120,6 +120,7 @@ namespace CoffeeLand
                     MVentas.GetInstance().GestionVenta(int.Parse(cmbProveedor.SelectedValue.ToString()), Convert.ToDateTime(dtdFecha.SelectedDate), int.Parse(txtNumeroFactura.Text), int.Parse(cmbProducto.SelectedValue.ToString()), decimal.Parse(txtValorCarga.Text), decimal.Parse(txtCantidadCarga.Text), precioBeneficio);
                     mensajeInformacion(MVentas.GetInstance().ventaProduccion(decimal.Parse(txtCantidadCarga.Text)));
                     limpiarCampos();
+                    tabBeneficio.Focus();
                     lblcargas.Text = MVentas.GetInstance().ConsultarProduccion().ToString();
                 }
             }

@@ -210,14 +210,24 @@ namespace CoffeeLand
 
             TipoArbol item = tblTipoArbol.SelectedItem as TipoArbol;
 
-            txtId.Text = item.idTipoArbol.ToString();
-            txtNombre.Text = item.NombreTipoArbol;
-            txtDescripcion.Text = item.Descripcion;
-            txtTiempoProduccion.Text = item.TiempoProduccion.ToString();
 
-            tabBuscar.IsEnabled = false;
-            tabNuevo.Header = "EDITAR";
-            tabNuevo.Focus();
+            if (item.NombreTipoArbol.Equals("Almacigo"))
+            {
+                mensajeError("Este tipo de árbol no puede modificarse.");
+            }
+            else
+            {
+                txtId.Text = item.idTipoArbol.ToString();
+                txtNombre.Text = item.NombreTipoArbol;
+                txtDescripcion.Text = item.Descripcion;
+                txtTiempoProduccion.Text = item.TiempoProduccion.ToString();
+
+                tabBuscar.IsEnabled = false;
+                tabNuevo.Header = "EDITAR";
+                tabNuevo.Focus();
+            }
+
+      
         }
 
         public static bool IsValid(DependencyObject parent)

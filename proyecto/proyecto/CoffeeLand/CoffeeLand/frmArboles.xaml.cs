@@ -255,33 +255,44 @@ namespace CoffeeLand
         {
             string rpta = "";
 
-            if (validarCampos())
-            {
-                if (IsValid(txtCantidad) && IsValid(cmbTipoArbol))
-                {
-                    rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(cmbTipoArbol.SelectedValue), Convert.ToInt32(txtCantidad.Text), Convert.ToDateTime(dtdFecha.SelectedDate), 0, 1).ToString();
-                    mensajeInformacion(rpta);
-                    Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
-                    Limpiar();
-                    tabBuscar.Focus();
-                    tblArboles.IsEnabled = true;
-                   
+            int idLote = Convert.ToInt32(cmbLote.SelectedValue);
+            var items = MArbol.GetInstance().ConsultarLabor(idLote);
 
-                    if (tblArboles.Items.Count == 0)
+            if (items.Count == 0)
+            {
+
+                if (validarCampos())
+                {
+                    if (IsValid(txtCantidad) && IsValid(cmbTipoArbol))
                     {
-                        lblSuperior.Text = "Este Lote no tiene";
-                        lblInferior.Text = "árboles registrados";
-                        pnlInicio.Visibility = Visibility.Visible;
-                        pnlData.Visibility = Visibility.Collapsed;
-                        tabNuevo.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        pnlInicio.Visibility = Visibility.Collapsed;
-                        pnlData.Visibility = Visibility.Visible;
-                        tabNuevo.Visibility = Visibility.Visible;
+                        rpta = MArbol.GetInstance().gestionArboles(Convert.ToInt16(cmbLote.SelectedValue), Convert.ToByte(cmbTipoArbol.SelectedValue), Convert.ToInt32(txtCantidad.Text), Convert.ToDateTime(dtdFecha.SelectedDate), 0, 1).ToString();
+                        mensajeInformacion(rpta);
+                        Mostrar(Convert.ToInt16(cmbLote.SelectedValue));
+                        Limpiar();
+                        tabBuscar.Focus();
+                        tblArboles.IsEnabled = true;
+
+
+                        if (tblArboles.Items.Count == 0)
+                        {
+                            lblSuperior.Text = "Este Lote no tiene";
+                            lblInferior.Text = "árboles registrados";
+                            pnlInicio.Visibility = Visibility.Visible;
+                            pnlData.Visibility = Visibility.Collapsed;
+                            tabNuevo.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            pnlInicio.Visibility = Visibility.Collapsed;
+                            pnlData.Visibility = Visibility.Visible;
+                            tabNuevo.Visibility = Visibility.Visible;
+                        }
                     }
                 }
+            }
+            else
+            {
+                mensajeError("Los árboles no pueden editarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo a través de una labor.");
             }
         }
 
@@ -339,19 +350,28 @@ namespace CoffeeLand
 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
+            int idLote = Convert.ToInt32(cmbLote.SelectedValue);
+            var items = MArbol.GetInstance().ConsultarLabor(idLote);
 
-            MovimientosArboles item = tblMovimientosArboles.SelectedItem as MovimientosArboles;
+            if (items.Count == 0)
+            {
+                MovimientosArboles item = tblMovimientosArboles.SelectedItem as MovimientosArboles;
 
-            txtEditarCantidad.Text = item.Cantidad.ToString();
-            dtdEditarFecha.SelectedDate = item.Fecha;
-            cmbEditarTipoArbol.SelectedValue = idTipoArbol;
-            txtEditarId.Text = item.idMovimientosArboles.ToString();
+                txtEditarCantidad.Text = item.Cantidad.ToString();
+                dtdEditarFecha.SelectedDate = item.Fecha;
+                cmbEditarTipoArbol.SelectedValue = idTipoArbol;
+                txtEditarId.Text = item.idMovimientosArboles.ToString();
 
-            tblMovimientosArboles.IsEnabled = false;
-            btnAtras.IsEnabled = false;
-            tabDetalleLote.IsEnabled = false;
-            tabEditar.Visibility = Visibility.Visible;
-            tabEditar.Focus();
+                tblMovimientosArboles.IsEnabled = false;
+                btnAtras.IsEnabled = false;
+                tabDetalleLote.IsEnabled = false;
+                tabEditar.Visibility = Visibility.Visible;
+                tabEditar.Focus();
+            }
+            else
+            {
+                mensajeError("Los árboles no pueden editarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo a través de una labor.");
+            }
         }
 
         private async void btnInhabilitar_Click(object sender, RoutedEventArgs e)
@@ -411,10 +431,8 @@ namespace CoffeeLand
             }
             else
             {
-                mensajeError("Los árboles no pueden eliminarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo atravez de una labor.");
-            }
-
-           
+                mensajeError("Los árboles no pueden editarse porque ya existe una modificación de tipo de árbol asociada, debe hacerlo a través de una labor.");
+            } 
         }
 
         private void btnEditarCancelar_Click(object sender, RoutedEventArgs e)

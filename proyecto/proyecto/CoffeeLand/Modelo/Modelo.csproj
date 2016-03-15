@@ -61,9 +61,6 @@
     <Compile Include="AbonoDeuda.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>
-    <Compile Include="AbonoEgreso.cs">
-      <DependentUpon>DBFinca.tt</DependentUpon>
-    </Compile>
     <Compile Include="Arboles.cs">
       <DependentUpon>DBFinca.tt</DependentUpon>
     </Compile>

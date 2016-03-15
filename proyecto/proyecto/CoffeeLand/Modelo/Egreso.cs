@@ -14,12 +14,6 @@ namespace Modelo
     
     public partial class Egreso
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Egreso()
-        {
-            this.AbonoEgreso = new HashSet<AbonoEgreso>();
-        }
-    
         public int idEgreso { get; set; }
         public short idConcepto { get; set; }
         public string Descripcion { get; set; }
@@ -27,8 +21,6 @@ namespace Modelo
         public decimal Valor { get; set; }
         public string EstadoCuenta { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AbonoEgreso> AbonoEgreso { get; set; }
         public virtual Concepto Concepto { get; set; }
     }
 }

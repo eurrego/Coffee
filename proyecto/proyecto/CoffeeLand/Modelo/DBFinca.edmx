@@ -23,15 +23,6 @@
           <Property Name="Valor" Type="money" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
         </EntityType>
-        <EntityType Name="AbonoEgreso">
-          <Key>
-            <PropertyRef Name="idAbonoEgreso" />
-          </Key>
-          <Property Name="idAbonoEgreso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="idEgreso" Type="int" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Valor" Type="money" Nullable="false" />
-        </EntityType>
         <EntityType Name="Arboles">
           <Key>
             <PropertyRef Name="idArboles" />
@@ -354,18 +345,6 @@
             </Principal>
             <Dependent Role="AbonoDeuda">
               <PropertyRef Name="idDeudaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AbonoEgreso_Egreso">
-          <End Role="Egreso" Type="Self.Egreso" Multiplicity="1" />
-          <End Role="AbonoEgreso" Type="Self.AbonoEgreso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Egreso">
-              <PropertyRef Name="idEgreso" />
-            </Principal>
-            <Dependent Role="AbonoEgreso">
-              <PropertyRef Name="idEgreso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -861,7 +840,6 @@
         <EntityContainer Name="DBFincaModelStoreContainer">
           <EntitySet Name="AbonoCompra" EntityType="Self.AbonoCompra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AbonoDeuda" EntityType="Self.AbonoDeuda" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AbonoEgreso" EntityType="Self.AbonoEgreso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Arboles" EntityType="Self.Arboles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Compra" EntityType="Self.Compra" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Compra_Insumo" EntityType="Self.Compra_Insumo" Schema="dbo" store:Type="Tables" />
@@ -902,10 +880,6 @@
           <AssociationSet Name="FK_AbonoDeuda_DeudaPersona" Association="Self.FK_AbonoDeuda_DeudaPersona">
             <End Role="DeudaPersona" EntitySet="DeudaPersona" />
             <End Role="AbonoDeuda" EntitySet="AbonoDeuda" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AbonoEgreso_Egreso" Association="Self.FK_AbonoEgreso_Egreso">
-            <End Role="Egreso" EntitySet="Egreso" />
-            <End Role="AbonoEgreso" EntitySet="AbonoEgreso" />
           </AssociationSet>
           <AssociationSet Name="FK_Arboles_Lote" Association="Self.FK_Arboles_Lote">
             <End Role="Lote" EntitySet="Lote" />
@@ -1040,16 +1014,6 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="DeudaPersona" Relationship="Self.FK_AbonoDeuda_DeudaPersona" FromRole="AbonoDeuda" ToRole="DeudaPersona" />
         </EntityType>
-        <EntityType Name="AbonoEgreso">
-          <Key>
-            <PropertyRef Name="idAbonoEgreso" />
-          </Key>
-          <Property Name="idAbonoEgreso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="idEgreso" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Valor" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <NavigationProperty Name="Egreso" Relationship="Self.FK_AbonoEgreso_Egreso" FromRole="AbonoEgreso" ToRole="Egreso" />
-        </EntityType>
         <EntityType Name="Arboles">
           <Key>
             <PropertyRef Name="idArboles" />
@@ -1141,7 +1105,6 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Valor" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="EstadoCuenta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="AbonoEgreso" Relationship="Self.FK_AbonoEgreso_Egreso" FromRole="Egreso" ToRole="AbonoEgreso" />
           <NavigationProperty Name="Concepto" Relationship="Self.FK_Egreso_Concepto" FromRole="Egreso" ToRole="Concepto" />
         </EntityType>
         <EntityType Name="Finca">
@@ -1419,18 +1382,6 @@
             </Principal>
             <Dependent Role="AbonoDeuda">
               <PropertyRef Name="idDeudaPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AbonoEgreso_Egreso">
-          <End Role="Egreso" Type="Self.Egreso" Multiplicity="1" />
-          <End Role="AbonoEgreso" Type="Self.AbonoEgreso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Egreso">
-              <PropertyRef Name="idEgreso" />
-            </Principal>
-            <Dependent Role="AbonoEgreso">
-              <PropertyRef Name="idEgreso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1773,7 +1724,6 @@
         <EntityContainer Name="DBFincaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AbonoCompra" EntityType="Self.AbonoCompra" />
           <EntitySet Name="AbonoDeuda" EntityType="Self.AbonoDeuda" />
-          <EntitySet Name="AbonoEgreso" EntityType="Self.AbonoEgreso" />
           <EntitySet Name="Arboles" EntityType="Self.Arboles" />
           <EntitySet Name="Compra" EntityType="Self.Compra" />
           <EntitySet Name="Compra_Insumo" EntityType="Self.Compra_Insumo" />
@@ -1810,10 +1760,6 @@
           <AssociationSet Name="FK_AbonoDeuda_DeudaPersona" Association="Self.FK_AbonoDeuda_DeudaPersona">
             <End Role="DeudaPersona" EntitySet="DeudaPersona" />
             <End Role="AbonoDeuda" EntitySet="AbonoDeuda" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AbonoEgreso_Egreso" Association="Self.FK_AbonoEgreso_Egreso">
-            <End Role="Egreso" EntitySet="Egreso" />
-            <End Role="AbonoEgreso" EntitySet="AbonoEgreso" />
           </AssociationSet>
           <AssociationSet Name="FK_Arboles_Lote" Association="Self.FK_Arboles_Lote">
             <End Role="Lote" EntitySet="Lote" />
@@ -2212,16 +2158,6 @@
                 <ScalarProperty Name="idDeudaPersona" ColumnName="idDeudaPersona" />
                 <ScalarProperty Name="Valor" ColumnName="Valor" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AbonoEgreso">
-            <EntityTypeMapping TypeName="DBFincaModel.AbonoEgreso">
-              <MappingFragment StoreEntitySet="AbonoEgreso">
-                <ScalarProperty Name="idAbonoEgreso" ColumnName="idAbonoEgreso" />
-                <ScalarProperty Name="idEgreso" ColumnName="idEgreso" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

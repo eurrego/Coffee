@@ -29,7 +29,6 @@ namespace Modelo
     
         public virtual DbSet<AbonoCompra> AbonoCompra { get; set; }
         public virtual DbSet<AbonoDeuda> AbonoDeuda { get; set; }
-        public virtual DbSet<AbonoEgreso> AbonoEgreso { get; set; }
         public virtual DbSet<Arboles> Arboles { get; set; }
         public virtual DbSet<Compra> Compra { get; set; }
         public virtual DbSet<Compra_Insumo> Compra_Insumo { get; set; }

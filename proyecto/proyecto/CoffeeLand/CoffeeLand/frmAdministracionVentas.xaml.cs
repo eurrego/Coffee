@@ -20,10 +20,25 @@ namespace CoffeeLand
     /// </summary>
     public partial class frmAdministracionVentas : UserControl
     {
+        #region Singleton
 
+        private static frmAdministracionVentas instance;
+
+        public static frmAdministracionVentas GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new frmAdministracionVentas();
+            }
+
+            return instance;
+        }
+
+        #endregion
         public frmAdministracionVentas()
         {
             InitializeComponent();
+            instance = this;
         }
 
         private void tabRegistroVentas_Selected(object sender, RoutedEventArgs e)
@@ -36,6 +51,12 @@ namespace CoffeeLand
         {
             frmConsultarVentas miConsulta = new frmConsultarVentas();
             contentConsultarVenta.Content = miConsulta;
+        }
+
+        private void TabItem_Selected(object sender, RoutedEventArgs e)
+        {
+            frmVentas miVenta = new frmVentas();
+            contentRegistroVenta.Content = miVenta;
         }
     }
 }

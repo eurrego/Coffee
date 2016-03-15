@@ -411,6 +411,7 @@ namespace CoffeeLand
             }
             else
             {
+                cmbInsumo.SelectedIndex = 0;
                 TipoInsumo item = cmbTipoInsumo.SelectedItem as TipoInsumo;
                 cmbInsumo.ItemsSource = MCompra.GetInstance().ConsultarInsumo(item.idTipoInsumo);
                 cmbInsumo.SelectedIndex = 0;
@@ -484,8 +485,15 @@ namespace CoffeeLand
 
         private void cmbInsumo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = cmbInsumo.SelectedItem as Insumo;
-            txtUnidad.Text = item.UnidadMedida.ToString();
+            if (cmbInsumo.SelectedIndex != -1)
+            {
+
+
+                var item = cmbInsumo.SelectedItem as Insumo;
+                txtUnidad.Text = item.UnidadMedida.ToString();
+
+            }
+
         }
     }
 }

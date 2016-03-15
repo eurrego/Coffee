@@ -78,7 +78,8 @@ namespace Modelo
                     new Insumo
                     {
                         idInsumo = 0,
-                        NombreInsumo = "Seleccione un Insumo..."
+                        NombreInsumo = "Seleccione un Insumo...",
+                        UnidadMedida = string.Empty
                     }
                 };
 
@@ -101,6 +102,11 @@ namespace Modelo
                                 join p in entity.Proveedor on c.NitProveedor equals p.Nit
                                 join d in entity.Compra_Insumo on c.idCompra equals d.idCompra
                                 where c.EstadoCuenta == "D"
+
+
+
+
+
                                 group d by new
                                 {
                                     d.Precio,
@@ -109,6 +115,7 @@ namespace Modelo
                                     c.Fecha,
                                     c.NumeroFactura,
                                     c.EstadoCuenta
+
                                 } into total
                                 select new
                                 {

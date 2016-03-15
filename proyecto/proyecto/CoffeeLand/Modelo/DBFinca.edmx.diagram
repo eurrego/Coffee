@@ -4,10 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="af37ddb0d6c24d4da9f3f2aa369c140a" Name="Diagram1">
+      <Diagram DiagramId="af37ddb0d6c24d4da9f3f2aa369c140a" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="DBFincaModel.AbonoCompra" Width="1.5" PointX="5.25" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.AbonoDeuda" Width="1.5" PointX="20.25" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBFincaModel.AbonoEgreso" Width="1.5" PointX="19.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.Arboles" Width="1.5" PointX="9.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.Compra" Width="1.5" PointX="3" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBFincaModel.Compra_Insumo" Width="1.5" PointX="15" PointY="16.875" IsExpanded="true" />
@@ -39,7 +38,6 @@
         <EntityTypeShape EntityType="DBFincaModel.Venta" Width="1.5" PointX="9.75" PointY="22.125" IsExpanded="true" />
         <AssociationConnector Association="DBFincaModel.FK_AbonoCompra_Compra" ManuallyRouted="false" />
         <AssociationConnector Association="DBFincaModel.FK_AbonoDeuda_DeudaPersona" ManuallyRouted="false" />
-        <AssociationConnector Association="DBFincaModel.FK_AbonoEgreso_Egreso" ManuallyRouted="false" />
         <AssociationConnector Association="DBFincaModel.FK_Arboles_Lote" ManuallyRouted="false" />
         <AssociationConnector Association="DBFincaModel.FK_Arboles_TipoArbol" ManuallyRouted="false" />
         <AssociationConnector Association="DBFincaModel.FK_MovimientosArboles_Arboles" ManuallyRouted="false" />
