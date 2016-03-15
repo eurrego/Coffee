@@ -461,7 +461,7 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GestionUsuario_Result>("GestionUsuario", idUsuarioParameter, nickNameParameter, rolParameter, contrasenaParameter, preguntaSeguridadParameter, respuestaParameter, opcParameter);
         }
     
-        public virtual int GestionVenta(string nit, Nullable<System.DateTime> fecha, Nullable<int> numeroFactura, Nullable<int> idProducto, Nullable<decimal> precioCarga, Nullable<decimal> cantidadCargas, Nullable<decimal> precioBeneficio)
+        public virtual int GestionVenta(string nit, Nullable<System.DateTime> fecha, string numeroFactura, Nullable<int> idProducto, Nullable<decimal> precioCarga, Nullable<decimal> cantidadCargas, Nullable<decimal> precioBeneficio)
         {
             var nitParameter = nit != null ?
                 new ObjectParameter("nit", nit) :
@@ -471,9 +471,9 @@ namespace Modelo
                 new ObjectParameter("fecha", fecha) :
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
-            var numeroFacturaParameter = numeroFactura.HasValue ?
+            var numeroFacturaParameter = numeroFactura != null ?
                 new ObjectParameter("numeroFactura", numeroFactura) :
-                new ObjectParameter("numeroFactura", typeof(int));
+                new ObjectParameter("numeroFactura", typeof(string));
     
             var idProductoParameter = idProducto.HasValue ?
                 new ObjectParameter("idProducto", idProducto) :
@@ -574,7 +574,7 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PagosPersona_Result>("PagosPersona", opcionPagoParameter);
         }
     
-        public virtual ObjectResult<RegistrarCompra_Result> RegistrarCompra(string nit, Nullable<System.DateTime> fecha, Nullable<int> numeroFactura)
+        public virtual ObjectResult<RegistrarCompra_Result> RegistrarCompra(string nit, Nullable<System.DateTime> fecha, string numeroFactura)
         {
             var nitParameter = nit != null ?
                 new ObjectParameter("nit", nit) :
@@ -584,9 +584,9 @@ namespace Modelo
                 new ObjectParameter("fecha", fecha) :
                 new ObjectParameter("fecha", typeof(System.DateTime));
     
-            var numeroFacturaParameter = numeroFactura.HasValue ?
+            var numeroFacturaParameter = numeroFactura != null ?
                 new ObjectParameter("numeroFactura", numeroFactura) :
-                new ObjectParameter("numeroFactura", typeof(int));
+                new ObjectParameter("numeroFactura", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RegistrarCompra_Result>("RegistrarCompra", nitParameter, fechaParameter, numeroFacturaParameter);
         }

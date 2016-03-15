@@ -144,7 +144,7 @@ namespace Modelo
 
 
 
-        public void GestionVenta(string nit, DateTime fecha, int numeroFactura, int idProducto, decimal PrecioCarga, decimal CantidadCargas, decimal PrecioBeneficio)
+        public void GestionVenta(string nit, DateTime fecha, string numeroFactura, int idProducto, decimal PrecioCarga, decimal CantidadCargas, decimal PrecioBeneficio)
         {
 
             using (var entity = new DBFincaEntities())
@@ -183,7 +183,7 @@ namespace Modelo
           
         }
 
-        public int ValidarFactura(int Factura, string Proveedor)
+        public int ValidarFactura(string Factura, string Proveedor)
         {
 
             using (var entity = new DBFincaEntities())

@@ -57,6 +57,9 @@ namespace CoffeeLand
         {
             frmVentas miVenta = new frmVentas();
             contentRegistroVenta.Content = miVenta;
+
+            frmConsultarVentas miConsulta = new frmConsultarVentas();
+            contentConsultarVenta.Content = miConsulta;
         }
     }
 }

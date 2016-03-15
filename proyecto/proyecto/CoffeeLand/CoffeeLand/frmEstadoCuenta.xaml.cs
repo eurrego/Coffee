@@ -41,7 +41,7 @@ namespace CoffeeLand
 
         #endregion
 
-        int total;
+        long total;
         int idCompra;
 
         public frmEstadoCuenta()
@@ -121,23 +121,14 @@ namespace CoffeeLand
             ((MetroWindow)Application.Current.MainWindow).ShowMessageAsync("Información", mensaje);
         }
 
-        public string quitarDecimales(string valor)
-        {
-
-            int dondeestalacoma = valor.IndexOf(',');
-
-            string valorRecortado = valor.Substring(0, dondeestalacoma);
-
-            return valorRecortado;
-
-        }
+        
 
         public void TotalAdeuda(IEnumerable data)
         {
-            int total = 0;
+            long total = 0;
             foreach (ComprasProveedor_Result1 valor in data)
             {
-                total += int.Parse(quitarDecimales(valor.adeuda.ToString()));
+                total += Convert.ToInt64(valor.adeuda);
             }
             lblTotal.Text = string.Format("{0:c}", total);
         }
@@ -150,7 +141,7 @@ namespace CoffeeLand
             txtAbono.Text = string.Empty;
             ComprasProveedor_Result1 item = tblCompras.SelectedItem as ComprasProveedor_Result1;
             idCompra = int.Parse(item.idCompra.ToString());
-            total = int.Parse(quitarDecimales(item.adeuda.ToString()));
+            total = Convert.ToInt64(item.adeuda);
             tblCompras.IsEnabled = false;
         }
 

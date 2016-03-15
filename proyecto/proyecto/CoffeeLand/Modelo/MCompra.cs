@@ -164,7 +164,7 @@ namespace Modelo
 
 
 
-        public string RegistroCompra(string nit, DateTime fecha, int numeroFactura)
+        public string RegistroCompra(string nit, DateTime fecha, string numeroFactura)
         {
             try
             {
@@ -193,25 +193,10 @@ namespace Modelo
 
         public void RegistroDetalleCompra(DataTable DetalleCompra)
         {
-            try
+            using (var entity = new DBFincaEntities())
             {
-                using (var entity = new DBFincaEntities())
-                {
-                    entity.SP_InsertarDetalleCompra(DetalleCompra);
+                entity.SP_InsertarDetalleCompra(DetalleCompra);
 
-                }
-            }
-            catch (Exception ex)
-            {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                string filePath = @"" + path + "\\LogCo.txt";
-
-                using (StreamWriter writer = new StreamWriter(filePath, true))
-                {
-                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
-                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
-                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
-                }
             }
 
         }

@@ -25,7 +25,7 @@ namespace Modelo
         public int idCompra { get; set; }
         public string NitProveedor { get; set; }
         public System.DateTime Fecha { get; set; }
-        public Nullable<int> NumeroFactura { get; set; }
+        public string NumeroFactura { get; set; }
         public string EstadoCuenta { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -60,6 +60,7 @@ namespace CoffeeLand.Validator
                 Regex numeros = new Regex("^[0-9]*$");
                 Regex Cargas = new Regex("^[0-9 ,]*$");
                 Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
+                Regex letrasNumeros = new Regex("^[a-zA-Z ñáéíóú 0-9]*$");
 
                 switch (name)
                 {
@@ -88,17 +89,26 @@ namespace CoffeeLand.Validator
                         }
                         else
                         {
-                            if (!numeros.IsMatch(factura))
+                            if (!letrasNumeros.IsMatch(factura))
                             {
-                                result = "El campo solo acepta números.";
+                                result = "El campo solo acepta números y letras";
                             }
-                            else if (factura.Length > 10)
+                            else
                             {
-                                result = "La factura debe ser menor que 10 caracteres.";
-                            }
+                                if (!numeros.IsMatch(factura) && letras.IsMatch(factura))
+                                {
+                                    result = "La factura debe tener al menos un digito númerico";
+                                }
+                                else
+                                {
+                                    if (factura.Length > 20)
+                                    {
+                                        result = "La factura debe ser menor que 21 caracteres.";
+                                    }
+                                }
 
+                            }
                         }
-                      
 
                         break;
                     case "ValorBeneficio":
@@ -112,9 +122,28 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valorBeneficio.Equals("0"))
+                            else
                             {
-                                result = "El valor no puede ser cero";
+                                if (valorBeneficio.Equals("0"))
+                                {
+                                    result = "El valor no puede ser cero";
+                                }
+                                else
+                                {
+                                    if (valorBeneficio.Length > 7)
+                                    {
+                                        result = "El valor debe ser menor de ocho números ";
+                                    }
+                                    else
+                                    {
+                                        long val = Convert.ToInt64(valorBeneficio);
+
+                                        if (val > 9999999)
+                                        {
+                                            result = "El valor del beneficio debe ser menor de 10.000.000 ";
+                                        }
+                                    }
+                                }
                             }
                         }
                         break;
@@ -129,9 +158,28 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (valorCarga.Equals("0"))
+                            else
                             {
-                                result = "El valor no puede ser cero";
+                                if (valorCarga.Equals("0"))
+                                {
+                                    result = "El valor no puede ser cero";
+                                }
+                                else
+                                {
+                                    if (valorCarga.Length > 7)
+                                    {
+                                        result = "El valor debe ser menor de ocho números ";
+                                    }
+                                    else
+                                    {
+                                        long val = Convert.ToInt64(valorCarga);
+
+                                        if (val > 9999999)
+                                        {
+                                            result = "El valor del insumo debe ser menor de 10.000.000 ";
+                                        }
+                                    }
+                                }
                             }
                         }
                         break;

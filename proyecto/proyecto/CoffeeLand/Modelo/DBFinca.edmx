@@ -39,7 +39,7 @@
           <Property Name="idCompra" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NitProveedor" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="NumeroFactura" Type="int" />
+          <Property Name="NumeroFactura" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EstadoCuenta" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="Compra_Insumo">
@@ -124,7 +124,7 @@
           <Property Name="Marca" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="UnidadMedida" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="EstadoInsumo" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="PrecioPromedio" Type="int" />
+          <Property Name="PrecioPromedio" Type="money" />
         </EntityType>
         <EntityType Name="Labor">
           <Key>
@@ -793,7 +793,7 @@
         <Function Name="GestionVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nit" Type="varchar" Mode="In" />
           <Parameter Name="fecha" Type="date" Mode="In" />
-          <Parameter Name="numeroFactura" Type="int" Mode="In" />
+          <Parameter Name="numeroFactura" Type="varchar" Mode="In" />
           <Parameter Name="idProducto" Type="int" Mode="In" />
           <Parameter Name="PrecioCarga" Type="money" Mode="In" />
           <Parameter Name="CantidadCargas" Type="decimal" Mode="In" />
@@ -830,7 +830,7 @@
         <Function Name="RegistrarCompra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nit" Type="varchar" Mode="In" />
           <Parameter Name="fecha" Type="date" Mode="In" />
-          <Parameter Name="numeroFactura" Type="int" Mode="In" />
+          <Parameter Name="numeroFactura" Type="varchar" Mode="In" />
         </Function>
         <Function Name="registroProduccion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idLote" Type="int" Mode="In" />
@@ -1036,7 +1036,7 @@
           <Property Name="idCompra" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NitProveedor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="NumeroFactura" Type="Int32" />
+          <Property Name="NumeroFactura" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="EstadoCuenta" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="AbonoCompra" Relationship="Self.FK_AbonoCompra_Compra" FromRole="Compra" ToRole="AbonoCompra" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK_Compra_Proveedor" FromRole="Compra" ToRole="Proveedor" />
@@ -1136,7 +1136,7 @@
           <Property Name="Marca" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UnidadMedida" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="EstadoInsumo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="PrecioPromedio" Type="Int32" />
+          <Property Name="PrecioPromedio" Type="Decimal" />
           <NavigationProperty Name="Compra_Insumo" Relationship="Self.FK_AbonoCompra_Insumo" FromRole="Insumo" ToRole="Compra_Insumo" />
           <NavigationProperty Name="TipoInsumo" Relationship="Self.FK_Insumo_TipoInsumo" FromRole="Insumo" ToRole="TipoInsumo" />
           <NavigationProperty Name="LaborLote_Insumo" Relationship="Self.FK_LaborLoteInsumo_Insumo" FromRole="Insumo" ToRole="LaborLote_Insumo" />
@@ -1991,7 +1991,7 @@
           <FunctionImport Name="GestionVenta">
             <Parameter Name="nit" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
+            <Parameter Name="numeroFactura" Mode="In" Type="String" />
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
             <Parameter Name="PrecioCarga" Mode="In" Type="Decimal" />
             <Parameter Name="CantidadCargas" Mode="In" Type="Decimal" />
@@ -2023,7 +2023,7 @@
           <FunctionImport Name="RegistrarCompra" ReturnType="Collection(DBFincaModel.RegistrarCompra_Result)">
             <Parameter Name="nit" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
-            <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
+            <Parameter Name="numeroFactura" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="registroProduccion">
             <Parameter Name="idLote" Mode="In" Type="Int32" />
@@ -2139,7 +2139,7 @@
           <Property Type="Decimal" Name="total" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="adeuda" Nullable="true" Precision="19" />
           <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
+          <Property Type="String" Name="NumeroFactura" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Nit" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="NombreProveedor" Nullable="false" MaxLength="45" />
           <Property Type="String" Name="EstadoCuenta" Nullable="false" MaxLength="1" />

@@ -60,8 +60,7 @@ namespace CoffeeLand.Validator
 
                 Regex numeros = new Regex("^[0-9]*$");
                 Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
-                Regex letrasNumeros = new Regex("^[a-zA-Z ñáéíóú 0-9 -]*$");
-
+                Regex letrasNumeros = new Regex("^[a-zA-Z ñáéíóú 0-9]*$");
 
                 switch (name)
                 {
@@ -85,17 +84,17 @@ namespace CoffeeLand.Validator
                                 }
                                 else
                                 {
-                                    if (cantidad.Length > 5)
+                                    if (cantidad.Length > 4)
                                     {
-                                        result = "La cantidad debe ser menor de seis números ";
+                                        result = "La cantidad debe ser menor de cinco números ";
                                     }
                                     else
                                     {
                                         long cant = Convert.ToInt64(cantidad);
 
-                                        if (cant > 99999)
+                                        if (cant > 9999)
                                         {
-                                            result = "La cantidad debe ser menor de 99999 unidades ";
+                                            result = "La cantidad debe ser menor de 9999 unidades ";
                                         }
                                     }
                                 }
@@ -103,14 +102,31 @@ namespace CoffeeLand.Validator
                         }
                         break;
                     case "Factura":
-
-                        if (!numeros.IsMatch(factura))
+                        if (string.IsNullOrEmpty(factura))
                         {
-                            result = "El campo solo acepta números.";
+                            result = "El campo es obligatorio.";
                         }
-                        else if (factura.Length > 10)
+                        else
                         {
-                            result = "La factura debe ser menor que 10 caracteres.";
+                            if (!letrasNumeros.IsMatch(factura))
+                            {
+                                result = "El campo solo acepta números y letras";
+                            }
+                            else
+                            {
+                                if (!numeros.IsMatch(factura) && letras.IsMatch(factura))
+                                {
+                                    result = "La factura debe tener al menos un digito númerico";
+                                }
+                                else
+                                {
+                                    if (factura.Length > 20)
+                                    {
+                                        result = "La factura debe ser menor que 21 caracteres.";
+                                    }
+                                }
+                                   
+                            }
                         }
 
                         break;

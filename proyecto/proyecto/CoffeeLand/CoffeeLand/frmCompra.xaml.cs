@@ -293,7 +293,7 @@ namespace CoffeeLand
 
                     try
                     {
-                        compra = MCompra.GetInstance().RegistroCompra(cmbProveedor.SelectedValue.ToString(), Convert.ToDateTime(dtdFecha.SelectedDate), int.Parse(txtNumeroFactura.Text)).ToString();
+                        compra = MCompra.GetInstance().RegistroCompra(cmbProveedor.SelectedValue.ToString(), Convert.ToDateTime(dtdFecha.SelectedDate), txtNumeroFactura.Text);
                     }
                     catch (Exception ex)
                     {
@@ -340,7 +340,8 @@ namespace CoffeeLand
                         }
                         catch (Exception ex)
                         {
-                            string filePath = @"C:\Users\Snug\LogCoffeeLand.txt";
+                            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            string filePath = @"" + path + "\\LogCo.txt";
 
                             using (StreamWriter writer = new StreamWriter(filePath, true))
                             {
@@ -350,6 +351,20 @@ namespace CoffeeLand
                             }
 
                             mensajeError("Ha ocurrido un error inesperado, consulte con el administrador del sistema");
+
+                            dtDetalleCompra.Clear();
+                            limpiarCamposCompra();
+                            limpiarCampos();
+                            dtDetalleCompra.Columns.Add("TipoInsumo");
+                            pnlEstado.Visibility = Visibility.Collapsed;
+                            pnlData.Visibility = Visibility.Collapsed;
+                            pnlInicio.Visibility = Visibility.Visible;
+                            btnPaso1.IsChecked = true;
+                            btnPaso2.IsChecked = false;
+                            tabProveedor.Focus();
+
+                            frmConsultaCompras.GetInstance().Mostrar();
+                            frmEstadoCuenta.GetInstance().Mostrar();
 
                         }
 
@@ -425,7 +440,7 @@ namespace CoffeeLand
             {
                 if (IsValid(cmbProveedor) && IsValid(dtdFecha) && IsValid(txtNumeroFactura))
                 {
-                    if (MVentas.GetInstance().ValidarFactura(int.Parse(txtNumeroFactura.Text), cmbProveedor.SelectedValue.ToString()) == 0)
+                    if (MVentas.GetInstance().ValidarFactura(txtNumeroFactura.Text, cmbProveedor.SelectedValue.ToString()) == 0)
                     {
 
                         tabInsumo.Focus();

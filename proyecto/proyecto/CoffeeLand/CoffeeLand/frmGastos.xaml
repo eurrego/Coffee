@@ -37,7 +37,7 @@
 
                 <Grid x:Name="pnlInicio" Visibility="Visible" Margin="20 20 0 0" >
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Margin="20 70 0 0" Text="Agrege un nuevo" FontSize="50" FontWeight="Light" />
+                        <TextBlock Margin="20 70 0 0" Text="Agregue un nuevo" FontSize="50" FontWeight="Light" />
                         <TextBlock Margin="20 0 0 0" Text="Gasto" FontSize="50" FontWeight="Regular"  ></TextBlock>
                     </StackPanel>
                 </Grid>

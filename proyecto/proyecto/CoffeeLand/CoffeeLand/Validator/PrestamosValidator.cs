@@ -78,17 +78,28 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else 
+                            else
                             {
                                 if (valor.Equals("0"))
                                 {
                                     result = "El valor no puede ser cero";
                                 }
-                                else if (valor.Length > 19) 
+                                else
                                 {
-                                    result = "El valor debe ser menor de 19 números";
+                                    if (valor.Length > 7)
+                                    {
+                                        result = "El valor debe ser menor de ocho números ";
+                                    }
+                                    else
+                                    {
+                                        long val = Convert.ToInt64(valor);
+
+                                        if (val > 9999999)
+                                        {
+                                            result = "El valor del insumo debe ser menor de 10.000.000 ";
+                                        }
+                                    }
                                 }
-                                   
                             }
                         }
                         break;
@@ -103,15 +114,27 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else 
+                            else
                             {
                                 if (valorAbono.Equals("0"))
                                 {
                                     result = "El valor no puede ser cero";
                                 }
-                                else if (valorAbono.Length > 19)
+                                else
                                 {
-                                    result = "El valor debe ser menor de 19 números";
+                                    if (valorAbono.Length > 7)
+                                    {
+                                        result = "El valor debe ser menor de ocho números ";
+                                    }
+                                    else
+                                    {
+                                        long val = Convert.ToInt64(valorAbono);
+
+                                        if (val > 9999999)
+                                        {
+                                            result = "El valor del insumo debe ser menor de 10.000.000 ";
+                                        }
+                                    }
                                 }
                             }
                         }
