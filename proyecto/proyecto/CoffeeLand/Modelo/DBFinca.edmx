@@ -686,6 +686,9 @@
         </Function>
         <Function Name="ComprasProveedor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nit" Type="varchar" Mode="In" />
+          <Parameter Name="fechaInicial" Type="datetime" Mode="In" />
+          <Parameter Name="fechaFinal" Type="datetime" Mode="In" />
+          <Parameter Name="opc" Type="int" Mode="In" />
         </Function>
         <Function Name="consultarMovimientosArboles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idArbol" Type="int" Mode="In" />
@@ -788,7 +791,7 @@
           <Parameter Name="opc" Type="int" Mode="In" />
         </Function>
         <Function Name="GestionVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="nit" Type="int" Mode="In" />
+          <Parameter Name="nit" Type="varchar" Mode="In" />
           <Parameter Name="fecha" Type="date" Mode="In" />
           <Parameter Name="numeroFactura" Type="int" Mode="In" />
           <Parameter Name="idProducto" Type="int" Mode="In" />
@@ -1886,7 +1889,10 @@
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="ComprasProveedor" ReturnType="Collection(DBFincaModel.ComprasProveedor_Result1)">
-          <Parameter Name="nit" Mode="In" Type="String" />
+            <Parameter Name="nit" Mode="In" Type="String" />
+            <Parameter Name="fechaInicial" Mode="In" Type="DateTime" />
+            <Parameter Name="fechaFinal" Mode="In" Type="DateTime" />
+            <Parameter Name="opc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="consultarMovimientosArboles" ReturnType="Collection(DBFincaModel.consultarMovimientosArboles_Result1)">
           <Parameter Name="idArbol" Mode="In" Type="Int32" />
@@ -1983,7 +1989,7 @@
             <Parameter Name="opc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GestionVenta">
-            <Parameter Name="nit" Mode="In" Type="Int32" />
+            <Parameter Name="nit" Mode="In" Type="String" />
             <Parameter Name="fecha" Mode="In" Type="DateTime" />
             <Parameter Name="numeroFactura" Mode="In" Type="Int32" />
             <Parameter Name="idProducto" Mode="In" Type="Int32" />
@@ -2109,13 +2115,6 @@
         <ComplexType Name="VentaProduccion_Result">
           <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="16" />
         </ComplexType>
-        <ComplexType Name="ComprasProveedor_Result1">
-          <Property Type="Int32" Name="idCompra" Nullable="false" />
-          <Property Type="Decimal" Name="total" Nullable="true" Precision="19" />
-          <Property Type="Decimal" Name="adeuda" Nullable="true" Precision="19" />
-          <Property Type="DateTime" Name="Fecha" Nullable="false" />
-          <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="Consultasproduccion_Result">
           <Property Type="Decimal" Name="Cargas" Nullable="true" Precision="10" Scale="2" />
         </ComplexType>
@@ -2134,6 +2133,16 @@
         </ComplexType>
         <ComplexType Name="exportarDB_Result">
           <Property Type="String" Name="Mensaje" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ComprasProveedor_Result1">
+          <Property Type="Int32" Name="idCompra" Nullable="false" />
+          <Property Type="Decimal" Name="total" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="adeuda" Nullable="true" Precision="19" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="Int32" Name="NumeroFactura" Nullable="true" />
+          <Property Type="String" Name="Nit" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NombreProveedor" Nullable="false" MaxLength="45" />
+          <Property Type="String" Name="EstadoCuenta" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2495,13 +2504,16 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ComprasProveedor" FunctionName="DBFincaModel.Store.ComprasProveedor">
-          <ResultMapping>
+            <ResultMapping>
               <ComplexTypeMapping TypeName="DBFincaModel.ComprasProveedor_Result1">
                 <ScalarProperty Name="idCompra" ColumnName="idCompra" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="adeuda" ColumnName="adeuda" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+                <ScalarProperty Name="Nit" ColumnName="Nit" />
+                <ScalarProperty Name="NombreProveedor" ColumnName="NombreProveedor" />
+                <ScalarProperty Name="EstadoCuenta" ColumnName="EstadoCuenta" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

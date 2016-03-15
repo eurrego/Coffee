@@ -69,7 +69,7 @@ namespace CoffeeLand
         public void Mostrar()
         {
 
-            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
 
             if (tblCompra.Items.Count == 0)
             {
@@ -93,12 +93,12 @@ namespace CoffeeLand
         {
             decimal valor = 0;
 
-            foreach (var item in tblCompra.Items)
+            foreach (ComprasProveedor_Result1 item in tblCompra.Items)
             {
-                Type v = item.GetType();
-                var total = v.GetProperty("Total").GetValue(item).ToString();
+                
+                var total = item.total;
 
-                if (v.GetProperty("EstadoCuenta").GetValue(item).ToString().Equals("D"))
+                if (item.EstadoCuenta.Equals("D"))
                 {
                     valor += Convert.ToDecimal(total);
                 }
@@ -141,12 +141,12 @@ namespace CoffeeLand
             if (chkDebe.IsChecked == true && chkPagado.IsChecked == true)
             {
 
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
                 Registros();
             }
             else 
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(1) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 3) as IEnumerable;
                 Registros();
             }
         }
@@ -155,12 +155,12 @@ namespace CoffeeLand
         {
             if (chkDebe.IsChecked == true && chkPagado.IsChecked == true)
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
                 Registros();
             }
             else
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(2) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 2) as IEnumerable;
                 Registros();
             }
         }
@@ -169,12 +169,12 @@ namespace CoffeeLand
         {
             if (chkDebe.IsChecked == true)
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(1) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 3) as IEnumerable;
                 Registros();
             }
             else
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
                 Registros();
             }
         }
@@ -183,12 +183,12 @@ namespace CoffeeLand
         {
             if (chkPagado.IsChecked == true)
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(2) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 2) as IEnumerable;
                 Registros();
             }
             else
             {
-                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+                tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
                 Registros();
             }
         }
@@ -205,17 +205,17 @@ namespace CoffeeLand
             {
                 if (dtdFecha.SelectedDate != null && dtdFechaFinal.SelectedDate == null)
                 {
-                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), DateTime.Now) as IEnumerable;
+                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(Convert.ToDateTime(dtdFecha.SelectedDate), DateTime.Now ,5) as IEnumerable;
                     Registros();
                 }
                 else if (dtdFecha.SelectedDate != null && dtdFechaFinal.SelectedDate != null)
                 {
-                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate), 5) as IEnumerable;
                     Registros();
                 }
                 else if (dtdFecha.SelectedDate == null && dtdFechaFinal.SelectedDate == null)
                 {
-                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasFecha(Convert.ToDateTime("01/01/1970"), DateTime.Now) as IEnumerable;
+                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(Convert.ToDateTime("01/01/1970"), DateTime.Now, 5) as IEnumerable;
                     Registros();
                 }
             }
@@ -233,12 +233,12 @@ namespace CoffeeLand
             {
                 if (dtdFecha.SelectedDate == null && dtdFechaFinal.SelectedDate != null)
                 {
-                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasFecha(Convert.ToDateTime("01/01/1970"), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(Convert.ToDateTime("01/01/1970"), Convert.ToDateTime(dtdFechaFinal.SelectedDate), 5) as IEnumerable;
                     Registros();
                 }
                 else 
                 {
-                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasFecha(Convert.ToDateTime(dtdFecha.SelectedDate), Convert.ToDateTime(dtdFechaFinal.SelectedDate)) as IEnumerable;
+                    tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(Convert.ToDateTime("01/01/1970"), DateTime.Now, 5) as IEnumerable;
                     Registros();
                 }
             } 
@@ -249,7 +249,7 @@ namespace CoffeeLand
             rbtFecha.IsChecked = false;
             gboxEstado.Visibility = Visibility.Visible;
             gboxFecha.Visibility = Visibility.Collapsed;
-            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
             Registros();
         }
 
@@ -262,7 +262,7 @@ namespace CoffeeLand
             gboxFecha.Visibility = Visibility.Visible;
             chkDebe.IsChecked = false;
             chkPagado.IsChecked = false;
-            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
             Registros();
         }
 
@@ -276,7 +276,7 @@ namespace CoffeeLand
             dtdFechaFinal.SelectedDate = null;
             chkDebe.IsChecked = false;
             chkPagado.IsChecked = false;
-            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(3) as IEnumerable;
+            tblCompra.ItemsSource = MCompra.GetInstance().ConsultaComprasEstadoCuenta(DateTime.Now, DateTime.Now, 4) as IEnumerable;
             Registros();
         }
 

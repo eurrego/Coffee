@@ -102,13 +102,25 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<asociarLaborLote_Result>("asociarLaborLote", idLaborParameter, idLoteParameter, fechaParameter);
         }
     
-        public virtual ObjectResult<ComprasProveedor_Result1> ComprasProveedor(string nit)
+        public virtual ObjectResult<ComprasProveedor_Result1> ComprasProveedor(string nit, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal, Nullable<int> opc)
         {
             var nitParameter = nit != null ?
                 new ObjectParameter("nit", nit) :
                 new ObjectParameter("nit", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ComprasProveedor_Result1>("ComprasProveedor", nitParameter);
+            var fechaInicialParameter = fechaInicial.HasValue ?
+                new ObjectParameter("fechaInicial", fechaInicial) :
+                new ObjectParameter("fechaInicial", typeof(System.DateTime));
+    
+            var fechaFinalParameter = fechaFinal.HasValue ?
+                new ObjectParameter("fechaFinal", fechaFinal) :
+                new ObjectParameter("fechaFinal", typeof(System.DateTime));
+    
+            var opcParameter = opc.HasValue ?
+                new ObjectParameter("opc", opc) :
+                new ObjectParameter("opc", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ComprasProveedor_Result1>("ComprasProveedor", nitParameter, fechaInicialParameter, fechaFinalParameter, opcParameter);
         }
     
         public virtual ObjectResult<consultarMovimientosArboles_Result1> consultarMovimientosArboles(Nullable<int> idArbol)
@@ -449,11 +461,11 @@ namespace Modelo
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GestionUsuario_Result>("GestionUsuario", idUsuarioParameter, nickNameParameter, rolParameter, contrasenaParameter, preguntaSeguridadParameter, respuestaParameter, opcParameter);
         }
     
-        public virtual int GestionVenta(Nullable<int> nit, Nullable<System.DateTime> fecha, Nullable<int> numeroFactura, Nullable<int> idProducto, Nullable<decimal> precioCarga, Nullable<decimal> cantidadCargas, Nullable<decimal> precioBeneficio)
+        public virtual int GestionVenta(string nit, Nullable<System.DateTime> fecha, Nullable<int> numeroFactura, Nullable<int> idProducto, Nullable<decimal> precioCarga, Nullable<decimal> cantidadCargas, Nullable<decimal> precioBeneficio)
         {
-            var nitParameter = nit.HasValue ?
+            var nitParameter = nit != null ?
                 new ObjectParameter("nit", nit) :
-                new ObjectParameter("nit", typeof(int));
+                new ObjectParameter("nit", typeof(string));
     
             var fechaParameter = fecha.HasValue ?
                 new ObjectParameter("fecha", fecha) :

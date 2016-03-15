@@ -144,7 +144,7 @@ namespace Modelo
 
 
 
-        public void GestionVenta(int nit, DateTime fecha, int numeroFactura, int idProducto, decimal PrecioCarga, decimal CantidadCargas, decimal PrecioBeneficio)
+        public void GestionVenta(string nit, DateTime fecha, int numeroFactura, int idProducto, decimal PrecioCarga, decimal CantidadCargas, decimal PrecioBeneficio)
         {
 
             using (var entity = new DBFincaEntities())

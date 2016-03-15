@@ -53,7 +53,7 @@ namespace Modelo
             using (var entity = new DBFincaEntities())
             {
 
-                var rpst = entity.ComprasProveedor(nit);
+                var rpst = entity.ComprasProveedor(nit, null, null, 1);
 
                 return rpst.ToList();
             }

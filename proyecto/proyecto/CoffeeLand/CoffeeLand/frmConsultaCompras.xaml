@@ -54,11 +54,11 @@
                                       FontSize="10"
                                       >
                         <DataGrid.Columns>
-                            <DataGridTextColumn x:Name="columnNit" Binding="{Binding NitProveedor}"  Header="Nit" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnNit" Binding="{Binding Nit}"  Header="Nit" Width="100" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnNombre" Binding="{Binding NombreProveedor}"  Header="Nombre" Width="150" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnFecha" Binding="{Binding Fecha, StringFormat={}{0:MM/dd/yyyy}}" Header="Fecha" Width="90" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnFactura" Binding="{Binding NumeroFactura}" Header="Numero Factura" Width="90" IsReadOnly="True"/>
-                            <DataGridTextColumn x:Name="columnTotal"  Binding="{Binding Total,StringFormat={}{0:c}}" Header="Total" Width="102" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="columnTotal"  Binding="{Binding total,StringFormat={}{0:c}}" Header="Total" Width="102" IsReadOnly="True"/>
                             <DataGridTextColumn x:Name="columnEstado"  Binding="{Binding EstadoCuenta, Converter={StaticResource CharToStringConverter}}" Header="Estado Cuenta" Width="102" IsReadOnly="True"/>
                         </DataGrid.Columns>
 

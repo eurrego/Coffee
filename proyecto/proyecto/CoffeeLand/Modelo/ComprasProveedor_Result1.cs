@@ -18,5 +18,8 @@ namespace Modelo
         public Nullable<decimal> adeuda { get; set; }
         public System.DateTime Fecha { get; set; }
         public Nullable<int> NumeroFactura { get; set; }
+        public string Nit { get; set; }
+        public string NombreProveedor { get; set; }
+        public string EstadoCuenta { get; set; }
     }
 }

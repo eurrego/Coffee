@@ -35,7 +35,7 @@ namespace CoffeeLand.Validator
             set { valor = value; }
         }
 
-       
+
 
         private DateTime fecha = DateTime.Now;
 
@@ -60,6 +60,8 @@ namespace CoffeeLand.Validator
 
                 Regex numeros = new Regex("^[0-9]*$");
                 Regex letras = new Regex("^[a-zA-Z ñáéíóú]*$");
+                Regex letrasNumeros = new Regex("^[a-zA-Z ñáéíóú 0-9 -]*$");
+
 
                 switch (name)
                 {
@@ -75,9 +77,28 @@ namespace CoffeeLand.Validator
                             {
                                 result = "El campo solo acepta números.";
                             }
-                            else if (cantidad.Equals("0"))
+                            else
                             {
-                                result = "La cantidad no puede ser cero";
+                                if (cantidad.Equals("0"))
+                                {
+                                    result = "La cantidad no puede ser cero";
+                                }
+                                else
+                                {
+                                    if (cantidad.Length > 5)
+                                    {
+                                        result = "La cantidad debe ser menor de seis números ";
+                                    }
+                                    else
+                                    {
+                                        long cant = Convert.ToInt64(cantidad);
+
+                                        if (cant > 99999)
+                                        {
+                                            result = "La cantidad debe ser menor de 99999 unidades ";
+                                        }
+                                    }
+                                }
                             }
                         }
                         break;
@@ -110,11 +131,22 @@ namespace CoffeeLand.Validator
                                 {
                                     result = "El valor no puede ser cero";
                                 }
-                                else if (valor.Length > 19)
+                                else
                                 {
-                                    result = "El valor debe ser menor de 19 números";
-                                }
+                                    if (valor.Length > 7)
+                                    {
+                                        result = "El valor debe ser menor de ocho números ";
+                                    }
+                                    else
+                                    {
+                                        long val = Convert.ToInt64(valor);
 
+                                        if (val > 9999999)
+                                        {
+                                            result = "El valor del insumo debe ser menor de 10.000.000 ";
+                                        }
+                                    }
+                                }
                             }
                         }
                         break;

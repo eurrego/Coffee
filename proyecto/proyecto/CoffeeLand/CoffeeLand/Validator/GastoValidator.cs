@@ -75,9 +75,9 @@ namespace CoffeeLand.Validator
                                 {
                                     result = "El valor no puede ser cero";
                                 }
-                                else if (valor.Length > 19)
+                                else if (valor.Length > 9)
                                 {
-                                    result = "El valor debe ser menor de 19 números";
+                                    result = "El valor debe ser menor de 9 números"; 
                                 }
 
                             }

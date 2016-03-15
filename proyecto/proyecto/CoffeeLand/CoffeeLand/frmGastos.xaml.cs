@@ -81,11 +81,11 @@ namespace CoffeeLand
 
         public void TotalGasto()
         {
-            int total = 0;
+            long total = 0;
 
             foreach (DataRow row in dt.Rows)
             {
-                total += int.Parse(row["Valor"].ToString());
+                total += Convert.ToInt64(row["Valor"].ToString());
             }
 
             lblTotal.Text = string.Format("{0:$0,0}", total);
@@ -163,7 +163,8 @@ namespace CoffeeLand
             }
             catch (Exception ex)
             {
-                string filePath = @"C:\Users\Susy\Desktop\LogCoffeeLand.txt";
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                string filePath = @"" + path + "\\LogCo.txt";
 
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {

@@ -104,11 +104,11 @@ namespace CoffeeLand
 
         public void TotalCompra()
         {
-            int total = 0;
+            long total = 0;
 
             foreach (DataRow row in dtDetalleCompra.Rows)
             {
-                total += int.Parse(row["Subtotal"].ToString());
+                total += Convert.ToInt64(row["Subtotal"].ToString());
             }
 
             lblTotal.Text = string.Format("{0:$0,0}", total);
@@ -211,7 +211,7 @@ namespace CoffeeLand
                     fila["Nombre"] = item.NombreInsumo.ToString();
                     fila["Cantidad"] = txtCantidad.Text;
                     fila["Precio"] = txtValor.Text;
-                    fila["Subtotal"] = (int.Parse(txtValor.Text) * int.Parse(txtCantidad.Text)).ToString();
+                    fila["Subtotal"] = (Convert.ToInt64(txtValor.Text) * Convert.ToInt64(txtCantidad.Text)).ToString();
                     fila["TipoInsumo"] = cmbTipoInsumo.Text;
                     
 
@@ -229,8 +229,8 @@ namespace CoffeeLand
                             if (row["Precio"].Equals(txtValor.Text))
                             {
 
-                                fila["Cantidad"] = (int.Parse(row["Cantidad"].ToString()) + int.Parse(txtCantidad.Text)).ToString();
-                                fila["Subtotal"] = (int.Parse(txtValor.Text) * int.Parse(fila["Cantidad"].ToString())).ToString();
+                                fila["Cantidad"] = (Convert.ToInt64(row["Cantidad"].ToString()) + Convert.ToInt64(txtCantidad.Text)).ToString();
+                                fila["Subtotal"] = (Convert.ToInt64(txtValor.Text) * Convert.ToInt64(fila["Cantidad"].ToString())).ToString();
 
                                 indexRow = RindexRow;
                             }

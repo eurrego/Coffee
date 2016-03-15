@@ -55,7 +55,7 @@ namespace Modelo
 
             using (var entity = new DBFincaEntities())
             {
-                var query = entity.ComprasProveedor(parametro);
+                var query = entity.ComprasProveedor(parametro, null, null, 1);
                           
                 return query.ToList();
             }
