@@ -196,6 +196,9 @@
     <Compile Include="frmReporteProduccionLote.xaml.cs">
       <DependentUpon>frmReporteProduccionLote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="frmReporteProyeccionAnual.xaml.cs">
+      <DependentUpon>frmReporteProyeccionAnual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="frmReportes.xaml.cs">
       <DependentUpon>frmReportes.xaml</DependentUpon>
     </Compile>
@@ -251,6 +254,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReporteProduccionLote.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\ReporteProyeccionAnual.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReporteProyeccionAnual.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reportes\ReportesTotFinca.cs">
@@ -438,6 +447,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="frmReporteProyeccionAnual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="frmReportes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -523,6 +536,10 @@
     <EmbeddedResource Include="Reportes\ReporteProduccionLote.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ReporteProduccionLote.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ReporteProyeccionAnual.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ReporteProyeccionAnual.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReportesTotFinca.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
