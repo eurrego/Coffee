@@ -65,6 +65,20 @@ namespace Modelo
             }
         }
 
+        public List<Lote> tamañoLotes()
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.Lote
+                            where c.EstadoLote == "A"
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
         public List<Lote> tamañoLotesCompletos()
         {
 

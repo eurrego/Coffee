@@ -196,27 +196,41 @@ namespace CoffeeLand
                 {
                     if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
                     {
+                        int tamañoLotes = 0;
+                        IEnumerable<Lote> item = MLote.GetInstance().tamañoLotes() as IEnumerable<Lote>;
 
-
-
-
-                        rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, 0, 1).ToString();
-                        mensajeInformacion(rpta);
-                        Limpiar();
-                        tabBuscar.Focus();
-                        tblLotes.IsEnabled = true;
-
-                        if (pnlResultados.IsVisible)
+                        foreach (Lote item2 in item)
                         {
-                            limpiarPantalla();
+                            tamañoLotes += int.Parse(item2.Cuadras);
+                        }
+
+
+                        if ((tamañoLotes + int.Parse(txtCuadras.Text)) <= MFinca.GetInstance().TamañoFinca())
+                        {
+
+                            rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, 0, 1).ToString();
+                            mensajeInformacion(rpta);
+                            Limpiar();
+                            tabBuscar.Focus();
+                            tblLotes.IsEnabled = true;
+
+                            if (pnlResultados.IsVisible)
+                            {
+                                limpiarPantalla();
+                            }
+                            else
+                            {
+                                Mostrar();
+                            }
+                            frmArboles.GetInstance().mostrarCmb();
+                            frmTerrenos.GetInstance().mostrar();
                         }
                         else
                         {
-                            Mostrar();
+                            mensajeError("EL tamaño de los lotes no puede ser superior al de la finca");
                         }
-                        frmArboles.GetInstance().mostrarCmb();
-                        frmTerrenos.GetInstance().mostrar();
                     }
+                   
 
                 }
             }
@@ -255,7 +269,7 @@ namespace CoffeeLand
                     }
                     else
                     {
-                        mensajeError("EL tamaño de los lote sno puede ser superior al de la finca");
+                        mensajeError("EL tamaño de los lotes no puede ser superior al de la finca");
                     }
                 }
             }
