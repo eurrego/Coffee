@@ -51,6 +51,33 @@ namespace Modelo
             }
         }
 
+        public List<Lote> tamañoLotes(int idLote)
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.Lote
+                            where c.idLote != idLote
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
+        public List<Lote> tamañoLotesCompletos()
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+
+                var query = from c in entity.Lote                            
+                            select c;
+
+                return query.ToList();
+            }
+        }
+
         public List<Arboles> ConsultarArboles(int idLote)
         {
 

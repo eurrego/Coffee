@@ -815,6 +815,7 @@ namespace CoffeeLand
                 if (item.ModificaArboles)
                 {
                     MTerrenos itemTerrenos = tblLotes.SelectedItem as MTerrenos;
+                    
                     cantidadArboles = 0;
                     foreach (DataRow itemCantidad in dtPersona.Rows)
                     {

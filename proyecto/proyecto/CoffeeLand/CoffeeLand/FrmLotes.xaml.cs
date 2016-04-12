@@ -196,6 +196,10 @@ namespace CoffeeLand
                 {
                     if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
                     {
+
+
+
+
                         rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, 0, 1).ToString();
                         mensajeInformacion(rpta);
                         Limpiar();
@@ -213,29 +217,46 @@ namespace CoffeeLand
                         frmArboles.GetInstance().mostrarCmb();
                         frmTerrenos.GetInstance().mostrar();
                     }
+
                 }
             }
             else if (validarCampos())
             {
                 if (IsValid(txtNombre) && IsValid(txtDescripcion) && IsValid(txtCuadras))
                 {
-                    rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, Convert.ToInt32(txtId.Text), 2).ToString();
-                    mensajeInformacion(rpta);
-                    Limpiar();
-                    tabBuscar.IsEnabled = true;
-                    tabNuevo.Header = "NUEVO";
-                    tabBuscar.Focus();
-                    tblLotes.IsEnabled = true;
+                    int tamañoLotes = 0;
+                    IEnumerable<Lote> item = MLote.GetInstance().tamañoLotes(Convert.ToInt32(txtId.Text)) as IEnumerable<Lote>;
 
-                    if (pnlResultados.IsVisible)
+                    foreach (Lote item2 in item)
                     {
-                        limpiarPantalla();
+                        tamañoLotes += int.Parse(item2.Cuadras);
+                    }
+                   
+
+                    if ( (tamañoLotes + int.Parse(txtCuadras.Text)) <= MFinca.GetInstance().TamañoFinca())
+                    {
+                        rpta = MLote.GetInstance().GestionLote(txtNombre.Text, txtDescripcion.Text, txtCuadras.Text, Convert.ToInt32(txtId.Text), 2).ToString();
+                        mensajeInformacion(rpta);
+                        Limpiar();
+                        tabBuscar.IsEnabled = true;
+                        tabNuevo.Header = "NUEVO";
+                        tabBuscar.Focus();
+                        tblLotes.IsEnabled = true;
+
+                        if (pnlResultados.IsVisible)
+                        {
+                            limpiarPantalla();
+                        }
+                        else
+                        {
+                            Mostrar();
+                        }
+                        frmTerrenos.GetInstance().mostrar();
                     }
                     else
                     {
-                        Mostrar();
+                        mensajeError("EL tamaño de los lote sno puede ser superior al de la finca");
                     }
-                    frmTerrenos.GetInstance().mostrar();
                 }
             }
         }
@@ -284,7 +305,7 @@ namespace CoffeeLand
             string cuadras = item.Cuadras;
             byte id = Convert.ToByte(item.idLote);
 
-            var items =  MLote.GetInstance().ConsultarArboles(id) ;
+            var items = MLote.GetInstance().ConsultarArboles(id);
 
             if (items.Count == 0)
             {
@@ -321,7 +342,7 @@ namespace CoffeeLand
                 mensajeError("No se puede Inhabilitar el lote porque tiene árboles asociados, debe eliminarlos atravez de una labor");
             }
 
-          
+
         }
 
         private void btnRegistrarArboles_Click(object sender, RoutedEventArgs e)

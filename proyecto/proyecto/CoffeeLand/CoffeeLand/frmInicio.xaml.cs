@@ -150,13 +150,30 @@ namespace CoffeeLand
             {
                 if (IsValid(txtNombre) && IsValid(txtPropietario) && IsValid(txtTelefono) && IsValid(txtVereda))
                 {
-                    MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
-                    mensajeInformacion("Registro Exitoso");
-                    Limpiar();
-                    infoFinca();
-                    tabInfo.Visibility = Visibility.Visible;
-                    tabUpdateFinca.Visibility = Visibility.Collapsed;
-                    tabFormulario.Visibility = Visibility.Collapsed;
+                    int tamañoLotes = 0;
+                    IEnumerable<Lote> item = MLote.GetInstance().tamañoLotesCompletos() as IEnumerable<Lote>;
+
+                    foreach (Lote item2 in item)
+                    {
+                        tamañoLotes += int.Parse(item2.Cuadras);
+                    }
+
+                    if (tamañoLotes <= int.Parse(txtCuadras.Text))
+                    {
+
+
+                        MFinca.GetInstance().modificarFinca(txtNombre.Text, txtPropietario.Text, int.Parse(cmbMunicipio.SelectedValue.ToString()), txtVereda.Text, txtTelefono.Text, txtCuadras.Text);
+                        mensajeInformacion("Registro Exitoso");
+                        Limpiar();
+                        infoFinca();
+                        tabInfo.Visibility = Visibility.Visible;
+                        tabUpdateFinca.Visibility = Visibility.Collapsed;
+                        tabFormulario.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        mensajeError("El tamaño de la finca no puede ser menor que el de los lotes");
+                    }
                 }
             }
         }

@@ -74,6 +74,19 @@ namespace Modelo
             }
         }
 
+        public int TamañoFinca()
+        {
+
+            using (var entity = new DBFincaEntities())
+            {
+                var query = from c in entity.Finca
+                            select c.Cuadras;
+
+                return int.Parse(query.First());
+            }
+
+        }
+
 
         public List<Municipio> ConsultarMunicipios(int departamento)
         {
