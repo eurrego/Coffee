@@ -18,6 +18,7 @@ namespace CoffeeLand
         public frmReporteProyeccionAnual()
         {
             InitializeComponent();
+            tamanioPantalla();
         }
 
         public void mensajeError(string mensaje)
@@ -57,6 +58,21 @@ namespace CoffeeLand
           
                     crystalReportsViewer1.ViewerCore.ReportSource = rptDoc;
           
+        }
+
+        private void tamanioPantalla()
+        {
+            var width = SystemParameters.WorkArea.Width;
+            var height = SystemParameters.WorkArea.Height;
+
+            Width = width;
+            Height = height - 175;
+
+            var anchoContainer = width / 1.5;
+            pnlPrincipal.Width = anchoContainer;
+            crystalReportsViewer1.Width = anchoContainer - 20;
+
+            pnlPrincipal.Height = height - 220;
         }
     }
 }

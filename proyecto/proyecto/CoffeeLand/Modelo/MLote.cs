@@ -53,7 +53,6 @@ namespace Modelo
 
         public List<Lote> tamañoLotes(int idLote)
         {
-
             using (var entity = new DBFincaEntities())
             {
 
